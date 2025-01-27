@@ -360,7 +360,7 @@ phosh_wifi_network_remove_access_point (PhoshWifiNetwork *self, NMAccessPoint *a
   return self->access_points->len == 0;
 }
 
-char *
+const char *
 phosh_wifi_network_get_ssid (PhoshWifiNetwork *self)
 {
   g_return_val_if_fail (PHOSH_IS_WIFI_NETWORK (self), NULL);

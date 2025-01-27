@@ -26,6 +26,7 @@ struct _PhoshScalingQuickSetting {
   PhoshQuickSetting parent;
 
   GtkListBox       *list_box;
+  PhoshStatusPage  *status_page;
 
   double            scale;
   double            last_scale;
@@ -172,6 +173,7 @@ on_scale_row_activated (PhoshScalingQuickSetting *self, GtkListBoxRow *row)
 
   scale = phosh_scale_row_get_scale (scale_row);
   set_scale (self, scale);
+  g_signal_emit_by_name (self->status_page, "done", TRUE);
 }
 
 
@@ -188,6 +190,7 @@ phosh_scaling_quick_setting_class_init (PhoshScalingQuickSettingClass *klass)
 
   gtk_widget_class_bind_template_child (widget_class, PhoshScalingQuickSetting, info);
   gtk_widget_class_bind_template_child (widget_class, PhoshScalingQuickSetting, list_box);
+  gtk_widget_class_bind_template_child (widget_class, PhoshScalingQuickSetting, status_page);
 
   gtk_widget_class_bind_template_callback (widget_class, on_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_row_activated);

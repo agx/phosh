@@ -472,7 +472,7 @@ on_wifi_connection_added_and_activated (GObject      *object,
 {
   NMClient *client = NM_CLIENT (object);
   PhoshWifiNetwork *network = PHOSH_WIFI_NETWORK (data);
-  char *ssid = phosh_wifi_network_get_ssid (network);
+  const char *ssid = phosh_wifi_network_get_ssid (network);
   g_autoptr (GError) err = NULL;
   NMActiveConnection *conn = nm_client_add_and_activate_connection_finish (client, result, &err);
 
@@ -497,7 +497,7 @@ on_wifi_connection_activated (GObject      *object,
 {
   NMClient *client = NM_CLIENT (object);
   PhoshWifiNetwork *network = PHOSH_WIFI_NETWORK (data);
-  char *ssid = phosh_wifi_network_get_ssid (network);
+  const char *ssid = phosh_wifi_network_get_ssid (network);
   g_autoptr (GError) err = NULL;
   NMActiveConnection *conn = nm_client_activate_connection_finish (client, result, &err);
 

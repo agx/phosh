@@ -30,6 +30,7 @@ struct _PhoshWifiStatusPage {
   GtkButton                  *empty_state_btn;
 
   PhoshWifiManager           *wifi;
+  char                       *connecting_network;
 };
 
 G_DEFINE_TYPE (PhoshWifiStatusPage, phosh_wifi_status_page, PHOSH_TYPE_STATUS_PAGE);
@@ -45,7 +46,7 @@ set_visible_page (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager
   const char *icon_name;
   const char *title;
   const char *button_label;
- 
+
   if (wifi_absent) {
     icon_name = "network-wireless-hardware-disabled-symbolic";
     title = _("No Wi-Fi Device Found");
@@ -79,6 +80,23 @@ set_visible_page (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager
   gtk_widget_set_visible (GTK_WIDGET (self->wifi_scan), !wifi_disabled && !hotspot_enabled);
 }
 
+
+static void
+on_ssid_changed (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager *manager)
+{
+  const char *ssid;
+
+  g_assert (PHOSH_IS_WIFI_STATUS_PAGE (self));
+  g_assert (PHOSH_IS_WIFI_MANAGER (manager));
+
+  ssid = phosh_wifi_manager_get_ssid (manager);
+  if (ssid && self->connecting_network && g_str_equal (ssid, self->connecting_network)) {
+    g_signal_emit_by_name (self, "done", TRUE);
+    g_clear_pointer (&self->connecting_network, g_free);
+  }
+}
+
+
 static void
 on_placeholder_clicked (PhoshWifiStatusPage *self, GtkWidget *widget)
 {
@@ -92,13 +110,13 @@ on_placeholder_clicked (PhoshWifiStatusPage *self, GtkWidget *widget)
 }
 
 static void
-on_wifi_scan_clicked (PhoshWifiStatusPage *self, GParamSpec *pspec, GtkButton *_button)
+on_wifi_scan_clicked (PhoshWifiStatusPage *self)
 {
   phosh_wifi_manager_request_scan (self->wifi);
 }
 
 static void
-on_network_activated_cb (PhoshWifiStatusPage *self, GtkWidget *row)
+on_network_activated (PhoshWifiStatusPage *self, GtkWidget *row)
 {
   gint index;
   PhoshWifiNetwork *network;
@@ -108,6 +126,12 @@ on_network_activated_cb (PhoshWifiStatusPage *self, GtkWidget *row)
   index = gtk_list_box_row_get_index (GTK_LIST_BOX_ROW (row));
   network = g_list_model_get_item (G_LIST_MODEL (phosh_wifi_manager_get_networks (self->wifi)),
                                    index);
+
+  /* Remember the network we're connecting to so we can close the
+   * status page if connecting works */
+  g_free (self->connecting_network);
+  self->connecting_network = g_strdup (phosh_wifi_network_get_ssid (network));
+
   phosh_wifi_manager_connect_network (self->wifi, network);
 }
 
@@ -130,6 +154,8 @@ phosh_wifi_status_page_dispose (GObject *object)
     g_clear_object (&self->wifi);
   }
 
+  g_clear_pointer (&self->connecting_network, g_free);
+
   G_OBJECT_CLASS (phosh_wifi_status_page_parent_class)->dispose (object);
 }
 
@@ -150,7 +176,7 @@ phosh_wifi_status_page_class_init (PhoshWifiStatusPageClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, empty_state);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, empty_state_btn);
 
-  gtk_widget_class_bind_template_callback (widget_class, on_network_activated_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_network_activated);
   gtk_widget_class_bind_template_callback (widget_class, on_placeholder_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_wifi_scan_clicked);
 }
@@ -173,21 +199,13 @@ phosh_wifi_status_page_init (PhoshWifiStatusPage *self)
 
   model = G_LIST_MODEL (phosh_wifi_manager_get_networks (self->wifi));
 
-  g_signal_connect_object (self->wifi,
-                           "notify::present",
-                           G_CALLBACK (set_visible_page),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->wifi,
-                           "notify::enabled",
-                           G_CALLBACK (set_visible_page),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->wifi,
-                           "notify::is-hotspot-master",
-                           G_CALLBACK (set_visible_page),
-                           self,
-                           G_CONNECT_SWAPPED);
+  g_object_connect (self->wifi,
+                    "swapped-object-signal::notify::present", set_visible_page, self,
+                    "swapped-object-signal::notify::enabled", set_visible_page, self,
+                    "swapped-object-signal::notify::is-hotspot-master", set_visible_page, self,
+                    "swapped-object-signal::notify::ssid", on_ssid_changed, self,
+                    NULL);
+
   g_signal_connect_object (model,
                            "items-changed",
                            G_CALLBACK (set_visible_page),

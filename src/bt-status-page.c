@@ -29,6 +29,7 @@ struct _PhoshBtStatusPage {
   GtkStack                   *stack;
   PhoshStatusPagePlaceholder *empty_state;
   GtkButton                  *enable_button;
+  guint                       activating;
 
   PhoshBtManager             *bt_manager;
 };
@@ -36,10 +37,37 @@ struct _PhoshBtStatusPage {
 G_DEFINE_TYPE (PhoshBtStatusPage, phosh_bt_status_page, PHOSH_TYPE_STATUS_PAGE);
 
 
-static GtkWidget *
-create_bt_device_row (BluetoothDevice *device)
+static void
+on_row_activating (PhoshBtStatusPage *self)
 {
-  return phosh_bt_device_row_new (device);
+  self->activating++;
+}
+
+
+static void
+on_row_activated (PhoshBtStatusPage *self, gboolean success)
+{
+  g_return_if_fail (self->activating);
+
+  self->activating--;
+
+  if (self->activating == 0 && success)
+    g_signal_emit_by_name (self, "done", success);
+}
+
+
+static GtkWidget *
+create_bt_device_row (gpointer item, gpointer user_data)
+{
+  PhoshBtStatusPage *self = PHOSH_BT_STATUS_PAGE (user_data);
+  BluetoothDevice *device = BLUETOOTH_DEVICE (item);
+  GtkWidget *row = phosh_bt_device_row_new (device);
+
+  g_object_connect (row,
+                    "swapped-object-signal::activating", on_row_activating, self,
+                    "swapped-object-signal::done", on_row_activated, self,
+                    NULL);
+  return row;
 }
 
 
@@ -119,8 +147,8 @@ phosh_bt_status_page_init (PhoshBtStatusPage *self)
 
   gtk_list_box_bind_model (self->devices_list_box,
                            phosh_bt_manager_get_connectable_devices (self->bt_manager),
-                           (GtkListBoxCreateWidgetFunc)create_bt_device_row,
-                           NULL,
+                           create_bt_device_row,
+                           self,
                            NULL);
 
   g_signal_connect_object (self->bt_manager, "notify::n-devices",

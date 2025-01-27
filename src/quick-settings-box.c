@@ -570,7 +570,8 @@ on_child_revealed_changed (PhoshQuickSettingsBox *self)
 static void
 on_hide_status (PhoshQuickSettingsBox *self, PhoshQuickSetting *child)
 {
-  g_return_if_fail (child == self->shown_child);
+  if (child != self->shown_child)
+    return;
 
   gtk_revealer_set_reveal_child (self->revealer, FALSE);
 }

@@ -26,7 +26,7 @@ void           phosh_wifi_network_add_access_point (PhoshWifiNetwork *self,
                                                     gboolean          active);
 gboolean       phosh_wifi_network_remove_access_point (PhoshWifiNetwork *self, NMAccessPoint *ap);
 
-char          *phosh_wifi_network_get_ssid (PhoshWifiNetwork *self);
+const char    *phosh_wifi_network_get_ssid (PhoshWifiNetwork *self);
 gboolean       phosh_wifi_network_get_secured (PhoshWifiNetwork *self);
 NM80211Mode    phosh_wifi_network_get_mode (PhoshWifiNetwork *self);
 guint          phosh_wifi_network_get_strength (PhoshWifiNetwork *self);
