@@ -26,4 +26,4 @@ phosh_notifications_sources = files(
   'notify-manager.c',
   'notify-feedback.c',
   'timestamp-label.c',
-) + phosh_notifications_headers
+)

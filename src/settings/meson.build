@@ -12,4 +12,4 @@ phosh_settings_widgets_sources = files(
   'audio-devices.c',
   'audio-device-row.c',
   'audio-settings.c',
-) + phosh_settings_widgets_headers
+)

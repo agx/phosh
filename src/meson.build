@@ -323,6 +323,10 @@ phosh_headers = files(
   'network-auth-prompt.h',
 ) + [
   libphosh_headers,
+  phosh_monitor_headers,
+  phosh_notifications_headers,
+  phosh_settings_widgets_headers,
+  phosh_wwan_headers,
 ]
 
 # Symbols from these are not available in tools and unit tests
@@ -489,6 +493,10 @@ phosh_plugins_dep = declare_dependency(
 
 if enable_introspection or bindings_lib
   phosh_gir_sources = [ libphosh_headers,
+                        phosh_monitor_headers,
+                        phosh_notifications_headers,
+                        phosh_settings_widgets_headers,
+                        phosh_wwan_headers,
                         phosh_sources,
                         phosh_tool_sources,
                         phosh_tool_headers,
