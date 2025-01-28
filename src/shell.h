@@ -41,6 +41,11 @@ PhoshShell *phosh_shell_get_default         (void);
 
 GType       phosh_shell_get_lockscreen_type (PhoshShell *self);
 gboolean    phosh_shell_get_locked          (PhoshShell *self);
+void        phosh_shell_get_usable_area     (PhoshShell *self,
+                                             int        *x,
+                                             int        *y,
+                                             int        *width,
+                                             int        *height);
 
 void        phosh_shell_fade_out            (PhoshShell *self, guint timeout);
 

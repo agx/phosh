@@ -72,11 +72,6 @@ typedef enum {
 
 
 PhoshShellDebugFlags phosh_shell_get_debug_flags (void);
-void                 phosh_shell_get_usable_area (PhoshShell *self,
-                                                  int        *x,
-                                                  int        *y,
-                                                  int        *width,
-                                                  int        *height);
 void                 phosh_shell_get_area        (PhoshShell *self, int *width, int *height);
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
 void                 phosh_shell_lock            (PhoshShell *self);
