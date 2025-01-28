@@ -10,6 +10,8 @@
 
 #include <glib-object.h>
 
+#include "lockscreen-manager.h"
+
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_SHELL phosh_shell_get_type ()
@@ -41,5 +43,8 @@ GType       phosh_shell_get_lockscreen_type (PhoshShell *self);
 gboolean    phosh_shell_get_locked          (PhoshShell *self);
 
 void        phosh_shell_fade_out            (PhoshShell *self, guint timeout);
+
+/* Created by the shell on startup */
+PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
 
 G_END_DECLS
