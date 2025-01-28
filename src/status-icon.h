@@ -23,6 +23,17 @@ struct _PhoshStatusIconClass {
   GtkBinClass parent_class;
 
   void        (*idle_init) (PhoshStatusIcon *self);
+
+  /* Padding for future expansion */
+  void        (*_phosh_reserved1) (void);
+  void        (*_phosh_reserved2) (void);
+  void        (*_phosh_reserved3) (void);
+  void        (*_phosh_reserved4) (void);
+  void        (*_phosh_reserved5) (void);
+  void        (*_phosh_reserved6) (void);
+  void        (*_phosh_reserved7) (void);
+  void        (*_phosh_reserved8) (void);
+  void        (*_phosh_reserved9) (void);
 };
 
 GtkWidget * phosh_status_icon_new (void);
