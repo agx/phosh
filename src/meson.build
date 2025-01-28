@@ -248,7 +248,6 @@ phosh_tool_sources = files(
   'wifi-info.c',
   'wl-buffer.c',
 ) + [
-  phosh_tool_headers,
   phosh_monitor_sources,
   phosh_notifications_sources,
 ]
@@ -448,6 +447,7 @@ phosh_lib_inc = [root_inc,
 phosh_tool_lib = static_library('phosh-tool',
   [
     phosh_tool_sources,
+    phosh_tool_headers,
     phosh_generated_headers,
     phosh_generated_sources,
     phosh_gtk_list_models_sources,
@@ -491,6 +491,7 @@ if enable_introspection or bindings_lib
   phosh_gir_sources = [ libphosh_headers,
                         phosh_sources,
                         phosh_tool_sources,
+                        phosh_tool_headers,
                         phosh_glib_generated_sources,
                         phosh_glib_generated_headers,
                         phosh_enum_headers,
