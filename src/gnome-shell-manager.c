@@ -13,7 +13,7 @@
 
 #include "gnome-shell-manager.h"
 #include "osd-window.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "lockscreen-manager.h"
 

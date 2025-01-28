@@ -11,7 +11,7 @@
 #include "lockscreen-manager.h"
 #include "osk-manager.h"
 #include "phosh-osk0-dbus.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <gio/gio.h>
 

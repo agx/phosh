@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "animation.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "splash.h"
 
 #define PHOSH_APP_UNKNOWN_ICON "app-icon-unknown"

@@ -27,7 +27,7 @@
 #include "ambient.h"
 #include "background.h"
 #include "drag-surface.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "app-tracker.h"
 #include "batteryinfo.h"
 #include "background-manager.h"

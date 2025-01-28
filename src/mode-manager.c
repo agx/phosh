@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "mode-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "dbus/hostname1-dbus.h"
 

@@ -20,7 +20,7 @@
 #include "app-grid-folder-button.h"
 #include "app-list-model.h"
 #include "favorite-list-model.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include "gtk-list-models/gtksortlistmodel.h"

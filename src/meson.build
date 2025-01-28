@@ -42,7 +42,7 @@ phosh_enum_headers = files(
   'notifications/notify-manager.h',
   'phosh-wayland.h',
   'rotation-manager.h',
-  'shell.h',
+  'shell-priv.h',
   'top-panel.h',
 ) + [
   libphosh_enum_headers,

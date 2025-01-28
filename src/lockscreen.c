@@ -17,7 +17,7 @@
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
 #include "osk-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "widget-box.h"
 #include "wall-clock.h"

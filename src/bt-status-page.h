@@ -7,7 +7,7 @@
 #pragma once
 
 #include "quick-setting.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "status-page.h"
 
 #include <gtk/gtk.h>

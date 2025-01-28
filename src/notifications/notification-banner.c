@@ -12,7 +12,7 @@
 #include "animation.h"
 #include "notification-banner.h"
 #include "notification-frame.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include <handy.h>

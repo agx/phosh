@@ -6,7 +6,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "shell.h"
+#include "shell-priv.h"
 
 #include "testlib-full-shell.h"
 #include "calls-dbus.h"

@@ -11,7 +11,7 @@
 #define G_LOG_DOMAIN "phosh-idle-manager"
 
 #include "idle-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <gdk/gdkwayland.h>
 

@@ -9,7 +9,7 @@
 #define G_LOG_DOMAIN "phosh-toplevel-thumbnail"
 
 #include "phosh-wayland.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "toplevel-thumbnail.h"
 #include "util.h"
 #include "wl-buffer.h"

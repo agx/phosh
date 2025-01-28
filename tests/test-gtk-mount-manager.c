@@ -8,7 +8,7 @@
 
 #include "phosh-gtk-mountoperation-dbus.h"
 #include "log.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include "testlib-full-shell.h"
 

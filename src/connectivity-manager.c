@@ -12,7 +12,7 @@
 
 #include "connectivity-manager.h"
 #include "notify-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include <NetworkManager.h>

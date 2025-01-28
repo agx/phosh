@@ -16,7 +16,7 @@
 #include "plugin-loader.h"
 #include "quick-setting.h"
 #include "quick-settings-box.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "wifi-status-page.h"
 
 #define CUSTOM_QUICK_SETTINGS_SCHEMA "sm.puri.phosh.plugins"

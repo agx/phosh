@@ -10,7 +10,7 @@
 
 #include "gtk-mount-manager.h"
 #include "gtk-mount-prompt.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include <gio/gio.h>

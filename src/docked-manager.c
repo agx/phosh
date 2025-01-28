@@ -12,7 +12,7 @@
 
 #include "docked-manager.h"
 #include "mode-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #define DOCKED_DISABLED_ICON "phone-undocked-symbolic"
 #define DOCKED_ENABLED_ICON  "phone-docked-symbolic"

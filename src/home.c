@@ -12,7 +12,7 @@
 #include "phosh-config.h"
 #include "overview.h"
 #include "home.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "phosh-enums.h"
 #include "osk-manager.h"
 #include "style-manager.h"

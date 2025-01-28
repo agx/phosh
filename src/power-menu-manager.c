@@ -8,7 +8,7 @@
 
 #include "power-menu-manager.h"
 #include "power-menu.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 /**

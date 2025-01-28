@@ -12,7 +12,7 @@
 #include "dbus/portal-dbus.h"
 #include "portal-access-manager.h"
 #include "portal-request.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #define PORTAL_DBUS_NAME "mobi.phosh.Shell.Portal"

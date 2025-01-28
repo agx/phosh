@@ -14,7 +14,7 @@
 #include "mount-operation.h"
 #include "notifications/mount-notification.h"
 #include "notifications/notify-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <gio/gio.h>
 

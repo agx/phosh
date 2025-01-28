@@ -10,7 +10,7 @@
 
 #include "fading-label.h"
 #include "power-menu.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "session-manager.h"
 
 /**

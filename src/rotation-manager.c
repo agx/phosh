@@ -9,7 +9,7 @@
 
 #include "phosh-config.h"
 #include "rotation-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "sensor-proxy-manager.h"
 #include "util.h"
 

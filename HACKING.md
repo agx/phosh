@@ -112,7 +112,7 @@ individual C files should be structured as (top to bottom of file):
   #include "phosh-config.h"
 
   #include "settings.h"
-  #include "shell.h"
+  #include "shell-priv.h"
 
   #include <gio/gdesktopappinfo.h>
   #include <glib/glib.h>

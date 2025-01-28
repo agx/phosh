@@ -126,7 +126,7 @@ G_BEGIN_DECLS
 #include "screenshot-manager.h"
 #include "session-presence.h"
 #include "session-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "status-page.h"
 #include "status-page-placeholder.h"
 #include "system-prompt.h"

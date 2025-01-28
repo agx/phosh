@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "log.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "phosh-wayland.h"
 #include "wall-clock.h"
 #include "fake-clock.h"

@@ -12,7 +12,7 @@
 
 #include "call.h"
 #include "calls-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "dbus/calls-dbus.h"
 

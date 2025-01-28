@@ -10,7 +10,7 @@
 
 #include "phosh-config.h"
 
-#include "shell.h"
+#include "shell-priv.h"
 #include "hks-info.h"
 #include "hks-manager.h"
 

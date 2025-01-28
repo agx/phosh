@@ -9,7 +9,7 @@
 #include <glib.h>
 #include "phosh-wayland.h"
 #include "connectivity-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 static PhoshToplevelManager *toplevel_manager = NULL;
 static PhoshBackgroundManager *background_manager = NULL;

@@ -14,7 +14,7 @@
 #include "emergency-calls-manager.h"
 #include "emergency-contact-row.h"
 #include "system-modal-dialog.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include <glib/gi18n.h>

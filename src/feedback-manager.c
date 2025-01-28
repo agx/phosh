@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "feedback-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <libfeedback.h>
 

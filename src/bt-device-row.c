@@ -9,7 +9,7 @@
 #define G_LOG_DOMAIN "phosh-bt-device-row"
 
 #include "bt-device-row.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 /**
  * PhoshBtDeviceRow:

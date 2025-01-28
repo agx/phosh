@@ -10,7 +10,7 @@
 
 #include "polkit-auth-agent.h"
 #include "polkit-auth-prompt.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <sys/types.h>
 #include <pwd.h>

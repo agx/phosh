@@ -10,7 +10,7 @@
 
 #include "phosh-config.h"
 #include "activity.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "swipe-away-bin.h"
 #include "thumbnail.h"
 #include "util.h"

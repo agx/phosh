@@ -14,7 +14,7 @@
 #include "phosh-wayland.h"
 #include "notifications/notify-manager.h"
 #include "screenshot-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "wl-buffer.h"
 

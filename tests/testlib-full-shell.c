@@ -11,7 +11,7 @@
 
 #include "fake-clock.h"
 #include "log.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <handy.h>
 #include <call-ui.h>

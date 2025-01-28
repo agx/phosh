@@ -13,7 +13,7 @@
 
 #include "phosh-config.h"
 
-#include "shell.h"
+#include "shell-priv.h"
 #include "system-prompt.h"
 
 #define GCR_API_SUBJECT_TO_CHANGE

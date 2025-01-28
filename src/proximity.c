@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 #include "fader.h"
 #include "proximity.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "sensor-proxy-manager.h"
 #include "util.h"
 

@@ -12,7 +12,7 @@
 #include "phosh-config.h"
 
 #include "bt-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "dbus/gsd-rfkill-dbus.h"
 #include "util.h"
 

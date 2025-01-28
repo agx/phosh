@@ -13,7 +13,7 @@
 #include <gudev/gudev.h>
 
 #include "torch-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "dbus/login1-session-dbus.h"
 

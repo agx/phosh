@@ -11,7 +11,7 @@
 #include "phosh-screenshot-dbus.h"
 #include "phosh-test-resources.h"
 #include "portal-dbus.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include "testlib-full-shell.h"
 #include "testlib-calls-mock.h"

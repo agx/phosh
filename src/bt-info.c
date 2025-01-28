@@ -10,7 +10,7 @@
 
 #include "phosh-config.h"
 
-#include "shell.h"
+#include "shell-priv.h"
 #include "bt-info.h"
 #include "bt-manager.h"
 

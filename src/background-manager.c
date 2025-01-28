@@ -15,7 +15,7 @@
 #include "manager.h"
 #include "monitor/monitor.h"
 #include "phosh-wayland.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API

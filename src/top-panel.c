@@ -16,7 +16,7 @@
 #include "phosh-config.h"
 
 #include "layout-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "session-manager.h"
 #include "settings.h"
 #include "top-panel.h"

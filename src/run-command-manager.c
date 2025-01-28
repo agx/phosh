@@ -10,7 +10,7 @@
 
 #include "run-command-manager.h"
 #include "run-command-dialog.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #define KEYBINDINGS_SCHEMA_ID_DESKTOP_WM "org.gnome.desktop.wm.keybindings"

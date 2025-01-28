@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "feedbackinfo.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 /**
  * PhoshFeedbackInfo:

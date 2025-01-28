@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "animation.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "system-modal-dialog.h"
 #include "swipe-away-bin.h"
 #include "util.h"

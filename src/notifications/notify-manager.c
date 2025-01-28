@@ -17,7 +17,7 @@
 #include "notification-list.h"
 #include "notify-manager.h"
 #include "notify-feedback.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "phosh-enums.h"
 #include "util.h"
 
