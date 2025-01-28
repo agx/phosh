@@ -382,7 +382,6 @@ phosh_sources = files(
   'toplevel.c',
   'wwan-info.c',
 ) + [
-  libphosh_headers,
   phosh_settings_sources,
   phosh_wwan_sources,
 ]
@@ -489,7 +488,8 @@ phosh_plugins_dep = declare_dependency(
 )
 
 if enable_introspection or bindings_lib
-  phosh_gir_sources = [ phosh_sources,
+  phosh_gir_sources = [ libphosh_headers,
+                        phosh_sources,
                         phosh_tool_sources,
                         phosh_glib_generated_sources,
                         phosh_glib_generated_headers,
