@@ -5,7 +5,6 @@
  */
 #pragma once
 
-#include "calls-manager.h"
 #include "layersurface.h"
 
 G_BEGIN_DECLS
@@ -55,8 +54,6 @@ struct _PhoshLockscreenClass
   void (*_phosh_reserved9) (void);
 };
 
-GtkWidget * phosh_lockscreen_new (GType lockscreen_type, gpointer layer_shell, gpointer wl_output,
-                                  PhoshCallsManager *calls_manager);
 
 void                phosh_lockscreen_set_page         (PhoshLockscreen *self,
                                                        PhoshLockscreenPage page);
