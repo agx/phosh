@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-lockscreen-manager"
 
-#include "lockscreen-manager.h"
+#include "lockscreen-manager-priv.h"
 #include "lockscreen.h"
 #include "lockshield.h"
 #include "monitor-manager.h"

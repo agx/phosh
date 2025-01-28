@@ -53,7 +53,7 @@
 #include "location-info.h"
 #include "layout-manager.h"
 #include "location-manager.h"
-#include "lockscreen-manager.h"
+#include "lockscreen-manager-priv.h"
 #include "media-player.h"
 #include "mode-manager.h"
 #include "monitor-manager.h"
