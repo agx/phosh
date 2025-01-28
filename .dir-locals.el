@@ -3,6 +3,7 @@
             (c-file-style . "linux")
             (indent-tabs-mode . nil)
             (c-basic-offset . 2)
+            (display-fill-column-indicator-column . 100)
             ))
  (setq auto-mode-alist (cons '("\\.ui$" . nxml-mode) auto-mode-alist))
  (nxml-mode . (
