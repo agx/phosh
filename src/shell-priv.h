@@ -23,7 +23,6 @@
 #include "osk-manager.h"
 #include "rotation-manager.h"
 #include "screen-saver-manager.h"
-#include "screenshot-manager.h"
 #include "style-manager.h"
 #include "toplevel-manager.h"
 #include "torch-manager.h"
@@ -89,7 +88,6 @@ PhoshModeManager       *phosh_shell_get_mode_manager       (PhoshShell *self);
 PhoshStyleManager      *phosh_shell_get_style_manager     (PhoshShell *self);
 PhoshToplevelManager   *phosh_shell_get_toplevel_manager   (PhoshShell *self);
 PhoshScreenSaverManager *phosh_shell_get_screen_saver_manager (PhoshShell *self);
-PhoshScreenshotManager *phosh_shell_get_screenshot_manager (PhoshShell *self);
 /* Created on the fly */
 PhoshBtManager         *phosh_shell_get_bt_manager         (PhoshShell *self);
 PhoshConnectivityManager *phosh_shell_get_connectivity_manager (PhoshShell *self);

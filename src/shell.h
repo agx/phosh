@@ -11,6 +11,7 @@
 #include <glib-object.h>
 
 #include "lockscreen-manager.h"
+#include "screenshot-manager.h"
 
 G_BEGIN_DECLS
 
@@ -51,5 +52,6 @@ void        phosh_shell_fade_out            (PhoshShell *self, guint timeout);
 
 /* Created by the shell on startup */
 PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
+PhoshScreenshotManager *phosh_shell_get_screenshot_manager (PhoshShell *self);
 
 G_END_DECLS
