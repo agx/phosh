@@ -9,6 +9,7 @@
       <object class="GtkStack" id="stack">
         <property name="visible">1</property>
         <property name="transition-type">crossfade</property>
+        <property name="vhomogeneous">0</property>
         <child>
           <object class="GtkListBox" id="devices_list_box">
             <property name="visible">1</property>
