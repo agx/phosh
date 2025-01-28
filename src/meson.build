@@ -26,13 +26,16 @@ phosh_resources = gnome.compile_resources(
   c_name: 'phosh',
 )
 
+libphosh_enum_headers = files(
+  'lockscreen.h',
+)
+
 phosh_enum_headers = files(
   'animation.h',
   'app-grid-button.h',
   'drag-surface.h',
   'gnome-shell-manager.h',
   'home.h',
-  'lockscreen.h',
   'mode-manager.h',
   'monitor/monitor.h',
   'notifications/notification.h',
@@ -41,11 +44,19 @@ phosh_enum_headers = files(
   'rotation-manager.h',
   'shell.h',
   'top-panel.h',
-) + schema_enum_headers
+) + [
+  libphosh_enum_headers,
+  schema_enum_headers,
+]
 
 phosh_enums = gnome.mkenums_simple(
   'phosh-enums',
   sources : phosh_enum_headers,
+)
+
+libphosh_enums = gnome.mkenums_simple(
+  'libphosh-enums',
+  sources : libphosh_enum_headers,
   install_header: bindings_lib,
   install_dir: lib_inc_dir,
 )
