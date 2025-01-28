@@ -109,7 +109,6 @@ PhoshTorchManager      *phosh_shell_get_torch_manager      (PhoshShell *self);
 PhoshVpnManager        *phosh_shell_get_vpn_manager        (PhoshShell *self);
 PhoshEmergencyCallsManager *phosh_shell_get_emergency_calls_manager (PhoshShell *self);
 
-void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);
 void                 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable);
 gboolean             phosh_shell_started_by_display_manager(PhoshShell *self);
 gboolean             phosh_shell_is_startup_finished (PhoshShell *self);
