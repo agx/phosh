@@ -15,6 +15,18 @@ G_DECLARE_DERIVABLE_TYPE (PhoshStatusPage, phosh_status_page, PHOSH, STATUS_PAGE
 
 struct _PhoshStatusPageClass {
   GtkBinClass parent_class;
+
+  /* Padding for future expansion */
+  void        (*_phosh_reserved0) (void);
+  void        (*_phosh_reserved1) (void);
+  void        (*_phosh_reserved2) (void);
+  void        (*_phosh_reserved3) (void);
+  void        (*_phosh_reserved4) (void);
+  void        (*_phosh_reserved5) (void);
+  void        (*_phosh_reserved6) (void);
+  void        (*_phosh_reserved7) (void);
+  void        (*_phosh_reserved8) (void);
+  void        (*_phosh_reserved9) (void);
 };
 
 PhoshStatusPage *phosh_status_page_new (void);
