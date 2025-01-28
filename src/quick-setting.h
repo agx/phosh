@@ -16,6 +16,18 @@ G_DECLARE_DERIVABLE_TYPE (PhoshQuickSetting, phosh_quick_setting, PHOSH, QUICK_S
 
 struct _PhoshQuickSettingClass {
   GtkBoxClass parent_class;
+
+  /* Padding for future expansion */
+  void        (*_phosh_reserved0) (void);
+  void        (*_phosh_reserved1) (void);
+  void        (*_phosh_reserved2) (void);
+  void        (*_phosh_reserved3) (void);
+  void        (*_phosh_reserved4) (void);
+  void        (*_phosh_reserved5) (void);
+  void        (*_phosh_reserved6) (void);
+  void        (*_phosh_reserved7) (void);
+  void        (*_phosh_reserved8) (void);
+  void        (*_phosh_reserved9) (void);
 };
 
 GtkWidget       *phosh_quick_setting_new (PhoshStatusPage *status_page);
