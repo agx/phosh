@@ -61,6 +61,9 @@ i18n.merge_file(
 )
 
 upcoming_events_schema = 'sm.puri.phosh.plugins.upcoming-events.gschema.xml'
+compiled = gnome.compile_schemas(
+  build_by_default: true
+)
 compile_schemas = find_program('glib-compile-schemas', required: false)
 if compile_schemas.found()
   test('Validate @0@ schema file'.format(upcoming_events_schema),
