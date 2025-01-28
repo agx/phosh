@@ -3,6 +3,8 @@ dbus_inc = include_directories('.')
 # DBus client interfaces
 generated_dbus_sources = []
 generated_dbus_headers = []
+libphosh_generated_dbus_headers = []
+libphosh_generated_dbus_sources = []
 
 dbus_prefix = 'PhoshDBus'
 dbus_inc_dir = lib_inc_dir / 'dbus'
@@ -12,14 +14,14 @@ dbus_inc_dir = lib_inc_dir / 'dbus'
 #
 dbus_client_protos = [
   # Sorted by xml filename:
-  ['iio-sensor-proxy-dbus', 'net.hadess.SensorProxy.xml', 'net.hadess'],
-  ['hostname1-dbus', 'org.freedesktop.hostname1.xml', 'org.freedesktop'],
-  ['portal-dbus', 'org.freedesktop.impl.portal.xml', 'org.freedesktop'],
-  ['login1-manager-dbus', 'org.freedesktop.login1.Manager.xml','org.freedesktop.login1'],
-  ['login1-session-dbus', 'org.freedesktop.login1.Session.xml', 'org.freedesktop.login1'],
-  ['gsd-color-dbus', 'org.gnome.SettingsDaemon.Color.xml', 'org.gnome.SettingsDaemon'],
-  ['gnome-session-dbus', 'org.gnome.SessionManager.xml', 'org.gnome'],
-  ['phosh-wwan-ofono-dbus', 'org.ofono.xml', 'org'],
+  ['iio-sensor-proxy-dbus', 'net.hadess.SensorProxy.xml', 'net.hadess', false],
+  ['hostname1-dbus', 'org.freedesktop.hostname1.xml', 'org.freedesktop', false],
+  ['portal-dbus', 'org.freedesktop.impl.portal.xml', 'org.freedesktop', false],
+  ['login1-manager-dbus', 'org.freedesktop.login1.Manager.xml','org.freedesktop.login1', false],
+  ['login1-session-dbus', 'org.freedesktop.login1.Session.xml', 'org.freedesktop.login1', false],
+  ['gsd-color-dbus', 'org.gnome.SettingsDaemon.Color.xml', 'org.gnome.SettingsDaemon', false],
+  ['gnome-session-dbus', 'org.gnome.SessionManager.xml', 'org.gnome', false],
+  ['phosh-wwan-ofono-dbus', 'org.ofono.xml', 'org', false],
 ]
 
 #
@@ -27,25 +29,30 @@ dbus_client_protos = [
 #
 dbus_server_protos = [
   # Sorted by xml filename:
-  ['phosh-gnome-shell-dbus','org.gnome.Shell.xml', 'org'],
-  ['phosh-display-dbus', 'org.gnome.Mutter.DisplayConfig.xml', 'org.gnome.Mutter'],
-  ['phosh-screen-saver-dbus', 'org.gnome.ScreenSaver.xml', 'org.gnome'],
-  ['phosh-screenshot-dbus', 'org.gnome.Shell.Screenshot.xml', 'org.gnome.Shell'],
-  ['phosh-end-session-dialog-dbus', 'org.gnome.SessionManager.EndSessionDialog.xml','org.gnome.SessionManager'],
-  ['phosh-gtk-mountoperation-dbus', 'org.Gtk.MountOperationHandler.xml', 'org.Gtk'],
+  ['phosh-gnome-shell-dbus','org.gnome.Shell.xml', 'org', false],
+  ['phosh-display-dbus', 'org.gnome.Mutter.DisplayConfig.xml', 'org.gnome.Mutter', false],
+  ['phosh-screen-saver-dbus', 'org.gnome.ScreenSaver.xml', 'org.gnome', false],
+  ['phosh-screenshot-dbus', 'org.gnome.Shell.Screenshot.xml', 'org.gnome.Shell', true],
+  ['phosh-end-session-dialog-dbus', 'org.gnome.SessionManager.EndSessionDialog.xml','org.gnome.SessionManager', false],
+  ['phosh-gtk-mountoperation-dbus', 'org.Gtk.MountOperationHandler.xml', 'org.Gtk', false],
 ]
 
 foreach p : dbus_client_protos + dbus_server_protos
   name = p[0]
   xml = p[1]
   prefix = p[2]
+  is_libphosh_header = p[3]
   targets = gnome.gdbus_codegen(name, xml,
                                 interface_prefix: prefix,
-                                install_header: bindings_lib,
+                                install_header: bindings_lib and is_libphosh_header,
                                 install_dir: dbus_inc_dir,
                                 namespace: dbus_prefix)
   generated_dbus_sources += targets[0]
   generated_dbus_headers += targets[1]
+  if is_libphosh_header
+      libphosh_generated_dbus_sources += targets[0]
+      libphosh_generated_dbus_headers += targets[1]
+  endif
 endforeach
 
 #
