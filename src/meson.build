@@ -63,31 +63,31 @@ phosh_marshalers = gnome.genmarshal('phosh-marshalers',
 
 # sources generated with glib tooling
 # hence parsable by gi-docgen
-libphosh_glib_generated_sources = [
+phosh_glib_generated_sources = [
   phosh_enums[0],
   phosh_marshalers[0],
   phosh_resources[0],
   generated_dbus_sources,
 ]
 
-libphosh_glib_generated_headers = [
+phosh_glib_generated_headers = [
   phosh_enums[1],
   phosh_marshalers[1],
   phosh_resources[1],
   generated_dbus_headers,
 ]
 
-libphosh_generated_sources = [
-  libphosh_glib_generated_sources,
+phosh_generated_sources = [
+  phosh_glib_generated_sources,
   wl_proto_sources,
 ]
 
-libphosh_generated_headers = [
-  libphosh_glib_generated_headers,
+phosh_generated_headers = [
+  phosh_glib_generated_headers,
   wl_proto_headers,
 ]
 
-libphosh_tool_headers = files(
+phosh_tool_headers = files(
   'app-auth-prompt.h',
   'activity.h',
   'ambient.h',
@@ -164,7 +164,7 @@ libphosh_tool_headers = files(
 )
 
 # Available in tools and unit tests:
-libphosh_tool_sources = files(
+phosh_tool_sources = files(
   'app-auth-prompt.c',
   'activity.c',
   'ambient.c',
@@ -248,11 +248,14 @@ libphosh_tool_sources = files(
   'wifi-info.c',
   'wl-buffer.c',
 ) + [
-  libphosh_tool_headers,
+  phosh_tool_headers,
   phosh_monitor_sources,
   phosh_notifications_sources,
 ]
 
+# Headers added here will be introspected and included in the GIR.
+# Only API that is considered public to libphosh consumers should be added here.
+# This list *must* be kept in sync with libphosh.h
 libphosh_headers = files(
   'arrow.h',
   'app-tracker.h',
@@ -311,20 +314,21 @@ libphosh_headers = files(
   'wifi-manager.h',
   'wwan-info.h',
 )
-# Not visible in docs and gir
-# New headers go here by default:
-libphosh_private_headers = files(
+
+phosh_headers = files(
   'fake-clock.h',
   'contrib/shell-network-agent.h',
   'cell-broadcast-manager.h',
   'cell-broadcast-prompt.h',
   'metainfo-cache.h',
   'network-auth-prompt.h',
-)
+) + [
+  libphosh_headers,
+]
 
 # Symbols from these are not available in tools and unit tests
-# Prefer adding to libphosh_tool_sources
-libphosh_sources = files(
+# Prefer adding to phosh_tool_sources
+phosh_sources = files(
   'arrow.c',
   'app-tracker.c',
   'auth.c',
@@ -444,9 +448,9 @@ phosh_lib_inc = [root_inc,
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
   [
-    libphosh_tool_sources,
-    libphosh_generated_headers,
-    libphosh_generated_sources,
+    phosh_tool_sources,
+    phosh_generated_headers,
+    phosh_generated_sources,
     phosh_gtk_list_models_sources,
   ],
   include_directories: phosh_lib_inc,
@@ -454,7 +458,7 @@ phosh_tool_lib = static_library('phosh-tool',
 )
 phosh_tool_dep = declare_dependency(
   sources: [
-    libphosh_generated_headers,
+    phosh_generated_headers,
     # Ensure the resources are available to indirect users too
     phosh_resources[0],
   ],
@@ -464,8 +468,8 @@ phosh_tool_dep = declare_dependency(
 
 # A library containing everything
 phosh_lib = both_libraries('phosh-@0@'.format(libversion),
-  libphosh_private_headers,
-  libphosh_sources,
+  phosh_headers,
+  phosh_sources,
   include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps],
   soversion: 0,
@@ -485,10 +489,10 @@ phosh_plugins_dep = declare_dependency(
 )
 
 if enable_introspection or bindings_lib
-  phosh_gir_sources = [ libphosh_sources,
-                        libphosh_tool_sources,
-                        libphosh_glib_generated_sources,
-                        libphosh_glib_generated_headers,
+  phosh_gir_sources = [ phosh_sources,
+                        phosh_tool_sources,
+                        phosh_glib_generated_sources,
+                        phosh_glib_generated_headers,
                         phosh_enum_headers,
                       ]
 
@@ -530,8 +534,8 @@ if bindings_lib
   install_headers(
     [
       'libphosh.h',
-      libphosh_tool_headers,
-      libphosh_headers,
+      phosh_tool_headers,
+      phosh_headers,
     ],
     subdir : lib_inc_subdir,
   )

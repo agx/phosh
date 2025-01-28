@@ -11,7 +11,7 @@ test_stubs = files(
 test_stubs_lib = static_library('test-stubs',
   test_stubs,
   include_directories: phosh_lib_inc,
-  sources: [libphosh_generated_headers],
+  sources: [phosh_generated_headers],
   dependencies: phosh_deps,
 )
 
