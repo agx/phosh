@@ -547,30 +547,9 @@ if bindings_lib
   install_headers(
     [
       'libphosh.h',
-      phosh_tool_headers,
-      phosh_headers,
+      libphosh_headers,
     ],
     subdir : lib_inc_subdir,
-  )
-
-  install_headers(
-    phosh_monitor_headers,
-    subdir : lib_inc_subdir / 'monitor',
-  )
-
-  install_headers(
-    phosh_notifications_headers,
-    subdir : lib_inc_subdir / 'notifications',
-  )
-
-  install_headers(
-    phosh_settings_widgets_headers,
-    subdir : lib_inc_subdir / 'settings',
-  )
-
-  install_headers(
-    phosh_wwan_headers,
-    subdir : lib_inc_subdir / 'wwan',
   )
 endif
 

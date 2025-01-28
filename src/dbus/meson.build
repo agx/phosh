@@ -63,54 +63,38 @@ endforeach
 generated_dbus_sources += gnome.gdbus_codegen('geoclue-manager-dbus',
                                               'org.freedesktop.GeoClue2.Manager.xml',
                                               interface_prefix: 'org.freedesktop.GeoClue2',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshGeoClueDBus')
 generated_dbus_sources += gnome.gdbus_codegen('calls-dbus',
                                               'org.gnome.Calls.Call.xml',
                                               object_manager: true,
                                               interface_prefix: 'org.gnome',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshCallsDBus')
 generated_dbus_sources += gnome.gdbus_codegen('calls-emergency-dbus',
                                               'org.gnome.Calls.EmergencyCalls.xml',
                                               interface_prefix: 'org.gnome.Calls',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'Phosh')
 # org.gnome.SessionManager.ClientPrivate
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-client-private-dbus',
                                               'org.gnome.SessionManager.ClientPrivate.xml',
                                               interface_prefix: 'org.gnome.SessionManager',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshSessionClientPrivateDBus')
 # org.gnome.SessionManager.Presence
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
                                               'org.gnome.SessionManager.Presence.xml',
                                               interface_prefix: 'org.gnome.SessionManager',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshSessionPresenceDBus')
 # org.gnome.SettingsDaemon.Rfkill
 generated_dbus_sources += gnome.gdbus_codegen('gsd-rfkill-dbus',
                                               'org.gnome.SettingsDaemon.Rfkill.xml',
                                               interface_prefix: 'org.gnome.SettingsDaemon',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshRfkillDBus')
 # MPris2
 generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
                                               'org.mpris.MediaPlayer2.xml',
                                               interface_prefix: 'org.mpris',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshMprisDBus')
 generated_dbus_sources += gnome.gdbus_codegen('phosh-osk0-dbus',
                                               'sm.puri.OSK0.xml',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshOsk0')
 #
 # Protocols where Phosh is the DBus server
@@ -119,21 +103,15 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-osk0-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('geoclue-agent-dbus',
                                               'org.freedesktop.GeoClue2.Agent.xml',
                                               interface_prefix: 'org.freedesktop.Agent',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshGeoClueDBus')
 
 generated_dbus_sources += gnome.gdbus_codegen('notify-dbus',
                                               'org.freedesktop.Notifications.xml',
                                               interface_prefix: 'org.freedesktop',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshNotifyDBus')
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
                                               'org.gnome.Mutter.IdleMonitor.xml',
                                               interface_prefix: 'org.gnome.Mutter',
                                               object_manager: true,
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
                                               namespace: 'PhoshIdleDBus')
