@@ -44,7 +44,7 @@
  * and unlock keypad. It handles displaying ongoing calls when the
  * shell is locked and can be extended via plugins.
  *
- * Other outputs are locked via [type@Phosh.Lockshield]s.
+ * Other outputs are locked via PhoshLockshields.
  *
  * # CSS nodes
  *

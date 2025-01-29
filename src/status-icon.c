@@ -191,7 +191,7 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
    * PhoshStatusIcon:extra-widget:
    *
    * An extra widget to display. This is used for extra information when
-   * used in [type@TopPanel]. When used in [type@QuickSetting] this
+   * used in PhoshTopPanel. When used in [type@QuickSetting] this
    * is not needed.
    */
   props[PHOSH_STATUS_ICON_PROP_EXTRA_WIDGET] =

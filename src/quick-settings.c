@@ -25,7 +25,7 @@
 /**
  * PhoshQuickSettings:
  *
- * A widget to display quick-settings using [class@Phosh.QuickSettingsBox].
+ * A widget to display quick-settings using PhoshQuickSettingsBox.
  *
  * `PhoshQuickSettings` holds the default quick-settings and those loaded as plugins. It manages
  * their interaction with user by launching appropriate actions.
