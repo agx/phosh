@@ -49,7 +49,7 @@ i18n.merge_file(
 
 pomodoro_quick_setting_schema = 'mobi.phosh.plugins.pomodoro.gschema.xml'
 compiled = gnome.compile_schemas(
-  build_by_default: true
+  depend_files: pomodoro_quick_setting_schema,
 )
 compile_schemas = find_program('glib-compile-schemas', required: false)
 if compile_schemas.found()

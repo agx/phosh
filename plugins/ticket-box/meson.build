@@ -54,6 +54,9 @@ i18n.merge_file(
 )
 
 ticket_box_schema = 'sm.puri.phosh.plugins.ticket-box.gschema.xml'
+compiled = gnome.compile_schemas(
+  depend_files: ticket_box_schema,
+)
 compile_schemas = find_program('glib-compile-schemas', required: false)
 if compile_schemas.found()
   test('Validate @0@ schema file'.format(ticket_box_schema),

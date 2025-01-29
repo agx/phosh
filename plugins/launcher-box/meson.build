@@ -53,7 +53,7 @@ i18n.merge_file(
 
 launcher_box_schema = 'sm.puri.phosh.plugins.launcher-box.gschema.xml'
 compiled = gnome.compile_schemas(
-  build_by_default: true
+  depend_files: launcher_box_schema,
 )
 compile_schemas = find_program('glib-compile-schemas', required: false)
 if compile_schemas.found()
