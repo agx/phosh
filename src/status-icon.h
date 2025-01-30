@@ -19,11 +19,10 @@ G_DECLARE_DERIVABLE_TYPE (PhoshStatusIcon, phosh_status_icon, PHOSH, STATUS_ICON
  * @parent_class: The parent class
  * @idle_init: a callback to be invoked once on idle
  */
-struct _PhoshStatusIconClass
-{
+struct _PhoshStatusIconClass {
   GtkBinClass parent_class;
 
-  void (*idle_init) (PhoshStatusIcon *self);
+  void        (*idle_init) (PhoshStatusIcon *self);
 };
 
 GtkWidget * phosh_status_icon_new (void);
