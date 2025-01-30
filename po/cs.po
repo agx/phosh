@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-23 15:15+0000\n"
-"PO-Revision-Date: 2025-01-24 01:38+0100\n"
+"POT-Creation-Date: 2025-01-30 17:57+0000\n"
+"PO-Revision-Date: 2025-01-30 21:02+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -142,7 +142,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Zobrazit pouze optimalizované aplikace"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "Baterie %.0f %%"
@@ -156,11 +156,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Zapnout"
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "Nebyla nalezena žádná připojitelná zařízení Bluetooth"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "Bluetooth zakázáno"
 
@@ -168,16 +168,16 @@ msgstr "Bluetooth zakázáno"
 msgid "Unknown caller"
 msgstr "Neznámý volající"
 
-#: src/connectivity-manager.c:86
+#: src/connectivity-manager.c:114
 #, c-format
 msgid "Wi-Fi network '%s' uses a captive portal"
 msgstr "Síť Wi-Fi „%s“ využívá captive portál"
 
-#: src/connectivity-manager.c:88
+#: src/connectivity-manager.c:116
 msgid "The Wi-Fi network uses a captive portal"
 msgstr "Síť Wi-Fi využívá captive portál"
 
-#: src/connectivity-manager.c:91
+#: src/connectivity-manager.c:123
 msgid "Sign into Wi-Fi network"
 msgstr "Přihlásit se k síti Wi-Fi"
 
@@ -579,11 +579,11 @@ msgstr "Vstupní zařízení"
 msgid "Sound Settings"
 msgstr "Nastavení zvuku"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Povolit Bluetooth"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "Nastavení Bluetooth"
 
@@ -608,7 +608,7 @@ msgid "Owner unknown"
 msgstr "Neznámý vlastník"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:190
 msgid "Emergency Contacts"
 msgstr "Tísňové kontakty"
 
@@ -649,7 +649,7 @@ msgid "Authentication required"
 msgstr "Požadováno ověření"
 
 #: src/ui/network-auth-prompt.ui:41
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:235
 msgid "_Cancel"
 msgstr "_Zrušit"
 
@@ -713,7 +713,7 @@ msgstr "Odh_lásit se…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:72
+#: src/ui/wifi-status-page.ui:73
 msgid "Wi-Fi Settings"
 msgstr "Nastavení WiFi"
 
@@ -736,27 +736,27 @@ msgstr "Zásuvný modul nebyl nalezen"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Zásuvný modul „%s“ nelze načíst."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "Nebylo nalezeno žádné zařízení Wi-Fi"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi zakázáno"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "Povolit Wi-Fi"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "Přístupový bod Wi-Fi je aktivní"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "Vypnout"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "Žádné přístupové body Wi-Fi"
 
@@ -798,47 +798,41 @@ msgid "Personal Information"
 msgstr "Osobní informace"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "Datum narození"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "Preferovaný jazyk"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:92
 msgid "Home Address"
 msgstr "Adresa bydliště"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Medical Information"
 msgstr "Zdravotní informace"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "Věk"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "Krevní skupina"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "Výška"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "Váha"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:140
 msgid "Allergies"
 msgstr "Alergie"
 
@@ -847,7 +841,7 @@ msgid "Medications & Conditions"
 msgstr "Léky a zdravotní stav"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Other Information"
 msgstr "Další informace"
 
@@ -860,35 +854,59 @@ msgstr "Předvolby nouzových informací"
 msgid "Done"
 msgstr "Hotovo"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
-msgid "Owner Name"
-msgstr "Jméno vlastníka"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Owner Name"
+msgstr "_Jméno vlastníka"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Date of Birth"
+msgstr "_Datum narození"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
+msgid "_Preferred Language"
+msgstr "_Preferovaný jazyk"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:115
+msgid "_Age"
+msgstr "_Věk"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:121
+msgid "_Blood Type"
+msgstr "Krevní _skupina"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:127
+msgid "_Height"
+msgstr "Výš_ka"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:133
+msgid "_Weight"
+msgstr "Vá_ha"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:156
 msgid "Medications and Conditions"
 msgstr "Léky a zdravotní stav"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:199
 msgid "Add Contact"
 msgstr "Přidat kontakt"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:226
 msgid "Add New Contact"
 msgstr "Přidat nový kontakt"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "_Add"
 msgstr "Přid_at"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:263
 msgid "_Contact Name"
 msgstr "Jméno _kontaktu"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:269
 msgid "Relationship"
 msgstr "Vztah"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:275
 msgid "_Contact Number"
 msgstr "Číslo _kontaktu"
 
@@ -1074,7 +1092,7 @@ msgstr "Škálování monitoru"
 
 #. Translators: This is scale factor of a monitor in percent
 #: plugins/scaling-quick-setting/scale-row.c:48
-#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
 #, c-format
 msgid "%d%%"
 msgstr "%d %%"
