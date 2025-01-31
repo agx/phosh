@@ -65,7 +65,7 @@
                         </child>
                         <child>
                           <object class="PhoshFadingLabel">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="label" translatable="yes">Power Off</property>
                           </object>
                         </child>
@@ -102,7 +102,7 @@
                         </child>
                         <child>
                           <object class="PhoshFadingLabel">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="label" translatable="yes">Suspend</property>
                           </object>
                         </child>
@@ -145,7 +145,7 @@
                     </child>
                     <child>
                       <object class="PhoshFadingLabel">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="label" translatable="yes">Lock</property>
                       </object>
                     </child>
@@ -183,7 +183,7 @@
                     </child>
                     <child>
                       <object class="PhoshFadingLabel">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="label" translatable="yes">Screenshot</property>
                       </object>
                     </child>
@@ -221,7 +221,7 @@
                     </child>
                     <child>
                       <object class="PhoshFadingLabel">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="label" translatable="yes">Emergency</property>
                       </object>
                     </child>
