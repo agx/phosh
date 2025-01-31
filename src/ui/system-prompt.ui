@@ -2,7 +2,6 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <template class="PhoshSystemPrompt" parent="PhoshSystemModalDialog">
-    <property name="can-focus">False</property>
     <signal name="dialog-canceled" handler="on_dialog_canceled"/>
     <child type="phosh-dialog-content">
       <object class="GtkGrid" id="grid">
@@ -35,11 +34,11 @@
         </child>
         <child>
           <object class="PhoshPasswordEntry" id="entry_password">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
             <property name="valign">center</property>
-            <property name="hexpand">True</property>
-            <property name="activates-default">True</property>
+            <property name="hexpand">1</property>
+            <property name="activates-default">1</property>
           </object>
           <packing>
             <property name="left-attach">1</property>
@@ -59,11 +58,10 @@
         </child>
         <child>
           <object class="PhoshPasswordEntry" id="entry_confirm">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
+            <property name="visible">1</property>
             <property name="valign">center</property>
-            <property name="hexpand">True</property>
-            <property name="activates-default">True</property>
+            <property name="hexpand">1</property>
+            <property name="activates-default">1</property>
           </object>
           <packing>
             <property name="left-attach">1</property>
