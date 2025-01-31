@@ -10,7 +10,7 @@
 #include "lockscreen.h"
 #include <gtk/gtk.h>
 
-#define PHOSH_TYPE_LOCKSCREEN_MANAGER (phosh_lockscreen_manager_get_type())
+#define PHOSH_TYPE_LOCKSCREEN_MANAGER (phosh_lockscreen_manager_get_type ())
 
 G_DECLARE_FINAL_TYPE (PhoshLockscreenManager,
                       phosh_lockscreen_manager,
@@ -29,4 +29,4 @@ void                    phosh_lockscreen_manager_set_timeout (PhoshLockscreenMan
                                                               int timeout);
 int                     phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self);
 gint64                  phosh_lockscreen_manager_get_active_time (PhoshLockscreenManager *self);
-PhoshLockscreen*        phosh_lockscreen_manager_get_lockscreen (PhoshLockscreenManager *self);
+PhoshLockscreen        *phosh_lockscreen_manager_get_lockscreen (PhoshLockscreenManager *self);
