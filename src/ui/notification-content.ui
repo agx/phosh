@@ -5,20 +5,20 @@
     <property name="visible">True</property>
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="valign">start</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkImage" id="img_image">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="pixel_size">32</property>
-                <property name="icon_name">dialog-information</property>
+                <property name="pixel-size">32</property>
+                <property name="icon-name">dialog-information</property>
                 <style>
                   <class name="notification-image"/>
                 </style>
@@ -26,17 +26,17 @@
             </child>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkLabel" id="lbl_summary">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="label">Title</property>
                     <property name="justify">center</property>
                     <property name="ellipsize">end</property>
-                    <property name="single_line_mode">True</property>
+                    <property name="single-line-mode">1</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -45,12 +45,11 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="lbl_body">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="valign">center</property>
                     <property name="label">Message</property>
-                    <property name="use-markup">True</property>
-                    <property name="justify">left</property>
-                    <property name="wrap">True</property>
+                    <property name="use-markup">1</property>
+                    <property name="wrap">1</property>
                     <property name="wrap-mode">word-char</property>
                     <property name="ellipsize">end</property>
                     <property name="lines">3</property>
@@ -69,9 +68,8 @@
         </child>
         <child>
           <object class="GtkBox" id="box_actions">
-            <property name="visible">True</property>
-            <property name="expand">True</property>
-            <property name="orientation">horizontal</property>
+            <property name="visible">1</property>
+            <property name="expand">1</property>
             <style>
               <class name="linked"/>
               <class name="actions-area"/>
