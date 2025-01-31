@@ -4,118 +4,114 @@
   <object class="GtkPopoverMenu" id="menu_system">
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="width-request">120</property>
         <property name="name">system-menu</property>
         <property name="margin">6</property>
         <property name="spacing">6</property>
         <property name="orientation">vertical</property>
-
         <child>
           <object class="GtkButton">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="action-name">panel.poweroff</property>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkImage">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="icon-name">system-shutdown-symbolic</property>
                     <property name="pixel-size">16</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="label" translatable="yes">_Power Off…</property>
                     <property name="ellipsize">middle</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
               </object>
             </child>
           </object>
         </child>
-
         <child>
           <object class="GtkButton">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="action-name">panel.restart</property>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkImage">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="icon-name">system-reboot-symbolic</property>
                     <property name="pixel-size">16</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="label" translatable="yes">_Restart…</property>
                     <property name="ellipsize">middle</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
               </object>
             </child>
           </object>
         </child>
-
         <child>
           <object class="GtkButton">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="action-name">panel.suspend</property>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkImage">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="icon-name">moon-filled-symbolic</property>
                     <property name="pixel-size">16</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="label" translatable="yes">_Suspend…</property>
                     <property name="ellipsize">middle</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
               </object>
             </child>
           </object>
         </child>
-
         <child>
           <object class="GtkButton">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="action-name">panel.logout</property>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkImage">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="icon-name">system-log-out-symbolic</property>
                     <property name="pixel-size">16</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="label" translatable="yes">_Log Out…</property>
                     <property name="ellipsize">middle</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
               </object>
@@ -125,15 +121,14 @@
       </object>
     </child>
   </object>
-
   <template class="PhoshTopPanel" parent="PhoshDragSurface">
     <child>
       <object class="GtkBox" id="box">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box_clock">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <style>
               <class name="phosh-clock-box"/>
             </style>
@@ -146,7 +141,7 @@
                 </style>
                 <child>
                   <object class="GtkImage">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="icon-name">padlock-symbolic</property>
                   </object>
                 </child>
@@ -154,11 +149,11 @@
             </child>
             <child type="center">
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkLabel" id="lbl_clock2">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="margin-top">2</property>
                     <style>
                       <class name="phosh-topbar-clock"/>
@@ -167,7 +162,7 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="lbl_date">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <style>
                       <class name="phosh-topbar-date"/>
                     </style>
@@ -184,7 +179,7 @@
                 </style>
                 <child>
                   <object class="GtkImage">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="icon-name">system-shutdown-symbolic</property>
                   </object>
                 </child>
@@ -193,7 +188,8 @@
                 <property name="pack-type">end</property>
               </packing>
             </child>
-          </object> <!-- box_clock -->
+          </object>
+          <!-- box_clock -->
         </child>
         <child>
           <object class="PhoshSettings" id="settings">
@@ -203,25 +199,24 @@
           </object>
         </child>
         <child>
-
           <object class="GtkStack" id="stack">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="transition-type">crossfade</property>
             <child>
               <object class="GtkBox" id="top_bar_bin">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="name">top-bar-bin</property>
                 <child>
                   <object class="GtkBox" id="box_top_bar">
-                    <property name="visible">True</property>
-                    <property name="expand">True</property>
+                    <property name="visible">1</property>
+                    <property name="expand">1</property>
                     <property name="valign">end</property>
                     <property name="name">top-bar</property>
                     <!-- PHOSH_TOP_PANEL_HEIGHT -->
                     <property name="height-request">32</property>
                     <child>
                       <object class="GtkBox" id="box_network">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <child>
                           <object class="PhoshRevealer">
                             <property name="visible">True</property>
@@ -233,7 +228,7 @@
                                 <property name="margin-start">0</property>
                                 <property name="margin-end">8</property>
                                 <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                                <property name="show_detail">True</property>
+                                <property name="show-detail">True</property>
                                 <style>
                                   <class name="phosh-wwan-indicator"/>
                                 </style>
@@ -311,11 +306,12 @@
                             </child>
                           </object>
                         </child>
-                      </object> <!-- box_network -->
+                      </object>
+                      <!-- box_network -->
                     </child>
                     <child type="center">
                       <object class="GtkLabel" id="lbl_clock">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="margin-top">2</property>
                         <property name="label">00:00</property>
                         <style>
@@ -325,16 +321,16 @@
                     </child>
                     <child>
                       <object class="GtkBox" id="box_indicators">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="halign">end</property>
                         <style>
                           <class name="indicators"/>
                         </style>
                         <child>
                           <object class="GtkLabel" id="lbl_lang">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="margin-end">8</property>
-                            <property name="margin_top">2</property>
+                            <property name="margin-top">2</property>
                             <property name="justify">center</property>
                           </object>
                         </child>
@@ -403,19 +399,21 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                           </object>
                         </child>
-                      </object> <!-- box_indicators -->
+                      </object>
+                      <!-- box_indicators -->
                       <packing>
                         <property name="pack-type">end</property>
                       </packing>
                     </child>
-                  </object> <!-- box_top_bar -->
+                  </object>
+                  <!-- box_top_bar -->
                 </child>
-              </object> <!-- top_bar_bin -->
+              </object>
+              <!-- top_bar_bin -->
               <packing>
                 <property name="name">top-bar</property>
               </packing>
             </child>
-
             <child>
               <object class="PhoshArrow" id="arrow">
                 <property name="visible">True</property>
@@ -430,7 +428,8 @@
                 <property name="name">arrow</property>
               </packing>
             </child>
-          </object>  <!-- stack -->
+          </object>
+          <!-- stack -->
         </child>
       </object>
     </child>
