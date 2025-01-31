@@ -244,8 +244,30 @@ build-doc:
       - _reference
 
 check-po:
+  # Checks .ui files for simplification
   stage: test+docs
   extends: .phosh-check-po
+
+check-ui:
+  stage: test+docs
+  image: ${DEBIAN_IMAGE}
+  variables:
+    PHOSH_ADDITIONAL_PKGS: >
+      libgtk-3-bin
+      libgtk-4-bin
+  needs: []
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        paths:
+          - "**/*.ui"
+  script:
+    - !reference [.phosh-prepare-apt]
+    - |
+      git remote add target $CI_MERGE_REQUEST_PROJECT_URL.git
+      echo "Fetching MR target branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME from $CI_MERGE_REQUEST_PROJECT_URL"
+      git fetch target "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+    - ${XVFB_RUN} ./.gitlab-ci/check-ui target/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_COMMIT_SHA
 
 check-license-headers:
   stage: test+docs
