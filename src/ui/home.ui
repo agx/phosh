@@ -5,35 +5,35 @@
     <signal name="key-press-event" handler="window_key_press_event_cb"/>
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkEventBox" id="evbox_home_bar">
             <style>
               <class name="phosh-home-bar"/>
             </style>
-            <property name="visible">True</property>
-            <property name="hexpand">True</property>
+            <property name="visible">1</property>
+            <property name="hexpand">1</property>
             <!-- Otherwise search gets input focus and triggers OSK -->
-            <property name="can-focus">True</property>
+            <property name="can-focus">1</property>
             <!-- PHOSH_HOME_BAR_HEIGHT -->
             <property name="height-request">15</property>
             <child>
               <object class="GtkBox" id="home_bar">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="name">home-bar</property>
                 <property name="halign">center</property>
-                <property name="hexpand">True</property>
+                <property name="hexpand">1</property>
                 <child>
                   <object class="GtkRevealer" id="rev_powerbar">
-                    <property name="visible">True</property>
-                    <property name="reveal-child">True</property>
+                    <property name="visible">1</property>
+                    <property name="reveal-child">1</property>
                     <property name="transition-duration">400</property>
                     <property name="transition-type">crossfade</property>
                     <child>
                       <object class="GtkEventBox" id="powerbar">
-                        <property name="can-focus">True</property>
-                        <property name="visible">True</property>
+                        <property name="can-focus">1</property>
+                        <property name="visible">1</property>
                         <!-- PHOSH_HOME_BAR_HEIGHT -->
                         <property name="height-request">15</property>
                         <property name="width-request">200</property>
@@ -44,9 +44,11 @@
                     </child>
                   </object>
                 </child>
-              </object> <!-- home_bar (holding powerbar) -->
+              </object>
+              <!-- home_bar (holding powerbar) -->
             </child>
-          </object> <!-- home bar's event box -->
+          </object>
+          <!-- home bar's event box -->
         </child>
         <child>
           <object class="PhoshOverview" id="overview">
@@ -57,8 +59,7 @@
             <signal name="selection-aborted" handler="fold_cb" swapped="true"/>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">1</property>
           </packing>
         </child>
       </object>
@@ -68,7 +69,6 @@
     <property name="widget">evbox_home_bar</property>
     <signal name="released" handler="on_home_released" swapped="true"/>
   </object>
-
   <object class="GtkGestureLongPress" id="osk_toggle_long_press">
     <property name="widget">powerbar</property>
     <signal name="begin" handler="on_powerbar_action_started" swapped="true"/>
