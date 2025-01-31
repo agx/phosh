@@ -6,52 +6,42 @@
     <property name="title" translatable="yes">Authentication required</property>
     <signal name="dialog-canceled" handler="on_dialog_canceled"/>
     <child type="phosh-dialog-content">
-
       <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="lbl_message">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">center</property>
-            <property name="wrap">True</property>
+            <property name="wrap">1</property>
           </object>
         </child>
-
         <child>
           <object class="GtkImage" id="img_icon">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">center</property>
             <property name="icon-name">dialog-password-symbolic</property>
-            <property name="icon_size">6</property>
+            <property name="icon-size">6</property>
           </object>
         </child>
-
         <child>
           <object class="GtkLabel" id="lbl_user_name">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">center</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
           </object>
         </child>
-
         <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">center</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="lbl_password">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="visible">1</property>
                 <property name="halign">end</property>
                 <property name="label" translatable="yes">Password:</property>
               </object>
@@ -68,12 +58,10 @@
             </child>
           </object>
         </child>
-
         <child>
           <object class="GtkLabel" id="lbl_info">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="wrap">True</property>
+            <property name="visible">1</property>
+            <property name="wrap">1</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
@@ -81,14 +69,13 @@
         </child>
       </object>
     </child>
-
     <child type="phosh-dialog-button">
       <object class="GtkButton" id="btn_cancel">
         <property name="label">gtk-cancel</property>
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
+        <property name="visible">1</property>
+        <property name="can-focus">1</property>
         <property name="valign">center</property>
-        <property name="use-stock">True</property>
+        <property name="use-stock">1</property>
         <signal name="clicked" handler="on_dialog_canceled" swapped="true"/>
       </object>
       <packing>
@@ -99,38 +86,25 @@
     </child>
     <child type="phosh-dialog-button">
       <object class="GtkButton" id="btn_authenticate">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="can-default">True</property>
-        <property name="has-default">True</property>
+        <property name="visible">1</property>
+        <property name="can-focus">1</property>
+        <property name="can-default">1</property>
+        <property name="has-default">1</property>
         <signal name="clicked" handler="on_btn_authenticate_clicked" swapped="true"/>
         <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="visible">1</property>
             <property name="halign">center</property>
             <property name="spacing">5</property>
             <child type="center">
               <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="visible">1</property>
                 <property name="label" translatable="yes">Authenticate</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkSpinner" id="spinner_authenticate">
-                <property name="can-focus">False</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
           </object>
         </child>
