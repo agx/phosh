@@ -5,12 +5,12 @@
   <template class="PhoshSystemModalDialog" parent="PhoshSystemModal">
     <child>
       <object class="PhoshSwipeAwayBin" id="swipe_bin">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <signal name="removed" handler="on_removed_by_swipe" swapped="true"/>
         <child>
           <object class="HdyClamp">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="maximum-size">400</property>
             <child>
               <object class="GtkBox" id="box_dialog">
