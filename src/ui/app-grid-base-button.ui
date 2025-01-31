@@ -13,14 +13,13 @@
         <child>
           <object class="GtkButton" id="button">
             <property name="relief">none</property>
-            <property name="visible">True</property>
-            <property name="focus-on-click">False</property>
+            <property name="visible">1</property>
+            <property name="focus-on-click">0</property>
             <signal name="clicked" handler="on_clicked_cb" object="PhoshAppGridBaseButton" swapped="yes"/>
             <child>
               <object class="GtkBox" id="box">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="halign">center</property>
-                <property name="valign">fill</property>
                 <property name="margin-start">3</property>
                 <property name="margin-end">3</property>
                 <property name="margin-top">3</property>
