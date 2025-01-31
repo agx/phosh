@@ -4,7 +4,7 @@
   <template class="PhoshMediaPlayer" parent="GtkGrid">
     <property name="margin-top">5</property>
     <property name="margin-bottom">5</property>
-    <property name="column-homogeneous">True</property>
+    <property name="column-homogeneous">1</property>
     <child>
       <object class="GtkBox">
         <property name="visible">1</property>
