@@ -5,7 +5,7 @@
     <property name="valign">start</property>
     <child>
       <object class="GtkBox" id="toplevel_box">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <style>
@@ -14,13 +14,13 @@
         </style>
         <child>
           <object class="GtkBox" id="header_box">
-            <property name="visible">True</property>
-            <property name="hexpand">True</property>
+            <property name="visible">1</property>
+            <property name="hexpand">1</property>
             <property name="spacing">6</property>
             <child type="center">
               <object class="GtkLabel" id="title_label">
-                <property name="visible">True</property>
-                <property name="hexpand">True</property>
+                <property name="visible">1</property>
+                <property name="hexpand">1</property>
                 <property name="ellipsize">end</property>
                 <property name="justify">center</property>
                 <style>
@@ -38,7 +38,7 @@
         </child>
         <child>
           <object class="GtkBox" id="content_bin">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
           </object>
         </child>
         <child>
