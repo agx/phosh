@@ -4,11 +4,11 @@
   <template class="PhoshAudioSettings" parent="GtkBin">
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
-	      <property name="orientation">vertical</property>
+        <property name="visible">1</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box_ouput_vol_slider">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <child>
               <object class="GvcChannelBar" id="output_vol_bar">
                 <property name="visible">True</property>
@@ -17,19 +17,19 @@
             </child>
             <child>
               <object class="GtkToggleButton" id="toggle_audio_details">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="margin-start">6</property>
-                <property name="focus-on-click">False</property>
+                <property name="focus-on-click">0</property>
                 <style>
                   <class name="phosh-gear-button"/>
                 </style>
                 <child>
                   <object class="GtkStack" id="stack_audio_details">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="transition-type">crossfade</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="icon-name">go-next-symbolic</property>
                       </object>
                       <packing>
@@ -38,7 +38,7 @@
                     </child>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="icon-name">go-down-symbolic</property>
                       </object>
                       <packing>
@@ -57,12 +57,11 @@
         </child>
         <child>
           <object class="GtkRevealer">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="reveal-child" bind-source="toggle_audio_details" bind-property="active" bind-flags="sync-create"/>
-            <property name="transition-type">slide-down</property>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="width-request">120</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
@@ -73,7 +72,7 @@
                 </style>
                 <child>
                   <object class="GtkBox" id="box_audio_output_devices">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <property name="margin-top">6</property>
@@ -90,7 +89,7 @@
                     </child>
                     <child>
                       <object class="GtkListBox" id="listbox_audio_output_devices">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="selection-mode">none</property>
                         <signal name="row-activated" handler="on_audio_output_device_row_activated" swapped="yes"/>
                       </object>
@@ -99,7 +98,7 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="box_audio_input_devices">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
@@ -114,7 +113,7 @@
                     </child>
                     <child>
                       <object class="GtkListBox" id="listbox_audio_input_devices">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="selection-mode">none</property>
                         <signal name="row-activated" handler="on_audio_input_device_row_activated" swapped="yes"/>
                       </object>
@@ -123,17 +122,17 @@
                 </child>
                 <child>
                   <object class="GtkSeparator">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="action-name">settings.launch-panel</property>
-                    <property name="action-target">"sound"</property>
+                    <property name="action-target">&quot;sound&quot;</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="label" translatable="yes">Sound Settings</property>
                       </object>
                     </child>
