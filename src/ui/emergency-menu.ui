@@ -5,22 +5,20 @@
   <template class="PhoshEmergencyMenu" parent="PhoshSystemModalDialog">
     <signal name="dialog-canceled" handler="on_emergency_menu_done"/>
     <child type="phosh-dialog-content">
-
       <object class="HdyCarousel" id="emergency_carousel">
         <property name="visible">True</property>
         <property name="animation-duration">400</property>
         <child>
           <object class="GtkBox" id="emergency_dialpad_box">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="orientation">vertical</property>
-            <property name="expand">True</property>
+            <property name="expand">1</property>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <child>
                   <object class="GtkButton">
-                    <property name="visible">True</property>
-                    <property name="receives-default">False</property>
+                    <property name="visible">1</property>
                     <property name="halign">start</property>
                     <property name="margin-start">16</property>
                     <property name="tooltip-text" translatable="yes">Close the emergency call dialog</property>
@@ -28,7 +26,7 @@
                     <property name="action-target">true</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="icon-name">go-previous-symbolic</property>
                       </object>
                     </child>
@@ -50,12 +48,12 @@
             <child>
               <object class="GtkButton">
                 <property name="label" translatable="yes">Emergency _Contacts</property>
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="margin-top">10</property>
                 <property name="margin-bottom">10</property>
-                <property name="use-underline">True</property>
+                <property name="use-underline">1</property>
                 <property name="tooltip-text" translatable="yes">Go to the emergency contacts page</property>
                 <signal name="clicked" handler="on_emergency_contacts_button_clicked" swapped="yes"/>
                 <style>
@@ -70,22 +68,21 @@
           <object class="GtkBox" id="emergency_info_box">
             <property name="margin-start">12</property>
             <property name="margin-end">12</property>
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <child>
                   <object class="GtkButton">
-                    <property name="visible">True</property>
-                    <property name="receives-default">False</property>
+                    <property name="visible">1</property>
                     <property name="halign">start</property>
                     <property name="tooltip-text" translatable="yes">Go back to the emergency dialpad page</property>
                     <property name="action-name">emergency-menu.go-back</property>
                     <property name="action-target">false</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="icon-name">go-previous-symbolic</property>
                       </object>
                     </child>
@@ -100,7 +97,7 @@
             </child>
             <child>
               <object class="GtkLabel" id="emergency_owner_name">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="margin-bottom">12px</property>
                 <property name="ellipsize">end</property>
                 <property name="label" translatable="yes">Owner unknown</property>
@@ -111,15 +108,15 @@
             </child>
             <child>
               <object class="GtkScrolledWindow">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Emergency Contacts</property>
                         <style>
@@ -129,8 +126,8 @@
                     </child>
                     <child>
                       <object class="GtkListBox" id="emergency_contacts_list_box">
-                        <property name="visible">True</property>
-                        <property name="expand">True</property>
+                        <property name="visible">1</property>
+                        <property name="expand">1</property>
                         <signal name="row-activated" handler="on_emergency_contacts_list_box_activated" swapped="yes"/>
                         <style>
                           <class name="content"/>
