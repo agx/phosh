@@ -5,24 +5,22 @@
     <signal name="dialog-canceled" handler="on_power_menu_done"/>
     <child type="phosh-dialog-content">
       <object class="GtkBox">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <property name="spacing">12</property>
-
         <child>
           <object class="GtkBox">
             <property name="name">close_button</property>
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="halign">end</property>
-            <property name="hexpand">False</property>
             <child>
               <object class="GtkButton">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="halign">end</property>
                 <signal name="clicked" handler="on_power_menu_done" swapped="true"/>
                 <child>
                   <object class="GtkImage">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="icon-name">app-close-symbolic</property>
                     <property name="pixel-size">24</property>
                   </object>
@@ -34,34 +32,33 @@
             </child>
           </object>
         </child>
-
         <child>
           <object class="GtkGrid">
-            <property name="visible">True</property>
-            <property name="column-homogeneous">True</property>
-            <property name="row-homogeneous">True</property>
+            <property name="visible">1</property>
+            <property name="column-homogeneous">1</property>
+            <property name="row-homogeneous">1</property>
             <property name="column-spacing">18</property>
             <property name="row-spacing">18</property>
             <child>
               <object class="GtkStack" id="stack">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <child>
                   <object class="GtkButton" id="btn_poweroff">
-                    <property name="visible">True</property>
-                    <property name="vexpand">True</property>
+                    <property name="visible">1</property>
+                    <property name="vexpand">1</property>
                     <property name="valign">center</property>
                     <property name="action-name">power-menu.poweroff</property>
                     <child>
                       <object class="GtkBox">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="margin">12</property>
                         <property name="spacing">8</property>
                         <property name="halign">center</property>
-                        <property name="hexpand">True</property>
+                        <property name="hexpand">1</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkImage">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="icon-name">system-shutdown-symbolic</property>
                             <property name="pixel-size">32</property>
                           </object>
@@ -84,21 +81,21 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="btn_suspend">
-                    <property name="visible">True</property>
-                    <property name="vexpand">True</property>
+                    <property name="visible">1</property>
+                    <property name="vexpand">1</property>
                     <property name="valign">center</property>
                     <property name="action-name">power-menu.suspend</property>
                     <child>
                       <object class="GtkBox">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="margin">12</property>
                         <property name="spacing">8</property>
                         <property name="halign">center</property>
-                        <property name="hexpand">True</property>
+                        <property name="hexpand">1</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkImage">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="icon-name">moon-filled-symbolic</property>
                             <property name="pixel-size">32</property>
                           </object>
@@ -125,24 +122,23 @@
                 <property name="top-attach">0</property>
               </packing>
             </child>
-
             <child>
               <object class="GtkButton" id="btn_lock">
-                <property name="visible">True</property>
-                <property name="vexpand">True</property>
+                <property name="visible">1</property>
+                <property name="vexpand">1</property>
                 <property name="valign">center</property>
                 <property name="action-name">power-menu.screen-lock</property>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="margin">12</property>
                     <property name="spacing">8</property>
                     <property name="halign">center</property>
-                    <property name="hexpand">True</property>
+                    <property name="hexpand">1</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="icon-name">system-lock-screen-symbolic</property>
                         <property name="pixel-size">32</property>
                       </object>
@@ -164,24 +160,23 @@
                 <property name="top-attach">0</property>
               </packing>
             </child>
-
             <child>
               <object class="GtkButton" id="btn_screenshot">
-                <property name="visible">True</property>
-                <property name="vexpand">True</property>
+                <property name="visible">1</property>
+                <property name="vexpand">1</property>
                 <property name="valign">center</property>
                 <property name="action-name">power-menu.screenshot</property>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="margin">12</property>
                     <property name="spacing">8</property>
                     <property name="halign">center</property>
-                    <property name="hexpand">True</property>
+                    <property name="hexpand">1</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="icon-name">screenshot-portrait-symbolic</property>
                         <property name="pixel-size">32</property>
                       </object>
@@ -203,24 +198,23 @@
                 <property name="top-attach">1</property>
               </packing>
             </child>
-
             <child>
               <object class="GtkButton" id="btn_emergency_call">
-                <property name="visible">True</property>
-                <property name="vexpand">True</property>
+                <property name="visible">1</property>
+                <property name="vexpand">1</property>
                 <property name="valign">center</property>
                 <property name="action-name">power-menu.emergency-call</property>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="margin">12</property>
                     <property name="spacing">8</property>
                     <property name="halign">center</property>
-                    <property name="hexpand">True</property>
+                    <property name="hexpand">1</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="icon-name">asterisk-symbolic</property>
                         <property name="pixel-size">32</property>
                       </object>
@@ -243,10 +237,8 @@
                 <property name="top-attach">1</property>
               </packing>
             </child>
-
           </object>
         </child>
-
       </object>
     </child>
   </template>
