@@ -5,14 +5,13 @@
     <property name="orientation">vertical</property>
     <child>
       <object class="HdyCarousel" id="carousel">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="animation-duration">400</property>
-        <property name="allow-mouse-drag">True</property>
       </object>
     </child>
     <child>
       <object class="HdyCarouselIndicatorDots">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="carousel">carousel</property>
       </object>
     </child>
