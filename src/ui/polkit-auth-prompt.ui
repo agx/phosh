@@ -2,7 +2,6 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <template class="PhoshPolkitAuthPrompt" parent="PhoshSystemModalDialog">
-    <property name="can-focus">False</property>
     <property name="title" translatable="yes">Authentication required</property>
     <signal name="dialog-canceled" handler="on_dialog_canceled"/>
     <child type="phosh-dialog-content">
@@ -48,12 +47,11 @@
             </child>
             <child>
               <object class="PhoshPasswordEntry" id="entry_password">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="has-focus">True</property>
+                <property name="visible">1</property>
+                <property name="has-focus">1</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="activates-default">True</property>
+                <property name="activates-default">1</property>
               </object>
             </child>
           </object>
@@ -79,8 +77,8 @@
         <signal name="clicked" handler="on_dialog_canceled" swapped="true"/>
       </object>
       <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
+        <property name="expand">1</property>
+        <property name="fill">1</property>
         <property name="position">0</property>
       </packing>
     </child>
@@ -103,8 +101,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkSpinner" id="spinner_authenticate">
-              </object>
+              <object class="GtkSpinner" id="spinner_authenticate"/>
             </child>
           </object>
         </child>
