@@ -6,7 +6,7 @@
     <signal name="dialog-canceled" handler="on_emergency_menu_done"/>
     <child type="phosh-dialog-content">
       <object class="HdyCarousel" id="emergency_carousel">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="animation-duration">400</property>
         <child>
           <object class="GtkBox" id="emergency_dialpad_box">
@@ -41,7 +41,7 @@
             </child>
             <child>
               <object class="CuiDialpad">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <signal name="dialed" handler="on_dialpad_dialed" swapped="yes"/>
               </object>
             </child>
@@ -134,7 +134,7 @@
                         </style>
                         <child type="placeholder">
                           <object class="HdyStatusPage" id="placeholder">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="icon-name">asterisk-symbolic</property>
                             <property name="title" translatable="yes">No emergency contacts available.</property>
                             <style>
@@ -152,7 +152,7 @@
         </child>
       </object>
       <packing>
-        <property name="expand">True</property>
+        <property name="expand">1</property>
       </packing>
     </child>
   </template>
