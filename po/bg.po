@@ -1,16 +1,16 @@
 # Bulgarian translation of phosh po-file.
 # Copyright (C) 2019 Miro Cekov <mcekov@gmail.com>.
-# Copyright (C) 2024 twlvnn kraftwerk <kraft_werk@tutanota.com>.
+# Copyright (C) 2024, 2025 twlvnn kraftwerk <kraft_werk@tutanota.com>.
 # This file is distributed under the same license as the phosh-tour package.
 # Miro Cekov <mcekov@gmail.com>, 2019. #zanata
-# twlvnn kraftwerk <kraft_werk@tutanota.com>, 2024.
+# twlvnn kraftwerk <kraft_werk@tutanota.com>, 2024, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-11 15:50+0000\n"
-"PO-Revision-Date: 2025-01-11 18:03+0100\n"
+"POT-Creation-Date: 2025-01-31 04:06+0000\n"
+"PO-Revision-Date: 2025-01-31 15:00+0100\n"
 "Last-Translator: twlvnn kraftwerk <kraft_werk@tutanota.com>\n"
 "Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
 "Language: bg\n"
@@ -145,7 +145,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Показване само на програмите за мобилни устройства"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "Батерия %.0f%%"
@@ -159,17 +159,30 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Вкл."
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "Няма намерени Bluetooth устройства за свързване"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "Bluetooth е изключен"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Непознат номер"
+
+#: src/connectivity-manager.c:114
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "Wi-Fi мрежата „%s“ използва портал за прихващане"
+
+#: src/connectivity-manager.c:116
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "Wi-Fi мрежата използва портал за прихващане"
+
+#: src/connectivity-manager.c:123
+msgid "Sign into Wi-Fi network"
+msgstr "Влезте в Wi-Fi мрежата"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -265,11 +278,11 @@ msgid "No"
 msgstr "Не"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Въведете код за достъп"
 
-#: src/lockscreen.c:949
+#: src/lockscreen.c:948
 msgid "Checking…"
 msgstr "Проверка…"
 
@@ -301,12 +314,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Снимка на екрана на %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:446 src/ui/media-player.ui:213
+#: src/media-player.c:450 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Неизвестно заглавие"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:454 src/ui/media-player.ui:201
+#: src/media-player.c:458 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Неизвестен изпълнител"
 
@@ -464,7 +477,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Прозорецът за удостоверяване бе затворен от потребителя"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Парола:"
@@ -522,7 +535,6 @@ msgstr "Запомняне на избора"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Отказване"
 
@@ -562,11 +574,11 @@ msgstr "Входни устройства"
 msgid "Sound Settings"
 msgstr "Настройки на звука"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Включване на Bluetooth"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "Настройки на Bluetooth"
 
@@ -591,7 +603,7 @@ msgid "Owner unknown"
 msgstr "Неизвестен собственик"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:190
 msgid "Emergency Contacts"
 msgstr "Контакти при спешни случаи"
 
@@ -627,15 +639,16 @@ msgstr "Плъзнете нагоре, за да отключите"
 msgid "Unlock"
 msgstr "Отключване"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Необходимо е удостоверяване"
 
-#: src/ui/network-auth-prompt.ui:40
+#: src/ui/network-auth-prompt.ui:41
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:235
 msgid "_Cancel"
 msgstr "_Отказване"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "_Свързване"
 
@@ -695,7 +708,7 @@ msgstr "_Изход…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:72
+#: src/ui/wifi-status-page.ui:73
 msgid "Wi-Fi Settings"
 msgstr "Настройки на Wi-Fi"
 
@@ -718,27 +731,27 @@ msgstr "Приставката липсва"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Приставката „%s“ не може да се зареди."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "Липсва устройство за Wi-Fi"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi е изключен"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "Включване на Wi-Fi"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "Включена е точка за достъп по Wi-Fi"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "Изключване"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "Няма точки за достъп по Wi-Fi"
 
@@ -780,47 +793,41 @@ msgid "Personal Information"
 msgstr "Лична информация"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "Дата на раждане"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "Предпочитан език"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:92
 msgid "Home Address"
 msgstr "Домашен адрес"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Medical Information"
 msgstr "Медицинска информация"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "Възраст"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "Кръвна група"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "Височина"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "Тегло"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:140
 msgid "Allergies"
 msgstr "Алергии"
 
@@ -829,7 +836,7 @@ msgid "Medications & Conditions"
 msgstr "Лекарства и състояния"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Other Information"
 msgstr "Друга информация"
 
@@ -842,37 +849,61 @@ msgstr "Настройки за информация за спешни случ�
 msgid "Done"
 msgstr "Готово"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
-msgid "Owner Name"
-msgstr "Име на собственика"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Owner Name"
+msgstr "_Име на собственика"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Date of Birth"
+msgstr "_Дата на раждане"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
+msgid "_Preferred Language"
+msgstr "Предпочитан _език"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:115
+msgid "_Age"
+msgstr "_Възраст"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:121
+msgid "_Blood Type"
+msgstr "_Кръвна група"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:127
+msgid "_Height"
+msgstr "_Височина"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:133
+msgid "_Weight"
+msgstr "_Тегло"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:156
 msgid "Medications and Conditions"
 msgstr "Лекарства и състояния"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:199
 msgid "Add Contact"
 msgstr "Добавяне на контакт"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:226
 msgid "Add New Contact"
 msgstr "Добавяне на нов контакт"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
-msgid "Add"
-msgstr "Добавяне"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+msgid "_Add"
+msgstr "_Добавяне"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
-msgid "New Contact Name"
-msgstr "Ново име за контакта"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:263
+msgid "_Contact Name"
+msgstr "_Име за контакта"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:269
 msgid "Relationship"
 msgstr "Отношения"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
-msgid "Number"
-msgstr "Номер"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:275
+msgid "_Contact Number"
+msgstr "_Номер за контакта"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
@@ -1049,10 +1080,21 @@ msgstr "Период от време"
 msgid "Number of days to show events for"
 msgstr "Брой дни, за които да се показват събития"
 
+#: plugins/scaling-quick-setting/qs.ui:15
+msgid "Monitor scales"
+msgstr "Мащаби на екраните"
+
+#. Translators: This is scale factor of a monitor in percent
+#: plugins/scaling-quick-setting/scale-row.c:48
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
+
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
-msgstr "Точката за достъп е вкл."
+msgstr "Тчк. за достъп е вкл."
 
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
-msgstr "Точката за достъп е изкл."
+msgstr "Тчк. за достъп е изкл."
