@@ -12,7 +12,7 @@
             <property name="visible">True</property>
             <property name="sensitive" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"wwan"</property>
+            <property name="long-press-action-target">&quot;wwan&quot;</property>
             <signal name="clicked" handler="on_wwan_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshWWanInfo" id="wwaninfo">
@@ -28,7 +28,7 @@
             <property name="sensitive" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
             <property name="status-page">wifi_status_page</property>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"wifi"</property>
+            <property name="long-press-action-target">&quot;wifi&quot;</property>
             <signal name="clicked" handler="on_wifi_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshWifiInfo" id="wifiinfo">
@@ -44,7 +44,7 @@
             <property name="sensitive" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
             <property name="status-page">bt_status_page</property>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"bluetooth"</property>
+            <property name="long-press-action-target">&quot;bluetooth&quot;</property>
             <signal name="clicked" handler="on_bt_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshBtInfo" id="btinfo">
@@ -59,7 +59,7 @@
             <property name="visible">True</property>
             <property name="sensitive" bind-source="batteryinfo" bind-property="present" bind-flags="sync-create"/>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"power"</property>
+            <property name="long-press-action-target">&quot;power&quot;</property>
             <signal name="clicked" handler="on_battery_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshBatteryInfo" id="batteryinfo">
@@ -87,7 +87,7 @@
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="feedbackinfo" bind-property="present" bind-flags="sync-create"/>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"notifications"</property>
+            <property name="long-press-action-target">&quot;notifications&quot;</property>
             <signal name="clicked" handler="on_feedback_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshFeedbackInfo" id="feedbackinfo">
@@ -101,7 +101,7 @@
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="torchinfo" bind-property="present" bind-flags="sync-create"/>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"power"</property>
+            <property name="long-press-action-target">&quot;power&quot;</property>
             <signal name="clicked" handler="on_torch_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshTorchInfo" id="torchinfo">
@@ -115,7 +115,7 @@
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="dockedinfo" bind-property="present" bind-flags="sync-create"/>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"display"</property>
+            <property name="long-press-action-target">&quot;display&quot;</property>
             <signal name="clicked" handler="on_docked_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshDockedInfo" id="dockedinfo">
@@ -129,7 +129,7 @@
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="vpninfo" bind-property="present" bind-flags="sync-create"/>
             <property name="long-press-action-name">settings.launch-panel</property>
-            <property name="long-press-action-target">"network"</property>
+            <property name="long-press-action-target">&quot;network&quot;</property>
             <signal name="clicked" handler="on_vpn_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <child>
               <object class="PhoshVpnInfo" id="vpninfo">
