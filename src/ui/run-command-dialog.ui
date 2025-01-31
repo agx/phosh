@@ -7,21 +7,21 @@
     <signal name="dialog-canceled" handler="on_run_command_dialog_canceled"/>
     <child type="phosh-dialog-content">
       <object class="GtkBox" id="box">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <property name="spacing">8</property>
         <child>
           <object class="GtkEntry" id="entry_command">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
             <property name="width-request">240</property>
             <signal name="activate" handler="on_activated" swapped="true"/>
           </object>
         </child>
         <child>
           <object class="GtkLabel" id="lbl_description">
-            <property name="visible">True</property>
-            <property name="wrap">True</property>
+            <property name="visible">1</property>
+            <property name="wrap">1</property>
           </object>
         </child>
       </object>
