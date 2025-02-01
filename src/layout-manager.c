@@ -10,7 +10,7 @@
 
 #include "layout-manager.h"
 #include "monitor/monitor.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "top-panel.h"
 
 #include <gmobile.h>

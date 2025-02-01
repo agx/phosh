@@ -13,7 +13,7 @@
 #include "cell-broadcast-manager.h"
 #include "cell-broadcast-prompt.h"
 #include "feedback-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "wwan/wwan-manager.h"
 
 #include <gtk/gtk.h>

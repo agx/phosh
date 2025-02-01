@@ -13,7 +13,7 @@
 #include "connectivity-info.h"
 #include "connectivity-manager.h"
 #include "util.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <NetworkManager.h>
 

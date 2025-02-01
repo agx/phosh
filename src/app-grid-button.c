@@ -16,7 +16,7 @@
 #include "favorite-list-model.h"
 #include "util.h"
 
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 /**

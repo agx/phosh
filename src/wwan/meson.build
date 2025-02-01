@@ -12,4 +12,4 @@ phosh_wwan_sources = files(
   'phosh-wwan-mm.c',
   'phosh-wwan-iface.c',
   'wwan-manager.c',
-) + phosh_wwan_headers
+)

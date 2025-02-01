@@ -8,13 +8,13 @@
 
 #define G_LOG_DOMAIN "phosh-lockscreen-manager"
 
-#include "lockscreen-manager.h"
-#include "lockscreen.h"
+#include "lockscreen-manager-priv.h"
+#include "lockscreen-priv.h"
 #include "lockshield.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "phosh-wayland.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include <gdk/gdkwayland.h>
 

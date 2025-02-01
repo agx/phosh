@@ -10,7 +10,7 @@
 
 #include "phosh-config.h"
 #include "mount-notification.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <gio/gdesktopappinfo.h>
 #include <gio/gio.h>

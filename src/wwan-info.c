@@ -14,7 +14,7 @@
 #include "wwan-info.h"
 #include "wwan/wwan-manager.h"
 
-#include "shell.h"
+#include "shell-priv.h"
 
 /**
  * PhoshWWanInfo:

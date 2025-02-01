@@ -10,7 +10,7 @@
 
 #include "phosh-config.h"
 
-#include "shell.h"
+#include "shell-priv.h"
 #include "notify-feedback.h"
 #include "notification-source.h"
 #include "util.h"

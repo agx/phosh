@@ -7,7 +7,7 @@
  */
 
 #include "phosh-screenshot-dbus.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include "testlib-full-shell.h"
 

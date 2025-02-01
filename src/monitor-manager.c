@@ -16,7 +16,7 @@
 
 #include "wlr-gamma-control-unstable-v1-client-protocol.h"
 #include "phosh-wayland.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include "util.h"
 

@@ -12,7 +12,7 @@
 #include "app-auth-prompt.h"
 #include "geoclue-manager-dbus.h"
 #include "location-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include <gdesktop-enums.h>

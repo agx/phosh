@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "hks-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <errno.h>
 #include <fcntl.h>

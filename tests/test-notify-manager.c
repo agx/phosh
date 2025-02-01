@@ -9,7 +9,7 @@
 #include "phosh-config.h"
 
 #include "notify-dbus.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "notifications/notify-manager.h"
 
 #include "testlib-full-shell.h"

@@ -9,7 +9,7 @@
 #include "testlib-compositor.h"
 
 #include "log.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "background-manager.h"
 #include "phosh-wayland.h"
 #include "wall-clock.h"

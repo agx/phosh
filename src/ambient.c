@@ -12,7 +12,7 @@
 #include "animation.h"
 #include "fader.h"
 #include "ambient.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "sensor-proxy-manager.h"
 #include "util.h"
 

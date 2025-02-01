@@ -10,7 +10,7 @@
 
 #include "screen-saver-manager.h"
 #include "session-presence.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "idle-manager.h"
 #include "login1-manager-dbus.h"
 #include "login1-session-dbus.h"

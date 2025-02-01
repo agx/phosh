@@ -157,6 +157,6 @@ hide the object via #g_object_bind_property().
 
 ### Screen Locking and Blanking
 
-For details see [class@ScreenSaverManager].
+For details see PhoshScreenSaverManager.
 
 [python-dbusmock]: https://github.com/martinpitt/python-dbusmock

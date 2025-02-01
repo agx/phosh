@@ -12,7 +12,7 @@
 
 #include "login1-manager-dbus.h"
 #include "util.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "suspend-manager.h"
 #include "wifi-manager.h"
 

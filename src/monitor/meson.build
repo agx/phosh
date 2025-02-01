@@ -10,4 +10,4 @@ phosh_monitor_sources = files(
   'gamma-table.c',
   'head.c',
   'monitor.c',
-) + phosh_monitor_headers
+)

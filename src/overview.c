@@ -17,7 +17,7 @@
 #include "wlr-screencopy-unstable-v1-client-protocol.h"
 #include "phosh-private-client-protocol.h"
 #include "phosh-wayland.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "toplevel-manager.h"
 #include "toplevel-thumbnail.h"
 #include "util.h"

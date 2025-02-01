@@ -5,7 +5,7 @@
  */
 
 #include "testlib.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 G_BEGIN_DECLS
 

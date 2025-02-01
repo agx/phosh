@@ -18,12 +18,21 @@ G_BEGIN_DECLS
 G_DECLARE_DERIVABLE_TYPE (PhoshWallClock, phosh_wall_clock, PHOSH, WALL_CLOCK, GObject)
 
 
-struct _PhoshWallClockClass
-{
-  GObjectClass      parent_class;
+struct _PhoshWallClockClass {
+  GObjectClass parent_class;
 
-  const char *      (*get_clock)  (PhoshWallClock *self, gboolean time_only);
-  gint64            (*get_time_t) (PhoshWallClock *self);
+  const char * (*get_clock)  (PhoshWallClock *self, gboolean time_only);
+  gint64       (*get_time_t) (PhoshWallClock *self);
+
+  /* Padding for future expansion */
+  void         (*_phosh_reserved2) (void);
+  void         (*_phosh_reserved3) (void);
+  void         (*_phosh_reserved4) (void);
+  void         (*_phosh_reserved5) (void);
+  void         (*_phosh_reserved6) (void);
+  void         (*_phosh_reserved7) (void);
+  void         (*_phosh_reserved8) (void);
+  void         (*_phosh_reserved9) (void);
 };
 
 

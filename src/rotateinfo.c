@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 
 #include "rotateinfo.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 /**
  * PhoshRotateInfo:

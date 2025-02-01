@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-wifi-status-page"
 
-#include "shell.h"
+#include "shell-priv.h"
 #include "status-page-placeholder.h"
 #include "wifi-network-row.h"
 #include "wifi-status-page.h"

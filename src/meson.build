@@ -26,26 +26,37 @@ phosh_resources = gnome.compile_resources(
   c_name: 'phosh',
 )
 
+libphosh_enum_headers = files(
+  'lockscreen.h',
+)
+
 phosh_enum_headers = files(
   'animation.h',
   'app-grid-button.h',
   'drag-surface.h',
   'gnome-shell-manager.h',
   'home.h',
-  'lockscreen.h',
   'mode-manager.h',
   'monitor/monitor.h',
   'notifications/notification.h',
   'notifications/notify-manager.h',
   'phosh-wayland.h',
   'rotation-manager.h',
-  'shell.h',
+  'shell-priv.h',
   'top-panel.h',
-) + schema_enum_headers
+) + [
+  libphosh_enum_headers,
+  schema_enum_headers,
+]
 
 phosh_enums = gnome.mkenums_simple(
   'phosh-enums',
   sources : phosh_enum_headers,
+)
+
+libphosh_enums = gnome.mkenums_simple(
+  'libphosh-enums',
+  sources : libphosh_enum_headers,
   install_header: bindings_lib,
   install_dir: lib_inc_dir,
 )
@@ -63,31 +74,31 @@ phosh_marshalers = gnome.genmarshal('phosh-marshalers',
 
 # sources generated with glib tooling
 # hence parsable by gi-docgen
-libphosh_glib_generated_sources = [
+phosh_glib_generated_sources = [
   phosh_enums[0],
   phosh_marshalers[0],
   phosh_resources[0],
   generated_dbus_sources,
 ]
 
-libphosh_glib_generated_headers = [
+phosh_glib_generated_headers = [
   phosh_enums[1],
   phosh_marshalers[1],
   phosh_resources[1],
   generated_dbus_headers,
 ]
 
-libphosh_generated_sources = [
-  libphosh_glib_generated_sources,
+phosh_generated_sources = [
+  phosh_glib_generated_sources,
   wl_proto_sources,
 ]
 
-libphosh_generated_headers = [
-  libphosh_glib_generated_headers,
+phosh_generated_headers = [
+  phosh_glib_generated_headers,
   wl_proto_headers,
 ]
 
-libphosh_tool_headers = files(
+phosh_tool_headers = files(
   'app-auth-prompt.h',
   'activity.h',
   'ambient.h',
@@ -105,6 +116,7 @@ libphosh_tool_headers = files(
   'call.h',
   'calls-manager.h',
   'call-notification.h',
+  'cell-broadcast-manager.h',
   'clamp.h',
   'connectivity-info.h',
   'connectivity-manager.h',
@@ -126,7 +138,6 @@ libphosh_tool_headers = files(
   'gtk-mount-prompt.h',
   'keypad.h',
   'launcher-entry-manager.h',
-  'layersurface.h',
   'lockshield.h',
   'log.h',
   'manager.h',
@@ -140,11 +151,8 @@ libphosh_tool_headers = files(
   'plugin-loader.h',
   'power-menu.h',
   'power-menu-manager.h',
-  'quick-settings-box.h',
   'quick-settings.h',
   'revealer.h',
-  'status-icon.h',
-  'status-page.h',
   'status-page-placeholder.h',
   'splash.h',
   'splash-manager.h',
@@ -153,18 +161,16 @@ libphosh_tool_headers = files(
   'system-modal-dialog.h',
   'vpn-info.h',
   'vpn-manager.h',
-  'quick-setting.h',
   'quick-settings-box.h',
   'phosh-wayland.h',
   'swipe-away-bin.h',
   'util.h',
-  'wall-clock.h',
   'widget-box.h',
   'wl-buffer.h',
 )
 
 # Available in tools and unit tests:
-libphosh_tool_sources = files(
+phosh_tool_sources = files(
   'app-auth-prompt.c',
   'activity.c',
   'ambient.c',
@@ -174,7 +180,6 @@ libphosh_tool_sources = files(
   'app-grid-button.c',
   'app-grid-folder-button.c',
   'app-list-model.c',
-  'app-list-model.h',
   'auth-prompt-option.c',
   'background-cache.c',
   'background-image.c',
@@ -248,12 +253,26 @@ libphosh_tool_sources = files(
   'wifi-info.c',
   'wl-buffer.c',
 ) + [
-  libphosh_tool_headers,
   phosh_monitor_sources,
   phosh_notifications_sources,
 ]
 
+# Headers added here will be introspected and included in the GIR.
+# Only API that is considered public to libphosh consumers should be added here.
+# This list *must* be kept in sync with libphosh.h
 libphosh_headers = files(
+  'layersurface.h',
+  'lockscreen-manager.h',
+  'lockscreen.h',
+  'shell.h',
+  'quick-setting.h',
+  'screenshot-manager.h',
+  'status-icon.h',
+  'status-page.h',
+  'wall-clock.h',
+)
+
+phosh_headers = files(
   'arrow.h',
   'app-tracker.h',
   'auth.h',
@@ -263,8 +282,11 @@ libphosh_headers = files(
   'bt-info.h',
   'bt-manager.h',
   'bt-status-page.h',
+  'cell-broadcast-prompt.h',
+  'contrib/shell-network-agent.h',
   'emergency-calls-manager.h',
   'fader.h',
+  'fake-clock.h',
   'feedbackinfo.h',
   'home.h',
   'keyboard-events.h',
@@ -272,14 +294,13 @@ libphosh_headers = files(
   'layout-manager.h',
   'location-info.h',
   'location-manager.h',
-  'lockscreen-manager.h',
-  'lockscreen.h',
+  'metainfo-cache.h',
   'monitor-manager.h',
   'network-auth-manager.h',
+  'network-auth-prompt.h',
   'osk-manager.h',
   'top-panel.h',
   'top-panel-bg.h',
-  'plugin-shell.h',
   'polkit-auth-agent.h',
   'polkit-auth-prompt.h',
   'portal-access-manager.h',
@@ -291,7 +312,6 @@ libphosh_headers = files(
   'sensor-proxy-manager.h',
   'rotateinfo.h',
   'screen-saver-manager.h',
-  'screenshot-manager.h',
   'session-presence.h',
   'session-manager.h',
   'shell.h',
@@ -310,21 +330,17 @@ libphosh_headers = files(
   'wifi-info.h',
   'wifi-manager.h',
   'wwan-info.h',
-)
-# Not visible in docs and gir
-# New headers go here by default:
-libphosh_private_headers = files(
-  'fake-clock.h',
-  'contrib/shell-network-agent.h',
-  'cell-broadcast-manager.h',
-  'cell-broadcast-prompt.h',
-  'metainfo-cache.h',
-  'network-auth-prompt.h',
-)
+) + [
+  libphosh_headers,
+  phosh_monitor_headers,
+  phosh_notifications_headers,
+  phosh_settings_widgets_headers,
+  phosh_wwan_headers,
+]
 
 # Symbols from these are not available in tools and unit tests
-# Prefer adding to libphosh_tool_sources
-libphosh_sources = files(
+# Prefer adding to phosh_tool_sources
+phosh_sources = files(
   'arrow.c',
   'app-tracker.c',
   'auth.c',
@@ -378,7 +394,6 @@ libphosh_sources = files(
   'toplevel.c',
   'wwan-info.c',
 ) + [
-  libphosh_headers,
   phosh_settings_sources,
   phosh_wwan_sources,
 ]
@@ -444,9 +459,10 @@ phosh_lib_inc = [root_inc,
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
   [
-    libphosh_tool_sources,
-    libphosh_generated_headers,
-    libphosh_generated_sources,
+    phosh_tool_sources,
+    phosh_tool_headers,
+    phosh_generated_headers,
+    phosh_generated_sources,
     phosh_gtk_list_models_sources,
   ],
   include_directories: phosh_lib_inc,
@@ -454,7 +470,7 @@ phosh_tool_lib = static_library('phosh-tool',
 )
 phosh_tool_dep = declare_dependency(
   sources: [
-    libphosh_generated_headers,
+    phosh_generated_headers,
     # Ensure the resources are available to indirect users too
     phosh_resources[0],
   ],
@@ -464,8 +480,8 @@ phosh_tool_dep = declare_dependency(
 
 # A library containing everything
 phosh_lib = both_libraries('phosh-@0@'.format(libversion),
-  libphosh_private_headers,
-  libphosh_sources,
+  phosh_headers,
+  phosh_sources,
   include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps],
   soversion: 0,
@@ -485,11 +501,12 @@ phosh_plugins_dep = declare_dependency(
 )
 
 if enable_introspection or bindings_lib
-  phosh_gir_sources = [ libphosh_sources,
-                        libphosh_tool_sources,
-                        libphosh_glib_generated_sources,
-                        libphosh_glib_generated_headers,
-                        phosh_enum_headers,
+  phosh_gir_sources = [ libphosh_headers,
+                        phosh_sources,
+                        phosh_tool_sources,
+                        libphosh_generated_dbus_headers,
+                        libphosh_generated_dbus_sources,
+                        libphosh_enums[1],
                       ]
 
   phosh_gir_extra_args = [
@@ -530,30 +547,9 @@ if bindings_lib
   install_headers(
     [
       'libphosh.h',
-      libphosh_tool_headers,
       libphosh_headers,
     ],
     subdir : lib_inc_subdir,
-  )
-
-  install_headers(
-    phosh_monitor_headers,
-    subdir : lib_inc_subdir / 'monitor',
-  )
-
-  install_headers(
-    phosh_notifications_headers,
-    subdir : lib_inc_subdir / 'notifications',
-  )
-
-  install_headers(
-    phosh_settings_widgets_headers,
-    subdir : lib_inc_subdir / 'settings',
-  )
-
-  install_headers(
-    phosh_wwan_headers,
-    subdir : lib_inc_subdir / 'wwan',
   )
 endif
 

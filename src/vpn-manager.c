@@ -10,7 +10,7 @@
 #include "phosh-config.h"
 
 #include "vpn-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include <NetworkManager.h>

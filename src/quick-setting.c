@@ -19,7 +19,7 @@
  * PhoshQuickSetting:
  *
  * A `PhoshQuickSetting` represents a state of an entity (like Wi-Fi, Bluetooth) using an icon
- * and label. It should be added to a [class@Phosh.QuickSettingsBox] for better integration.
+ * and label. It should be added to a PhoshQuickSettingsBox for better integration.
  *
  * A quick-setting displays the state using an icon and label. The state is set by
  * [class@Phosh.StatusIcon], which must be added as a child. It can also have a status-page, which

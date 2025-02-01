@@ -12,7 +12,7 @@
 #include "contrib/shell-network-agent.h"
 #include "network-auth-manager.h"
 #include "network-auth-prompt.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "phosh-wayland.h"
 #include "util.h"
 

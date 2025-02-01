@@ -123,7 +123,7 @@ This is handled via GNOMEs infra, see
 
 ## Development Documentation
 
-Development documentation including API docs and notes for application
+Development documentation including public API docs and notes for application
 developers is at <https://world.pages.gitlab.gnome.org/Phosh/phosh>.
 
 [main]: https://gitlab.gnome.org/World/Phosh/phosh/-/tree/main

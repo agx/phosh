@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 #include "animation.h"
 #include "fader.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #include <handy.h>
 

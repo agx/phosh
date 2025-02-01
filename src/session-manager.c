@@ -11,7 +11,7 @@
 #include "phosh-config.h"
 #include "end-session-dialog.h"
 #include "session-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 
 #include "dbus/gnome-session-dbus.h"

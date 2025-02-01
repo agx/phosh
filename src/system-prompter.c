@@ -12,7 +12,7 @@
 
 #include "system-prompt.h"
 #include "system-prompter.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "phosh-wayland.h"
 
 /**

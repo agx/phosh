@@ -15,7 +15,7 @@
 #include "emergency-contact.h"
 #include "emergency-menu.h"
 #include "util.h"
-#include "shell.h"
+#include "shell-priv.h"
 
 #define CALLS_BUS_NAME "org.gnome.Calls"
 #define CALLS_OBJECT_PATH "/org/gnome/Calls"

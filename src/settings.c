@@ -13,7 +13,7 @@
 #include "phosh-config.h"
 
 #include "media-player.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "settings.h"
 #include "quick-settings.h"
 #include "settings/audio-settings.h"

@@ -13,7 +13,7 @@
 #include "location-info.h"
 #include "location-manager.h"
 
-#include "shell.h"
+#include "shell-priv.h"
 
 /**
  * PhoshLocationInfo:

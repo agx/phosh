@@ -13,11 +13,11 @@
 #include "call-notification.h"
 #include "calls-manager.h"
 #include "keypad.h"
-#include "lockscreen.h"
+#include "lockscreen-priv.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
 #include "osk-manager.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "widget-box.h"
 #include "wall-clock.h"
@@ -44,7 +44,7 @@
  * and unlock keypad. It handles displaying ongoing calls when the
  * shell is locked and can be extended via plugins.
  *
- * Other outputs are locked via [type@Phosh.Lockshield]s.
+ * Other outputs are locked via PhoshLockshields.
  *
  * # CSS nodes
  *

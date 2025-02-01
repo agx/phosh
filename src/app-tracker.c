@@ -12,7 +12,7 @@
 
 #include "app-tracker.h"
 #include "phosh-wayland.h"
-#include "shell.h"
+#include "shell-priv.h"
 #include "toplevel-manager.h"
 #include "phosh-marshalers.h"
 #include "util.h"
