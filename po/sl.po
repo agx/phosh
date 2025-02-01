@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-23 15:15+0000\n"
-"PO-Revision-Date: 2025-01-23 17:06+0100\n"
+"POT-Creation-Date: 2025-01-30 17:57+0000\n"
+"PO-Revision-Date: 2025-02-01 09:38+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -142,7 +142,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Pokaži le na nabilnih napravah podprte programe"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "Baterija %.0f %%"
@@ -156,11 +156,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Vključeno"
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "Ni najdenih naprav Bluetooth za priključitev"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "Bluetooth je onemogočen"
 
@@ -168,16 +168,16 @@ msgstr "Bluetooth je onemogočen"
 msgid "Unknown caller"
 msgstr "Neznan klicatelj"
 
-#: src/connectivity-manager.c:86
+#: src/connectivity-manager.c:114
 #, c-format
 msgid "Wi-Fi network '%s' uses a captive portal"
 msgstr "Brezžično omrežje »%s« uporablja prestrezni portal"
 
-#: src/connectivity-manager.c:88
+#: src/connectivity-manager.c:116
 msgid "The Wi-Fi network uses a captive portal"
 msgstr "Brezžično omrežje uporablja prestrezni portal"
 
-#: src/connectivity-manager.c:91
+#: src/connectivity-manager.c:123
 msgid "Sign into Wi-Fi network"
 msgstr "Vpiši se v brezžično omrežje"
 
@@ -589,11 +589,11 @@ msgstr "Vhodne naprave"
 msgid "Sound Settings"
 msgstr "Nastavitve zvoka"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Omogoči Bluetooth"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "Nastavitve za Bluetooth"
 
@@ -618,7 +618,7 @@ msgid "Owner unknown"
 msgstr "Lastnik neznan"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:190
 msgid "Emergency Contacts"
 msgstr "Stiki v sili"
 
@@ -659,7 +659,7 @@ msgid "Authentication required"
 msgstr "Zahtevana je overitev"
 
 #: src/ui/network-auth-prompt.ui:41
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:235
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
@@ -723,7 +723,7 @@ msgstr "_Odjavi …"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:72
+#: src/ui/wifi-status-page.ui:73
 msgid "Wi-Fi Settings"
 msgstr "Nastavitve za Wi-Fi"
 
@@ -746,27 +746,27 @@ msgstr "Vtičnik ni najden"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Vtičnika »%s« ni mogoče naložiti."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "Naprave Wi-Fi ni bilo mogoče najti"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi je onemogočen"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "Omogoči Wi-Fi"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "Dejavna vroča točka Wi-Fi"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "Izklopi"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "Ni dostopnih točk Wi-Fi"
 
@@ -808,47 +808,41 @@ msgid "Personal Information"
 msgstr "Osebni podatki"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "Datum rojstva"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "Prednostni jezik"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:92
 msgid "Home Address"
 msgstr "Domači naslov"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Medical Information"
 msgstr "Zdravstveni podatki"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "Starost"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "Krvna skupina"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "Višina"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "Teža"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:140
 msgid "Allergies"
 msgstr "Alergije"
 
@@ -857,7 +851,7 @@ msgid "Medications & Conditions"
 msgstr "Zdravila in bolezni"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Other Information"
 msgstr "Druge informacije"
 
@@ -870,35 +864,59 @@ msgstr "Nastavitve podatkov za primere v sili"
 msgid "Done"
 msgstr "Opravljeno"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
-msgid "Owner Name"
-msgstr "Ime lastnika"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Owner Name"
+msgstr "_Ime lastnika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Date of Birth"
+msgstr "_Datum rojstva"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
+msgid "_Preferred Language"
+msgstr "_Prednostni jezik"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:115
+msgid "_Age"
+msgstr "_Starost"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:121
+msgid "_Blood Type"
+msgstr "_Krvna skupina"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:127
+msgid "_Height"
+msgstr "_Višina"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:133
+msgid "_Weight"
+msgstr "_Teža"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:156
 msgid "Medications and Conditions"
 msgstr "Zdravila in bolezni"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:199
 msgid "Add Contact"
 msgstr "Dodaj stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:226
 msgid "Add New Contact"
 msgstr "Dodaj nov stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:263
 msgid "_Contact Name"
 msgstr "_Ime stika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:269
 msgid "Relationship"
 msgstr "Relacija"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:275
 msgid "_Contact Number"
 msgstr "_Številka stika"
 
@@ -1085,7 +1103,7 @@ msgstr "Faktor velikosti zaslona"
 
 #. Translators: This is scale factor of a monitor in percent
 #: plugins/scaling-quick-setting/scale-row.c:48
-#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
 #, c-format
 msgid "%d%%"
 msgstr "%d %%"
