@@ -4,19 +4,20 @@
   <template class="PhoshOsdWindow" parent="PhoshSystemModal">
     <child>
       <object class="GtkGrid">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="halign">center</property>
         <property name="margin-top">32</property>
-        <property name="orientation">horizontal</property>
         <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="margin">12</property>
-            <style><class name="osd"/></style>
+            <style>
+              <class name="osd"/>
+            </style>
             <property name="name">osd-bubble</property>
             <child>
               <object class="GtkImage" id="icon">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="stock">gtk-missing-image</property>
                 <property name="pixel-size">16</property>
                 <property name="margin">12</property>
@@ -30,19 +31,19 @@
                 <property name="margin-end">18</property>
                 <child>
                   <object class="GtkLabel" id="lbl">
-                    <property name="visible">True</property>
-                    <property name="wrap">True</property>
-                    <property name="wrap-mode">word</property>
+                    <property name="visible">1</property>
+                    <property name="wrap">1</property>
                     <property name="margin-bottom">6</property>
                     <property name="name">osd-label</property>
-                    <style><class name="heading"/></style>
+                    <style>
+                      <class name="heading"/>
+                    </style>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLevelBar" id="bar">
                     <property name="width-request">160</property>
-                    <property name="visible">True</property>
-                    <property name="min-value">0.0</property>
+                    <property name="visible">1</property>
                   </object>
                 </child>
               </object>

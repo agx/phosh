@@ -8,7 +8,7 @@
     <property name="selectable">True</property>
     <child>
       <object class="GtkImage">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="icon-name">call-start-symbolic</property>
       </object>
     </child>

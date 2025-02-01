@@ -4,22 +4,22 @@
   <template class="PhoshCallNotification" parent="GtkListBoxRow">
     <child>
       <object class="GtkBox" id="box">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <property name="valign">start</property>
         <property name="spacing">12</property>
         <style>
           <class name="notification-container"/>
         </style>
-
-        <child> <!-- header -->
+        <!-- header -->
+        <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="spacing">8</property>
             <property name="valign">start</property>
             <child>
               <object class="GtkImage" id="img_icon">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="pixel-size">16</property>
                 <property name="icon-name">call-start-symbolic</property>
                 <style>
@@ -29,9 +29,9 @@
             </child>
             <child>
               <object class="GtkLabel" id="call_state">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="ellipsize">end</property>
-                <property name="single-line-mode">True</property>
+                <property name="single-line-mode">1</property>
                 <property name="xalign">0</property>
                 <style>
                   <class name="heading"/>
@@ -40,8 +40,8 @@
             </child>
             <child>
               <object class="GtkLabel" id="call_duration">
-                <property name="visible">True</property>
-                <property name="hexpand">True</property>
+                <property name="visible">1</property>
+                <property name="hexpand">1</property>
                 <property name="halign">end</property>
                 <style>
                   <class name="dim-label"/>
@@ -57,11 +57,12 @@
               <class name="header-area"/>
             </style>
           </object>
-        </child> <!-- header -->
-
-        <child> <!-- body -->
+        </child>
+        <!-- header -->
+        <!-- body -->
+        <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="spacing">12</property>
             <child>
               <object class="HdyAvatar" id="avatar">
@@ -76,17 +77,17 @@
             </child>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkLabel" id="caller">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="label">Incoming call</property>
                     <property name="justify">center</property>
                     <property name="ellipsize">end</property>
-                    <property name="single-line-mode">True</property>
+                    <property name="single-line-mode">1</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -95,9 +96,8 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="caller_detail">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="valign">center</property>
-                    <property name="justify">left</property>
                     <property name="ellipsize">end</property>
                     <property name="lines">2</property>
                     <property name="xalign">0</property>
@@ -112,7 +112,8 @@
               <class name="message-area"/>
             </style>
           </object>
-        </child> <!-- body -->
+        </child>
+        <!-- body -->
       </object>
     </child>
   </template>
