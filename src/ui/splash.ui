@@ -4,16 +4,16 @@
   <template class="PhoshSplash" parent="PhoshLayerSurface">
     <child>
       <object class="GtkBox" id="box">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
-        <property name="homogeneous">True</property>
+        <property name="homogeneous">1</property>
         <child>
           <object class="GtkImage" id="img_app">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="stock">gtk-missing-image</property>
             <property name="pixel-size">192</property>
             <property name="valign">end</property>
-            <property name="vexpand">True</property>
+            <property name="vexpand">1</property>
             <style>
               <class name="phosh-dropicon-shadow"/>
             </style>
@@ -21,14 +21,14 @@
         </child>
         <child>
           <object class="GtkSpinner">
-            <property name="visible">True</property>
-            <property name="active">True</property>
+            <property name="visible">1</property>
+            <property name="active">1</property>
             <property name="margin-top">80</property>
             <property name="width-request">32</property>
             <property name="height-request">32</property>
             <property name="valign">start</property>
             <property name="halign">center</property>
-            <property name="vexpand">True</property>
+            <property name="vexpand">1</property>
           </object>
         </child>
       </object>

@@ -8,10 +8,9 @@
     <signal name="notify::on-lockscreen" handler="update_drag_handle_offset"/>
     <child>
       <object class="GtkScrolledWindow" id="scrolled_window">
-        <property name="visible">True</property>
-        <property name="vscrollbar-policy">automatic</property>
+        <property name="visible">1</property>
         <property name="hscrollbar-policy">never</property>
-        <property name="propagate-natural-height">True</property>
+        <property name="propagate-natural-height">1</property>
         <property name="min-content-height">150</property>
         <child>
           <object class="HdyClamp">
@@ -20,7 +19,7 @@
             <property name="vexpand">True</property>
             <child>
               <object class="GtkBox" id="box_settings">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="HdyClamp">
@@ -28,26 +27,26 @@
                     <property name="maximum-size">360</property>
                     <child>
                       <object class="GtkBox" id="box_sliders">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                         <property name="orientation">vertical</property>
                         <property name="margin-top">6</property>
                         <property name="margin-bottom">6</property>
                         <child>
                           <object class="GtkBox">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <child>
                               <object class="GtkImage">
-                                <property name="visible">True</property>
+                                <property name="visible">1</property>
                                 <property name="margin-end">6</property>
                                 <property name="icon-name">display-brightness-symbolic</property>
                               </object>
                             </child>
                             <child>
                               <object class="GtkScale" id="scale_brightness">
-                                <property name="visible">True</property>
-                                <property name="hexpand">True</property>
+                                <property name="visible">1</property>
+                                <property name="hexpand">1</property>
                                 <property name="round-digits">1</property>
-                                <property name="draw-value">False</property>
+                                <property name="draw-value">0</property>
                               </object>
                             </child>
                           </object>
@@ -69,25 +68,25 @@
                 </child>
                 <child>
                   <object class="GtkRevealer" id="revealer">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <child>
                       <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="margin_bottom">5</property>
+                        <property name="visible">1</property>
+                        <property name="margin-bottom">5</property>
                         <child>
                           <object class="GtkImage">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="margin-end">6</property>
                             <property name="icon-name">torch-enabled-symbolic</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkScale" id="scale_torch">
-                            <property name="visible">True</property>
-                            <property name="hexpand">True</property>
+                            <property name="visible">1</property>
+                            <property name="hexpand">1</property>
                             <property name="adjustment">adj_torch</property>
                             <property name="round-digits">0</property>
-                            <property name="draw-value">False</property>
+                            <property name="draw-value">0</property>
                             <signal name="value-changed" handler="on_torch_scale_value_changed" object="PhoshSettings" swapped="yes"/>
                           </object>
                         </child>
@@ -103,7 +102,6 @@
                       <object class="GtkBox" id="box_bottom_half">
                         <property name="visible" bind-source="PhoshSettings" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
                         <property name="orientation">vertical</property>
-
                         <child>
                           <object class="PhoshMediaPlayer" id="media_player">
                             <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
@@ -112,25 +110,24 @@
                             <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
                           </object>
                         </child>
-
                         <child>
                           <object class="GtkStack" id="stack_notifications">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <property name="transition-type">crossfade</property>
                             <child>
                               <object class="GtkBox">
-                                <property name="visible">True</property>
+                                <property name="visible">1</property>
                                 <property name="orientation">vertical</property>
-                                <property name="vexpand">True</property>
+                                <property name="vexpand">1</property>
                                 <property name="valign">center</property>
                                 <child>
                                   <object class="GtkImage">
-                                    <property name="visible">True</property>
+                                    <property name="visible">1</property>
                                     <property name="pixel-size">48</property>
                                     <property name="margin-top">24</property>
                                     <property name="margin-bottom">12</property>
                                     <property name="icon-name">no-notifications-symbolic</property>
-                                    <property name="sensitive">False</property>
+                                    <property name="sensitive">0</property>
                                     <style>
                                       <class name="dim-label"/>
                                     </style>
@@ -138,9 +135,9 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel">
-                                    <property name="visible">True</property>
+                                    <property name="visible">1</property>
                                     <property name="label" translatable="yes">No notifications</property>
-                                    <property name="sensitive">False</property>
+                                    <property name="sensitive">0</property>
                                     <style>
                                       <class name="title-2"/>
                                     </style>
@@ -155,21 +152,19 @@
                                 <property name="name">no-notifications</property>
                               </packing>
                             </child>
-
                             <child>
                               <object class="GtkBox">
-                                <property name="visible">True</property>
+                                <property name="visible">1</property>
                                 <property name="orientation">vertical</property>
                                 <property name="margin-top">12</property>
                                 <child>
                                   <object class="GtkBox">
-                                    <property name="visible">True</property>
-                                    <property name="orientation">horizontal</property>
+                                    <property name="visible">1</property>
                                     <child>
                                       <object class="GtkLabel">
-                                        <property name="visible">True</property>
+                                        <property name="visible">1</property>
                                         <property name="halign">start</property>
-                                        <property name="hexpand">True</property>
+                                        <property name="hexpand">1</property>
                                         <property name="label" translatable="yes">Notifications</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"/>
@@ -178,9 +173,9 @@
                                     </child>
                                     <child>
                                       <object class="GtkButton">
-                                        <property name="visible">True</property>
+                                        <property name="visible">1</property>
                                         <property name="label" translatable="yes">Clear all</property>
-                                        <property name="focus-on-click">False</property>
+                                        <property name="focus-on-click">0</property>
                                         <signal name="clicked" handler="on_notifications_clear_all_clicked" object="PhoshSettings" swapped="yes"/>
                                         <property name="name">phosh-notifications-clear-all-btn</property>
                                       </object>
@@ -192,11 +187,11 @@
                                 </child>
                                 <child>
                                   <object class="GtkBox">
-                                    <property name="visible">True</property>
+                                    <property name="visible">1</property>
                                     <child>
                                       <object class="GtkListBox" id="list_notifications">
-                                        <property name="visible">True</property>
-                                        <property name="vexpand">True</property>
+                                        <property name="visible">1</property>
+                                        <property name="vexpand">1</property>
                                         <property name="selection-mode">none</property>
                                       </object>
                                     </child>
@@ -226,9 +221,7 @@
       <class name="phosh-settings-menu"/>
     </style>
   </template>
-
   <object class="GtkAdjustment" id="adj_torch">
     <property name="step-increment">1</property>
   </object>
-
 </interface>
