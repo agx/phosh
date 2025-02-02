@@ -1,3 +1,410 @@
+phosh (0.45~beta1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * fake-clock: Make WallClockMock available in regular shell
+  * main: Allow to use fake clock.
+    Allow to use the fake clock in the regular shell. This eases making
+    demos and screenshots and it doesn't add much code.
+  * docs: Document PHOSH_FAKE_CLOCK
+  * screenshot-manager: Add cancellable.
+    Always good to cancel async operations on shutdown
+  * screenshot-manager: Separate hours, minutes and seconds by ':'
+    Rather than using '-' for date and time, separate the time by ':' to
+    make it easier to identify.
+  * screenshot-manager: Create thumbnails of screenshots.
+    Screenshots are used a lot on mobile so make sure we generate thumbnails
+    for the cases where the e.g. uploading application doesn't.
+    We already have all the data so write out a thumbnail per
+    https://specifications.freedesktop.org/thumbnail-spec/0.8.0/
+  * wwan-manager: Enable and disable autoconnect.
+    When we disable a WWan connection we should also disale autoconnect as
+    otherwise the connection comes back up after resume or reboot.
+    Hence we need to reenable autoconnect when the connection is activated
+    again.
+    Closes: https://gitlab.gnome.org/guidog/meta-phosh/-/issues/16
+  * wwan-mm: Use swapped signal. Our handler wants `self` first
+    Fixes 51da91508 ("wwan-mm: Switch to MM objects")
+  * ci: No need to fetch phoc from sid. The one in trixie is recent enough now
+  * gitignore: Ignore pycache files
+  * home: Use g_timeout_add_once() Simpler API
+  * home: Queue draw instead of committing the surface.
+    We don't know if GTK already attached a matching buffer and attaching an
+    incorrectly sized one can lead to the compositor terminating the
+    connection so let GTK decide when to commit.
+  * top-panel: Queue draw instead of committing the surface.
+    We don't know if GTK already attached a matching buffer and attaching an
+    incorrectly sized one can lead to the compositor terminating the
+    connection so let GTK decide when to commit.
+  * packaging: Add pytest. Useful to run the tests
+  * packaging: Require newer phoc. This ensures we have a recent enough
+    one in the tests
+  * packaging: Depend on wlr-randr. We use it in the tests
+  * tests: Add simple test to check mode changes.
+    We hade some crashes in that area so make that testable in CI.
+    This can also be extended to check the binaries on the installed system
+    at some point thus making it easier for distros to validate their
+    builds.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1171
+  * ci: Run integration tests
+  * ci: Drop phosh startup tests.
+    With the pytests we spawn a shell too. It served us well up to now.
+  * layersurface: Drop protocol version check.
+    We require recent enough phoc anyway.
+  * treewide: Assume phoc supports alpha layer surfaces.
+    This is supported by phoc since May 2023
+  * layersurface: Drop now unused has_alpha()
+  * layersurface: Simplify map/unmap
+    map()'s and unmap()'s are impls for virtual methods so
+    we can't end up with an incorrectly casted type (as e.g.
+    in signal handlers). This is a left over from:
+    Fixes 953894a2b ("layersurface: Use class methods instead of signals for map and realize")
+  * layersurface: Allow to set alpha before the surface is mapped.
+    Catch up with values set prior to mapping the surface on map.
+    So far this resulted in errors but allowing it makes things more
+    flexible as we don't need to bother when the surface gets mapped.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/940
+  * layersurface: Allow to set stacking before the surface is mapped.
+    Catch up with values set prior to mapping the surface on map.
+    So far this resulted in errors but allowing it makes things more
+    flexible as we don't need to bother when the surface gets mapped.
+    We take a weak ref on the target surface so we can notice when it goes
+    away. Otherwise we would try to bind a non existent target surface when
+    the target surface goes away before the surface itself gets ever mapped.
+  * home: Bind background visibility.
+    Instead of always showing it, bind it to the visibility of home.
+    This ensures they stay in sync.
+    Since `visible` is false in the constructor this is a slight behavior
+    change as the background will now become visible a bit later.
+  * top-panel: Bind background visibility.
+    Instead of always showing it, bind it to the visibility of top panel.
+    This ensures they stay in sync.
+    Since `visible` is false in the constructor this is a slight behavior
+    change as the background will now become visible a bit later.
+  * system-modal-dialog: Rename obj to object.
+    We have a mix in the code base but 'object' is more prevalent.
+  * system-modal-dialog: Fade in system modal dialogs.
+    This is a bit less surprising and with the cleanups in the layer surface
+    code we can fade in with a simple PhoshAnimation. Since the compositor
+    drives the rendering this doesn't cause much CPU (as GTK based blending
+    would).
+  * background-manager: Update background when dark uri changes too.
+    We tracked the regular background but not one for the dark theme.
+  * background: Fill background with primary color.
+    This makes sure we have a proper background in the overview in
+    case the selected image has transparency.
+    In case of a missing image it ensures we fall back to black so the
+    overview always gets a non transparent background.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1173
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1169
+  * background: Use background color for the primary output's background.
+    The primary output's background determines the color behind the top and
+    bottom bars when they are folded (since the actual bars are
+    transparent). So use the @phosh_bg_color CSS value for these areas
+    rather then the primary-color gsetting.
+    This ensures the seamless fading from the opened overview to the black
+    top and bottom panel works even for situations where the primary-color
+    gsetting is not '#000000'.
+  * media-player: Don't access `self` when call got cancelled.
+    The memory has then been free'd already.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1176
+    Tested-by: Fiona Klute <fiona.klute@gmx.de>
+  * media-player: Simplify flow.
+    We first handle the success then the failure path. By basing this on
+    `var` we avoid `else if`.
+    Tested-by: Fiona Klute <fiona.klute@gmx.de>
+  * ci: Pull phoc from Debian unstable.
+    Should fix the crash we're seeing on phoc shutdown in CI
+  * osk-button: Drop widget. It's not used anymore.
+    Fixes: fe308c2ce ("home: Shrink home-bar height and move osk activation to center")
+  * shell: Allow plugins to get the primary and built-in monitor
+  * monitor-manager: Allow to set a monitor's scale. This is similar to
+    setting the transform.
+  * head: Move scale calculation for video modes to util.
+    It's not bound to the actual head we use so we can also use it e.g. for
+    monitors.
+  * build: Export symbols needed to set monitor scale
+  * tests/integration: Honor WLR_BACKENDS from environment
+  * docs: Use full line length. Matches what we do in the code
+  * docs: Move callbacks one indent level up. Doesn't belong to properties
+  * docs: Add signal example
+  * docs: Add since annotations to examples
+  * docs: Add doc string
+  * docs: Add GObject introspection docstring example
+  * manager: Use idle_add_once variant. A bit less code and easier to read.
+  * notification: Allow for empty do_action. Shell internal notifications
+    only listen to signals so they don't have `do_action` implemented
+  * build: Move wifi-manager to tool sources.
+    We want to add the connectivity manager there and as this will reference
+    the wifi-manager we need to move things over (which is an improvement
+    over all as we want to empty `libphosh_sources` in favor of
+    `libphosh_tool_sources`).
+  * connectivity-manager: New class to track connectivity information.
+    This will be used for detecting captive portals and by
+    connectivity-info.
+  * connectivity-info: Use connectivity-manager
+  * connectivity-manager: Only update on state changes
+  * connectivity-manager: Show notification when we detect a captive portal.
+    Clicking on the portal opens the portal URL in the browser
+  * d/control: Recommend network-manager-config-connectivity-debian.
+    This allows NMs captive portal detection to work.
+  * layersurface: Fix initial alpha sync. We want to set for alpha != 1.0
+    Fixes 6b2d9f6b6 ("layersurface: Allow to set alpha before the surface is mapped")
+  * layersurface: Clear effects on unmap.
+    This allows us to toggle visibility on and off as the effects will be
+    recreated on map.
+  * home: Recolor only the home bar on state changes.
+    So far we added the style class to the whole home widget which means
+    recalculating the style for all widgets (including the app grid). This
+    way we need to calculate way less new CSS.
+    In order to keep HighContrast theme working we restyle the whole Home
+    widget on theme changes still.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1177
+    Tested-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+  * home: Toggle background widget on/off based on visibility.
+    This avoids showing the background for a split second in high contrast
+    mode and also saves computation time.
+  * wifi-network-row: Use property setter.
+    Instead of splitting setting and binding make it look like a regular
+    property setter elsewhere.
+  * bt-device-row: Name async callback _ready.
+    Following our usual pattern
+  * quick-setting-box: Don't warn when closing "wrong" status page.
+    Don't emit a warning when trying to close a status page that isn't
+    currently open. This allows quick settings to emit `hide-status`
+    without keeping track whether their status it the one currently shown.
+  * bt-device-row: Emit signals for activation.
+    Emit a signal when activation starts (and hence the row is "busy") and
+    when it finishes. This allows the status page to keep track of the rows
+    state.
+  * status-page: Add "done" signal.
+    Status pages should emit this when they want to be closed
+  * bt-status-page: Emit done when last device activated successfully.
+    We emit the signal when all devices finished activating and the last one
+    finished successfully as the user is very likely done with the status
+    page at this point.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1166
+  * quick-setting: Hide status page on "done" signal.
+    When the status page indicates it is done, close it.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1166
+  * scaling-quick-setting: Close status page on scale changes.
+    Let status page emit "done" signal when setting the scale. This closes
+    the status page.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1166
+  * wifi-status-page: Use g_connect_object() for wifi-manager.
+    Less code and we'll connect more. Fix one trailing white space while at
+    that.
+  * wifi-network: Clarify ownership of phosh_wifi_network_get_ssid()
+    It is transfer: none.
+  * wifi-status-page: Fix incorrect signal handler signature.
+    There's no `GParamSpec` in the "clicked" signal. Thankfully we're not
+    using the button yet so this wasn't a problem so far.
+  * wifi-status-page: Close status page when connection succeeds.
+    Close the status page when the Wi-Fi network the user selected gets
+    activated.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1166
+  * dir-locals: Set indicator column.
+    Makes indenting a bit simpler
+  * notification: Clear expiry timeout before setting it.
+    This allows to bump the timeout of an existing notification
+  * tests: Stub wifi-manager with an object.
+    This allows the connectivity test to retrieve it
+  * shell: Create Wi-Fi manager upfront.
+    This ensures we have it around when needed.
+  * shell: Create connectivity manager upfront.
+    This ensures correct ordering between Wi-Fi and Connectivity manager.
+  * connectivity-manager: Make notification persistent.
+    We keep the notification around unless the SSID of the network changes
+    or we get connectivity again. Close it as soon as we get connectivity
+    again or the SSID changes.
+    The banner will close after 20s (rather than 10s atm) so it is a bit
+    easier to catch.
+  * connectivity-manager: Make notification silent.
+    No need to buzz or blink when we detect a Wi-Fi portal.
+
+  [ Cédric Bellegarde ]
+  * screen-saver-manager: Connect logind prepare-for-sleep sooner
+
+  [ Sam Day ]
+  * build: Add libappstream dependency.
+    This is needed by the PhoshMetainfoCache to be introduced in the
+    following commit.
+  * metainfo-cache: Introduce PhoshMetainfoCache.
+    This was originally authored by Guido in the WIP MR !950.
+    It handles initializing an AppStream cache "Pool", which is populated
+    with information about available applications on the system (installed
+    or otherwise).
+    It will be utilized in the following commit of this series, to determine
+    the correct AppStream "data id" that is used when invoking
+    gnome-software --uninstallation
+  * app-grid-button: Add Uninstall action
+    gnome-software supports an --uninstall <id> invocation, which navigates
+    directly to the details page for the app and pops the prompt to
+    uninstall that app.
+  * shell: Allow overview to be hidden.
+    This commit introduces a PhoshShell::overview-visible property, which is
+    bound to the visibility of the PhoshHome that the shell constructs.
+    This property isn't used in phosh-session and probably never will be,
+    it's for custom PhoshShell subtypes, such as phrog, which will use it
+    when displaying a "first-run" application in the system greeter view.
+  * shell: Minor uncrustification.
+    A handful of tiny cleanups in the property set/get functions, since I'm
+    in the area with the previous commit.
+  * build: Rename most libphosh_* Meson variables to phosh_*
+    libphosh API is about to be dramatically reduced. As such it's not
+    really accurate to refer to any of these sources or headers as
+    "libphosh", since they're meant to be internal.
+  * build: Omit libphosh_headers from phosh_sources.
+    The phosh_sources variable should only include .c source files. This way
+    it can be safely included in the files fed into g-ir-scanner without
+    causing unintended additions to introspection output.
+  * build: Omit phosh_tool_headers from phosh_tool_sources.
+  * build: Only add phosh_*_headers to phosh_headers.
+  * build: Generate a subset of enums for libphosh
+  * lockscreen-manager: Minor uncrustification
+  * lockscreen-manager: Split out a private header.
+    The constructor is moved to the private header so that PhoshCallsManager
+    can be excluded from the public API.
+  * lockscreen: Split out a private header.
+    The constructor is moved to the private header so that PhoshCallsManager
+    can be excluded from the public API.
+    libphosh consumers don't need to use this constructor directly, since
+    they can control what Lockscreen subclass is constructed via
+    PhoshShell's get_lockscreen_type vfunc.
+  * shell: Split a public header out from plugin-shell.
+    In the case of PhoshShell, we have two kinds of "public" - stuff that
+    should be exported to libphosh consumers, and stuff that should be
+    available to bundled plugin.so libraries.
+    So the header that was formerly shell.h is now shell-priv.h, and a new
+    shell.h header is introduced that splits the basic type definition and
+    some initial public methods out from plugin-shell.h
+    plugin-shell.h includes shell.h, and shell-priv.h includes
+    plugin-shell.h. Got it? Nope? Don't worry - it'll make sense eventually.
+  * plugin-shell: Make phosh_shell_new public API
+    libphosh consumers should be able to construct a PhoshShell
+  * plugin-shell: Make phosh_shell_fade_out public API.
+    This is used by phrog to do a nice fadeout of the greeter session when a
+    user has successfully logged in.
+  * plugin-shell: Make phosh_shell_get_lockscreen_manager public API.
+    This is useful for libphosh consumers (like phrog) to obtain a reference
+    to the active Lockscreen.
+  * plugin-shell: Make phosh_shell_get_usable_area public API
+    phrog currently uses this in tests to center the virtual mouse pointer.
+    I was going to switch that code to use Gdk but Guido indicated this
+    might be useful elsewhere so might as well make/keep it public.
+  * plugin-shell: Make phosh_shell_get_screenshot_manager public API.
+    This is already used directly in the libphosh-rs hello-world example, so
+    it seems a safe bet this should be considered public API.
+  * build: Keep track of public dbus sources/headers.
+    When codegenning the dbus proxies, we keep track of the files that
+    should be included in the public API of libphosh.
+    The newly introduced libphosh_generated_dbus_* variables are not
+    being used yet, but they will be when the GIR is updated to use a much
+    smaller subset of files for introspection.
+  * build: Dramatically reduce the size of libphosh public API.
+    The dozen or so commits prior to this one in this series were all
+    working towards this point. The GIR and libphosh.h are reworked to only
+    include a very small set of headers for the current minimum viable
+    public API (based on existing usage in libphosh-rs examples and phrog).
+    The GIR has been shrunk from ~70k lines to ~2.3k, and the number of
+    files installed to /usr/include/libphosh-N.NN has reduced from ~200 down
+    to ~20.
+  * build: Remove many generated+supporting headers from public API.
+    Now that libphosh.h is significantly smaller in scope, none of these
+    headers need to be included alongside the libphosh headers.
+  * build: Ensure wl protos referenced by public API are installed.
+    The previous commit was a little overzealous in removing headers from
+    the public API header dir. Specifically, layersurface.h is including the
+    generated wlr-layer-shell-unstable-v1 header.
+    So, similar to the earlier commit that distinguishes public dbus
+    generated sources from internal ones, we introduce a list of generated
+    wl proto headers that should be included in the public API.
+  * quick-setting: Add vtable padding for future API/ABI compatibility
+  * status-icon: Uncrustify _PhoshStatusIconClass
+  * status-icon: Add vtable padding for future API/ABI compatibility
+  * status-page: Add vtable padding for future API/ABI compatibility
+  * wall-clock: Uncrustify _PhoshWallClockClass
+  * wall-clock: Add vtable padding for future API/ABI compatibility
+  * treewide: Remove various docstring symbol links to internal classes.
+  * docs: Qualify API docs as 'public' in README
+
+  [ Adam Honse ]
+  * plugins: Screen scaling quick setting plugin.
+    Allow to select the scale for the primary output. The list of scales
+    is calculated the same way we do it when presenting them to Settings.
+    For the moment we disable the plugin when there's more than one output
+    as it's not obvious to the user if it should affect the primary or
+    built-in display.
+    Clicking on the button swaps back to the previously selected scale which
+    looks like the best default action.
+
+  [ Gotam Gorabh ]
+  * tree: Bump gtk version in ui files.
+    Bump gtk dependency to 3.24 and add libhandy
+    as a requirement where it needed.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1181
+  * d/control: Add libgmobile-dev dependency
+  * emergency-info-prefs: Remove useless code
+  * emergency-info-prefs: Switch to AdwEntryRow for add_emer_contact_dialog
+  * emergency-info-prefs: Port add_emer_contact_dialog to AdwDialog.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1159
+  * emergency-info-prefs: Port remaining GtkEntry to AdwEntryRow.
+    As we already make `add_emer_contact_dialog` to use AdwEntryRow
+    in https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1615 ,
+    this mr will port remaining ones.
+
+  [ Evangelos Ribeiro Tzaras ]
+  * calendar: Respect week number setting (Closes: #989)
+  * ci: Add gsettings-desktop-schemas as build dependency for alpine
+
+  [ Arun Mani J ]
+  * status-pages: Disable vertical homogeneous.
+    These pages have a lot of stack pages of different heights. With
+    homogeneous, smaller pages have an awkward space at bottom. May be not
+    really awkward, but at least pages now take only the height they need.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1139
+  * plugins: Add missing schemas compilation steps
+  * tools: Add missing plugins' schemas
+  * plugins: Build schema only on dependency change
+  * Simplify many UI files using `gtk-builder-tool`
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ twlvnn kraftwerk ]
+  * Update Bulgarian translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Rafael Fontenelle ]
+  * Update Brazilian Portuguese translation
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 02 Feb 2025 09:14:35 +0100
+
 phosh (0.44.0) experimental; urgency=medium
 
   [ Guido Günther ]
