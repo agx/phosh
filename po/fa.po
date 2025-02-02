@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-23 15:15+0000\n"
-"PO-Revision-Date: 2025-01-24 03:43+0330\n"
+"POT-Creation-Date: 2025-01-30 17:57+0000\n"
+"PO-Revision-Date: 2025-02-02 14:42+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -139,7 +139,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "باتری %I.0f٪"
@@ -153,11 +153,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "روشن"
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "هیچ افزارهٔ وصل شدنی بلوتوثی پیدا نشد"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "بلوتوث از کار افتاده"
 
@@ -165,16 +165,16 @@ msgstr "بلوتوث از کار افتاده"
 msgid "Unknown caller"
 msgstr "تماس‌گیرندهٔ ناشناس"
 
-#: src/connectivity-manager.c:86
+#: src/connectivity-manager.c:114
 #, c-format
 msgid "Wi-Fi network '%s' uses a captive portal"
 msgstr "شبکهٔ وای‌فای «%s» از درگاهی گیرنده استفاده می‌کند"
 
-#: src/connectivity-manager.c:88
+#: src/connectivity-manager.c:116
 msgid "The Wi-Fi network uses a captive portal"
 msgstr "شبکهٔ وای‌فای از درگاهی گیرنده استفاده می‌کند"
 
-#: src/connectivity-manager.c:91
+#: src/connectivity-manager.c:123
 msgid "Sign into Wi-Fi network"
 msgstr "ورود به شبکهٔ وای‌فای"
 
@@ -566,11 +566,11 @@ msgstr "افزاره‌های ورودی"
 msgid "Sound Settings"
 msgstr "تنظیمات صدا"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "به کار انداختن بلوتوث"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "تنظیمات بلوتوث"
 
@@ -595,7 +595,7 @@ msgid "Owner unknown"
 msgstr "مالک ناشناخته"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:190
 msgid "Emergency Contacts"
 msgstr "تماس‌های اضطراری"
 
@@ -636,7 +636,7 @@ msgid "Authentication required"
 msgstr "نیاز به تأیید هویت است"
 
 #: src/ui/network-auth-prompt.ui:41
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:235
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -700,7 +700,7 @@ msgstr "_خروج…"
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
-#: src/ui/wifi-status-page.ui:72
+#: src/ui/wifi-status-page.ui:73
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -723,27 +723,27 @@ msgstr "افزایه پیدا نشد"
 msgid "The plugin '%s' could not be loaded."
 msgstr "افزایهٔ «%s» نتوانست بار شود."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "هیچ افزارهٔ وای‌فایی پیدا نشد"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "وای‌فای از کار افتاده"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "به کار انداختن وای‌فای"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "نقطهٔ داغ وای‌فای فعّال"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "خاموش کردن"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "بدون نقطهٔ داغ وای‌فای"
 
@@ -785,47 +785,41 @@ msgid "Personal Information"
 msgstr "اطّلاعات شخصی"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "تاریخ تولّد"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "زبان ترجیحی"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:92
 msgid "Home Address"
 msgstr "نشانی خانه"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Medical Information"
 msgstr "اطّلاعات پزشکی"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "سن"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "گروه خونی"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "قد"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "وزن"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:140
 msgid "Allergies"
 msgstr "حسّاسیت‌ها"
 
@@ -834,7 +828,7 @@ msgid "Medications & Conditions"
 msgstr "داروها و شرایط"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Other Information"
 msgstr "دیگر اطّلاعات"
 
@@ -847,35 +841,59 @@ msgstr "ترجیحات اطّلاعات اضطراری"
 msgid "Done"
 msgstr "انجام شد"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
-msgid "Owner Name"
-msgstr "نام مالک"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Owner Name"
+msgstr "_نام مالک"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Date of Birth"
+msgstr "_تاریخ تولّد"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
+msgid "_Preferred Language"
+msgstr "_زبان ترجیحی"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:115
+msgid "_Age"
+msgstr "_سن"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:121
+msgid "_Blood Type"
+msgstr "_گروه خونی"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:127
+msgid "_Height"
+msgstr "_قد"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:133
+msgid "_Weight"
+msgstr "_وزن"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:156
 msgid "Medications and Conditions"
 msgstr "داروها و شرایط"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:199
 msgid "Add Contact"
 msgstr "افزودن آشنا"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:226
 msgid "Add New Contact"
 msgstr "افزودن آشنای جدید"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "_Add"
 msgstr "_افزودن"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:263
 msgid "_Contact Name"
 msgstr "_نام آشنا"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:269
 msgid "Relationship"
 msgstr "رابطه"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:275
 msgid "_Contact Number"
 msgstr "_شمارهٔ آشنا"
 
@@ -1060,7 +1078,7 @@ msgstr "مقیاس‌های نمایشگر"
 
 #. Translators: This is scale factor of a monitor in percent
 #: plugins/scaling-quick-setting/scale-row.c:48
-#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
 #, c-format
 msgid "%d%%"
 msgstr "%Id٪"
