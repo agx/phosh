@@ -2,10 +2,10 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <template class="PhoshAppGridBaseButton" parent="GtkFlowBoxChild">
-    <property name="can-focus">false</property>
+    <property name="can-focus">0</property>
     <child>
       <object class="PhoshClamp">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <!-- This ensures all buttons request at least the same minimum size and maximum natural size. -->
         <!-- (360px screen width - 2*3px flowbox margins - (4-1)*6px column spacing) / 4 columns = 84px -->
         <property name="natural-size">84</property>
@@ -28,8 +28,8 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="PhoshFadingLabel" id="label">
-                    <property name="visible">True</property>
-                    <property name="no-show-all">True</property>
+                    <property name="visible">1</property>
+                    <property name="no-show-all">1</property>
                     <property name="halign">center</property>
                     <property name="valign">end</property>
                   </object>

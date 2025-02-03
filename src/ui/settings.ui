@@ -4,7 +4,6 @@
   <requires lib="libhandy" version="1.8"/>
   <template class="PhoshSettings" parent="GtkBin">
     <property name="width-request">250</property>
-    <property name="can-focus">False</property>
     <signal name="notify::on-lockscreen" handler="update_drag_handle_offset"/>
     <child>
       <object class="GtkScrolledWindow" id="scrolled_window">
@@ -14,16 +13,16 @@
         <property name="min-content-height">150</property>
         <child>
           <object class="HdyClamp">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="maximum-size">720</property>
-            <property name="vexpand">True</property>
+            <property name="vexpand">1</property>
             <child>
               <object class="GtkBox" id="box_settings">
                 <property name="visible">1</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="HdyClamp">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="maximum-size">360</property>
                     <child>
                       <object class="GtkBox" id="box_sliders">
@@ -53,7 +52,7 @@
                         </child>
                         <child>
                           <object class="PhoshAudioSettings" id="audio_settings">
-                            <property name="visible">True</property>
+                            <property name="visible">1</property>
                             <signal name="notify::is-headphone" handler="on_is_headphone_changed" object="PhoshSettings" swapped="yes"/>
                           </object>
                         </child>
@@ -63,7 +62,7 @@
                 </child>
                 <child>
                   <object class="PhoshQuickSettings" id="quick_settings">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                   </object>
                 </child>
                 <child>
@@ -96,7 +95,7 @@
                 </child>
                 <child>
                   <object class="HdyClamp">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="maximum-size">360</property>
                     <child>
                       <object class="GtkBox" id="box_bottom_half">

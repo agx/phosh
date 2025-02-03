@@ -3,7 +3,7 @@
   <requires lib="gtk+" version="3.24"/>
   <template class="PhoshQuickSettingsBox" parent="GtkContainer"/>
   <object class="GtkRevealer" id="revealer">
-    <property name="visible">True</property>
+    <property name="visible">1</property>
     <signal name="notify::child-revealed" handler="on_child_revealed_changed" object="PhoshQuickSettingsBox" swapped="yes"/>
   </object>
 </interface>
