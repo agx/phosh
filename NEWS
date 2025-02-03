@@ -1,3 +1,57 @@
+phosh 0.45~beta1
+----------------
+Released February 2025
+* Detect captive portals and allow to open browser
+* New quick setting plugin to switch display scales
+* Create thumbnails for Screenshots
+* Allow to uninstall apps from app-grid
+* Close quick setting status pages when action was successful
+* WWan enable/disable autoconnect with the connection so e.g.
+  mobile data doesn't turn on on resume
+* Minimize and stabilize libphosh API
+* prefs plugins: Remove the last remaining GtkDialog and use
+  AdwEntryRow
+* Respect week number setting in calendar widget
+* Avoid crash when fixing between certain combinations of fractional
+  scales (with e.g. wlr-randr)
+* Allow libphosh users to hide the whole overview/bottom bar
+* Fade in system modal dialogs
+* Several background image related fixes
+* Fix crash on unlock with media player widget
+* Issues fixed:
+    * https://gitlab.gnome.org/guidog/meta-phosh/-/issues/16
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/989
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1139
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1159
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1166
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1169
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1171
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1173
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1176
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1177
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1181
+* Contributors:
+    * Adam Honse
+    * Arun Mani J
+    * Cédric Bellegarde
+    * Evangelos Ribeiro Tzaras
+    * Gotam Gorabh
+    * Guido Günther
+    * Sam Day
+* UI translations:
+    * Antonio Marin (ro)
+    * Artur S0 (ru)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
+    * Jordi Mas i Hernandez (ca)
+    * Martin (sl)
+    * Rafael Fontenelle (pt_BR)
+    * Sabri Ünal (tr)
+    * twlvnn kraftwerk (bg)
+    * Yuri Chornoivan (uk)
+
 phosh 0.44.0
 ------------
 Released December 2024
