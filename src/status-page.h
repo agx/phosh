@@ -35,6 +35,8 @@ void             phosh_status_page_set_title (PhoshStatusPage *self, const char 
 const char      *phosh_status_page_get_title (PhoshStatusPage *self);
 void             phosh_status_page_set_header (PhoshStatusPage *self, GtkWidget *header);
 GtkWidget       *phosh_status_page_get_header (PhoshStatusPage *self);
+void             phosh_status_page_set_content (PhoshStatusPage *self, GtkWidget *content);
+GtkWidget       *phosh_status_page_get_content (PhoshStatusPage *self);
 void             phosh_status_page_set_footer (PhoshStatusPage *self, GtkWidget *footer);
 GtkWidget       *phosh_status_page_get_footer (PhoshStatusPage *self);
 

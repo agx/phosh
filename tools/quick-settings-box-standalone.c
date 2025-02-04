@@ -91,10 +91,10 @@ make_status_page (GtkWidget *child)
     gtk_widget_set_visible (scrollw, TRUE);
     gtk_container_add (GTK_CONTAINER (scrollw), image);
     gtk_widget_set_hexpand (scrollw, TRUE);
-    gtk_container_add (GTK_CONTAINER (status_page), scrollw);
+    phosh_status_page_set_content (status_page, scrollw);
   } else {
     gtk_widget_set_hexpand (image, TRUE);
-    gtk_container_add (GTK_CONTAINER (status_page), image);
+    phosh_status_page_set_content (status_page, image);
   }
 
   return status_page;

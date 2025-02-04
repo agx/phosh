@@ -4,45 +4,44 @@
   <template class="PhoshBtStatusPage" parent="PhoshStatusPage">
     <property name="visible">1</property>
     <property name="title" translatable="yes">Bluetooth</property>
+    <property name="content">stack</property>
     <property name="footer">footer</property>
+  </template>
+  <object class="GtkStack" id="stack">
+    <property name="visible">1</property>
+    <property name="transition-type">crossfade</property>
+    <property name="vhomogeneous">0</property>
     <child>
-      <object class="GtkStack" id="stack">
+      <object class="GtkListBox" id="devices_list_box">
         <property name="visible">1</property>
-        <property name="transition-type">crossfade</property>
-        <property name="vhomogeneous">0</property>
+        <property name="selection-mode">none</property>
+        <style>
+          <class name="content"/>
+        </style>
+      </object>
+      <packing>
+        <property name="name">devices</property>
+      </packing>
+    </child>
+    <child>
+      <object class="PhoshStatusPagePlaceholder" id="empty_state">
+        <property name="visible">1</property>
+        <property name="icon-name">bluetooth-disabled</property>
         <child>
-          <object class="GtkListBox" id="devices_list_box">
+          <object class="GtkButton" id="enable_button">
             <property name="visible">1</property>
-            <property name="selection-mode">none</property>
-            <style>
-              <class name="content"/>
-            </style>
+            <property name="label" translatable="yes">Enable Bluetooth</property>
+            <property name="halign">center</property>
+            <property name="focus-on-click">0</property>
+            <signal name="clicked" handler="on_enable_clicked" object="PhoshBtStatusPage" swapped="yes"/>
           </object>
-          <packing>
-            <property name="name">devices</property>
-          </packing>
-        </child>
-        <child>
-          <object class="PhoshStatusPagePlaceholder" id="empty_state">
-            <property name="visible">1</property>
-            <property name="icon-name">bluetooth-disabled</property>
-            <child>
-              <object class="GtkButton" id="enable_button">
-                <property name="visible">1</property>
-                <property name="label" translatable="yes">Enable Bluetooth</property>
-                <property name="halign">center</property>
-                <property name="focus-on-click">0</property>
-                <signal name="clicked" handler="on_enable_clicked" object="PhoshBtStatusPage" swapped="yes"/>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="name">empty-state</property>
-          </packing>
         </child>
       </object>
+      <packing>
+        <property name="name">empty-state</property>
+      </packing>
     </child>
-  </template>
+  </object>
   <object class="GtkButton" id="footer">
     <property name="visible">1</property>
     <property name="hexpand">1</property>
