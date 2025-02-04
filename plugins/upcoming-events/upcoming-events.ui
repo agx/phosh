@@ -4,16 +4,15 @@
   <template class="PhoshUpcomingEvents" parent="GtkBox">
     <property name="orientation">vertical</property>
     <property name="margin">12</property>
-    <property name="vexpand">true</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkScrolledWindow">
-        <property name="visible">True</property>
-        <property name="vscrollbar-policy">automatic</property>
+        <property name="visible">1</property>
         <property name="hscrollbar-policy">never</property>
-        <property name="propagate-natural-height">True</property>
+        <property name="propagate-natural-height">1</property>
         <child>
           <object class="GtkBox" id="events_box">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="orientation">vertical</property>
           </object>
         </child>

@@ -5,7 +5,7 @@
     <signal name="clicked" handler="on_clicked" object="PhoshPomodoroQuickSetting" swapped="yes"/>
     <child>
       <object class="PhoshStatusIcon" id="info">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="icon-size">1</property>
       </object>
     </child>

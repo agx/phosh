@@ -5,16 +5,16 @@
   <template class="PhoshSystemModalDialog" parent="PhoshSystemModal">
     <child>
       <object class="PhoshSwipeAwayBin" id="swipe_bin">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <signal name="removed" handler="on_removed_by_swipe" swapped="true"/>
         <child>
           <object class="HdyClamp">
-            <property name="visible">True</property>
-            <property name="maximum_size">400</property>
+            <property name="visible">1</property>
+            <property name="maximum-size">400</property>
             <child>
               <object class="GtkBox" id="box_dialog">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
@@ -22,34 +22,28 @@
                 <property name="margin-top">24</property>
                 <child>
                   <object class="GtkLabel" id="lbl_title">
-                    <property name="visible">False</property>
                     <property name="halign">center</property>
                     <property name="margin-bottom">12</property>
                     <property name="margin-start">6</property>
                     <property name="margin-end">6</property>
-                    <property name="hexpand">True</property>
+                    <property name="hexpand">1</property>
                     <property name="justify">center</property>
-                    <property name="wrap">True</property>
+                    <property name="wrap">1</property>
                     <style>
                       <class name="phosh-system-modal-dialog-title"/>
                     </style>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox" id="box_buttons">
-                    <property name="visible">True</property>
-                    <property name="homogeneous">True</property>
+                    <property name="visible">1</property>
+                    <property name="homogeneous">1</property>
                     <property name="margin-top">12</property>
                     <style>
                       <class name="phosh-system-modal-dialog-buttons"/>
                     </style>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
                     <property name="position">2</property>
                   </packing>
                 </child>

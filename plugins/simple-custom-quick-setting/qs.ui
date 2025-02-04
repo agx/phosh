@@ -6,22 +6,22 @@
     <signal name="clicked" handler="on_clicked" object="PhoshSimpleCustomQuickSetting" swapped="yes"/>
     <child>
       <object class="PhoshStatusIcon" id="info">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="icon-size">1</property>
       </object>
     </child>
   </template>
   <object class="PhoshStatusPage" id="status_page">
-    <property name="visible">True</property>
+    <property name="visible">1</property>
     <property name="title" translatable="yes">Simple Custom Quick Setting</property>
     <property name="footer">footer</property>
     <child>
       <object class="PhoshStatusPagePlaceholder">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="icon-name">face-angel-symbolic</property>
         <child>
           <object class="GtkLabel">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="label" translatable="yes">Have a nice day!</property>
           </object>
         </child>
@@ -29,12 +29,12 @@
     </child>
   </object>
   <object class="GtkButton" id="footer">
-    <property name="visible">True</property>
-    <property name="hexpand">True</property>
+    <property name="visible">1</property>
+    <property name="hexpand">1</property>
     <signal name="clicked" handler="on_footer_clicked" object="PhoshSimpleCustomQuickSetting" swapped="yes"/>
     <child>
       <object class="GtkLabel">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="ellipsize">end</property>
         <property name="label" translatable="yes">Open Plugin Settings</property>
       </object>

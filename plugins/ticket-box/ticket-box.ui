@@ -6,10 +6,10 @@
     <property name="margin">12</property>
     <child>
       <object class="GtkStack" id="stack_tickets">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <child>
           <object class="HdyStatusPage">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="icon-name">x-office-document-symbolic</property>
             <property name="title" translatable="yes">Ticket Box</property>
             <property name="description" translatable="yes">No documents to display</property>
@@ -18,16 +18,15 @@
             <property name="name">no-tickets</property>
           </packing>
         </child>
-
         <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <child>
               <object class="GtkOverlay">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <child type="overlay">
                   <object class="GtkButton">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="halign">end</property>
                     <property name="valign">start</property>
                     <property name="margin-end">16</property>
@@ -39,25 +38,23 @@
                     </style>
                     <child>
                       <object class="GtkImage">
-                        <property name="visible">True</property>
-                        <property name="icon_name">window-close-symbolic</property>
-                        <property name="icon_size">1</property>
+                        <property name="visible">1</property>
+                        <property name="icon-name">window-close-symbolic</property>
+                        <property name="icon-size">1</property>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
                   <object class="GtkScrolledWindow">
-                    <property name="visible">True</property>
-                    <property name="vscrollbar-policy">automatic</property>
-                    <property name="hscrollbar-policy">automatic</property>
-                    <property name="propagate-natural-height">True</property>
+                    <property name="visible">1</property>
+                    <property name="propagate-natural-height">1</property>
                     <property name="max-content-height">480</property>
                     <property name="max-content-width">300</property>
                     <child>
                       <object class="EvView" id="view">
-                        <property name="visible">True</property>
-                        <property name="expand">True</property>
+                        <property name="visible">1</property>
+                        <property name="expand">1</property>
                       </object>
                     </child>
                   </object>
@@ -69,23 +66,19 @@
             <property name="name">ticket-view</property>
           </packing>
         </child>
-
         <child>
           <object class="GtkScrolledWindow">
-            <property name="visible">True</property>
-            <property name="vscrollbar-policy">automatic</property>
+            <property name="visible">1</property>
             <property name="hscrollbar-policy">never</property>
-            <property name="propagate-natural-height">True</property>
+            <property name="propagate-natural-height">1</property>
             <property name="max-content-height">480</property>
             <child>
               <object class="HdyPreferencesGroup">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="title" translatable="yes">Tickets</property>
-                <property name="visible">True</property>
                 <child>
                   <object class="GtkListBox" id="lb_tickets">
-                    <property name="visible">True</property>
-                    <property name="selection-mode">single</property>
+                    <property name="visible">1</property>
                     <style>
                       <class name="content"/>
                     </style>

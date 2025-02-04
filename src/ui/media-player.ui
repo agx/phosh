@@ -4,19 +4,19 @@
   <template class="PhoshMediaPlayer" parent="GtkGrid">
     <property name="margin-top">5</property>
     <property name="margin-bottom">5</property>
-    <property name="column-homogeneous">True</property>
+    <property name="column-homogeneous">1</property>
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="homogeneous">True</property>
+        <property name="visible">1</property>
+        <property name="homogeneous">1</property>
         <property name="margin-bottom">10</property>
         <child>
           <object class="GtkButton" id="btn_prev">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <signal name="clicked" handler="btn_prev_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
@@ -26,16 +26,16 @@
             </child>
           </object>
           <packing>
-            <property name="fill">False</property>
+            <property name="fill">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_seek_backward">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <signal name="clicked" handler="btn_seek_backward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
@@ -45,16 +45,16 @@
             </child>
           </object>
           <packing>
-            <property name="fill">False</property>
+            <property name="fill">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_play">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <signal name="clicked" handler="btn_play_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage" id="img_play">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="pixel-size">24</property>
@@ -65,16 +65,16 @@
             </child>
           </object>
           <packing>
-            <property name="fill">False</property>
+            <property name="fill">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_seek_forward">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <signal name="clicked" handler="btn_seek_forward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
@@ -84,16 +84,16 @@
             </child>
           </object>
           <packing>
-            <property name="fill">False</property>
+            <property name="fill">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_next">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <signal name="clicked" handler="btn_next_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
@@ -103,7 +103,7 @@
             </child>
           </object>
           <packing>
-            <property name="fill">False</property>
+            <property name="fill">0</property>
           </packing>
         </child>
       </object>
@@ -114,51 +114,50 @@
     </child>
     <child>
       <object class="GtkBox" id="box_pos_len">
-        <property name="visible">False</property>
         <property name="margin-start">8</property>
         <property name="margin-end">8</property>
         <property name="valign">center</property>
         <style>
           <class name="progress-bar"/>
         </style>
-          <child>
-            <object class="GtkLabel" id="lbl_position">
-              <property name="visible">True</property>
-              <property name="halign">start</property>
-              <property name="margin-bottom">3</property>
-              <property name="label" translatable="no">-</property>
-              <property name="ellipsize">end</property>
-              <property name="single-line-mode">True</property>
-              <attributes>
-                <attribute name="font-features" value="tnum=1"/>
-              </attributes>
-            </object>
-          </child>
-            <child>
-              <object class="GtkProgressBar" id="prb_position">
-                <property name="visible">True</property>
-                <property name="hexpand">True</property>
-                <property name="margin-start">8</property>
-                <property name="margin-end">8</property>
-                <property name="valign">center</property>
-              </object>
-            </child>
-          <child>
-            <object class="GtkLabel" id="lbl_length">
-              <property name="visible">True</property>
-              <property name="halign">start</property>
-              <property name="margin-bottom">3</property>
-              <property name="label" translatable="no">-</property>
-              <property name="ellipsize">end</property>
-              <property name="single-line-mode">True</property>
-              <attributes>
-                <attribute name="font-features" value="tnum=1"/>
-              </attributes>
-            </object>
-            <packing>
-              <property name="pack-type">end</property>
-            </packing>
-          </child>
+        <child>
+          <object class="GtkLabel" id="lbl_position">
+            <property name="visible">1</property>
+            <property name="halign">start</property>
+            <property name="margin-bottom">3</property>
+            <property name="label" translatable="no">-</property>
+            <property name="ellipsize">end</property>
+            <property name="single-line-mode">1</property>
+            <attributes>
+              <attribute name="font-features" value="tnum=1"/>
+            </attributes>
+          </object>
+        </child>
+        <child>
+          <object class="GtkProgressBar" id="prb_position">
+            <property name="visible">1</property>
+            <property name="hexpand">1</property>
+            <property name="margin-start">8</property>
+            <property name="margin-end">8</property>
+            <property name="valign">center</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lbl_length">
+            <property name="visible">1</property>
+            <property name="halign">start</property>
+            <property name="margin-bottom">3</property>
+            <property name="label" translatable="no">-</property>
+            <property name="ellipsize">end</property>
+            <property name="single-line-mode">1</property>
+            <attributes>
+              <attribute name="font-features" value="tnum=1"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="pack-type">end</property>
+          </packing>
+        </child>
       </object>
       <packing>
         <property name="left-attach">0</property>
@@ -167,17 +166,16 @@
     </child>
     <child>
       <object class="GtkButton" id="btn_details">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="relief">none</property>
         <signal name="clicked" handler="btn_details_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
         <property name="valign">center</property>
         <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <child>
               <object class="GtkImage" id="img_art">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="margin">5</property>
                 <property name="icon-name">audio-x-generic-symbolic</property>
                 <property name="pixel-size">48</property>
@@ -189,18 +187,18 @@
             </child>
             <child>
               <object class="GtkBox">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="orientation">vertical</property>
                 <property name="margin-start">6</property>
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkLabel" id="lbl_artist">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="halign">start</property>
                     <property name="margin-top">3</property>
                     <property name="label" translatable="yes">Unknown Artist</property>
                     <property name="ellipsize">middle</property>
-                    <property name="single-line-mode">True</property>
+                    <property name="single-line-mode">1</property>
                     <style>
                       <class name="dim-label"/>
                     </style>
@@ -208,11 +206,11 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="lbl_title">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Unknown Title</property>
                     <property name="ellipsize">middle</property>
-                    <property name="single-line-mode">True</property>
+                    <property name="single-line-mode">1</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -220,8 +218,7 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
+                <property name="expand">1</property>
                 <property name="position">1</property>
               </packing>
             </child>

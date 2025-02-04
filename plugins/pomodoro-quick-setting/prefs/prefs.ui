@@ -3,17 +3,17 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.6"/>
   <template class="PhoshPomodoroQuickSettingPrefs" parent="AdwPreferencesDialog">
-    <property name="title" translatable="yes">Pomodoro Quick Setting Preferences</property>
+    <property name="title" translatable="1">Pomodoro Quick Setting Preferences</property>
     <child>
       <object class="AdwPreferencesPage">
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Pomodoro Technique</property>
+            <property name="title" translatable="1">Pomodoro Technique</property>
             <child>
               <object class="AdwSpinRow" id="active_duration_spin_row">
-                <property name="title" translatable="yes">_Active Duration</property>
-                <property name="subtitle" translatable="yes">Duration of the focus session</property>
-                <property name="use_underline">True</property>
+                <property name="title" translatable="1">_Active Duration</property>
+                <property name="subtitle" translatable="1">Duration of the focus session</property>
+                <property name="use-underline">1</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -26,9 +26,9 @@
             </child>
             <child>
               <object class="AdwSpinRow" id="break_duration_spin_row">
-                <property name="title" translatable="yes">_Break Duration</property>
-                <property name="subtitle" translatable="yes">Duration of the break between sessions</property>
-                <property name="use_underline">True</property>
+                <property name="title" translatable="1">_Break Duration</property>
+                <property name="subtitle" translatable="1">Duration of the break between sessions</property>
+                <property name="use-underline">1</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
