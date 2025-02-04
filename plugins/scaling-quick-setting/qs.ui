@@ -6,12 +6,12 @@
     <signal name="clicked" handler="on_clicked" object="PhoshScalingQuickSetting" swapped="yes"/>
     <child>
       <object class="PhoshStatusIcon" id="info">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
       </object>
     </child>
   </template>
   <object class="PhoshStatusPage" id="status_page">
-    <property name="visible">True</property>
+    <property name="visible">1</property>
     <property name="title" translatable="yes">Monitor scales</property>
     <child>
       <object class="GtkListBox" id="list_box">
