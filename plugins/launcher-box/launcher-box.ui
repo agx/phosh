@@ -9,7 +9,7 @@
         <property name="visible">1</property>
         <child>
           <object class="HdyStatusPage">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="icon-name">applications-utilities-symbolic</property>
             <property name="title" translatable="yes">Launcher Box</property>
             <property name="description" translatable="yes">No launchers configured</property>
@@ -26,7 +26,7 @@
             <property name="max-content-height">480</property>
             <child>
               <object class="HdyPreferencesGroup">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="title" translatable="yes">Launchers</property>
                 <child>
                   <object class="GtkListBox" id="lb_launchers">
