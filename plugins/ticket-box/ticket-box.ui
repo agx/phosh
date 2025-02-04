@@ -9,7 +9,7 @@
         <property name="visible">1</property>
         <child>
           <object class="HdyStatusPage">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="icon-name">x-office-document-symbolic</property>
             <property name="title" translatable="yes">Ticket Box</property>
             <property name="description" translatable="yes">No documents to display</property>
@@ -53,8 +53,8 @@
                     <property name="max-content-width">300</property>
                     <child>
                       <object class="EvView" id="view">
-                        <property name="visible">True</property>
-                        <property name="expand">True</property>
+                        <property name="visible">1</property>
+                        <property name="expand">1</property>
                       </object>
                     </child>
                   </object>
@@ -74,9 +74,8 @@
             <property name="max-content-height">480</property>
             <child>
               <object class="HdyPreferencesGroup">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="title" translatable="yes">Tickets</property>
-                <property name="visible">True</property>
                 <child>
                   <object class="GtkListBox" id="lb_tickets">
                     <property name="visible">1</property>
