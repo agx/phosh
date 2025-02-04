@@ -3,8 +3,8 @@
   <requires lib="gtk+" version="3.24"/>
   <requires lib="libhandy" version="1.8"/>
   <template class="PhoshScaleRow" parent="HdyActionRow">
-    <property name="visible">True</property>
-    <property name="activatable">True</property>
+    <property name="visible">1</property>
+    <property name="activatable">1</property>
     <child type="prefix">
       <object class="GtkImage" id="icon">
         <property name="visible">1</property>
