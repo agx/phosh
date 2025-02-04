@@ -56,34 +56,32 @@
                   <object class="AdwPreferencesPage">
                     <property name="icon_name">preferences-window-layout-symbolic</property>
                     <property name="title">Paths</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                     <child>
                       <object class="AdwPreferencesGroup">
-                        <property name="visible">True</property>
                         <property name="title" translatable="1">Personal Information</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
                           <object class="AdwEntryRow" id="owner_name_entry">
                             <property name="title" translatable="1">_Owner Name</property>
-                            <property name="use-underline">True</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="dob_entry">
                             <property name="title" translatable="1">_Date of Birth</property>
-                            <property name="use-underline">True</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="pref_language_entry">
                             <property name="title" translatable="1">_Preferred Language</property>
-                            <property name="use-underline">True</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
                             <property name="title" translatable="1">Home Address</property>
                             <child>
                               <object class="GtkTextView">
@@ -99,37 +97,35 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesGroup">
-                        <property name="visible">True</property>
                         <property name="title" translatable="1">Medical Information</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
                           <object class="AdwEntryRow" id="age_entry">
                             <property name="title" translatable="1">_Age</property>
-                            <property name="use-underline">True</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="blood_type_entry">
                             <property name="title" translatable="1">_Blood Type</property>
-                            <property name="use-underline">True</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="height_entry">
                             <property name="title" translatable="1">_Height</property>
-                            <property name="use-underline">True</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="weight_entry">
                             <property name="title" translatable="1">_Weight</property>
-                            <property name="use-underline">True</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
                             <property name="title" translatable="1">Allergies</property>
                             <child>
                               <object class="GtkTextView">
@@ -143,7 +139,6 @@
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
                             <property name="title" translatable="1">Medications and Conditions</property>
                             <child>
                               <object class="GtkTextView">
@@ -157,7 +152,6 @@
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
                             <property name="title" translatable="1">Other Information</property>
                             <child>
                               <object class="GtkTextView">
@@ -173,7 +167,6 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesGroup" id="emer_contacts">
-                        <property name="visible">True</property>
                         <property name="title" translatable="1">Emergency Contacts</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
@@ -212,12 +205,12 @@
       <object class="AdwToolbarView">
         <child type="top">
           <object class="AdwHeaderBar">
-            <property name="show-start-title-buttons">False</property>
-            <property name="show-end-title-buttons">False</property>
+            <property name="show-start-title-buttons">0</property>
+            <property name="show-end-title-buttons">0</property>
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label" translatable="1">_Cancel</property>
-                <property name="use_underline">1</property>
+                <property name="use-underline">1</property>
                 <property name="valign">center</property>
                 <signal name="clicked" handler="on_dialog_update_emer_contact_cancelled" swapped="yes"/>
               </object>
@@ -225,7 +218,7 @@
             <child type="end">
               <object class="GtkButton" id="add_button">
                 <property name="label" translatable="1">_Add</property>
-                <property name="use_underline">1</property>
+                <property name="use-underline">1</property>
                 <property name="valign">center</property>
                 <signal name="clicked" handler="on_dialog_update_emer_contact" swapped="yes"/>
                 <binding name="sensitive">
@@ -245,19 +238,19 @@
                 <child>
                   <object class="AdwEntryRow" id="contact_name_entry">
                     <property name="title" translatable="1">_Contact Name</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="relationship_entry">
                     <property name="title" translatable="1">Relationship</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
                 <child>
                   <object class="AdwEntryRow" id="contact_number_entry">
                     <property name="title" translatable="1">_Contact Number</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
               </object>
