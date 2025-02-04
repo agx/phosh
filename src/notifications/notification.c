@@ -40,6 +40,7 @@ enum {
   PROP_CATEGORY,
   PROP_PROFILE,
   PROP_TIMESTAMP,
+  PROP_SOUND_FILE,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -69,6 +70,7 @@ typedef struct _PhoshNotificationPrivate {
   gboolean                  resident;
   char                     *category;
   char                     *profile;
+  char                     *sound_file;
 
   guint                     timeout;
 } PhoshNotificationPrivate;
@@ -126,6 +128,9 @@ phosh_notification_set_property (GObject      *object,
       break;
     case PROP_PROFILE:
       phosh_notification_set_profile (self, g_value_get_string (value));
+      break;
+    case PROP_SOUND_FILE:
+      phosh_notification_set_sound_file (self, g_value_get_string (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -185,6 +190,9 @@ phosh_notification_get_property (GObject    *object,
     case PROP_PROFILE:
       g_value_set_string (value, phosh_notification_get_profile (self));
       break;
+    case PROP_SOUND_FILE:
+      g_value_set_string (value, phosh_notification_get_sound_file (self));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -213,6 +221,7 @@ phosh_notification_finalize (GObject *object)
   g_clear_pointer (&priv->actions, g_strfreev);
   g_clear_pointer (&priv->category, g_free);
   g_clear_pointer (&priv->profile, g_free);
+  g_clear_pointer (&priv->sound_file, g_free);
 
   G_OBJECT_CLASS (phosh_notification_parent_class)->finalize (object);
 }
@@ -346,6 +355,15 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
    */
   props[PROP_PROFILE] =
     g_param_spec_string ("profile", "", "",
+                         NULL,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+  /**
+   * PhoshNotification:sound-file:
+   *
+   * The sound file to play.
+   */
+  props[PROP_SOUND_FILE] =
+    g_param_spec_string ("sound-file", "", "",
                          NULL,
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
@@ -983,6 +1001,50 @@ phosh_notification_get_profile (PhoshNotification *self)
   return priv->profile;
 }
 
+/**
+ * phosh_notification_set_sound_file:
+ * @self: the #PhoshNotification
+ * @sound_file: the sound file to use
+ *
+ * Set the sound file to play (constrained by feedbackd's global
+ * policy)
+ */
+void
+phosh_notification_set_sound_file (PhoshNotification *self,
+                                   const char        *sound_file)
+{
+  PhoshNotificationPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_strcmp0 (priv->sound_file, sound_file) == 0)
+    return;
+
+  g_clear_pointer (&priv->sound_file, g_free);
+  priv->sound_file = g_strdup (sound_file);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SOUND_FILE]);
+}
+
+/**
+ * phosh_notification_get_sound_file:
+ * @self: the #PhoshNotification
+ *
+ * Get the sound file for the event related to this notification
+ *
+ * Returns: the sound file or %NULL
+ */
+const char *
+phosh_notification_get_sound_file (PhoshNotification *self)
+{
+  PhoshNotificationPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), NULL);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->sound_file;
+}
 
 void
 phosh_notification_activate (PhoshNotification *self,

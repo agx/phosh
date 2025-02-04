@@ -132,6 +132,10 @@ test_phosh_notification_new_basic (void)
 
   g_assert_true (was_notified);
 
+  was_notified = FALSE;
+  g_signal_connect (noti, "notify::sound-file", G_CALLBACK (notified), NULL);
+  g_object_set (noti, "sound-file", "/does/not/exist", NULL);
+  g_assert_true (was_notified);
 
   g_signal_handlers_disconnect_by_func (noti, G_CALLBACK (notified), NULL);
 }

@@ -116,6 +116,9 @@ void                      phosh_notification_set_category  (PhoshNotification   
 const char               *phosh_notification_get_profile   (PhoshNotification        *self);
 void                      phosh_notification_set_profile   (PhoshNotification        *self,
                                                             const char               *profile);
+const char               *phosh_notification_get_sound_file (PhoshNotification       *self);
+void                      phosh_notification_set_sound_file (PhoshNotification       *self,
+                                                             const char              *sound_file);
 const char               *phosh_notification_get_category  (PhoshNotification        *self);
 void                      phosh_notification_activate      (PhoshNotification        *self,
                                                             const char               *action);

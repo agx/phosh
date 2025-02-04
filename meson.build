@@ -213,6 +213,8 @@ foreach f: [
     have_mm_cbm = false
   endif
 endforeach
+# Check for feedbackd sound file API until we can rely on a release
+have_lfb_sound_file = cc.has_function('lfb_event_set_sound_file', dependencies: libfeedback_dep)
 
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
@@ -221,6 +223,7 @@ config_h.set_quoted('PHOSH_PLUGINS_DIR', plugins_dir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 config_h.set('PHOSH_ANIMATION_SLOWDOWN', get_option('animation-slowdown'))
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
+config_h.set('PHOSH_HAVE_LFB_SOUND_FILE', have_lfb_sound_file)
 config_h.set('PHOSH_HAVE_MEMFD_CREATE', have_memfd_create,
              description: 'Whether we have memdfd_create on Linux')
 config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
@@ -267,6 +270,7 @@ summary({
 
 summary({
     'ModemManager with Cellbroadcast support': have_mm_cbm,
+    'Libfeedback with sound-file support': have_lfb_sound_file,
   },
   bool_yn: true,
   section: 'Versions',

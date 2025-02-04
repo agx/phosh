@@ -122,7 +122,7 @@ handle_get_capabilities (PhoshNotifyDBusNotifications *skeleton,
                          GDBusMethodInvocation        *invocation)
 {
   const char *const capabilities[] = {
-    "body", "body-markup", "actions", "icon-static", NULL,
+    "body", "body-markup", "actions", "icon-static", "sound", NULL,
   };
 
   g_debug ("DBus call GetCapabilities");
@@ -433,6 +433,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
   gboolean resident = FALSE;
   g_autofree char *category = NULL;
   g_autofree char *profile = NULL;
+  g_autofree char *sound_file = NULL;
   GIcon *icon = NULL;
   GIcon *image = NULL;
 
@@ -483,6 +484,12 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
     } else if ((g_strcmp0 (key, "x-phosh-fb-profile") == 0)) {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
         profile = g_variant_dup_string (value, NULL);
+    } else if ((g_strcmp0 (key, "sound-file") == 0)) {
+      if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
+        sound_file = g_variant_dup_string (value, NULL);
+    } else if ((g_strcmp0 (key, "suppress-sound") == 0)) {
+      if (g_variant_is_of_type (value, G_VARIANT_TYPE_BOOLEAN))
+        profile = g_strdup ("quiet");
     }
 
     g_variant_unref (item);
@@ -535,6 +542,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                   "urgency", urgency,
                   "actions", actions,
                   "timestamp", NULL,
+                  "sound-file", sound_file,
                   NULL);
   } else {
     g_autoptr(PhoshDBusNotification) dbus_notification = NULL;
@@ -557,6 +565,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                                                      category,
                                                      profile,
                                                      NULL);
+    phosh_notification_set_sound_file (PHOSH_NOTIFICATION (dbus_notification), sound_file);
 
     phosh_notify_manager_add_notification (self,
                                            source_id,
