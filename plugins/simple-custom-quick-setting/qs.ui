@@ -6,18 +6,18 @@
     <signal name="clicked" handler="on_clicked" object="PhoshSimpleCustomQuickSetting" swapped="yes"/>
     <child>
       <object class="PhoshStatusIcon" id="info">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="icon-size">1</property>
       </object>
     </child>
   </template>
   <object class="PhoshStatusPage" id="status_page">
-    <property name="visible">True</property>
+    <property name="visible">1</property>
     <property name="title" translatable="yes">Simple Custom Quick Setting</property>
     <property name="footer">footer</property>
     <child>
       <object class="PhoshStatusPagePlaceholder">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="icon-name">face-angel-symbolic</property>
         <child>
           <object class="GtkLabel">
