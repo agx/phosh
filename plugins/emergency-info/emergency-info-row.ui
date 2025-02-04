@@ -6,7 +6,7 @@
     <property name="visible">True</property>
     <child>
       <object class="GtkLabel" id="label_contact">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="justify">right</property>
         <property name="halign">end</property>
       </object>
