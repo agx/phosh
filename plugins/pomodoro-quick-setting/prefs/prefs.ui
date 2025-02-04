@@ -13,7 +13,7 @@
               <object class="AdwSpinRow" id="active_duration_spin_row">
                 <property name="title" translatable="1">_Active Duration</property>
                 <property name="subtitle" translatable="1">Duration of the focus session</property>
-                <property name="use_underline">True</property>
+                <property name="use-underline">1</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -28,7 +28,7 @@
               <object class="AdwSpinRow" id="break_duration_spin_row">
                 <property name="title" translatable="1">_Break Duration</property>
                 <property name="subtitle" translatable="1">Duration of the break between sessions</property>
-                <property name="use_underline">True</property>
+                <property name="use-underline">1</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
