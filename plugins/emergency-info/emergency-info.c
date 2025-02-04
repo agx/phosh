@@ -32,9 +32,9 @@
  * BloodType=Lorem ipsum
  * Height=163 cm
  * Weight=74 kg
- * # You can add multiple and seperate by a ";"
+ * # You can add multiple and separate by a ";"
  * Allergies=Lorem ipsum dolor 1;Lorem ipsum dolor 2
- * # You can add multiple and seperate by a ";"
+ * # You can add multiple and separate by a ";"
  * MedicationsAndConditions=Lorem ipsum 1;Lorem ipsum 2
  * OtherInfo=Lorem ipsum dolor sit amet
  *

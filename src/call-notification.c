@@ -248,7 +248,7 @@ phosh_call_notification_class_init (PhoshCallNotificationClass *klass)
   /**
    * PhoshCallNotification:call:
    *
-   * The call tracked by this notifiation
+   * The call tracked by this notification
    */
   props[PROP_CALL] =
     g_param_spec_object ("call", "", "",

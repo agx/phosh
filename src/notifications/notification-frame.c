@@ -365,7 +365,7 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
   /**
    * PhoshNotificationFrame:show-body:
    *
-   * Whether notificaions in this frame should show the notification body
+   * Whether notifications in this frame should show the notification body
    */
   props[PROP_SHOW_BODY] =
     g_param_spec_boolean ("show-body",
@@ -573,4 +573,3 @@ phosh_notification_frame_get_action_filter_keys (PhoshNotificationFrame *self)
 
   return (const char *const *)self->action_filter_keys;
 }
-

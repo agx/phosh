@@ -1111,7 +1111,7 @@ Released: August 2021
 * ci: Use prebuilt docker images in CI to speedup builds and save resources
   (Guido Günther)
 * lockscreen: Handle incoming phone calls (Guido Günther)
-* backrounds: Handle fractional scaling (Guido Günther)
+* backgrounds: Handle fractional scaling (Guido Günther)
 * notifications: Look at category for notification feedback
 * lockscreen: Display notification summary and handle global
   "show-in-lock-screen" toggle (Guido Günther)

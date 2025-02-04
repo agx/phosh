@@ -21,7 +21,7 @@ PhoshHeadMode fourk_mode = {
 static PhoshHead *
 stub_head_new (PhoshHeadMode *mode)
 {
-  /* We don't use `phosh_head_new()` so we don't have to bother about wayland protcols, etc */
+  /* We don't use `phosh_head_new()` so we don't have to bother about wayland protocols, etc */
   PhoshHead *head = g_new0 (PhoshHead, 1);
 
   head->pending.scale = 1.0;

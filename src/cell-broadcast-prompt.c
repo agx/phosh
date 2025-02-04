@@ -20,7 +20,7 @@
  * A modal prompt to display cell broadcast messages
  *
  * The #PhoshCellBroadcastPrompt is used to show cell
- * broacast messages from the mobile network.
+ * broadcast messages from the mobile network.
  *
  * Since it's about emergencies it can be shown above the
  * lock screen.

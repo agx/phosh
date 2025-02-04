@@ -375,7 +375,7 @@ phosh_activity_finalize (GObject *object)
 
 
 static GtkSizeRequestMode
-phosh_activity_get_request_mode (GtkWidget *widgte)
+phosh_activity_get_request_mode (GtkWidget *widget)
 {
   return GTK_SIZE_REQUEST_WIDTH_FOR_HEIGHT;
 }

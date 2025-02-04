@@ -20,7 +20,7 @@
 /**
  * PhoshDBusNotification:
  *
- * A notifiction submitted via the DBus notification interface
+ * A notification submitted via the DBus notification interface
  *
  * The #PhoshDBusNotification is a notification submitted via the
  * org.freedesktop.Notification interface.
