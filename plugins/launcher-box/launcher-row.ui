@@ -4,13 +4,12 @@
   <template class="PhoshLauncherRow" parent="HdyActionRow">
     <child>
       <object class="GtkBox" id="box_data">
-        <property name="visible">False</property>
         <property name="spacing">6</property>
         <property name="margin-top">6</property>
         <property name="margin-bottom">6</property>
         <property name="orientation">vertical</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
         <property name="valign">center</property>
         <property name="halign">end</property>
         <property name="width-request">100</property>
@@ -26,10 +25,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkLevelBar" id="progress_bar">
-            <property name="min-value">0.0</property>
-            <property name="max-value">1.0</property>
-          </object>
+          <object class="GtkLevelBar" id="progress_bar"/>
         </child>
       </object>
     </child>
