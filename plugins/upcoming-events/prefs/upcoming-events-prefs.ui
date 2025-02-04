@@ -3,18 +3,18 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.6"/>
   <template class="PhoshUpcomingEventsPrefs" parent="AdwPreferencesDialog">
-    <property name="title" translatable="yes">Upcoming Events Preferences</property>
+    <property name="title" translatable="1">Upcoming Events Preferences</property>
     <child>
       <object class="AdwPreferencesPage">
         <property name="icon-name">preferences-window-layout-symbolic</property>
-        <property name="title" translatable="yes">Days</property>
+        <property name="title" translatable="1">Days</property>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="yes">Date Range</property>
-            <property name="description" translatable="yes">Number of days to show events for</property>
+            <property name="title" translatable="1">Date Range</property>
+            <property name="description" translatable="1">Number of days to show events for</property>
             <child>
               <object class="AdwSpinRow">
-                <property name="title" translatable="yes">Days</property>
+                <property name="title" translatable="1">Days</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment" id="adjustment">
                     <property name="lower">1</property>
