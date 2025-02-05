@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "status-icon.h"
 #include "status-page.h"
 
 G_BEGIN_DECLS
@@ -37,6 +38,8 @@ void             phosh_quick_setting_set_can_show_status (PhoshQuickSetting *sel
 gboolean         phosh_quick_setting_get_can_show_status (PhoshQuickSetting *self);
 void             phosh_quick_setting_set_showing_status (PhoshQuickSetting *self, gboolean showing_status);
 gboolean         phosh_quick_setting_get_showing_status (PhoshQuickSetting *self);
+void             phosh_quick_setting_set_status_icon (PhoshQuickSetting *self, PhoshStatusIcon *status_icon);
+PhoshStatusIcon *phosh_quick_setting_get_status_icon (PhoshQuickSetting *self);
 void             phosh_quick_setting_set_status_page (PhoshQuickSetting *self, PhoshStatusPage *status_page);
 PhoshStatusPage *phosh_quick_setting_get_status_page (PhoshQuickSetting *self);
 void             phosh_quick_setting_set_long_press_action_name (PhoshQuickSetting *self, const char *action_name);

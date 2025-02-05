@@ -70,7 +70,7 @@ test_phosh_quick_setting_add_status_icon (void)
   label = "Foo";
   status_icon = g_object_new (PHOSH_TYPE_STATUS_ICON, "icon-name", "face-smile-symbolic", "info",
                               label, NULL);
-  gtk_container_add (quick_setting, status_icon);
+  phosh_quick_setting_set_status_icon (PHOSH_QUICK_SETTING (quick_setting), PHOSH_STATUS_ICON (status_icon));
 
   box_children = gtk_container_get_children (quick_setting);
   button_box_wid = gtk_bin_get_child (g_list_nth_data (box_children, 0));
@@ -98,8 +98,8 @@ test_phosh_quick_setting_remove_status_icon (void)
   quick_setting = GTK_CONTAINER (phosh_quick_setting_new (NULL));
 
   status_icon = phosh_status_icon_new ();
-  gtk_container_add (quick_setting, status_icon);
-  gtk_container_remove (quick_setting, status_icon);
+  phosh_quick_setting_set_status_icon (PHOSH_QUICK_SETTING (quick_setting), PHOSH_STATUS_ICON (status_icon));
+  phosh_quick_setting_set_status_icon (PHOSH_QUICK_SETTING (quick_setting), NULL);
 
   box_children = gtk_container_get_children (quick_setting);
   button_box_wid = gtk_bin_get_child (g_list_nth_data (box_children, 0));

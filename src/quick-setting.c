@@ -22,7 +22,7 @@
  * and label. It should be added to a PhoshQuickSettingsBox for better integration.
  *
  * A quick-setting displays the state using an icon and label. The state is set by
- * [class@Phosh.StatusIcon], which must be added as a child. It can also have a status-page, which
+ * [class@Phosh.StatusIcon], which must be set as a [property@Phosh.QuickSetting:status-icon]. It can also have a status-page, which
  * can be used to expose additional features. For example, a Wi-Fi quick-setting can show available
  * Wi-Fi hotspots as an extra option. When a status widget is set, the quick-setting displays an
  * arrow at the right end.
@@ -43,7 +43,7 @@
  *
  * A quick-setting can be in an active or inactive state. However clicking the quick-setting does
  * not toggle its state. The user must set the state using [property@Phosh.QuickSetting:active]. If
- * the child [class@StatusIcon] has an `enabled` property it will be automatically bound to the
+ * the status-icon [class@StatusIcon] has an `enabled` property it will be automatically bound to the
  * [property@Phosh.QuickSetting:active] property.
  *
  * When a quick-setting is clicked, [signal@Phosh.QuickSetting::clicked] is emitted. When it is
@@ -61,6 +61,7 @@ enum {
   PROP_ACTIVE,
   PROP_SHOWING_STATUS,
   PROP_CAN_SHOW_STATUS,
+  PROP_STATUS_ICON,
   PROP_STATUS_PAGE,
   PROP_LONG_PRESS_ACTION_NAME,
   PROP_LONG_PRESS_ACTION_TARGET,
@@ -118,6 +119,9 @@ phosh_quick_setting_set_property (GObject      *object,
   case PROP_CAN_SHOW_STATUS:
     phosh_quick_setting_set_can_show_status (self, g_value_get_boolean (value));
     break;
+  case PROP_STATUS_ICON:
+    phosh_quick_setting_set_status_icon (self, g_value_get_object (value));
+    break;
   case PROP_STATUS_PAGE:
     phosh_quick_setting_set_status_page (self, g_value_get_object (value));
     break;
@@ -151,6 +155,9 @@ phosh_quick_setting_get_property (GObject    *object,
   case PROP_CAN_SHOW_STATUS:
     g_value_set_boolean (value, phosh_quick_setting_get_can_show_status (self));
     break;
+  case PROP_STATUS_ICON:
+    g_value_set_object (value, phosh_quick_setting_get_status_icon (self));
+    break;
   case PROP_STATUS_PAGE:
     g_value_set_object (value, phosh_quick_setting_get_status_page (self));
     break;
@@ -171,57 +178,6 @@ on_status_icon_destroy (PhoshQuickSetting *self)
 {
   PhoshQuickSettingPrivate *priv = phosh_quick_setting_get_instance_private (self);
   priv->status_icon = NULL;
-}
-
-
-static void
-phosh_quick_setting_add (GtkContainer *container, GtkWidget *child)
-{
-  PhoshQuickSetting *self = PHOSH_QUICK_SETTING (container);
-  PhoshQuickSettingPrivate *priv = phosh_quick_setting_get_instance_private (self);
-
-  if (!PHOSH_IS_STATUS_ICON (child)) {
-    GTK_CONTAINER_CLASS (phosh_quick_setting_parent_class)->add (container, child);
-    return;
-  }
-
-  if (priv->status_icon != NULL) {
-    g_warning ("Attempting to add a status icon but the quick-setting already has one");
-    return;
-  }
-
-  priv->status_icon = PHOSH_STATUS_ICON (child);
-  priv->label_binding = g_object_bind_property (child, "info",
-                                                priv->label, "label",
-                                                G_BINDING_SYNC_CREATE);
-
-  if (g_object_class_find_property (G_OBJECT_GET_CLASS (child), "enabled")) {
-    priv->active_binding = g_object_bind_property (child, "enabled",
-                                                   self, "active",
-                                                   G_BINDING_SYNC_CREATE);
-  }
-
-  g_signal_connect_object (child, "destroy", G_CALLBACK (on_status_icon_destroy), self,
-                           G_CONNECT_SWAPPED);
-  gtk_box_pack_start (priv->box, child, 0, 0, 0);
-}
-
-
-static void
-phosh_quick_setting_remove (GtkContainer *container, GtkWidget *child)
-{
-  PhoshQuickSetting *self = PHOSH_QUICK_SETTING (container);
-  PhoshQuickSettingPrivate *priv = phosh_quick_setting_get_instance_private (self);
-
-  if (PHOSH_IS_STATUS_ICON (child) && GTK_WIDGET (priv->status_icon) == child) {
-    g_clear_pointer (&priv->label_binding, g_binding_unbind);
-    g_clear_pointer (&priv->active_binding, g_binding_unbind);
-    priv->status_icon = NULL;
-    gtk_container_remove (GTK_CONTAINER (priv->box), child);
-    return;
-  }
-
-  GTK_CONTAINER_CLASS (phosh_quick_setting_parent_class)->remove (container, child);
 }
 
 
@@ -319,17 +275,27 @@ phosh_quick_setting_finalize (GObject *object)
 
 
 static void
+phosh_quick_setting_destroy (GtkWidget *widget)
+{
+  PhoshQuickSetting *self = PHOSH_QUICK_SETTING (widget);
+
+  phosh_quick_setting_set_status_icon (self, NULL);
+
+  GTK_WIDGET_CLASS (phosh_quick_setting_parent_class)->destroy (widget);
+}
+
+
+static void
 phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-  GtkContainerClass *container_class = GTK_CONTAINER_CLASS (klass);
 
   object_class->set_property = phosh_quick_setting_set_property;
   object_class->get_property = phosh_quick_setting_get_property;
   object_class->finalize = phosh_quick_setting_finalize;
-  container_class->add = phosh_quick_setting_add;
-  container_class->remove = phosh_quick_setting_remove;
+
+  widget_class->destroy = phosh_quick_setting_destroy;
 
   /**
    * PhoshQuickSetting:active:
@@ -358,6 +324,15 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
     g_param_spec_boolean ("can-show-status", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshQuickSetting:status-icon:
+   *
+   * The status-icon.
+   */
+  props[PROP_STATUS_ICON] =
+    g_param_spec_object ("status-icon", "", "",
+                         PHOSH_TYPE_STATUS_ICON,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSetting:status-page:
    *
@@ -541,6 +516,74 @@ phosh_quick_setting_get_can_show_status (PhoshQuickSetting *self)
   priv = phosh_quick_setting_get_instance_private (self);
 
   return priv->can_show_status;
+}
+
+/**
+ * phosh_quick_setting_set_status_icon:
+ * @self: A quick-setting
+ * @status_icon: A status-icon or `NULL`
+ *
+ * Set the status-icon of the quick-setting. Use `NULL` to remove existing icon.
+ */
+void
+phosh_quick_setting_set_status_icon (PhoshQuickSetting *self, PhoshStatusIcon *status_icon)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (self));
+  g_return_if_fail (status_icon == NULL || PHOSH_IS_STATUS_ICON (status_icon));
+
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  if (priv->status_icon == status_icon)
+    return;
+
+  if (priv->status_icon) {
+    g_clear_pointer (&priv->label_binding, g_binding_unbind);
+    g_clear_pointer (&priv->active_binding, g_binding_unbind);
+    gtk_container_remove (GTK_CONTAINER (priv->box), GTK_WIDGET (priv->status_icon));
+  }
+
+  priv->status_icon = status_icon;
+
+  if (priv->status_icon) {
+    priv->label_binding = g_object_bind_property (status_icon, "info",
+                                                  priv->label, "label",
+                                                  G_BINDING_SYNC_CREATE);
+
+    if (g_object_class_find_property (G_OBJECT_GET_CLASS (status_icon), "enabled")) {
+      priv->active_binding = g_object_bind_property (status_icon, "enabled",
+                                                     self, "active",
+                                                     G_BINDING_SYNC_CREATE);
+    }
+
+    g_signal_connect_object (status_icon, "destroy", G_CALLBACK (on_status_icon_destroy), self,
+                             G_CONNECT_SWAPPED);
+
+    gtk_box_pack_start (priv->box, GTK_WIDGET (priv->status_icon), 0, 0, 0);
+  }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATUS_PAGE]);
+}
+
+/**
+ * phosh_quick_setting_get_status_icon:
+ * @self: A quick-setting
+ *
+ * Get the current status-icon of the quick-setting.
+ *
+ * Returns:(transfer none): The status-icon or `NULL`.
+ */
+PhoshStatusIcon *
+phosh_quick_setting_get_status_icon (PhoshQuickSetting *self)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_QUICK_SETTING (self), NULL);
+
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  return priv->status_icon;
 }
 
 

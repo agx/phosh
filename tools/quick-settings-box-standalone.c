@@ -110,7 +110,7 @@ make_child (int i)
   GtkWidget *child = phosh_quick_setting_new (NULL);
   PhoshStatusPage *status_page = make_status_page (child);
 
-  gtk_container_add (GTK_CONTAINER (child), status_icon);
+  phosh_quick_setting_set_status_icon (PHOSH_QUICK_SETTING (child), PHOSH_STATUS_ICON (status_icon));
   phosh_quick_setting_set_status_page (PHOSH_QUICK_SETTING (child), status_page);
 
   g_signal_connect_object (child, "show-status", G_CALLBACK (on_show_status), NULL,
