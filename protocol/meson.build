@@ -6,12 +6,6 @@ wl_protocol_dir = wayland_protos_dep.get_variable(pkgconfig: 'pkgdatadir')
 
 wayland_scanner = find_program('wayland-scanner')
 
-# These protocols are referenced directly by public libphosh API headers, the
-# generated headers will be exported to the public include dir.
-libphosh_wl_protos = [
-    ['wlr-layer-shell-unstable-v1.xml'],
-]
-
 wl_protos = [
   [wl_protocol_dir, 'stable/xdg-shell/xdg-shell.xml'],
   [wl_protocol_dir, 'staging/ext-idle-notify/ext-idle-notify-v1.xml'],
@@ -23,10 +17,11 @@ wl_protos = [
   ['virtual-keyboard-unstable-v1.xml'],
   ['wlr-foreign-toplevel-management-unstable-v1.xml'],
   ['wlr-gamma-control-unstable-v1.xml'],
+  ['wlr-layer-shell-unstable-v1.xml'],
   ['wlr-output-management-unstable-v1.xml'],
   ['wlr-output-power-management-unstable-v1.xml'],
   ['wlr-screencopy-unstable-v1.xml'],
-] + libphosh_wl_protos
+]
 
 wl_proto_headers = []
 wl_proto_headers = []
@@ -45,8 +40,6 @@ foreach p : wl_protos
 					      'client-header',
 					      '@INPUT@',
 					      '@OUTPUT@'],
-                    install_dir: lib_inc_dir,
-                    install: libphosh_wl_protos.contains(p),
 				   )
   wl_proto_sources += custom_target('@0@ source'.format(proto),
 				    input: xml,
