@@ -9,7 +9,7 @@
 #define G_LOG_DOMAIN "phosh-layer-surface"
 
 #include "phosh-config.h"
-#include "layersurface.h"
+#include "layersurface-priv.h"
 #include "phosh-wayland.h"
 #include "phoc-layer-shell-effects-unstable-v1-client-protocol.h"
 

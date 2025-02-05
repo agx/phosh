@@ -50,6 +50,7 @@
 #include "idle-manager.h"
 #include "keyboard-events.h"
 #include "launcher-entry-manager.h"
+#include "layersurface-priv.h"
 #include "location-info.h"
 #include "layout-manager.h"
 #include "location-manager.h"

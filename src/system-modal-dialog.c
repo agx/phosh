@@ -11,6 +11,7 @@
 #include "phosh-config.h"
 
 #include "animation.h"
+#include "layersurface-priv.h"
 #include "shell-priv.h"
 #include "system-modal-dialog.h"
 #include "swipe-away-bin.h"

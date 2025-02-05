@@ -15,6 +15,7 @@
 
 #include "phosh-config.h"
 
+#include "layersurface-priv.h"
 #include "layout-manager.h"
 #include "shell-priv.h"
 #include "session-manager.h"

@@ -12,6 +12,7 @@
 
 #include "phosh-enums.h"
 #include "drag-surface.h"
+#include "layersurface-priv.h"
 
 /**
  * PhoshDragSurface:

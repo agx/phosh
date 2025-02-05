@@ -13,6 +13,7 @@
 #include "call-notification.h"
 #include "calls-manager.h"
 #include "keypad.h"
+#include "layersurface-priv.h"
 #include "lockscreen-priv.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"

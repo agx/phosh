@@ -10,6 +10,7 @@
 
 #include "phosh-config.h"
 #include "animation.h"
+#include "layersurface-priv.h"
 #include "notification-banner.h"
 #include "notification-frame.h"
 #include "shell-priv.h"
