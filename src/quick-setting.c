@@ -13,7 +13,6 @@
 #include "phosh-config.h"
 
 #include "quick-setting.h"
-#include "status-icon.h"
 
 /**
  * PhoshQuickSetting:
@@ -22,10 +21,10 @@
  * and label. It should be added to a PhoshQuickSettingsBox for better integration.
  *
  * A quick-setting displays the state using an icon and label. The state is set by
- * [class@Phosh.StatusIcon], which must be set as a [property@Phosh.QuickSetting:status-icon]. It can also have a status-page, which
- * can be used to expose additional features. For example, a Wi-Fi quick-setting can show available
- * Wi-Fi hotspots as an extra option. When a status widget is set, the quick-setting displays an
- * arrow at the right end.
+ * [class@Phosh.StatusIcon], which must be set as a [property@Phosh.QuickSetting:status-icon]. It
+ * can also have a status-page, which can be used to expose additional features. For example, a
+ * Wi-Fi quick-setting can show available Wi-Fi hotspots as an extra option. When a status widget is
+ * set, the quick-setting displays an arrow at the right end.
  *
  * A quick-setting itself does not have any provision to display its status-page. It is
  * completely upto the user to display and hide the status-pages as required. However the
@@ -43,8 +42,8 @@
  *
  * A quick-setting can be in an active or inactive state. However clicking the quick-setting does
  * not toggle its state. The user must set the state using [property@Phosh.QuickSetting:active]. If
- * the status-icon [class@StatusIcon] has an `enabled` property it will be automatically bound to the
- * [property@Phosh.QuickSetting:active] property.
+ * the status-icon [class@StatusIcon] has an `enabled` property it will be automatically bound to
+ * the [property@Phosh.QuickSetting:active] property.
  *
  * When a quick-setting is clicked, [signal@Phosh.QuickSetting::clicked] is emitted. When it is
  * long-pressed or right-clicked, [signal@PhoshQuickSetting::long-pressed] is emitted.
