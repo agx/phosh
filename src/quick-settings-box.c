@@ -652,57 +652,16 @@ on_visible_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSe
 
 
 static void
-phosh_quick_settings_box_add (GtkContainer *container, GtkWidget *widget)
-{
-  PhoshQuickSettingsBox *self = PHOSH_QUICK_SETTINGS_BOX (container);
-  PhoshQuickSetting *child;
-
-  g_return_if_fail (PHOSH_IS_QUICK_SETTING (widget));
-  child = PHOSH_QUICK_SETTING (widget);
-
-  g_ptr_array_add (self->children, child);
-  gtk_widget_set_parent (widget, GTK_WIDGET (self));
-
-  g_object_bind_property (self,
-                          "can-show-status",
-                          child,
-                          "can-show-status",
-                          G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
-  g_object_connect (child,
-                    "swapped-object-signal::show-status",
-                    G_CALLBACK (on_show_status), self,
-                    "swapped-object-signal::hide-status",
-                    G_CALLBACK (on_hide_status), self,
-                    "swapped-object-signal::notify::status-page",
-                    G_CALLBACK (on_status_page_changed), self,
-                    "swapped-object-signal::notify::sensitive",
-                    G_CALLBACK (on_sensitive_changed), self,
-                    "swapped-object-signal::notify::visible",
-                    G_CALLBACK (on_visible_changed), self,
-                    NULL);
-
-  on_status_page_changed (self, NULL, child);
+container_add (GtkContainer *container, GtkWidget *widget) {
+  phosh_quick_settings_box_add (PHOSH_QUICK_SETTINGS_BOX (container),
+                                PHOSH_QUICK_SETTING (widget));
 }
 
 
 static void
-phosh_quick_settings_box_remove (GtkContainer *container, GtkWidget *widget)
-{
-  PhoshQuickSettingsBox *self = PHOSH_QUICK_SETTINGS_BOX (container);
-  PhoshQuickSetting *child;
-
-  g_return_if_fail (PHOSH_IS_QUICK_SETTING (widget));
-  child = PHOSH_QUICK_SETTING (widget);
-
-  if (child == self->shown_child) {
-    hide_status_page (self);
-    gtk_revealer_set_reveal_child (self->revealer, FALSE);
-  } else if (child == self->to_show_child) {
-    self->to_show_child = NULL;
-  }
-
-  gtk_widget_unparent (widget);
-  g_ptr_array_remove (self->children, child);
+container_remove (GtkContainer *container, GtkWidget *widget) {
+  phosh_quick_settings_box_remove (PHOSH_QUICK_SETTINGS_BOX (container),
+                                   PHOSH_QUICK_SETTING (widget));
 }
 
 
@@ -740,8 +699,8 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   widget_class->get_preferred_height_for_width = phosh_quick_settings_box_get_preferred_height_for_width;
   widget_class->size_allocate = phosh_quick_settings_box_size_allocate;
 
-  container_class->add = phosh_quick_settings_box_add;
-  container_class->remove = phosh_quick_settings_box_remove;
+  container_class->add = container_add;
+  container_class->remove = container_remove;
   container_class->forall = phosh_quick_settings_box_forall;
 
   /**
@@ -884,4 +843,53 @@ phosh_quick_settings_box_get_can_show_status (PhoshQuickSettingsBox *self)
   g_return_val_if_fail (PHOSH_IS_QUICK_SETTINGS_BOX (self), FALSE);
 
   return self->can_show_status;
+}
+
+
+void
+phosh_quick_settings_box_add (PhoshQuickSettingsBox *self, PhoshQuickSetting *child)
+{
+  g_return_if_fail (PHOSH_QUICK_SETTINGS_BOX (self));
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (child));
+
+  g_ptr_array_add (self->children, child);
+  gtk_widget_set_parent (GTK_WIDGET (child), GTK_WIDGET (self));
+
+  g_object_bind_property (self,
+                          "can-show-status",
+                          child,
+                          "can-show-status",
+                          G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+  g_object_connect (child,
+                    "swapped-object-signal::show-status",
+                    G_CALLBACK (on_show_status), self,
+                    "swapped-object-signal::hide-status",
+                    G_CALLBACK (on_hide_status), self,
+                    "swapped-object-signal::notify::status-page",
+                    G_CALLBACK (on_status_page_changed), self,
+                    "swapped-object-signal::notify::sensitive",
+                    G_CALLBACK (on_sensitive_changed), self,
+                    "swapped-object-signal::notify::visible",
+                    G_CALLBACK (on_visible_changed), self,
+                    NULL);
+
+  on_status_page_changed (self, NULL, child);
+}
+
+
+void
+phosh_quick_settings_box_remove (PhoshQuickSettingsBox *self, PhoshQuickSetting *child)
+{
+  g_return_if_fail (PHOSH_QUICK_SETTINGS_BOX (self));
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (child));
+
+  if (child == self->shown_child) {
+    hide_status_page (self);
+    gtk_revealer_set_reveal_child (self->revealer, FALSE);
+  } else if (child == self->to_show_child) {
+    self->to_show_child = NULL;
+  }
+
+  gtk_widget_unparent (GTK_WIDGET (child));
+  g_ptr_array_remove (self->children, child);
 }

@@ -134,7 +134,7 @@ on_del_clicked (GtkWidget *child)
   GtkWidget *controls_box = g_object_get_data (G_OBJECT (child), "controls_box");
 
   gtk_container_remove (GTK_CONTAINER (controls_grid), controls_box);
-  gtk_container_remove (GTK_CONTAINER (box), child);
+  phosh_quick_settings_box_remove (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (child));
 }
 
 
@@ -189,7 +189,7 @@ on_add_clicked (PhoshQuickSettingsBox *box)
   g_object_set_data (G_OBJECT (child), "controls_grid", controls_grid);
   g_object_set_data (G_OBJECT (child), "controls_box", controls_box);
 
-  gtk_container_add (GTK_CONTAINER (box), child);
+  phosh_quick_settings_box_add (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (child));
   gtk_grid_attach (GTK_GRID (controls_grid), controls_box, i % COLUMNS, i / COLUMNS, 1, 1);
   i += 1;
 }
