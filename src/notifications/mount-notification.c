@@ -19,7 +19,7 @@
 /**
  * PhoshMountNotification:
  *
- * A notifiction shown when a device got mounted
+ * A notification shown when a device got mounted
  *
  * The #PhoshMountNotification is responsible for showing the necessary
  * information when a device got mounted and providing the open action.

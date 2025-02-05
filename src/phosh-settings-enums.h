@@ -26,7 +26,7 @@ typedef enum {
  * @PHOSH_SHELL_LAYOUT_NONE: Don't perform any additional layouting
  * @PHOSH_SHELL_LAYOUT_DEVICE: Use device information to optimize layout
  *
- * How the shell's UI elements are layed out.
+ * How the shell's UI elements are laid out.
  */
 typedef enum {
   PHOSH_SHELL_LAYOUT_NONE     = 0,

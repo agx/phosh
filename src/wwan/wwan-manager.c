@@ -41,7 +41,7 @@ static GParamSpec *props[PROP_LAST_PROP];
  *
  * Base class for `PhoshWWan` interface implementations
  *
- * Common code for implementors of the #PhoshWWan interface covering
+ * Common code for implementations of the #PhoshWWan interface covering
  * NetworkManager related bits for the mobile data connection.
  */
 typedef struct _PhoshWWanManagerPrivate {

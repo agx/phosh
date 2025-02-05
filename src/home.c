@@ -155,7 +155,7 @@ update_drag_handle (PhoshHome *self, gboolean queue_draw)
   PhoshDragSurfaceDragMode drag_mode = PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE;
   PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
 
-  /* reset osk_toggle_long_press to prevent OSK from unfolding accidently */
+  /* reset osk_toggle_long_press to prevent OSK from unfolding accidentally */
   gtk_event_controller_reset (GTK_EVENT_CONTROLLER (self->osk_toggle_long_press));
 
   /* Update the handle's and dragability */
@@ -201,7 +201,7 @@ on_configure_event (PhoshHome *self, GdkEventConfigure *event)
   if (gtk_widget_get_window (GTK_WIDGET (self)) != event->window)
     return FALSE;
 
-  g_debug ("%s: %dx%d,  margin: %d", __func__, event->height, event->width, margin);
+  g_debug ("%s: %dx%d, margin: %d", __func__, event->height, event->width, margin);
 
   /* If the size changes we need to update the folded margin */
   phosh_drag_surface_set_margin (PHOSH_DRAG_SURFACE (self), margin, 0);

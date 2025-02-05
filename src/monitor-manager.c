@@ -1018,7 +1018,7 @@ static void
 phosh_monitor_manager_add_monitor (PhoshMonitorManager *self, PhoshMonitor *monitor)
 {
   g_ptr_array_add (self->monitors, monitor);
-  /* Delay emmission of 'monitor-added' until it's configured */
+  /* Delay emission of 'monitor-added' until it's configured */
   g_signal_connect_swapped (monitor,
                             "configured",
                             G_CALLBACK (on_monitor_configured),
@@ -1473,7 +1473,7 @@ phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
 /**
  * phosh_monitor_manager_set_monitor_transform:
  * @self: A #PhoshMonitor
- * @monitor: The #PhoshMonitor to set the tansform on
+ * @monitor: The #PhoshMonitor to set the transform on
  * @transform: The #PhoshMonitorTransform to set
  *
  * Sets monitor's transform. This will become active after the next

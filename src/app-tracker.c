@@ -463,7 +463,7 @@ on_dbus_app_launched (GDBusConnection *connection,
     g_hash_table_insert (self->apps, g_steal_pointer (&startup_id), state);
 
     /* There's no "Launch-started" on DBus. We fake it here so upper layers don't
-       need to worry about the defails */
+       need to worry about the details */
     g_signal_emit (self, signals[APP_LAUNCH_STARTED],
                    g_quark_from_static_string ("gio-dbus"),
                    info,

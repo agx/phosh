@@ -261,7 +261,7 @@ phosh_osk_manager_class_init (PhoshOskManagerClass *klass)
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
-   * PhoshOskManager::visisble:
+   * PhoshOskManager::visible:
    *
    * Whether an OSK is currently visible to the user.
    */

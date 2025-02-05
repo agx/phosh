@@ -339,7 +339,7 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
  * phosh_test_keyboard_new:
  * @wl: A #PhoshWayland object to get the necessary interfaces from
  *
- * Set up a vitual keyboard and add a keymap.
+ * Set up a virtual keyboard and add a keymap.
  */
 struct zwp_virtual_keyboard_v1 *
 phosh_test_keyboard_new (PhoshWayland *wl)

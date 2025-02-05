@@ -41,7 +41,7 @@ elif [ "${ACTION}" = "processes" ]; then
     gdbus call --session --dest "${NAME}" \
           --object-path  "${OBJECT_PATH}" \
 	  --method org.Gtk.MountOperationHandler.ShowProcesses \
-	  "OpId0P" "Volume is busy\nOne or more applictions are keeping the volume busy." \
+	  "OpId0P" "Volume is busy\nOne or more applications are keeping the volume busy." \
 	  "drive-harddisk" "[123, 4, 10]" "['abc', 'def', '☃']"
 else
     gdbus call --session --dest "${NAME}" \

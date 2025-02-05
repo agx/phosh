@@ -80,7 +80,7 @@ update_info_cb (PhoshWifiHotspotQuickSetting *self)
   else
     info = _("Hotspot Off");
 
-  /* Show the acquiring icon only if the state change occured
+  /* Show the acquiring icon only if the state change occurred
    * through user clicking the quick setting */
   if (self->connecting &&
       (state == NM_ACTIVE_CONNECTION_STATE_ACTIVATING ||

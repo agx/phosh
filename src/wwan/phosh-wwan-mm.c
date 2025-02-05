@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
- *               2024 The Phosh Devleopers
+ *               2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *

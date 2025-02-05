@@ -17,7 +17,7 @@ phosh (0.45~beta1) experimental; urgency=medium
     We already have all the data so write out a thumbnail per
     https://specifications.freedesktop.org/thumbnail-spec/0.8.0/
   * wwan-manager: Enable and disable autoconnect.
-    When we disable a WWan connection we should also disale autoconnect as
+    When we disable a WWan connection we should also disable autoconnect as
     otherwise the connection comes back up after resume or reboot.
     Hence we need to reenable autoconnect when the connection is activated
     again.
@@ -791,7 +791,7 @@ phosh (0.43~rc1) experimental; urgency=medium
   * quick-setting: Don't focus on click. This avoids the focus border for
     quick setting but still allows for keyboard navigation.
   * audio-settings: Don't take focus when showing details
-  * settings: Don't take focus when clearing all notifiations
+  * settings: Don't take focus when clearing all notifications
   * bt-status: Page don't focus buttons on click.
     The focus draws attention to the button while it should be on the
     content of the status page.
@@ -829,14 +829,14 @@ phosh (0.43~rc1) experimental; urgency=medium
     via the DBus API.
   * caffeine-quick-setting: Use a context for on/off.
     Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1143
-  * timestamp-label: Give translaters more headroom.
+  * timestamp-label: Give translators more headroom.
     We're not that tight on space here.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1144
   * notification-banner: Drop explicit notify.
     No need to handle that for a construct-only property. While at
     that modernize the doc string and indent.
   * notification-banner: Adjust margin based on notification height.
-    Make sure the banner is initially slighty visible so the frame clock
+    Make sure the banner is initially slightly visible so the frame clock
     ticks.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/221
   * notification-banner: Drop unused hard coded values
@@ -935,7 +935,7 @@ phosh (0.43~rc1) experimental; urgency=medium
     React on accent colour changes via org.gnome.desktop.interface's
     accent-color key.
     When an accent colour is defined, @theme_selected_bg_color and
-    @theme_selected_fg_color in the stylesheet are overriden by
+    @theme_selected_fg_color in the stylesheet are overridden by
     phosh with the actual colour.
   * build: Bump gsettings-desktop-schemas dep to >= 47.
     Required by the accent colours support.
@@ -1014,7 +1014,7 @@ phosh (0.42.0) experimental; urgency=medium
   [ Guido Günther ]
   * subprojects: Switch to libcall-ui 0.1.4.
     This allows us to drop the patch we apply to the subproject.
-  * panels: Queue draw instead of commiting the surface.
+  * panels: Queue draw instead of committing the surface.
     If we commit too early and GTK hasn't updated the buffer the compositor
     will terminate us due to the buffer size not matching the scale.
     A draw will eventually commit the surface. This makes sure we don't
@@ -1032,7 +1032,7 @@ phosh (0.42.0) experimental; urgency=medium
     conflicts between different API versions.
   * packaging: Build bindings lib by default.
     This ensures the build is tested. In contrast to any distro builds we
-    keep a fixed package name as the packges are meant for testing purposes
+    keep a fixed package name as the packages are meant for testing purposes
     only anyway.
   * overview: Ignore page changes when overview is not open.
     Otherwise we might end up focusing the wrong app when another
@@ -1140,8 +1140,8 @@ phosh (0.42~rc1) experimental; urgency=medium
     The needed versions are in Debian stable. This allows us to drop some
     `ifdef`s.
   * wwan-iface: Fix base class.
-    Implementors must derive from PhoshWwanManager. Both the MM and Ofono
-    implementation do this, this just maked it explicit.
+    Implementers must derive from PhoshWwanManager. Both the MM and Ofono
+    implementation do this, this just marked it explicit.
   * wwan-mm: Simplify modem cold plug.
     This ensures we do the same things as in the hotplug path.
   * wwan-mm: Disconnect by data.
@@ -1239,7 +1239,7 @@ phosh (0.42~rc1) experimental; urgency=medium
     If we get a notification for an app that has notifications enabled
     ignore it. This ensures that new notifications for apps that have them
     disabled don't end up in any notification sources at all.
-    Note that we still allow existing notifictions to be updated by the app.
+    Note that we still allow existing notifications to be updated by the app.
     Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/168
 
   [ Jared Toomey ]
@@ -1510,7 +1510,7 @@ phosh (0.41.0~rc1) experimental; urgency=medium
     This breaks the HdyPreferencesRow styles and we only want to use it for
     the sound list boxes not the status pages in quick settings.
   * bluetooth: Depend on gnome-bluetooth.
-    We need to add the headers as they're currently not shipped upsteam.
+    We need to add the headers as they're currently not shipped upstream.
     We might bundle the library instead.
     This is from cccaaa7928c2b9195295d8c7dae80665b4b62c4d
   * bt-manager: Track connectable Bluetooth devices.
@@ -1760,7 +1760,7 @@ phosh (0.40.0) experimental; urgency=medium
   * main: Instantiate shell after the needed objects.
     The shells object construction needs the Wayland object and the
     background manager.
-    Fixes: 1bb5c8c63 ("shell: Allow shell singleton to be overidden")
+    Fixes: 1bb5c8c63 ("shell: Allow shell singleton to be overridden")
   * service: Adjust oom score.
     This avoids the shell getting killed early in tight memory scenarios.
     While at that tweak the restart behavior.
@@ -1801,7 +1801,7 @@ phosh (0.40.0) experimental; urgency=medium
   * data: Add Firefox ESR and TextEditor to adaptive apps.
     We assume that FF uses mobileconfig and TextEditor adapts nicely
   * data: Set default idle-delay to 60 seconds.
-    It's more suitable than the defualt 5 minutes.
+    It's more suitable than the default 5 minutes.
   * background-manager: Don't try to get background for zero size.
     Otherwise we crash on gnome_bg_slide_show_get_slide on e.g. 0 width or
     height.
@@ -1887,7 +1887,7 @@ phosh (0.40.0) experimental; urgency=medium
   * build: Add dependency on phosh-settings.
     We want the header (and don't want to duplicate it)
   * build: Set a soname for the shared library.
-    We use the project version underscored droping micro revisions.
+    We use the project version underscored dropping micro revisions.
   * build: Use a relative path to the enum headers.
   * ci: Check 'meson dist'
     We've been hitting tiny nits before release ever so often. Avoid these.
@@ -1896,7 +1896,7 @@ phosh (0.40.0) experimental; urgency=medium
   * shell: Make PhoshShell a derivable type.
     Since this type is meant to be consumed by downstream libphosh
     consumers, a bunch of vtable space is reserved for future expansion.
-  * shell: Allow shell singleton to be overidden.
+  * shell: Allow shell singleton to be overridden.
     This follows the pattern first established with
     phosh_wall_clock_set_default.
     This allows libphosh consumers to override the default shell singleton
@@ -2019,12 +2019,12 @@ phosh (0.39.0) experimental; urgency=medium
   * folder-info: Test locating and parsing .directory files too
   * folder-info: Test app-info interface
   * folder-info: Test app-infos property getter
-  * notifiations: Don't glue timestamp label together.
+  * notifications: Don't glue timestamp label together.
     Rather use full translatable strings that allow translators to e.g.
     handle different plural forms.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/785
   * timestamp-label: Fix translator comment for hours.
-    Fixes: a09453126 ("notifiations: Don't glue timestamp label together")
+    Fixes: a09453126 ("notifications: Don't glue timestamp label together")
     Thanks to Anders Jonsson
   * util: Drop support for glib < 2.76.
     We bumped the minimal requirement in
@@ -2050,7 +2050,7 @@ phosh (0.39.0) experimental; urgency=medium
     Fixes: 59d415626 ("Drop remaining users of config.h")
   * tests/screenshots: Use tab navigation to trigger the emergency calls menu.
     The key combinations break with locale (and also when we use fading
-    lables which currently don't support use_underline)
+    labels which currently don't support use_underline)
   * power-menu: Don't apply style from the emergency menu.
     There are two emergency menu buttons. One in the power menu and one to
     initiate the call in the emergency call menu. We only want the small
@@ -2070,7 +2070,7 @@ phosh (0.39.0) experimental; urgency=medium
     This makes is simpler for plugins to get the value independent
     of future class hierarchy changes.
   * shell: Make monitor manager available to plugins.
-    The night light plugin wants to know if night light suppport is
+    The night light plugin wants to know if night light support is
     available. Other plugins might e.g. want to track the number of outputs
     or similar in the future.
   * plugins: Add night light toggle.
@@ -2525,7 +2525,7 @@ phosh (0.37.0) experimental; urgency=medium
     We have a device tracking wifi networks and one tracking the active
     connection. Make it obvious which one is being cleaned up from the
     function name.
-  * wifi-manager: Use Wi-Fi consitently.
+  * wifi-manager: Use Wi-Fi consistently.
     Use the spelling introduced in
        9e39af9f7 ("wifi-manager: Track Wi-Fi networks")
     consistently.
@@ -2540,7 +2540,7 @@ phosh (0.37.0) experimental; urgency=medium
   * wifi-manager: Fix indent.
     This fixes some old heritage and makes the style check mostly happy.
   * wifi-info: Use consistent file names.
-    We separte words with '-' in the filename since ages.
+    We separate words with '-' in the filename since ages.
   * wifi-status-page: Avoid underscore in property names.
     We prefer dash ('-')
   * wifi-status-page: Drop superfluous can-focus properties
@@ -2646,7 +2646,7 @@ phosh (0.37.0) experimental; urgency=medium
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/743
   * build: Disable cast-align checks for clang.
     These just add to the noise. This is similar to what we did for phoc
-    recenty.
+    recently.
   * treewide: Drop some unused variables.
     Spotted by clang
   * build: Don't use pointer for polkit check.
@@ -2746,7 +2746,7 @@ phosh (0.37.0) experimental; urgency=medium
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/829
   * screen-saver-manager: Use g_timeout_add_seconds_once
   * screen-saver-manager: Use lock-enabled in more places.
-    Except in cases where the lock is requested explicity (like the DBus
+    Except in cases where the lock is requested explicitly (like the DBus
     call) we want to take the lock-enabled setting into account.
     This fixes the case where lock-enabled is false but a lock-delay is set.
     We don't want to lock in that case either.
@@ -2913,7 +2913,7 @@ phosh (0.35.0) experimental; urgency=medium
   * osk-manager: Sync initial state.
     Fixes 43d801d9da2dfe2b90f6b38068c3517d3e658d39
     Tested-by: Jarrah Gosbell <debian@undef.tools>
-  * util: Revert "Be more gracefull on the app_id"
+  * util: Revert "Be more graceful on the app_id"
     This breaks telegram desktop with app-id org.telegram.desktop and a
     desktop file of org.telegram.desktop.desktop.
     We *only* made that change to not change the behaviour of the
@@ -3025,7 +3025,7 @@ phosh (0.34.0) experimental; urgency=medium
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/994
   * HACKING: Add some more details.
     Co-authored-by: Arun Mani J <j.arunmani@proton.me>
-  * build: Bump glib to 2.76. We wan't g_autofd().
+  * build: Bump glib to 2.76. We want g_autofd().
   * tools: Use G_APPLICATION_DEFAULT_FLAGS. Avoids deprecation warning.
   * monitor-manager: Drop crtc gamma
   * dbus: Add gsd color
@@ -3058,7 +3058,7 @@ phosh (0.34.0) experimental; urgency=medium
     Keeps call duration constant width.
   * monitor-manager: Use phosh_async_error_warn.
     We don't want to print a warning when the DBus proxy creation failed.
-  * util: Be more gracefull on the app_id. Don't care if it ends in .desktop
+  * util: Be more graceful on the app_id. Don't care if it ends in .desktop
     or not.
   * end-session-dialog: Use cancellable.
     As in other places properly cancel async calls during shutdown so we
@@ -3528,7 +3528,7 @@ phosh (0.29.0) experimental; urgency=medium
     so use the same layout.
     This also makes it simpler to add more info elements.
   * lockscreen: Move media player and notifications into one scrolled window.
-    This avoids half cut notifiations at the top, etc.
+    This avoids half cut notifications at the top, etc.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/593
   * lockscreen: Drop max content height.
     Let's have the scrolled window use as much space as possible to fit the
@@ -3670,7 +3670,7 @@ phosh (0.28.0) experimental; urgency=medium
     We can do that in init just fine
   * ambient: Don't ignore unknown units silently.
     Print at warning so support can be added when we hit that case.
-  * ci: Use upercase variable name for alpine deps.
+  * ci: Use uppercase variable name for alpine deps.
     Fixes: 47209e49923a256432ca7e536ed7fa3eb20c7683
   * stubs: Use correct enum type for state flags
     Labels, clamps and boxes are unfocusable by default
@@ -3689,7 +3689,7 @@ phosh (0.28.0) experimental; urgency=medium
     action_group iface implementation for that.
   * notify-feedback: Unblank screen on new notifications.
     We allow to filter by urgency and category. This allows to e.g. enable
-    screen wakup for all 'critical' messages and those send by alarm-clocks
+    screen wakeup for all 'critical' messages and those send by alarm-clocks
     but not instant-messages via
     wakeup-screen-triggers == [ 'urgency', 'category' ]
     wakeup-screen-urgency == 'critical'
@@ -3821,7 +3821,7 @@ phosh (0.27.0) experimental; urgency=medium
 
   [ CoderThomasB ]
   * Add emergency calls manager.
-    The emergency calls manager is repsonsible for fetching emergency
+    The emergency calls manager is respsonsible for fetching emergency
     contacts from gnome-calls as well as initiating emergency calls.
   * Add emergency menu system modal dialog.
     A new modal dialog triggered by the power-button long press menu that is
@@ -3933,7 +3933,7 @@ phosh (0.27.0) experimental; urgency=medium
   * end-session-dialog: Wrap listbox in scrolled window.
     Avoids overflow with many items
   * rotation-manager: Use consistent naming.
-    We call it acclerometer in other places
+    We call it accelerometer in other places
   * rotation-manager: Look at blanked state for claim/unclaim.
     No need to keep the accelerometer claimed when the screen is blanked.
   * rotation-manager: Don't match orientation when screen is locked.
@@ -3954,7 +3954,7 @@ phosh (0.27.0) experimental; urgency=medium
   * testlib: Print full socket path.
     This makes is simple to spot races due to incomplete test fixtures.
   * ticket-box: Switch preferences to native dialog.
-    This allows the file chooser to use the portal on slighlty patched GTK.
+    This allows the file chooser to use the portal on slightly patched GTK.
   * gitignore: Add missing packaging dir
   * build: Use 'meson' instead of 'ninja' where suitable
   * build: Warn on outdated version.
@@ -3973,7 +3973,7 @@ phosh (0.27.0) experimental; urgency=medium
   * notifications: Drop fallback for older feedbackd.
     Distributions wanting to use older feedbackd can revert this commit.
   * ci: Reduce package build time.
-    We're not interesed in tests there.
+    We're not interested in tests there.
   * packaging: Fix package name we look for
   * packaging: Don't set build-directory.
     This avoids a local package build messing with the default build dir.
@@ -3982,7 +3982,7 @@ phosh (0.27.0) experimental; urgency=medium
     test failures
   * notify-manager: Allow to set a timeout on shell notifications
   * top-panel: Remove currently unused actions.
-    What comes back will move ot the power-menu.
+    What comes back will move to the power-menu.
   * top-panel: Close settings before taking screenshot.
     Otherwise it won't be very useful. Screenshots of the settings
     itself can be made via power-button long press.
@@ -4070,7 +4070,7 @@ phosh (0.26.0) experimental; urgency=medium
   * ci: Use "meson setup"
     No functional change, just to avoid the deprecation warning
   * phosh-enums: Sort alphabetically
-  * settings: Drop child properies that don't apply to HdyClamp.
+  * settings: Drop child properties that don't apply to HdyClamp.
     Fixes 394974f0e2fdb729f9772895c183b38dde7e5e79
   * settings: Make quick settings take enough vertical space.
     This avoids a scroll bar e.g. when opening settings on the lock screen
@@ -4245,7 +4245,7 @@ phosh (0.25.0) experimental; urgency=medium
     again
   * Add a revealer.
     Similar to Gtk's revealer but toggles the transition based on the
-    `present` property which also triggers it's own visibilty so we don't
+    `present` property which also triggers it's own visibility so we don't
     use up any size when the child is hidden.
   * top-panel: Use PhoshRevealer for the top bar status icons
   * plugins/ticket-box: Exit early if we fail to list the tickets
@@ -4384,7 +4384,7 @@ phosh (0.24.0) experimental; urgency=medium
     Not needed for gi-docgen
     Fixes 89f58c9596950047ce83c5d6ced95d93a484e715
   * docs: Add GTK and Libhandy deps
-  * notifcation-content: Check for `NULL`
+  * notification-content: Check for `NULL`
   * notification-content: Check for NULL lookup
     g_desktop_app_info_get_string_list can return NULL, check for that.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/874
@@ -4581,7 +4581,7 @@ phosh (0.24.0) experimental; urgency=medium
 
   [ Andrey Skvortsov ]
   * lockscreen: Make plugins to use more screen width if available.
-    It's especially very usefull for plugins that display a lot of
+    It's especially very useful for plugins that display a lot of
     information on lockscreen like 'upcoming events' and 'emergency information'.
 
   [ Emin Tufan Çetin ]
@@ -4647,7 +4647,7 @@ phosh (0.23.0) experimental; urgency=medium
   * widget-box-standalone: Improve comment
   * widget-box: Add missing quote
   * build: Add a pkgconfig file with plugin information.
-    This allows other tools and external pugins to figure out
+    This allows other tools and external plugins to figure out
     the file system locations.
   * build: Allow to disable the plugin build.
     This allows to disable all plugins (e.g. to reduce compilation time
@@ -4673,7 +4673,7 @@ phosh (0.23.0) experimental; urgency=medium
     Now that these two states will become different.
   * shell: Disconnect the right monitor in phosh_shell_set_primary_monitor.
     Fixes 817ac486 ("shell: Update top panel height on primary monitor resize")
-  * shell: Simpliy on_monitor_removed logic
+  * shell: Simply on_monitor_removed logic
   * build: Add include directory for dbus sources too
   * Switch to gi-docgen (Closes: #589)
   * src: Fix doc headers.
@@ -4745,7 +4745,7 @@ phosh (0.22.0) experimental; urgency=medium
   * lockscreen: Set entry sensitive when focused.
     Focusing will fail otherwise so let's keep these together
   * lockscreen: Mark entry as initially sensitive.
-    This avoids the letter one on the keypad being focused initally
+    This avoids the letter one on the keypad being focused initially
     fixing a visual glitch that was triggered by unifying button styles:
     https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1154 Tested
     with both phosh-osk-stub and squeekboard.
@@ -5022,7 +5022,7 @@ phosh (0.20.0) experimental; urgency=medium
     Add an automatic high contrast toggle that allows to switch
     to HC automatically based on the current light level.
   * settings: Drop superfluous can-focus properties
-  * shell: Move style sheet getter to seprate function.
+  * shell: Move style sheet getter to separate function.
   * tests: Add simple test to load stylesheet.
     Stylesheet changes trigger warnings ever so often, add a test
     to catch these early.
@@ -5033,7 +5033,7 @@ phosh (0.20.0) experimental; urgency=medium
   * home: Focus app search on application-view action.
     The application-view action (triggered by
     KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW (super-a)) is supposed to focus
-    the app search. This got broken when moving to dragable layer surfaces.
+    the app search. This got broken when moving to draggable layer surfaces.
     Fixes: 22b03f7f2 ("home: Make it a draggable layer surface")
 
   [ Sebastian Krzyszkowiak ]
@@ -5431,7 +5431,7 @@ phosh (0.20.0~beta1) experimental; urgency=medium
   * d/control: Add xwayland to test dependencies
   * d/control: Add librsvg2-common.
     This helps to load SVG icons in the tests
-  * tests: Disable thumbnail releated test.
+  * tests: Disable thumbnail related test.
     Phoc currently doesn't support this with the headless backend.
     See https://gitlab.gnome.org/World/Phosh/phoc/-/issues/262
   * gitlab-ci: Only run unit test suite on alpine.
@@ -5610,7 +5610,7 @@ phosh (0.20.0~beta1) experimental; urgency=medium
     which makes the reads not exceed RFKILL_EVENT_SIZE_V1 by default.
     We are asking for more, so buffering was doing additional
     read calls on our behalf.
-  * top-panel: Set drag theshold to 0.3 for consistency with PhoshHome
+  * top-panel: Set drag threshold to 0.3 for consistency with PhoshHome
   * top-panel: Update PhoshArrow progress during surface drag
   * home: Update PhoshArrow progress during surface drag
 
@@ -6018,7 +6018,7 @@ phosh (0.15.0) experimental; urgency=medium
     Fixes: de1b395e ("system-prompt: Make sure the choice label wraps")
   * system-prompt: Use consistent spacing.  We use 6px between label and
     button.
-  * toplevel-thumnail: Drop flag check
+  * toplevel-thumbnail: Drop flag check
     phoc <= 0.10.0 sent y_invert although we didn't use it. Phoc
     >= 11.0 doesn't send it triggering the critical so drop it.
   * run: Drop gnome session setup.
@@ -6051,7 +6051,7 @@ phosh (0.15.0) experimental; urgency=medium
   * run-command-dialog: Drop unneeded can-focus properties
   * run-command-{dialog,manager}: Show error message when command failed
   * run-command-dialog: Use on_ prefix consistently.  We allow for both
-    (prefering `on_`) but don't want to mix in the same class.
+    (preferring `on_`) but don't want to mix in the same class.
   * background: Allow absolute paths too.
     When e.g. gnome-photos sets a background it uses an absolute path.
   * util: Add helper to markup escape text.
@@ -6084,7 +6084,7 @@ phosh (0.15.0) experimental; urgency=medium
     We want to cancel this in case of e.g. early shutdown.
   * network-auth-manager: Use a separate cancellable for registration.
     NM doesn't like if we cancel a successful operation later on rather
-    crahes in NMSecrentAgentOld's _register_cancelled_cb since the task data
+    crashes in NMSecrentAgentOld's _register_cancelled_cb since the task data
     is already freed.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/673
   * newtork-auth-manager: Drop unused nmclient.
@@ -6175,7 +6175,7 @@ phosh (0.15.0) experimental; urgency=medium
     the quick setting either shuts down an active VPN or activates
     the last active one.
   * osd-window: Disable keyboard interactivity.
-    We don't want keyboard inut in the OSD anyway but this
+    We don't want keyboard input in the OSD anyway but this
     additionally makes sure the focused client doesn't reenable
     text-input potentially unfolding a manually hidden keyboard.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/706
@@ -6188,7 +6188,7 @@ phosh (0.15.0) experimental; urgency=medium
     This indicates that we don't transfer any ownership
     Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
   * quick-setting: Check return value.
-    When the return value is `NULL` an error occured.
+    When the return value is `NULL` an error occurred.
     This also tricks the compiler in not treating the variable
     as unused.
     Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
@@ -6291,12 +6291,12 @@ phosh (0.15.0) experimental; urgency=medium
 
   [ Sam Hewitt ]
   * settings: Use speakers icon for volume slider
-  * settings: Move media player above notifcations box
+  * settings: Move media player above notifications box
   * settings: Add name property to clear all button
   * settings: Add style class to notifications header box
   * media-player: add style class to art
   * lockscreen: Add style classes to icons and text
-  * lockscreen: Use full width for noifications and media player
+  * lockscreen: Use full width for notifications and media player
   * stylesheets: GTK overrides for sliders.
     Make them look more like in the current mockups.
   * settings: Adjust quicksettings radii
@@ -6421,7 +6421,7 @@ phosh (0.14.1) experimental; urgency=medium
   * monitor: Split finalize and dispose
   * monitor-manager: Release wayland resources sooner.
     Start disposal of the monitor early so wayland resources are already
-    released and hence can be readded when e.g. a display of the same name
+    released and hence can be re-added when e.g. a display of the same name
     shows up again. This mostly affects wlr-output-power.
   * monitor-manager: Clear pending head states on errors.
     Makes sure there are no pending head state changes when aborting
@@ -6437,7 +6437,7 @@ phosh (0.14.1) experimental; urgency=medium
   * testlib: Print compositor startup message.
     This helps to figure out when it started
   * testlib: Terminate comopsitor on SIGTRAP.
-    Currenlty meson tests time out since the test/shell process ends on e.g.
+    Currently meson tests time out since the test/shell process ends on e.g.
     a SIGTRAP caused by a g_critical () while the compositor process keeps
     running making meson wait until it hits the timeout.
   * po: Remove panel.c from POTFILES.in too.
@@ -6533,7 +6533,7 @@ phosh (0.14.0) experimental; urgency=medium
     but we'll do so once we wire in a display manager.
   * torch-manager: Don't emit a warning when no torch is found.
     This makes running with G_DEBUG=fatal-warnings harder than necessary.
-  * system-modal-dialog: Drop `can-focus` proprties that use default value
+  * system-modal-dialog: Drop `can-focus` properties that use default value
   * util: Add helper to strip '.desktop' from app_id.
     Needed in several places
   * Add PhoshSplash.
@@ -6552,8 +6552,8 @@ phosh (0.14.0) experimental; urgency=medium
     use proper defines for readability
   * Add app-tracker.
     This keeps track of spawned apps (via glib's g_app_info) and
-    corresponding startup_id's (mostly via gtk_shell1 protcol).
-    Additionall we track org.gtk.gio.DesktopAppInfo on DBus
+    corresponding startup_id's (mostly via gtk_shell1 protocol).
+    Additionally we track org.gtk.gio.DesktopAppInfo on DBus
     This allows us to show splash screens for apps that are spawned by other
     processes than the shell itself. E.g.
         gtk4-launch gnome-control-center.desktop
@@ -6620,7 +6620,7 @@ phosh (0.14.0) experimental; urgency=medium
   * tests: Use minimal device resolution for phoc.
     This makes screenshots, etc more useful
   * tests: full-shell tests: Use temporary file for XDG_RUNTIME_DIR.
-    This allows to run tests in parallel. They were previosly racing for the
+    This allows to run tests in parallel. They were previously racing for the
     wayland socket.
   * tests: Run more tests in parallel.
   * gitlab-ci: Switch Debian builds to bookworm.
@@ -6656,7 +6656,7 @@ phosh (0.14.0) experimental; urgency=medium
     This makes it simpler to get a quick overview.
   * calls-manager: Drop out early on duplicate call ids.
     Should we ever see this we better not reconnect signals etc
-    but rater ignore the dupliate id.
+    but rater ignore the duplicate id.
   * testlib: Add a simple call mock.
     This can be used whenever we need an incoming call
   * app-tracker: Adjust to "launch-started" DBus API.
@@ -6665,7 +6665,7 @@ phosh (0.14.0) experimental; urgency=medium
     since the later is emitted only once the app is up which is too late for a
     splash.
     There's some backward compatibility code to try get reasonable results
-    with current released glib but for DBus acivated apps you really need
+    with current released glib but for DBus activated apps you really need
     2.72.0.
   * app-trcker: Handle timeouts.
     So far we'd not properly dispose AppState if the app never
@@ -6729,11 +6729,11 @@ phosh (0.14.0) experimental; urgency=medium
     The grey border looks odd otherwise which is even more pronounced in
     high contrast mode.
     Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/629
-  * activity: Move the close button over the thumnail.
-    Before the mouse hovered close button be outside the thumnail since
+  * activity: Move the close button over the thumbnail.
+    Before the mouse hovered close button be outside the thumbnail since
     windows aren't all the same width in e.g. docked mode. This calculates
     the margin from the allocated width and the thumbnail's size.
-  * activity: Always align thumnails to the top.
+  * activity: Always align thumbnails to the top.
     This doesn't affect maximized windows but makes sure the close
     button is on top of the window.
 
@@ -6831,7 +6831,7 @@ phosh (0.13.1) experimental; urgency=medium
     to the center.
     Closer to designs in https://gitlab.gnome.org/World/Phosh/phosh/-/issues/543
   * media-player: Use larger icon.
-    Center text artist / song verticaly to it. This looks odd
+    Center text artist / song vertically to it. This looks odd
     with Firefox since it tries to be clever and use 16:9 which
     the gicon aligns renders to the top instead of centered.
   * lockscreen: Use less margin between elements.
@@ -6963,7 +6963,7 @@ phosh (0.13.0) experimental; urgency=medium
     CuiCall so it can be used with CuiCallDisplay.
   * lockscreen: Allow to accept incoming calls.
     Use CuiCallDisplay to handle incoming calls.
-    Relevent mockups: https://gitlab.gnome.org/Teams/Design/os-mockups/-/blob/master/mobile-shell/lockscreen-calls.png
+    Relevant mockups: https://gitlab.gnome.org/Teams/Design/os-mockups/-/blob/master/mobile-shell/lockscreen-calls.png
   * call: Handle can-dtmf.
     This makes sure we keep the dialpad disabled until the
     DBus interface handles it. libcall-ui has all the bits
@@ -6982,7 +6982,7 @@ phosh (0.13.0) experimental; urgency=medium
   * tests: Stub phosh_shell_get_locked()
     This will be used by PhoshNotifyFeedback and is hence needed
     in the standalone notification (test) server.
-  * Move feedback for notifications to a separat class.
+  * Move feedback for notifications to a separate class.
     It was o.k. to have it in settings since that was the only long term
     notification store and we just used a single feedback event with
     - notifications also being on the lock screen
@@ -7004,7 +7004,7 @@ phosh (0.13.0) experimental; urgency=medium
   * notification-content: Allow to show/hide body and actions
   * notification-frame: Add show-body property.
     This allows to show/hide the bodies of contained notifications
-  * lockscreen-manager: Allow to scroll to a lock screen page programatically.
+  * lockscreen-manager: Allow to scroll to a lock screen page programmatically.
     This will be used to scroll to the unlock page when the user activates a
     notification.
   * lockscreen: Display notification summary
@@ -7116,7 +7116,7 @@ phosh (0.12.1) byzantium; urgency=medium
   * test-monitor-manager: Use testlib helpers
   * test-screenshot-manager: Use testlib helpers
   * calls-manager: Move state enum to header file.
-    This makes it useable in the tests
+    This makes it usable in the tests
   * calls-manager: Don't clear calls hash when name owner goes away
     gio's object-manager sends us proper remove signals for each object.
   * gcovr: Exclude subprojects from coverage.
@@ -7126,7 +7126,7 @@ phosh (0.12.1) byzantium; urgency=medium
   * gitlab-ci: Run extended tests on bullseye.
     Don't bother for the crossbuild since we don't run tests there and this
     would just make build times longer.
-    Since we dont't want to build documentation for glib we need to do an
+    Since we don't want to build documentation for glib we need to do an
     extra build for gtk-doc that uses system glib.
     This gets simpler again once the next glib is released.
   * calls-manager: Add test.
@@ -7184,7 +7184,7 @@ phosh (0.12.0) byzantium; urgency=medium
     This makes sure it's also started in systemd mode so the PIN request
     happens.
   * tests: Remove smoke test.
-    It served us well initally but since we can now tests against
+    It served us well initially but since we can now tests against
     the headless compositor without extra setup.
   * overview: Don't set CSS name twice
   * protocol: Sort wayland protocols alphabetically
@@ -7192,8 +7192,8 @@ phosh (0.12.0) byzantium; urgency=medium
   * shell: Sort manager objects.
     Sort the ones that get created by the shell and those created on the fly
     into separate sections and sort those alphabetically. Ideally we want
-    to distingiush the getters by name at some point.
-    (There's a third type (singletons) which we dont' bother about here and
+    to distinguish the getters by name at some point.
+    (There's a third type (singletons) which we don't bother about here and
     which we're reducing bit by bit)
   * phosh-wayland: Get virtual-keyboard-manager.
     This is only used in the tests.
@@ -7251,7 +7251,7 @@ phosh (0.12.0) byzantium; urgency=medium
   * build: Drop -I. from project_arguments
     root_inc handles this for us.
   * hks-manager: Fix typo
-  * hks-manager: Don't assert but rather use unknown opration type.
+  * hks-manager: Don't assert but rather use unknown operation type.
     Getting odd info from /dev/rfkill is not worth crashing the shell.
   * build: Write config.h later.
     This allows us to use more results from feature detection.
@@ -7262,7 +7262,7 @@ phosh (0.12.0) byzantium; urgency=medium
   * debian: Build-depend on recent kernel headers.
     These provide rfkill_event_ext
   * hks-manager: Don't leak list.
-    Allthough we had a `_and_free()` funciton we didnt' clean it up.
+    Although we had a `_and_free()` function we didn't clean it up.
     Instead of cleaning up within that rather use automatic cleanup.
   * home: Reveal whole home-bar instead of only arrow.
     This gives us 40px more vertical space when there's no open applications
@@ -7326,7 +7326,7 @@ phosh (0.11.0) byzantium; urgency=medium
     shared lib build and unconditionalize this without increasing
     the number of targets.
   * tests: Create shell object.
-    This creats the shell object making sure we create most of
+    This creates the shell object making sure we create most of
     the objects that aren't created in the idle callback()
   * d/control: Add more schemas.
     The tests bring up more of the shell now so we need those schamas
@@ -7411,7 +7411,7 @@ phosh (0.11.0) byzantium; urgency=medium
     Otherwise we might access already freed data. We reorder the ready
     handler to not access self when the operation is cancelled.
   * wifimanager: Cancel nmclient acquisition on dispose.
-    Otherwise we might access alrady freed data. We reorder the ready
+    Otherwise we might access already freed data. We reorder the ready
     handler to not access self when the operation is cancelled.
   * session-manager: Cancel session registration on dispose.
     Otherwise we might access already freed data. We reorder the ready
@@ -7480,7 +7480,7 @@ phosh (0.11.0) byzantium; urgency=medium
   * batteryinfo: Use g_autoptr
   * polkit: better error message
   * polkit: Lower warning when we fail to get session.
-    This is likey due to no polkit at all.
+    This is likely due to no polkit at all.
   * Move DBus connect failures from warning to debug.
     When the DBus service is not even there no need to print a warning since
     the shell just disables that part.
@@ -7490,7 +7490,7 @@ phosh (0.11.0) byzantium; urgency=medium
     of disposed objects.
   * screensaver-manager: Cancel idle callback in dispose
   * screensaver-manager: Don't hold ref on self during g_bus_own_name.
-    This avoids cancelation and hence proper cleanup. It's also not
+    This avoids cancellation and hence proper cleanup. It's also not
     needed since we unown the name in dispose.
   * wifimanager: Don't use warning when failing to register agent.
     Lower to `g_message` to not trip up tests. It's not fatal anyway.
@@ -7570,16 +7570,16 @@ phosh (0.11.0) byzantium; urgency=medium
   * docs: Drop coverage report.
     Using a gitlab badge is nicer since it doesn't clutter the the docs.
   * wwan: Move wwan DBus sources to src/dbus.
-    This gets them ignored when calcualting coverage but also gets us closer
+    This gets them ignored when calculating coverage but also gets us closer
     to have all DBus generation in once directory and meson variable.
     We keep file and interface names unchanged for minimal diff noise and
     just rename the interface definitions.
   * monitor: Move DisplayConfig DBus sources to src/dbus.
-    This gets them ignored when calcualting coverage but also gets us closer
+    This gets them ignored when calculating coverage but also gets us closer
     to have all DBus generation in once directory and meson variable.
     We keep file and interface names unchanged for minimal diff noise.
   * osk: Move OSK0 DBus sources to src/dbus.
-    This gets them ignored when calcualting coverage but also gets us closer
+    This gets them ignored when calculating coverage but also gets us closer
     to have all DBus generation in once directory and meson variable.
     We keep file and interface names unchanged for minimal diff noise and
     just rename the interface definitions.
@@ -7597,7 +7597,7 @@ phosh (0.11.0) byzantium; urgency=medium
     run the idle tests instead of requiring a running
     shell upfront.
     For that we need to fix resource leaks to not reuse
-    DBus proxys on already gone shells, etc.
+    DBus proxies on already gone shells, etc.
     We mark DBus session bus using tests as not being run in parallel for
     now since test clients might otherwise get confused.
   * tests: Add initial screenshot-manager test.
@@ -7803,10 +7803,10 @@ phosh (0.10.1) byzantium; urgency=medium
     The manager has two modes: off (don't rotate any output) and sensor
     (adjust due to sensor values).
   * rotateinfo: Display either rotation lock or orientation.
-    Based on the rotation managers mode dislay appropriate information.
+    Based on the rotation managers mode display appropriate information.
     (Closes: #18)
   * settings: Add orientation lock to rotate quick setting.
-    Long press switches between potrait/landscape and rotation lock.
+    Long press switches between portrait/landscape and rotation lock.
   * settings: Don't close menu when toggling rotation lock.
     This makes it consistent with other toggles like feedback toggle.
   * Move Lockscreen rotation fixup to rotation-manager.
@@ -7901,7 +7901,7 @@ phosh (0.10.0) byzantium; urgency=medium
     To work it needs an entry for phosh in /etc/geoclue/geoclue.conf.
     (Closes: #153)
   * Add "location service in use" indicator.
-    This indicates that the location sevice is in use via the status bar.
+    This indicates that the location service is in use via the status bar.
     (Closes: #527)
   * location-manager: Reject all per app auth requests.
     Reject auth by default for the per-app case until we implemented per app
@@ -7909,7 +7909,7 @@ phosh (0.10.0) byzantium; urgency=medium
     It currently doesn't hurt us badly since the current test in geoclue
     whether there should be an auth request is based on
     gclue_client_info_get_xdg_id() returning !NULL. Due to /proc/%u/cgroup
-    not containining '1:name=systemd:' this isn't the case and hence apps
+    not containing '1:name=systemd:' this isn't the case and hence apps
     are authorized by geoclue by default.
   * polkit-auth-prompt: Make buttons use the whole width
   * polkit-auth-prompt: Move auth button creation into ui file.
@@ -7946,7 +7946,7 @@ phosh (0.10.0) byzantium; urgency=medium
   * test: Move get_monitor() to testlib.
     Useful for other layer-surface tests as well
   * Add system-modal-dialog class.
-    This can serve as base for sytem modal dialogs
+    This can serve as base for system modal dialogs
   * polkit-auth-prompt: Use PhoshSystemModalDialog
   * polkit-auth-prompt: Use SystemModalDialog's `dialog-canceled` signal
   * polkit-auth-prompt: Adjust to designs.
@@ -8051,7 +8051,7 @@ phosh (0.9.0) byzantium; urgency=medium
     the same place on the screen.
 
   [ Evangelos Ribeiro Tzaras ]
-  * minor: Fix typos, indendation and code style issues
+  * minor: Fix typos, indentation and code style issues
   * shell-manager: Honor action modes
   * lockscreen: Set shell state.
     And allow querying the shown page
@@ -8187,7 +8187,7 @@ phosh (0.8.0) amber-phone; urgency=medium
   * lockscreen: Drop leading space in day of month (Closes: #225)
   * po: Adjust locales to string change.
     This avoids breaking all locales
-  * notify-manager: Don't leak notifiation.
+  * notify-manager: Don't leak notification.
     A ref is taken when added to the list so no need to keep
     it around
   * settings: Make sure we rotate clockwise
@@ -8283,7 +8283,7 @@ phosh (0.8.0) amber-phone; urgency=medium
     Thanks to librem5-ci!14 our before_script doesn't have to
     do the apt preparations anymore.
   * gitlab-ci: Use "needs" keyword instead of "dependencies" for test+docs stage.
-    This allows for better paralelism in the pipeline.
+    This allows for better parallelism in the pipeline.
 
   [ Yuri Chornoivan ]
   * po: Update Ukrainian translation
@@ -8302,7 +8302,7 @@ phosh (0.7.1) amber-phone; urgency=medium
   * background: Correctly chain up in dispose.
     This fixes a crash when unplugging a 2nd screen.
     Fixes 8828176f6c98a4bde94c9f6daa46d0a87a3c8d20
-  * Add initial stubs for org.gnome.Shell DBus protocoll.
+  * Add initial stubs for org.gnome.Shell DBus protocol.
     This will be needed for OSD, monitor labels and grabs
   * activity: Allow to focus.
     This fixes the toggle-overview keybinding
@@ -8340,10 +8340,10 @@ phosh (0.7.0) amber-phone; urgency=medium
 
   [ Guido Günther ]
   * Add session-manager.
-    This adds a proper object - current session.c doens't have that
+    This adds a proper object - current session.c doesn't have that
     making it hard to use signals, etc.
   * Add mount-manager. This automounts new volumes
-  * notify-manager: Add method to submit notifiations.
+  * notify-manager: Add method to submit notifications.
     This will allow to submit notifications from other parts of
     the shell. Use it for the DBus part too.
   * notification: Allow for a NULL timestamp.
@@ -8351,19 +8351,19 @@ phosh (0.7.0) amber-phone; urgency=medium
   * timstamp-label: Use 'now' instead of <15s.
     It looks odd when new notifications print '<15s' right away.
   * notify-manager: Allow derived classes to use different action handlers.
-    We can turn the current 'default' notfication into a
+    We can turn the current 'default' notification into a
     PhoshDBusNotification to make that even more pronounced at some point.
   * Add PhoshMountNotification.
     A notification that displays information about newly mounted
     file systems.
-  * mount-manager: Indicate mounts via notifiations.
+  * mount-manager: Indicate mounts via notifications.
     We add a single action that opens the containing folder.
   * mount-notification: Only add action if we have a handler.
     Since nautilus is not adaptive don't add an action if
     it's not available.
   * Add PhoshDBusNotification.
     This allows us to have notification just do the right thing.
-  * notification: Move do_action into dbus-notifiation.
+  * notification: Move do_action into dbus-notification.
     This avoids the special case in the notification manager.
   * data/phosh: Print version with `--version` (Closes: #425)
   * run: Simplify oneshot gdb.
@@ -8437,7 +8437,7 @@ phosh (0.6.0) amber-phone; urgency=high
   * home: Handle osk-button visibility.
     This was currently split between the button and the home
     bar which resulted in the button being shown although
-    it should stay hidden because the OSK was disbled. (Closes: #403)
+    it should stay hidden because the OSK was disabled. (Closes: #403)
 
   [ Alexander Mikhaylenko ]
   * build: Compile gschemas on install
@@ -8504,7 +8504,7 @@ phosh (0.5.0) amber-phone; urgency=medium
   * torch-manager: Cleanup DBus proxy
   * feedback-manager: Chain up constructed
   * shell: Don't show notification when settings menu is open.
-    This avoids a notification banner when the notificaiton list
+    This avoids a notification banner when the notification list
     is already open.
   * settings: Use g_signal_connect_object.
     The panel might go away (e.g. when moved between outputs). This
@@ -8582,8 +8582,8 @@ phosh (0.5.0) amber-phone; urgency=medium
     as of
     0831cbb900e02aaa37bd270a25171c1751394cb8
   * Add mode-manager to handle different device modes.
-    This uses logind's chassis type and informtion about
-    connected hardware to dermine the device type and
+    This uses logind's chassis type and information about
+    connected hardware to determine the device type and
     what the device acts like (e.g. a phone with monitor
     and keyboard/mouse should be handled like a desktop).
   * Add 'docked' quick setting and manager.
@@ -8621,7 +8621,7 @@ phosh (0.4.5) amber-phone; urgency=medium
   * gitlab-ci: Use libhandy1 for alpine builds.
     This fixes the CI builds
   * po: Rename pt_PT.po to pt.po.
-    This allows to fall back for other Portugese translations.
+    This allows to fall back for other Portougese translations.
   * feedback-manager: Drop TODO.
     We use the correct icons since some time
   * keyboard-events: Move comment to signal description.
@@ -8676,7 +8676,7 @@ phosh (0.4.5) amber-phone; urgency=medium
     We don't use it.
   * d/control: Add doc packages.
     Needed to get the cross references right
-  * doc-check: Ignore linke to NMClient|NMConnection.
+  * doc-check: Ignore link to NMClient|NMConnection.
     They can' be properly linked to even with the docs installed
     due to their odd type.
   * monitor: Document PhoshMonitorConnectorType
@@ -8722,7 +8722,7 @@ phosh (0.4.5) amber-phone; urgency=medium
     configuration state.
   * Switch from primary monitor rotation to transform.
     Use the output transform in instead of a degree value.
-    This will allow us to handle flipped configuraitons correctly.
+    This will allow us to handle flipped configurations correctly.
   * shell: Use wlr-output-management instead of phosh private protocol.
     This gives us better control which output to rotate and does
     away with one more private protocol.
@@ -8753,7 +8753,7 @@ phosh (0.4.5) amber-phone; urgency=medium
   * shell: Fix typo
   * shell: Update primary monitor when it goes away (Closes: #382)
   * lockscreen-manager: Drop PhoshLockscreenManagerPrivate.
-    It's a finaly type so no need for priv (and it's very unlikely
+    It's a finally type so no need for priv (and it's very unlikely
     we'll ever derive here)
   * lockscreen-manager: Fix up indentation.
     Since we created enough churn in the previous commit let's
@@ -8763,10 +8763,10 @@ phosh (0.4.5) amber-phone; urgency=medium
   * tests: Don't include bad-props.h when unused
   * tests: Rework tests using g_test_expect_message.
     This no longer works with structured logging so use
-    g_test_trap_assert_stderr() as recomended by glib docs.
+    g_test_trap_assert_stderr() as recommended by glib docs.
   * Use structured logging.
     This will pick a suitable log writer automatically and
-    pass on structed information when e.g. logging to the journal.
+    pass on structured information when e.g. logging to the journal.
   * Add a custom log handler.
     This is to a large extend what glib does but we don't read the levels
     from the environment but allow to set them when setting the handler.
@@ -8836,8 +8836,8 @@ phosh (0.4.4) amber-phone; urgency=medium
   * treewide: libhandy API is stable now
   * lockscreen: Use HdyCarousel instead of HdyPaginator
   * overview: Use HdyCarousel instead of HdyPaginator
-  * style: Adust to HdyKeypad internal changes.
-    The grid is now embeded in the widget.
+  * style: Adjust to HdyKeypad internal changes.
+    The grid is now embedded in the widget.
   * gitlab-ci: Use libhandy-1 in smoketests too
 
   [ Zander Brown ]
@@ -9052,7 +9052,7 @@ phosh (0.4.0) amber-phone; urgency=high
   * gitlab-ci: be more robust when using xvfb
   * background-manager: Avoid recreating backgrounds too often
     Only do so initially and let PhoshBackground adjust to configuration
-    changes notified by PhoshBackground intead.
+    changes notified by PhoshBackground instead.
   * background: Skip image loading when using colored mode.
     There's no need to even try to load an image if we're not using
     it later on.
@@ -9112,7 +9112,7 @@ phosh (0.3.1) amber-phone; urgency=medium
     when building Documentation.
     Closes: #88
   * debian: Add phoc-doc.
-    This makes the documentation useable via devhelp.
+    This makes the documentation usable via devhelp.
   * gitlab-ci: Build documentation
   * docs: Document C file layout
   * gitlabci: Move coverage gathering to different step
@@ -9270,7 +9270,7 @@ phosh (0.3.0) amber-phone; urgency=medium
   * po: Update pot file
   * gitlab-ci: Allow to skip build and test.
     Sometimes we just want a package (e.g. when only changing the packaging or
-    when we're sure(tm) we didn't break anything). Hence allo to skip the
+    when we're sure(tm) we didn't break anything). Hence allow to skip the
     build and test stages via `PKG_ONLY = 1`
   * data: Rename compositor config to phoc.ini.
   * data: phoc.ini: Don't fall back to rootston.
@@ -9342,7 +9342,7 @@ phosh (0.2.2) amber-phone; urgency=medium
   [ Guido Günther ]
   * wwan: use interface prefix.  This shortens the function names
   * WWan: Connect to ModemManager async.
-    The rest is all propert access which is async.
+    The rest is all property access which is async.
     (Closes: #289)
   * wwan: Free GDBusObjects too. We only freed the list itself so far.
   * lockscreen: Drop unused variables
@@ -9475,8 +9475,8 @@ phosh (0.1.8) amber; urgency=medium
   [ Zander Brown ]
   * build: bump glib dep.
     We where using stuff from 2.54 already and buster ships 2.58
-  * notifications: seperate the data and widget.
-    Move notification information into a seperate class from the banner,
+  * notifications: separate the data and widget.
+    Move notification information into a separate class from the banner,
     moving forward this will ease lockscreen/notification drawer
     implementatinon
 
@@ -9500,7 +9500,7 @@ phosh (0.1.7) amber; urgency=medium
   * wifimanager: Consolidate device cleanup.
   * wifimanager: Clean up device state when (de)activating a connection.
     Don't use the device and access point information before we're
-    actually associted. Otherwise we show strength information from
+    actually associated. Otherwise we show strength information from
     outdated access points. (Closes: #202)
   * lockscreen-manager: Undo rotation when locking the screen.
     This makes sure we don't leave the user with a screen that can't be
@@ -9533,7 +9533,7 @@ phosh (0.1.6) amber; urgency=medium
   * topevel: Avoid NULL check
   * toplevel: Don't leak app_id and title
   * toplevel: Guard handle from being destroyed multiple times
-  * wwaninfo: Seperate access tec and signal srength (Closes: #118)
+  * wwaninfo: Separate access tec and signal srength (Closes: #118)
   * top-panel: Adjust label margins.
     Use the same margins as for other text in the top panel.
   * top-panel: Use only right margins.
@@ -9623,7 +9623,7 @@ phosh (0.1.3) amber; urgency=medium
   * build: only rebuild generated sources when linking tests/tools.
     This avoids extra (wasted) build steps for tools/tests/etc
   * app-button: don't emit app-launched when an error is set.
-    Previously we emited even when GLib reports an error
+    Previously we emitted even when GLib reports an error
   * app-button: store favourites in a model, add action menu.
   * tests: improve testing of app-button.
   * tests: add tests for the favourites model.
@@ -9723,7 +9723,7 @@ phosh (0.1.0) amber-phone; urgency=medium
 
   [ Alexander Mikhaylenko ]
   * overview: Remove close on click.
-    It's triggered wher swiping PhoshPaginator. I'm not sure this is wanted
+    It's triggered where swiping PhoshPaginator. I'm not sure this is wanted
     from design standpoint anyway, so remove it for now.
   * overview: Use paginator for switching apps
 
@@ -9769,7 +9769,7 @@ phosh (0.1.0) amber-phone; urgency=medium
     Fixes: phoc#18
   * AppGrid: make search case insensitive.
     Fixes: #186
-  * AppGrid: Make line below favorites darker and thiner
+  * AppGrid: Make line below favorites darker and thinner
     fixes #182
   * AppGrid: use a revealer to hide the favorites when search is started
     fixes: #185
@@ -9778,7 +9778,7 @@ phosh (0.1.0) amber-phone; urgency=medium
   [ Sebastian Krzyszkowiak ]
   * PhoshBackgroundManager: Divide the background size by scale.
     Without this the background surface buffer is needlessly oversized,
-    putting unnecesary load on the GPU.
+    putting unnecessary load on the GPU.
   * toplevel: Add "activated" property and its getter
   * overview: Scroll to currently focused activity
   * style: Remove unnecessary blending.
@@ -9837,7 +9837,7 @@ phosh (0.0.4) purple; urgency=medium
   * po: Update translations from zanata
   * favorites: Drop labels.
     This makes the "overview issue" go away with up to 8 favorites.
-    This improves the status quo until we fixe #89 and merged !187.
+    This improves the status quo until we fix #89 and merged !187.
   * favorites: Trim down app list.
     These are the ones that the focus is on atm. (Closes: #100)
   * css: Drop HdyArrow css.
@@ -9878,7 +9878,7 @@ phosh (0.0.4) purple; urgency=medium
     Less code and consistent with other new code.
   * PhoshBackground: Listen to configured signal.
     This is simpler then g_signal_override_class_handler()
-  * lockscreen: Deterine wifi status on idle.
+  * lockscreen: Determine wifi status on idle.
     This makes sure we determine the wifi status after the widget set up.
     Otherwise the widget might sometimes stay invisible.
   * PhoshShell: Make background surface span the whole output.
@@ -9930,12 +9930,12 @@ phosh (0.0.4) purple; urgency=medium
     protocol is optional if we bind to it we require at least version 3
     which is not supported by our rootston fork.
   * PhoshLayerSurface: Destroy layer surface on unmap.
-    This and moving some of the initilization from `realized` to `mapped`
+    This and moving some of the initialization from `realized` to `mapped`
     allows us to properly `gtk_widget_{show,hide}()` layer surface widgets.
     This is brought over from squeekboard
     c3a54595ea72638fbc7b65ffc3c26966de772e15
   * PhoshHome: Drop priv.
-    This makes the code smaller and esier to read.
+    This makes the code smaller and easier to read.
   * build: Fix indentation.
     We want two spaces.
   * Use glib-mkenums.
@@ -9974,7 +9974,7 @@ phosh (0.0.4) purple; urgency=medium
   * PhoshActivities: Mark properties as G_PARAM_EXPLICIT_NOTIFY.
     Because they are.
   * PhoshAcitivity: Avoid superfluous object emission and resizes.
-    No need to do anything if the propoerty does not change.
+    No need to do anything if the property does not change.
   * PhoshLayerSurface: Be verbose when acking configure.
     This is an important event when surface properties change.
   * Add gtk4's list model.
@@ -9983,7 +9983,7 @@ phosh (0.0.4) purple; urgency=medium
     This allows for more fine grained styling.
   * PhoshHome: Use CSS animations to change home button arrow direction
   * PhoshHome: Set initial arrow state to 'up'
-    Intially the surface is folded. That doesn't matter when starting up
+    Initially the surface is folded. That doesn't matter when starting up
     but it matters when phosh restarts with windows already open.
   * PhoshFavorites: Rename to create_favorite.
     We create a widget but don't add it to the flowbox yet.
@@ -10026,9 +10026,9 @@ phosh (0.0.4) purple; urgency=medium
     and ask for screen lock.
   * ScreensaverManager: Hook up to LockscreenManager.
     Implement org.gnome.ScreenSaver by invoking the appropriate methods
-    on our Lockscreenmanager and listen to it's releveant signals.
-    We keep this in a separte object to keep the lock screen code
-    separte from the DBus interaction.
+    on our Lockscreenmanager and listen to it's relevant signals.
+    We keep this in a separate object to keep the lock screen code
+    separate from the DBus interaction.
     We inject the lock screen manager instead of fetching the singleton
     to make the code more self contained.
   * helpers: Add script to check screen saver state
@@ -10042,12 +10042,12 @@ phosh (0.0.4) purple; urgency=medium
     Just cosmetics to make it consistent with the other classes.
   * AppGridButton: Whitespace cleanups
   * AppGridButton: Use getters and setters for GAppInfo.
-    This makes the property hander sway smaller
+    This makes the property handler sway smaller
   * PhoshAppInfo: Add tests for new methods and constructor
   * gitlab-ci: Add coverage information
   * README: coverage badge.
     This is a bit misleading since it only covers unit test coverage and
-    even that dosn't run all the tests.
+    even that doesn't run all the tests.
   * tests: Add app-list-model tests
   * tools/app-scroll: Fix activity scaling.
     Otherwise activities are just as large as the close button.
@@ -10122,7 +10122,7 @@ phosh (0.0.4) purple; urgency=medium
      - it doesn't match the window to close via its title or app id,
        always trying to close the correct window instead
      - it removes the window from the overview only after it really got
-       closed - which is especially noticable in case of windows that
+       closed - which is especially noticeable in case of windows that
        refuse to be closed
      - it updates the list automatically as the changes happen, without
        having to close and open the overview back again
@@ -10175,7 +10175,7 @@ phosh (0.0.4) purple; urgency=medium
   * switcher: Rework app switcher.
     This moves the window title and application icons to the bottom of the
     running application widget and uses a fake window where the actual app
-    conent will go later on.
+    content will go later on.
   * build: handy as a subproject.
     Some of us don't want to install handy master globally
   * general: ignore VSCode settings/metadata
@@ -10196,7 +10196,7 @@ phosh (0.0.4) purple; urgency=medium
   * app-grid-button: handle NULL app-info
   * launcher: import app-list-model.
     Taken from my maynard fork
-  * overview: rename PhoshFavorites now it's funcation has changed.
+  * overview: rename PhoshFavorites now it's function has changed.
     The overview is the widget that contains the
      - activities (running applications)
      - the favorites
@@ -10211,7 +10211,7 @@ phosh (0.0.4) purple; urgency=medium
     They inetract closely, e.g. on search so it makes sense to have them in
     the same widget.
     TODO: the css name change from phosh-favorites to phosh-overview should
-    go in a separte commit (Closes: #38)
+    go in a separate commit (Closes: #38)
 
   [ Adrien Plazas ]
   * system-prompt: Style overhaul.
@@ -10282,10 +10282,10 @@ phosh (0.0.3) purple; urgency=medium
   * Settings: Make sure the buttons stay circular
   * MonitorManager: Specify integer types in g_variant_builder_add.
     This makes sure we treat guint64 correctly.
-  * App: Don't print title if it's identical to the appplications name.
+  * App: Don't print title if it's identical to the applications name.
     This avoids printing the same thing twice.
   * rooston.ini: Drop scale=2.
-    We had this for the testing the OLED displays. The devkit has a separte
+    We had this for the testing the OLED displays. The devkit has a separate
     HDMI to attach large screens.
   * gitignore tag files
   * Fix URLs and copyright holder.
@@ -10356,7 +10356,7 @@ phosh (0.0.3) purple; urgency=medium
     Use the WifiInfo widget here too. (Closes: #10)
   * d/control: Build-dep on at-spi2-core.
     On the devkit we don't pull in recommends but GTK+ wants it to run the
-    tests in a meaningfull way.
+    tests in a meaningful way.
   * Add HACKING to clarify coding style and other matters
   * README: Add pipeline status
   * README: Make sure build-deps are up to date.
@@ -10365,7 +10365,7 @@ phosh (0.0.3) purple; urgency=medium
     Emit a signal when we received all of the configuration data from
     the compositor.
   * PhoshMonitor: Update comment
-  * PhoshMonitorManager: Fix function declartion.
+  * PhoshMonitorManager: Fix function declaration.
     Use a better variable name.
   * PhoshWayland: Maintain outputs in hash table.
     This duplicates the static wl_ouput GPtrArray which will be removed
@@ -10385,7 +10385,7 @@ phosh (0.0.3) purple; urgency=medium
     Class to handle OSK interaction.
   * PhoshShell: Add PhoshOskManager
   * PhoshOskButton: Use PhoshOskManager.
-    Don't dupliate code that is in PhoshOskManager and keep the DBus
+    Don't duplicate code that is in PhoshOskManager and keep the DBus
     interaction in one place.
   * PhoshOskButton: Drop private data
   * PhoshShell: Add getter for lockscreen manager
@@ -10404,7 +10404,7 @@ phosh (0.0.3) purple; urgency=medium
     This helps people with screens that don't have 1440 vertical pixels.
   * phosh.in: Prefer phoc over rootston
   * PhoshLayerSurface: Don't use gtk_widget_show_all()
-    gtk_widget_show ought to be enough. Widgets need to setup themselfes
+    gtk_widget_show ought to be enough. Widgets need to setup themselves
     properly.
   * Become a policy kit authentiation agent.
     Somewhat based on gnome-shell's implementation. (Closes: #22)

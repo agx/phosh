@@ -4,7 +4,7 @@ set -e
 
 TITLE="Give Firefox Microphone and Storage Access?"
 SUBTITLE="Firefox wants to use your microphone and storage."
-BODY="Access persmissions can be changed at any time from the privacy settings."
+BODY="Access permissions can be changed at any time from the privacy settings."
 OPTIONS="{'icon':<'audio-input-microphone-symbolic'>,'choices':<@a(ssa(ss)s) [('camera','Camera',[],'false'),('storage','Storage',[('no','No Access'),('read','Read Access'),('write','Write Access')],'no')]>}"
 
 function help()

@@ -179,4 +179,4 @@ Description: Pure Wayland shell for mobile devices - binding shared library
  protocol and aimed at mobile devices like smart phones and tablets using touch
  based inputs and small screens.
  .
- This package contains the shared libarary for language bindings.
+ This package contains the shared library for language bindings.

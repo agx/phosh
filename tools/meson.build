@@ -18,7 +18,7 @@ test('check-deprecated-ui-props',
 tools_or_tests = get_option('tools') or get_option('tests')
 
 if tools_or_tests
-  # app-buttons is used in the screnshot tests
+  # app-buttons is used in the screenshot tests
   executable('app-buttons',
     ['app-buttons.c'],
     dependencies: [phosh_tool_dep, test_stubs_dep],

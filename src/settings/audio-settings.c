@@ -32,7 +32,7 @@
 /**
  * PhoshAudioSettings:
  *
- * Widget to conrol Audio device selection and volume.
+ * Widget to control Audio device selection and volume.
  */
 
 enum {
