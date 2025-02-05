@@ -217,8 +217,8 @@ on_vpn_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 unload_custom_quick_setting (GtkWidget *quick_setting)
 {
-  GtkWidget *box = gtk_widget_get_parent (quick_setting);
-  phosh_quick_settings_box_remove (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (quick_setting));
+  PhoshQuickSettingsBox *box = PHOSH_QUICK_SETTINGS_BOX (gtk_widget_get_parent (quick_setting));
+  phosh_quick_settings_box_remove (box, PHOSH_QUICK_SETTING (quick_setting));
 }
 
 

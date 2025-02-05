@@ -11,7 +11,6 @@
 #include "phosh-config.h"
 
 #include "quick-settings-box.h"
-#include "quick-setting.h"
 
 #include <math.h>
 
@@ -652,14 +651,16 @@ on_visible_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSe
 
 
 static void
-container_add (GtkContainer *container, GtkWidget *widget) {
+container_add (GtkContainer *container, GtkWidget *widget)
+{
   phosh_quick_settings_box_add (PHOSH_QUICK_SETTINGS_BOX (container),
                                 PHOSH_QUICK_SETTING (widget));
 }
 
 
 static void
-container_remove (GtkContainer *container, GtkWidget *widget) {
+container_remove (GtkContainer *container, GtkWidget *widget)
+{
   phosh_quick_settings_box_remove (PHOSH_QUICK_SETTINGS_BOX (container),
                                    PHOSH_QUICK_SETTING (widget));
 }
