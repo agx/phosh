@@ -479,7 +479,7 @@ phosh_tool_dep = declare_dependency(
   dependencies: phosh_deps)
 
 # A library containing everything
-phosh_lib = both_libraries('phosh-@0@'.format(libversion),
+phosh_lib = both_libraries('phosh-@0@'.format(libphosh_api_version),
   phosh_headers,
   phosh_sources,
   include_directories: phosh_lib_inc,
@@ -518,7 +518,7 @@ if enable_introspection or bindings_lib
                 sources : phosh_gir_sources,
               nsversion : '0',
               namespace : 'Phosh',
-        export_packages : 'libphosh-@0@'.format(libversion),
+        export_packages : 'libphosh-@0@'.format(libphosh_api_version),
           symbol_prefix : 'phosh',
       identifier_prefix : 'Phosh',
               link_with : phosh_lib,
@@ -536,8 +536,8 @@ if bindings_lib
   pkgconfig.generate(
     phosh_lib,
     name: 'libphosh',
-    subdirs: 'libphosh-@0@'.format(libversion),
-    filebase: 'libphosh-@0@'.format(libversion),
+    subdirs: 'libphosh-@0@'.format(libphosh_api_version),
+    filebase: 'libphosh-@0@'.format(libphosh_api_version),
     version : meson.project_version(),
     description: 'Library for building components embedding Phosh',
     requires: 'phosh-settings',
