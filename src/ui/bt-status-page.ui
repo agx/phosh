@@ -27,20 +27,19 @@
       <object class="PhoshStatusPagePlaceholder" id="empty_state">
         <property name="visible">1</property>
         <property name="icon-name">bluetooth-disabled</property>
-        <child>
-          <object class="GtkButton" id="enable_button">
-            <property name="visible">1</property>
-            <property name="label" translatable="yes">Enable Bluetooth</property>
-            <property name="halign">center</property>
-            <property name="focus-on-click">0</property>
-            <signal name="clicked" handler="on_enable_clicked" object="PhoshBtStatusPage" swapped="yes"/>
-          </object>
-        </child>
+        <property name="extra-widget">enable_button</property>
       </object>
       <packing>
         <property name="name">empty-state</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkButton" id="enable_button">
+    <property name="visible">1</property>
+    <property name="label" translatable="yes">Enable Bluetooth</property>
+    <property name="halign">center</property>
+    <property name="focus-on-click">0</property>
+    <signal name="clicked" handler="on_enable_clicked" object="PhoshBtStatusPage" swapped="yes"/>
   </object>
   <object class="GtkButton" id="footer">
     <property name="visible">1</property>

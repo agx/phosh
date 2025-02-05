@@ -21,5 +21,7 @@ const char                 *phosh_status_page_placeholder_get_title     (PhoshSt
 void                        phosh_status_page_placeholder_set_icon_name (PhoshStatusPagePlaceholder *self,
                                                                          const char                 *icon_name);
 const char                 *phosh_status_page_placeholder_get_icon_name (PhoshStatusPagePlaceholder *self);
+void                        phosh_status_page_placeholder_set_extra_widget     (PhoshStatusPagePlaceholder *self, GtkWidget *extra_widget);
+GtkWidget                  *phosh_status_page_placeholder_get_extra_widget     (PhoshStatusPagePlaceholder *self);
 
 G_END_DECLS

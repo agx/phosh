@@ -64,6 +64,8 @@
    phosh_status_page_placeholder_get_title;
    phosh_status_page_placeholder_set_icon_name;
    phosh_status_page_placeholder_get_icon_name;
+   phosh_status_page_placeholder_set_child;
+   phosh_status_page_placeholder_get_child;
 
    # The plugins use our gtk-list-models:
    gtk_filter_list_model_*;
