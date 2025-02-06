@@ -10,6 +10,7 @@
 #define G_LOG_DOMAIN "phosh-home"
 
 #include "phosh-config.h"
+#include "layersurface-priv.h"
 #include "overview.h"
 #include "home.h"
 #include "shell-priv.h"

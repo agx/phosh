@@ -12,6 +12,7 @@
 #include "background-manager.h"
 #include "background.h"
 #include "background-cache.h"
+#include "layersurface-priv.h"
 #include "manager.h"
 #include "monitor/monitor.h"
 #include "phosh-wayland.h"

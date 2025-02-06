@@ -25,9 +25,6 @@ gboolean                phosh_lockscreen_manager_get_locked  (PhoshLockscreenMan
 gboolean                phosh_lockscreen_manager_set_page  (PhoshLockscreenManager *self,
                                                             PhoshLockscreenPage     page);
 PhoshLockscreenPage     phosh_lockscreen_manager_get_page  (PhoshLockscreenManager *self);
-void                    phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self,
-                                                              int timeout);
-int                     phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self);
 gint64                  phosh_lockscreen_manager_get_active_time (PhoshLockscreenManager *self);
 PhoshLockscreen        *phosh_lockscreen_manager_get_lockscreen (PhoshLockscreenManager *self);
 

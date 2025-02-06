@@ -10,6 +10,7 @@
 
 #include "phosh-config.h"
 
+#include "layersurface-priv.h"
 #include "top-panel-bg.h"
 
 #define PHOSH_TOP_PANEL_BG_MAX_OPACITY 0.9

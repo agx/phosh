@@ -18,6 +18,7 @@
 #include "background-cache.h"
 #include "background-image.h"
 #include "background-manager.h"
+#include "layersurface-priv.h"
 #include "shell-priv.h"
 #include "top-panel.h"
 #include "util.h"

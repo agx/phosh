@@ -8,7 +8,7 @@
 
 #include "testlib-compositor.h"
 
-#include "layersurface.h"
+#include "layersurface-priv.h"
 #include <gdk/gdkwayland.h>
 
 #include <glib.h>
