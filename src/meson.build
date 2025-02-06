@@ -10,6 +10,7 @@ phosh_enums_header_subdir = 'phosh'
 install_headers(schema_enum_headers, subdir : phosh_enums_header_subdir)
 
 plugin_exported_symbols = 'phosh-exported-symbols.txt'
+libphosh_exported_symbols = 'libphosh.syms'
 
 dynamic_list = custom_target(
   'build-dynamic-list',
@@ -23,12 +24,14 @@ symbols_file = custom_target(
   'build-symbols-file',
   command: [ '@0@/tools/build-symbols-file'.format(meson.project_source_root()),
              '@0@'.format(libphosh_api_version.replace('.','_')),
-             '@0@/@INPUT@'.format(meson.current_source_dir())
+             '@0@/@INPUT0@'.format(meson.current_source_dir()),
+             '@0@/@INPUT1@'.format(meson.current_source_dir()),
            ],
   capture: true,
-  input: '@0@.in'.format(plugin_exported_symbols),
-  output: 'libphosh.syms',
-  build_by_default: true,
+  input: [ '@0@.in'.format(plugin_exported_symbols),
+           '@0@.in'.format(libphosh_exported_symbols),
+         ],
+  output: libphosh_exported_symbols,
 )
 
 pkgconfig.generate(
