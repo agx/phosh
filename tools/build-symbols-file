@@ -1,0 +1,16 @@
+#!/bin/sh
+
+VERSION="$1"
+SYMBOLS="$2"
+
+cat <<EOF
+LIBPHOSH_${VERSION}_0 {
+  global:
+EOF
+
+cat "${SYMBOLS}"
+
+cat <<EOF
+  local:
+    *;
+};

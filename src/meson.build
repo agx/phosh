@@ -17,6 +17,17 @@ dynamic_list = custom_target(
   capture: true,
   input: '@0@.in'.format(plugin_exported_symbols),
   output: plugin_exported_symbols,
+)
+
+symbols_file = custom_target(
+  'build-symbols-file',
+  command: [ '@0@/tools/build-symbols-file'.format(meson.project_source_root()),
+             '@0@'.format(libphosh_api_version.replace('.','_')),
+             '@0@/@INPUT@'.format(meson.current_source_dir())
+           ],
+  capture: true,
+  input: '@0@.in'.format(plugin_exported_symbols),
+  output: 'libphosh.syms',
   build_by_default: true,
 )
 
