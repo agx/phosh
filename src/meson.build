@@ -9,6 +9,17 @@ phosh_enums_header_subdir = 'phosh'
 
 install_headers(schema_enum_headers, subdir : phosh_enums_header_subdir)
 
+plugin_exported_symbols = 'phosh-exported-symbols.txt'
+
+dynamic_list = custom_target(
+  'build-dynamic-list',
+  command: [ 'sh', '-c', 'echo "{"; cat @INPUT@; echo "};"' ],
+  capture: true,
+  input: '@0@.in'.format(plugin_exported_symbols),
+  output: plugin_exported_symbols,
+  build_by_default: true,
+)
+
 pkgconfig.generate(
   requires : gsettings_desktop_schemas_dep,
   subdirs : phosh_enums_header_subdir,
@@ -553,11 +564,11 @@ if bindings_lib
   )
 endif
 
-phosh_export_sym_link_arg = '-Wl,--dynamic-list=@0@/phosh-exported-symbols.txt'.format(meson.current_source_dir())
+phosh_export_sym_link_arg = '-Wl,--dynamic-list=@0@'.format(dynamic_list.full_path())
 phosh = executable(
   'phosh', 'main.c',
   dependencies: phosh_static_lib_dep,
-  link_depends: ['phosh-exported-symbols.txt'],
+  link_depends: dynamic_list,
   link_args: phosh_export_sym_link_arg,
   install: true,
   install_dir: libexecdir
