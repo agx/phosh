@@ -511,6 +511,8 @@ phosh_lib = both_libraries('phosh-@0@'.format(libphosh_api_version),
   dependencies: [phosh_tool_dep, phosh_deps],
   soversion: 0,
   install: bindings_lib,
+  link_args: '-Wl,--version-script,@0@'.format(symbols_file.full_path()),
+  link_depends: symbols_file,
 )
 
 phosh_static_lib_dep = declare_dependency(
