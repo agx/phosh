@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-11 09:22+0000\n"
-"PO-Revision-Date: 2024-11-11 20:22+0200\n"
+"POT-Creation-Date: 2025-01-30 17:57+0000\n"
+"PO-Revision-Date: 2025-02-07 16:38+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -16,11 +16,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.4\n"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
-msgid "Phosh"
-msgstr "Phosh"
-
 #: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Puhelimen käyttöliittymä"
@@ -29,6 +24,11 @@ msgstr "Puhelimen käyttöliittymä"
 msgid "Window management and application launching for mobile"
 msgstr ""
 "Ikkunointijärjestelmän hallinta ja ohjelmien käynnistys mobiililaitteille"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/wayland-sessions/phosh.desktop:5
 msgid "This session logs you into Phosh"
@@ -120,15 +120,15 @@ msgstr "Tulevat tapahtumat"
 msgid "Show upcoming calendar events"
 msgstr "Näytä tulevat kalenteritapahtumat"
 
-#: src/app-grid-button.c:153
+#: src/app-grid-button.c:154
 msgid "Add to Folder"
 msgstr "Lisää kansioon"
 
-#: src/app-grid-button.c:177
+#: src/app-grid-button.c:178
 msgid "Create new folder"
 msgstr "Luo uusi kansio"
 
-#: src/app-grid-button.c:692 src/app-grid-button.c:749
+#: src/app-grid-button.c:731 src/app-grid-button.c:788
 msgid "Application"
 msgstr "Sovellus"
 
@@ -141,7 +141,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Näytä vain mobiilille suunnatut sovellukset"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "Akku %.0f%%"
@@ -155,17 +155,30 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Päällä"
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "Yhdistettävissä olevia Bluetooth-laitteita ei löytynyt"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "Bluetooth pois käytöstä"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Tuntematon soittaja"
+
+#: src/connectivity-manager.c:114
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "Wi-Fi-verkko '%s' käyttää kirjautumisportaalia"
+
+#: src/connectivity-manager.c:116
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "Wi-Fi-verkko käyttää kirjautumisportaalia"
+
+#: src/connectivity-manager.c:123
+msgid "Sign into Wi-Fi network"
+msgstr "Kirjaudu Wi–Fi-verkkoon"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -176,7 +189,7 @@ msgid "Undocked"
 msgstr "Ei telakassa"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:71
+#: src/ui/cell-broadcast-prompt.ui:23 src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "OK"
 
@@ -188,33 +201,33 @@ msgstr "Hätäpuhelu ei onnistunut"
 msgid "Internal error"
 msgstr "Sisäinen virhe"
 
-#: src/end-session-dialog.c:174
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
 
-#: src/end-session-dialog.c:177
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s kirjataan ulos automaattisesti %d sekunnin kuluttua."
 msgstr[1] "%s kirjataan ulos automaattisesti %d sekunnin kuluttua."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Sammuta"
 
-#: src/end-session-dialog.c:184
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Järjestelmä sammuu automaattisesti %d sekunnin kuluttua."
 msgstr[1] "Järjestelmä sammuu automaattisesti %d sekunnin kuluttua."
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Käynnistä uudelleen"
 
-#: src/end-session-dialog.c:191
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -261,49 +274,48 @@ msgid "No"
 msgstr "Ei"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Syötä salasana"
 
-#: src/lockscreen.c:949
+#: src/lockscreen.c:948
 msgid "Checking…"
 msgstr "Tarkistetaan…"
 
 #. Translators: '%s' is the filename of a screenshot
-#: src/screenshot-manager.c:235
+#: src/screenshot-manager.c:238
 #, c-format
-#| msgid "Screenshot copied to clipboard"
 msgid "Screenshot saved to '%s'"
 msgstr "Kuvakaappaus tallennettu tiedostoon '%s'"
 
-#: src/screenshot-manager.c:237
+#: src/screenshot-manager.c:240
 msgid "Failed to save screenshot"
 msgstr "Kuvakaappauksen tallentaminen epäonnistui"
 
-#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Kuvakaappaus"
 
 #. Translators: name of the folder beneath ~/Pictures used to store screenshots
-#: src/screenshot-manager.c:416
+#: src/screenshot-manager.c:527
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
 #. Translators: Name of a screenshot file. The first '%s' is a timestamp
 #. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
 #. * the file already exists like '-3'
-#: src/screenshot-manager.c:436
+#: src/screenshot-manager.c:547
 #, c-format
 msgid "Screenshot from %s%s.png"
 msgstr "Kuvakaappaus %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:446 src/ui/media-player.ui:213
+#: src/media-player.c:450 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Tuntematon kappale"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:454 src/ui/media-player.ui:201
+#: src/media-player.c:458 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
@@ -461,7 +473,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Tunnistautumisikkuna peruttu käyttäjän toimesta"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Salasana:"
@@ -518,8 +530,7 @@ msgid "Remember decision"
 msgstr "Muista valinta"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
 msgid "Cancel"
 msgstr "Peru"
 
@@ -535,11 +546,15 @@ msgstr "Lisää _suosikkeihin"
 msgid "View _Details"
 msgstr "Näytä yk_sityiskohdat"
 
-#: src/ui/app-grid-button.ui:41
+#: src/ui/app-grid-button.ui:38
+msgid "Uninstall"
+msgstr "Poista asennus"
+
+#: src/ui/app-grid-button.ui:46
 msgid "_Remove from Folder"
 msgstr "_Poista kansiosta"
 
-#: src/ui/app-grid.ui:24
+#: src/ui/app-grid.ui:25
 msgid "Search apps…"
 msgstr "Etsi sovelluksia…"
 
@@ -555,11 +570,11 @@ msgstr "Sisääntulolaitteet"
 msgid "Sound Settings"
 msgstr "Ääniasetukset"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Ota Bluetooth käyttöön"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "Bluetooth-asetukset"
 
@@ -584,7 +599,7 @@ msgid "Owner unknown"
 msgstr "Tuntematon omistaja"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:190
 msgid "Emergency Contacts"
 msgstr "Hätäyhteystiedot"
 
@@ -620,16 +635,16 @@ msgstr "Liu'uta ylös avataksesi"
 msgid "Unlock"
 msgstr "Avaa lukitus"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Tunnistautuminen vaaditaan"
 
-#: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: src/ui/network-auth-prompt.ui:41
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:235
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "_Yhdistä"
 
@@ -689,7 +704,7 @@ msgstr "Kirjaudu _ulos…"
 msgid "Wi-Fi"
 msgstr "Wifi"
 
-#: src/ui/wifi-status-page.ui:72
+#: src/ui/wifi-status-page.ui:73
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-asetukset"
 
@@ -712,27 +727,27 @@ msgstr "Liitännäistä ei löytynyt"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Liitännäistä '%s' ei voitu ladata."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "Wi-Fi-laitetta ei löydy"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi on pois käytöstä"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "Ota Wi-Fi käyttöön"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "Wi-Fi-yhteyspiste aktiivisena"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "Sammuta"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "Wi-Fi-yhteyspisteitä ei ole"
 
@@ -769,52 +784,46 @@ msgid "Light mode"
 msgstr "Vaalea tila"
 
 #: plugins/emergency-info/emergency-info.ui:39
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:68
 msgid "Personal Information"
 msgstr "Henkilökohtaiset tiedot"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
 msgid "Date of Birth"
 msgstr "Syntymäpäivä"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Preferred Language"
 msgstr "Ensisijainen kieli"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:92
 msgid "Home Address"
 msgstr "Kotiosoite"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Medical Information"
 msgstr "Lääkitystiedot"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Ikä"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Verityyppi"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Pituus"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Paino"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:140
 msgid "Allergies"
 msgstr "Allergiat"
 
@@ -823,50 +832,74 @@ msgid "Medications & Conditions"
 msgstr "Lääkitykset ja terveydentila"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Other Information"
 msgstr "Muut tiedot"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:17
 msgid "Emergency Info Preferences"
 msgstr "Hätätilatietojen asetukset"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:38
 msgid "Done"
 msgstr "Valmis"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
-msgid "Owner Name"
-msgstr "Omistajan nimi"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Owner Name"
+msgstr "_Omistajan nimi"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Date of Birth"
+msgstr "_Syntymäpäivä"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
+msgid "_Preferred Language"
+msgstr "_Ensisijainen kieli"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:115
+msgid "_Age"
+msgstr "_Ikä"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:121
+msgid "_Blood Type"
+msgstr "_Verityyppi"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:127
+msgid "_Height"
+msgstr "_Pituus"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:133
+msgid "_Weight"
+msgstr "_Paino"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:156
 msgid "Medications and Conditions"
 msgstr "Lääkitykset ja terveydentila"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:199
 msgid "Add Contact"
 msgstr "Lisää yhteystieto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:226
 msgid "Add New Contact"
 msgstr "Lisää uusi yhteystieto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
-msgid "Add"
-msgstr "Lisää"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+msgid "_Add"
+msgstr "_Lisää"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
-msgid "New Contact Name"
-msgstr "Uuden yhteystiedon nimi"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:263
+msgid "_Contact Name"
+msgstr "_Yhteyshenkilön nimi"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:269
 msgid "Relationship"
 msgstr "Suhde"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
-msgid "Number"
-msgstr "Numero"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:275
+msgid "_Contact Number"
+msgstr "_Yhteyshenkilön numero"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
@@ -919,32 +952,30 @@ msgstr "Pomodoro-ajastin"
 #. Translators: Pomodoro is a technique, no need to translate it
 #: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
 #, c-format
-#| msgid "Power Off"
 msgid "Pomodoro Off"
 msgstr "Pomodoro pois"
 
 #: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
-#| msgid "Ticket Box Preferences"
 msgid "Pomodoro Quick Setting Preferences"
 msgstr "Pomodoro-pika-asetuksen asetukset"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:11
 msgid "Pomodoro Technique"
 msgstr "Pomodoro-tekniikka"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
 msgid "_Active Duration"
 msgstr "_Aktiivinen kesto"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:15
 msgid "Duration of the focus session"
 msgstr "Keskittymisistunnon kesto"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:29
 msgid "_Break Duration"
 msgstr "_Tauon kesto"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Istuntojen välillä olevan tauon kesto"
 
@@ -956,31 +987,31 @@ msgstr "Ei näytettäviä asiakirjoja"
 msgid "Tickets"
 msgstr "Tiketit"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
-msgid "Choose Folder"
-msgstr "Valitse kansio"
-
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:94
 msgid "_Open"
 msgstr "_Avaa"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:95
+msgid "Choose Folder"
+msgstr "Valitse kansio"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
 msgstr "Tikettilaatikon asetukset"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:10
 msgid "Paths"
 msgstr "Polut"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
 msgid "Folder Settings"
 msgstr "Kansion asetukset"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:16
 msgid "Where Phosh looks for your tickets"
 msgstr "Mistä Phosh etsii tikettejä"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
 msgid "Ticket Folder"
 msgstr "Tikettikansio"
 
@@ -1032,18 +1063,29 @@ msgstr "Nimetön tapahtuma"
 msgid "Upcoming Events Preferences"
 msgstr "Tulevien tapahtumien asetukset"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:10
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
 msgid "Days"
 msgstr "Päivää"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
 msgid "Date Range"
 msgstr "Päiväväli"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:14
 msgid "Number of days to show events for"
 msgstr "Kuinka monelta päivältä tapahtumat näytetään"
+
+#: plugins/scaling-quick-setting/qs.ui:15
+msgid "Monitor scales"
+msgstr ""
+
+#. Translators: This is scale factor of a monitor in percent
+#: plugins/scaling-quick-setting/scale-row.c:48
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
 
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
@@ -1052,6 +1094,12 @@ msgstr "Yhteyspiste päällä"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Yhteyspiste pois"
+
+#~ msgid "Add"
+#~ msgstr "Lisää"
+
+#~ msgid "Number"
+#~ msgstr "Numero"
 
 #~ msgid "Scan"
 #~ msgstr "Skannaa"
