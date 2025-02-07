@@ -47,3 +47,7 @@ option('introspection',
 option('bindings-lib',
        type: 'boolean', value: false,
        description: 'Whether to install the headers and shared library to generate bindings.')
+
+option('abi-check',
+       type: 'boolean', value: false,
+       description: 'Runs abi-compliance-checker on libphosh.so')

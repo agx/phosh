@@ -513,7 +513,45 @@ phosh_lib = both_libraries('phosh-@0@'.format(libphosh_api_version),
   install: bindings_lib,
   link_args: '-Wl,--version-script,@0@'.format(symbols_file.full_path()),
   link_depends: symbols_file,
+  override_options: abi_check ? {'optimization': 'g'} : {},
 )
+
+if abi_check
+  abi_compliance_checker = find_program('abi-compliance-checker')
+  abi_dumper = find_program('abi-dumper')
+
+  abi_dump = custom_target(
+    'abi-dump',
+    input: phosh_lib,
+    output: 'libphosh-abi.dump',
+    command: [
+      abi_dumper,
+      '@INPUT@',
+      '-o',
+      '@OUTPUT@',
+      '-lver',
+      meson.project_version(),
+    ],
+  )
+
+  custom_target(
+    'abi-compliance',
+    input: [abi_dump, 'libphosh-abi.dump'],
+    output: 'abi-compliance-check-report.html',
+    command: [
+      abi_compliance_checker,
+      '-report-path',
+      '@OUTPUT@',
+      '-l',
+      meson.project_name(),
+      '-old',
+      '@INPUT0@',
+      '-new',
+      '@INPUT1@',
+    ],
+    build_by_default: true,
+  )
+endif
 
 phosh_static_lib_dep = declare_dependency(
   include_directories: phosh_lib_inc,
