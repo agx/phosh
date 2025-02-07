@@ -1,0 +1,18 @@
+#!/bin/sh
+
+VERSION="$1"
+API_SYMBOLS="$2"
+PLUGIN_SYMBOLS="$3"
+
+cat <<EOF
+LIBPHOSH_${VERSION}_0 {
+  global:
+EOF
+
+cat "${API_SYMBOLS}"
+cat "${PLUGIN_SYMBOLS}"
+
+cat <<EOF
+  local:
+    *;
+};
