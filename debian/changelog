@@ -1,3 +1,75 @@
+phosh (0.45~rc1) experimental; urgency=medium
+
+  [ Arun Mani J ]
+  * Simplify more UI files
+
+  [ Guido Günther ]
+  * phosh-session: Run through systemd-cat when available.
+    This helps to get proper debug output out of phoc under display manager
+    using greetd (like phog and phrog).
+  * notification: Add sound-file property. Needed to play custom sounds on
+    notifications
+  * notify-feedback: Pass custom sound file if present.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1184
+  * notification-manager: Add and handle sound capability.
+    Handle `suppress-sound` by lowering the feedback level to quiet and set
+    `sound-file` if present in the notification.
+  * ci: Pull libfeedback from Debian unstable
+  * build: Generate dynamic list. This will be useful when we generate a
+    symbols file too
+  * build: Build symbols file. Use the information from our dyn list to create
+    a symbols file for the shared library.
+  * ci: Use newer imagemagick
+  * ci: Update images to v0.0.2025-02-07
+
+
+  [ Sam Day ]
+  * build: Manage libphosh_api_version independently from project version.
+    Since we're aiming to keep the libphosh API stable, the libversion
+    variable is renamed to libphosh_api_version, and its value is managed
+    manually. It will only be incremented when the API changes.
+    See: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1188
+  * lockscreen-manager: Drop unused get/set timeout prototypes.
+    These functions were dropped back in 2020 by 084d406c
+  * layersurface: Add vtable padding to class.
+    This type is exported by libphosh, make sure we can evolve the vtable
+    later if needed.
+  * layersurface: Split out private header.
+    We just need the type available to API consumers, let's not make
+    anything else public for now.
+  * build: Remove wl protos from public API altogether.
+    This was introduced recently in 68bf9792, but as it turns out, we don't
+    need to leak the layer-shell-unstable wl proto header into the public
+    API after all. This is because the previous commit reduced the exports
+    of PhoshLayerSurface to just its type information.
+  * build: Introduce libphosh symbol list.
+    This list specifies every symbol that is defined in libphosh.h. It will
+    be included in the libphosh symbol map in the following commit.
+  * build: Combine libphosh+plugin symbol into symbol map
+    libphosh.so needs to export both the public API symbols and the extra
+    symbols needed by plugins (as libphosh consumers might instantiate a
+    Shell that tries to load the default in-tree plugins).
+  * build: Build libphosh library with symbol map.
+    This significantly reduces the number of global symbols exported from
+    libphosh.so from ~2000 to ~150.
+  * ci: Install abi-compliance-checker in Debian image.
+    A subsequent commit will introduce a CI job that uses this tool to
+    generate a report on the changes to API/ABI compatibility for the
+    libphosh shared library (and later, the phosh executable too).
+    It introduces about a half-dozen transitive dependencies and ~8mb
+    additional installed size. This seems acceptable and preferable to
+    introducing a whole additional sub-image.
+  * ci: Fix double line continuation token in debian.Dockerfile.
+    Podman seems okay with this, but it makes Docker upset.
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 07 Feb 2025 19:07:14 +0100
+
 phosh (0.45~beta1) experimental; urgency=medium
 
   [ Guido Günther ]

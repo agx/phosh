@@ -1,11 +1,12 @@
-phosh 0.45~beta1
-----------------
+phosh 0.45~rc1
+--------------
 Released February 2025
 * Detect captive portals and allow to open browser
 * New quick setting plugin to switch display scales
 * Create thumbnails for Screenshots
 * Allow to uninstall apps from app-grid
 * Close quick setting status pages when action was successful
+* Add 'sound' capbility to notification server
 * WWan enable/disable autoconnect with the connection so e.g.
   mobile data doesn't turn on on resume
 * Minimize and stabilize libphosh API
@@ -18,6 +19,7 @@ Released February 2025
 * Fade in system modal dialogs
 * Several background image related fixes
 * Fix crash on unlock with media player widget
+* Simplify most UI files
 * Issues fixed:
     * https://gitlab.gnome.org/guidog/meta-phosh/-/issues/16
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/989
@@ -30,6 +32,7 @@ Released February 2025
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1176
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1177
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1181
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1184
 * Contributors:
     * Adam Honse
     * Arun Mani J
@@ -45,6 +48,7 @@ Released February 2025
     * Daniel Rusek (cs)
     * Ekaterine Papava (ka)
     * Emin Tufan Çetin (tr)
+    * Jiri Grönroos (fi)
     * Jordi Mas i Hernandez (ca)
     * Martin (sl)
     * Rafael Fontenelle (pt_BR)
