@@ -23,6 +23,7 @@
 enum {
   PROP_0,
   PROP_LABEL,
+  PROP_CHILD,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -31,6 +32,7 @@ typedef struct {
   GtkBox                *box;
   GtkWidget             *button;
   PhoshFadingLabel      *label;
+  GtkWidget             *child;
 } PhoshAppGridBaseButtonPrivate;
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhoshAppGridBaseButton, phosh_app_grid_base_button,
@@ -48,6 +50,9 @@ phosh_app_grid_base_button_set_property (GObject      *object,
   switch (property_id) {
     case PROP_LABEL:
       phosh_app_grid_base_button_set_label (self, g_value_get_string (value));
+      break;
+    case PROP_CHILD:
+      phosh_app_grid_base_button_set_child (self, g_value_get_object (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -67,6 +72,9 @@ phosh_app_grid_base_button_get_property (GObject      *object,
     case PROP_LABEL:
       g_value_set_string (value, phosh_app_grid_base_button_get_label (self));
       break;
+    case PROP_CHILD:
+      g_value_set_object (value, phosh_app_grid_base_button_get_child (self));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
   }
@@ -81,6 +89,17 @@ on_clicked_cb (PhoshAppGridBaseButton *self)
 
 
 static void
+phosh_app_grid_base_button_destroy (GtkWidget *widget)
+{
+  PhoshAppGridBaseButton *self = PHOSH_APP_GRID_BASE_BUTTON (widget);
+
+  phosh_app_grid_base_button_set_child (self, NULL);
+
+  GTK_WIDGET_CLASS (phosh_app_grid_base_button_parent_class)->destroy (widget);
+}
+
+
+static void
 phosh_app_grid_base_button_grab_focus (GtkWidget *widget)
 {
   PhoshAppGridBaseButton *self = PHOSH_APP_GRID_BASE_BUTTON (widget);
@@ -91,32 +110,16 @@ phosh_app_grid_base_button_grab_focus (GtkWidget *widget)
 
 
 static void
-phosh_app_grid_base_button_add (GtkContainer *container, GtkWidget *child)
-{
-  PhoshAppGridBaseButton *self = PHOSH_APP_GRID_BASE_BUTTON (container);
-  PhoshAppGridBaseButtonPrivate *priv = phosh_app_grid_base_button_get_instance_private (self);
-
-  if (gtk_bin_get_child (GTK_BIN (container)) == NULL) {
-    GTK_CONTAINER_CLASS (phosh_app_grid_base_button_parent_class)->add (GTK_CONTAINER (self), child);
-    return;
-  }
-
-  gtk_box_pack_start (priv->box, child, FALSE, FALSE, 0);
-}
-
-
-static void
 phosh_app_grid_base_button_class_init (PhoshAppGridBaseButtonClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-  GtkContainerClass *container_class = GTK_CONTAINER_CLASS (klass);
 
   object_class->set_property = phosh_app_grid_base_button_set_property;
   object_class->get_property = phosh_app_grid_base_button_get_property;
 
+  widget_class->destroy = phosh_app_grid_base_button_destroy;
   widget_class->grab_focus = phosh_app_grid_base_button_grab_focus;
-  container_class->add = phosh_app_grid_base_button_add;
 
   /**
    * PhoshAppGridBaseButton:label:
@@ -129,6 +132,15 @@ phosh_app_grid_base_button_class_init (PhoshAppGridBaseButtonClass *klass)
                          G_PARAM_READWRITE |
                          G_PARAM_EXPLICIT_NOTIFY |
                          G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshAppGridBaseButton:child:
+   *
+   * The child content of the button.
+   */
+  props[PROP_CHILD] =
+    g_param_spec_object ("child", "", "",
+                         GTK_TYPE_WIDGET,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -181,4 +193,55 @@ phosh_app_grid_base_button_get_label (PhoshAppGridBaseButton *self)
   priv = phosh_app_grid_base_button_get_instance_private (self);
 
   return phosh_fading_label_get_label (priv->label);
+}
+
+/**
+ * phosh_app_grid_base_button_set_child:
+ * @self: An app-grid base button
+ * @child: A widget or `NULL`
+ *
+ * Set the child of base button. Use `NULL` to remove exisitng child.
+ */
+void
+phosh_app_grid_base_button_set_child (PhoshAppGridBaseButton *self, GtkWidget *child)
+{
+  PhoshAppGridBaseButtonPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_APP_GRID_BASE_BUTTON (self));
+  g_return_if_fail (child == NULL || GTK_IS_WIDGET (child));
+
+  priv = phosh_app_grid_base_button_get_instance_private (self);
+
+  if (priv->child == child)
+    return;
+
+  if (priv->child)
+    gtk_container_remove (GTK_CONTAINER (priv->box), priv->child);
+
+  priv->child = child;
+
+  if (priv->child)
+    gtk_box_pack_start (priv->box, priv->child, FALSE, FALSE, 0);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CHILD]);
+}
+
+/**
+ * phosh_app_grid_base_button_get_child:
+ * @self: An app-grid base button
+ *
+ * Get the current child of base button.
+ *
+ * Returns:(transfer none): The child or `NULL`.
+ */
+GtkWidget *
+phosh_app_grid_base_button_get_child (PhoshAppGridBaseButton *self)
+{
+  PhoshAppGridBaseButtonPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_APP_GRID_BASE_BUTTON (self), NULL);
+
+  priv = phosh_app_grid_base_button_get_instance_private (self);
+
+  return priv->child;
 }

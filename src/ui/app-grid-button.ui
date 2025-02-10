@@ -3,15 +3,14 @@
   <requires lib="gtk+" version="3.24"/>
   <template class="PhoshAppGridButton" parent="PhoshAppGridBaseButton">
     <signal name="activate" handler="activate_cb"/>
-    <child>
-      <object class="GtkImage" id="icon">
-        <property name="visible">1</property>
-        <property name="pixel-size">64</property>
-        <property name="icon-name">app-icon-unknown</property>
-        <property name="icon-size">6</property>
-      </object>
-    </child>
+    <property name="child">icon</property>
   </template>
+  <object class="GtkImage" id="icon">
+    <property name="visible">1</property>
+    <property name="pixel-size">64</property>
+    <property name="icon-name">app-icon-unknown</property>
+    <property name="icon-size">6</property>
+  </object>
   <object class="GtkPopover" id="popover">
     <property name="relative-to">PhoshAppGridButton</property>
   </object>
