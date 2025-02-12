@@ -1,7 +1,7 @@
 project('phosh', 'c',
           version: '0.45.rc1',
           license: 'GPL-3.0-or-later',
-    meson_version: '>= 1.0.0',
+    meson_version: '>= 1.2.0',
   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 
@@ -32,6 +32,7 @@ lib_inc_dir = prefix / get_option('includedir') / lib_inc_subdir
 
 enable_introspection = get_option('introspection') or get_option('gtk_doc')
 bindings_lib = get_option('bindings-lib')
+abi_check = get_option('abi-check')
 
 if prefix != '/usr'
   sysconfdir = join_paths(prefix, get_option('sysconfdir'))
@@ -265,6 +266,7 @@ summary({
     'Quick Setting Plugins': get_option('quick-setting-plugins'),
     'Animation slowdown': get_option('animation-slowdown'),
     'Bindings Library': bindings_lib,
+    'ABI Compliance Check': abi_check,
   },
   bool_yn: true,
   section: 'Build',
