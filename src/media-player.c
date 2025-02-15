@@ -517,16 +517,13 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
   if (!g_strcmp0 ("Playing", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_PLAYING;
     icon = "media-playback-pause-symbolic";
-    set_playable (self, TRUE);
     start_pos_poller (self);
   } else if (!g_strcmp0 ("Paused", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_PAUSED;
-    set_playable (self, TRUE);
     stop_pos_poller (self);
     poll_position (self);
   } else if (!g_strcmp0 ("Stopped", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_STOPPED;
-    set_playable (self, FALSE);
     stop_pos_poller (self);
     self->track_position = 0;
     update_position (self);
@@ -575,12 +572,13 @@ on_can_play (PhoshMediaPlayer                 *self,
              GParamSpec                       *psepc,
              PhoshMprisDBusMediaPlayer2Player *player)
 {
-  gboolean sensitive;
+  gboolean can_play;
 
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
-  sensitive = phosh_mpris_dbus_media_player2_player_get_can_play (player);
-  g_debug ("Can play: %d", sensitive);
-  gtk_widget_set_sensitive (self->btn_play, sensitive);
+  can_play = phosh_mpris_dbus_media_player2_player_get_can_play (player);
+  g_debug ("Can play: %d", can_play);
+  gtk_widget_set_sensitive (self->btn_play, can_play);
+  set_playable (self, can_play);
 }
 
 
