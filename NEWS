@@ -1,5 +1,5 @@
-phosh 0.45~rc1
---------------
+phosh 0.45.0
+------------
 Released February 2025
 * Detect captive portals and allow to open browser
 * New quick setting plugin to switch display scales
@@ -42,6 +42,7 @@ Released February 2025
     * Guido Günther
     * Sam Day
 * UI translations:
+    * Anders Jonsson (sv)
     * Antonio Marin (ro)
     * Artur S0 (ru)
     * Danial Behzadi (fa)

@@ -1,3 +1,40 @@
+phosh (0.45.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * build-symbols: Robustify. Exit on errors and add end of here file (EOF).
+  * build: Simplify path to inputs a bit.
+    This is easier to read but also make sure we don't get the
+    directories added twice when built as a subproject.
+  * phosh-session: Make phoc startup verbose. This gives us some important
+    information like used renderer, backend, etc. We require phoc 0.45.0 for
+    that.
+
+  [ Sam Day ]
+  * build: Bump minimum Meson version to 1.2.0.
+    We need this to set override_options on both_libraries (to enable DWARF
+    debug symbols when performing ABI compliance checks)
+  * build: Add ABI compliance check.
+    When the abi-check option is enabled, abi-dumper is run on the
+    shared library, and then abi-compliance-checker compares this result to
+    the baseline in src/libphosh-abi.dump
+  * build: Check in initial libphosh ABI dump.
+    We're starting our baseline from 0.45.beta1
+  * ci: Add abi-compliance-checker job.
+    This job makes use of the new abi-check build option, and saves an
+    artifact with the new ABI dump and the HTML report that was generated
+    comparing it to the currently checked in baseline.
+    It will run automatically on tags and changes to NEWS or the libphosh
+    symbol list. It can also be run manually.
+    See: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1188
+
+  [ Rafael Fontenelle ]
+  * Update Brazilian Portuguese translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 15 Feb 2025 12:00:47 +0100
+
 phosh (0.45~rc1) experimental; urgency=medium
 
   [ Arun Mani J ]
@@ -21,7 +58,6 @@ phosh (0.45~rc1) experimental; urgency=medium
     a symbols file for the shared library.
   * ci: Use newer imagemagick
   * ci: Update images to v0.0.2025-02-07
-
 
   [ Sam Day ]
   * build: Manage libphosh_api_version independently from project version.
