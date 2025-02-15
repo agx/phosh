@@ -3,39 +3,37 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.6"/>
   <template class="PhoshEmergencyInfoPrefs" parent="AdwPreferencesDialog">
-    <property name="title" translatable="yes">Emergency Info Preferences</property>
+    <property name="title" translatable="1">Emergency Info Preferences</property>
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="vexpand">true</property>
+        <property name="vexpand">1</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkHeaderBar">
             <property name="show-title-buttons">0</property>
             <property name="title-widget">
-            <object class="AdwWindowTitle">
-              <property name="title" translatable="yes">Emergency Info Preferences</property>
-            </object>
-          </property>
-          <child>
-            <object class="GtkButton">
-              <property name="visible">True</property>
-              <property name="valign">center</property>
-              <signal name="clicked" handler="on_update_information_cancelled" swapped="yes"/>
-              <child>
-                <object class="GtkLabel">
-                  <property name="label" translatable="yes">Cancel</property>
-                </object>
-              </child>
-            </object>
-          </child>
-         <child type="end">
-           <object class="GtkButton">
-             <property name="valign">center</property>
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="1">Emergency Info Preferences</property>
+              </object>
+            </property>
+            <child>
+              <object class="GtkButton">
+                <property name="valign">center</property>
+                <signal name="clicked" handler="on_update_information_cancelled" swapped="yes"/>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="1">Cancel</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton">
+                <property name="valign">center</property>
                 <signal name="clicked" handler="on_update_information_clicked" swapped="yes"/>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Done</property>
+                    <property name="label" translatable="1">Done</property>
                   </object>
                 </child>
                 <style>
@@ -47,54 +45,47 @@
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="vexpand">true</property>
+            <property name="vexpand">1</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkScrolledWindow">
-                <property name="visible">True</property>
-                <property name="vscrollbar-policy">automatic</property>
                 <property name="hscrollbar-policy">never</property>
-                <property name="vexpand">true</property>
-                <property name="propagate-natural-height">True</property>
+                <property name="vexpand">1</property>
+                <property name="propagate-natural-height">1</property>
                 <child>
                   <object class="AdwPreferencesPage">
                     <property name="icon_name">preferences-window-layout-symbolic</property>
                     <property name="title">Paths</property>
-                    <property name="use-underline">True</property>
+                    <property name="use-underline">1</property>
                     <child>
                       <object class="AdwPreferencesGroup">
-                        <property name="visible">True</property>
-                        <property name="title" translatable="yes">Personal Information</property>
+                        <property name="title" translatable="1">Personal Information</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
                           <object class="AdwEntryRow" id="owner_name_entry">
-                            <property name="title" translatable="yes">_Owner Name</property>
-                            <property name="use-underline">True</property>
+                            <property name="title" translatable="1">_Owner Name</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="dob_entry">
-                            <property name="title" translatable="yes">_Date of Birth</property>
-                            <property name="use-underline">True</property>
+                            <property name="title" translatable="1">_Date of Birth</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="pref_language_entry">
-                            <property name="title" translatable="yes">_Preferred Language</property>
-                            <property name="use-underline">True</property>
+                            <property name="title" translatable="1">_Preferred Language</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Home Address</property>
+                            <property name="title" translatable="1">Home Address</property>
                             <child>
                               <object class="GtkTextView">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hexpand">True</property>
+                                <property name="hexpand">1</property>
                                 <property name="buffer">home_addr_text_buffer</property>
                                 <property name="wrap-mode">word</property>
                                 <property name="input-hints">word-completion</property>
@@ -106,43 +97,39 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesGroup">
-                        <property name="visible">True</property>
-                        <property name="title" translatable="yes">Medical Information</property>
+                        <property name="title" translatable="1">Medical Information</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
                           <object class="AdwEntryRow" id="age_entry">
-                            <property name="title" translatable="yes">_Age</property>
-                            <property name="use-underline">True</property>
+                            <property name="title" translatable="1">_Age</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="blood_type_entry">
-                            <property name="title" translatable="yes">_Blood Type</property>
-                            <property name="use-underline">True</property>
+                            <property name="title" translatable="1">_Blood Type</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="height_entry">
-                            <property name="title" translatable="yes">_Height</property>
-                            <property name="use-underline">True</property>
+                            <property name="title" translatable="1">_Height</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwEntryRow" id="weight_entry">
-                            <property name="title" translatable="yes">_Weight</property>
-                            <property name="use-underline">True</property>
+                            <property name="title" translatable="1">_Weight</property>
+                            <property name="use-underline">1</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Allergies</property>
+                            <property name="title" translatable="1">Allergies</property>
                             <child>
                               <object class="GtkTextView">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hexpand">True</property>
+                                <property name="hexpand">1</property>
                                 <property name="buffer">allergies_text_buffer</property>
                                 <property name="wrap-mode">word</property>
                                 <property name="input-hints">word-completion</property>
@@ -152,13 +139,10 @@
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Medications and Conditions</property>
+                            <property name="title" translatable="1">Medications and Conditions</property>
                             <child>
                               <object class="GtkTextView">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hexpand">True</property>
+                                <property name="hexpand">1</property>
                                 <property name="buffer">med_cond_text_buffer</property>
                                 <property name="wrap-mode">word</property>
                                 <property name="input-hints">word-completion</property>
@@ -168,13 +152,10 @@
                         </child>
                         <child>
                           <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Other Information</property>
+                            <property name="title" translatable="1">Other Information</property>
                             <child>
                               <object class="GtkTextView">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hexpand">True</property>
+                                <property name="hexpand">1</property>
                                 <property name="buffer">other_info_text_buffer</property>
                                 <property name="wrap-mode">word</property>
                                 <property name="input-hints">word-completion</property>
@@ -184,10 +165,9 @@
                         </child>
                       </object>
                     </child>
-                   <child>
-                      <object class="AdwPreferencesGroup"  id="emer_contacts">
-                        <property name="visible">True</property>
-                        <property name="title" translatable="yes">Emergency Contacts</property>
+                    <child>
+                      <object class="AdwPreferencesGroup" id="emer_contacts">
+                        <property name="title" translatable="1">Emergency Contacts</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <property name="header-suffix">
@@ -196,7 +176,7 @@
                             <property name="child">
                               <object class="AdwButtonContent">
                                 <property name="icon-name">list-add-symbolic</property>
-                                <property name="label" translatable="yes">Add Contact</property>
+                                <property name="label" translatable="1">Add Contact</property>
                               </object>
                             </property>
                             <style>
@@ -215,72 +195,69 @@
       </object>
     </child>
   </template>
-
-<object class="GtkTextBuffer" id="home_addr_text_buffer"/>
-<object class="GtkTextBuffer" id="allergies_text_buffer"/>
-<object class="GtkTextBuffer" id="med_cond_text_buffer"/>
-<object class="GtkTextBuffer" id="other_info_text_buffer"/>
-
-
-<object class="AdwDialog" id="add_emer_contact_dialog">
-  <property name="title" translatable="yes">Add New Contact</property>
-  <property name="child">
-    <object class="AdwToolbarView">
-      <child type="top">
-        <object class="AdwHeaderBar">
-          <property name="show-start-title-buttons">False</property>
-          <property name="show-end-title-buttons">False</property>
-          <child>
-            <object class="GtkButton" id="cancel_button">
-              <property name="label" translatable="yes">_Cancel</property>
-              <property name="use_underline">True</property>
-              <property name="valign">center</property>
-              <signal name="clicked" handler="on_dialog_update_emer_contact_cancelled" swapped="yes" />
-            </object>
-          </child>
-          <child type="end">
-            <object class="GtkButton" id="add_button">
-              <property name="label" translatable="yes">_Add</property>
-              <property name="use_underline">True</property>
-              <property name="valign">center</property>
-              <signal name="clicked" handler="on_dialog_update_emer_contact" swapped="yes" />
-              <binding name="sensitive">
-                <lookup name="text-length">contact_name_entry</lookup>
-              </binding>
-              <style>
-                <class name="suggested-action"/>
-              </style>
-            </object>
-          </child>
-        </object>
-      </child>
-      <property name="content">
-        <object class="AdwPreferencesPage">
-          <child>
-            <object class="AdwPreferencesGroup">
-              <child>
-                <object class="AdwEntryRow" id="contact_name_entry">
-                  <property name="title" translatable="yes">_Contact Name</property>
-                  <property name="use-underline">True</property>
-                </object>
-              </child>
-              <child>
-                <object class="AdwEntryRow" id="relationship_entry">
-                  <property name="title" translatable="yes">Relationship</property>
-                  <property name="use-underline">True</property>
-                </object>
-              </child>
-              <child>
-                <object class="AdwEntryRow" id="contact_number_entry">
-                  <property name="title" translatable="yes">_Contact Number</property>
-                  <property name="use-underline">True</property>
-                </object>
-              </child>
-            </object>
-          </child>
-        </object>
-      </property>
-    </object>
-  </property>
-</object>
+  <object class="GtkTextBuffer" id="home_addr_text_buffer"/>
+  <object class="GtkTextBuffer" id="allergies_text_buffer"/>
+  <object class="GtkTextBuffer" id="med_cond_text_buffer"/>
+  <object class="GtkTextBuffer" id="other_info_text_buffer"/>
+  <object class="AdwDialog" id="add_emer_contact_dialog">
+    <property name="title" translatable="1">Add New Contact</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-start-title-buttons">0</property>
+            <property name="show-end-title-buttons">0</property>
+            <child>
+              <object class="GtkButton" id="cancel_button">
+                <property name="label" translatable="1">_Cancel</property>
+                <property name="use-underline">1</property>
+                <property name="valign">center</property>
+                <signal name="clicked" handler="on_dialog_update_emer_contact_cancelled" swapped="yes"/>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton" id="add_button">
+                <property name="label" translatable="1">_Add</property>
+                <property name="use-underline">1</property>
+                <property name="valign">center</property>
+                <signal name="clicked" handler="on_dialog_update_emer_contact" swapped="yes"/>
+                <binding name="sensitive">
+                  <lookup name="text-length">contact_name_entry</lookup>
+                </binding>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <child>
+                  <object class="AdwEntryRow" id="contact_name_entry">
+                    <property name="title" translatable="1">_Contact Name</property>
+                    <property name="use-underline">1</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwEntryRow" id="relationship_entry">
+                    <property name="title" translatable="1">Relationship</property>
+                    <property name="use-underline">1</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwEntryRow" id="contact_number_entry">
+                    <property name="title" translatable="1">_Contact Number</property>
+                    <property name="use-underline">1</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
 </interface>
