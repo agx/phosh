@@ -69,7 +69,7 @@ Depends:
  gnome-shell-common,
  gsettings-desktop-schemas (>= 47),
  libcap2-bin,
- phoc (>= 0.45~),
+ phoc (>= 0.45.0~),
 Recommends:
  feedbackd (>= 0.4.0),
  fonts-cantarell,
