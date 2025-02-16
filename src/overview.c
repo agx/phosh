@@ -339,7 +339,10 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
 
   pos = get_last_app_id_pos (self, parent_app_id);
-  hdy_carousel_insert (HDY_CAROUSEL (priv->carousel_running_activities), activity, pos);
+  if (pos)
+    hdy_carousel_insert (HDY_CAROUSEL (priv->carousel_running_activities), activity, pos);
+  else
+    gtk_container_add (GTK_CONTAINER (priv->carousel_running_activities), activity);
   gtk_widget_show (activity);
 
   g_object_connect (activity,
