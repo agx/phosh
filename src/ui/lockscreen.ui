@@ -3,23 +3,18 @@
   <requires lib="gtk+" version="3.24"/>
   <requires lib="libhandy" version="1.8"/>
   <template class="PhoshLockscreen" parent="PhoshLayerSurface">
-    <property name="can-focus">False</property>
     <child>
       <object class="HdyCarousel" id="carousel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <property name="animation-duration">400</property>
-        <property name="allow-mouse-drag">True</property>
         <signal name="notify::position" handler="carousel_position_notified_cb" swapped="yes"/>
         <signal name="page-changed" handler="carousel_page_changed_cb" swapped="yes"/>
         <child>
           <object class="HdyDeck" id="deck">
-            <property name="visible">True</property>
-            <property name="transition-type">over</property>
+            <property name="visible">1</property>
             <property name="vexpand">1</property>
-            <property name="can-swipe-back">True</property>
-            <property name="can-swipe-forward">False</property>
+            <property name="can-swipe-back">1</property>
             <property name="transition-duration">400</property>
             <property name="visible-child">box_info</property>
             <signal name="notify::visible-child" handler="on_deck_visible_child_changed" swapped="yes"/>
@@ -58,12 +53,11 @@
                 </child>
                 <child type="center">
                   <object class="HdyClamp">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="visible">1</property>
                     <property name="maximum-size">720</property>
                     <child>
                       <object class="PhoshWidgetBox" id="widget_box">
-                        <property name="visible">True</property>
+                        <property name="visible">1</property>
                       </object>
                     </child>
                   </object>
@@ -151,10 +145,10 @@
                                 <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
                                 <child>
                                   <object class="HdyClamp">
-                                    <property name="visible">True</property>
+                                    <property name="visible">1</property>
                                     <property name="maximum-size">360</property>
                                     <property name="margin-top">6</property>
-                                    <property name="vexpand">True</property>
+                                    <property name="vexpand">1</property>
                                     <property name="valign">center</property>
                                     <child>
                                       <object class="GtkListBox" id="list_calls">
@@ -177,16 +171,15 @@
                                 <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
                                 <child>
                                   <object class="HdyClamp">
-                                    <property name="visible">True</property>
+                                    <property name="visible">1</property>
                                     <property name="maximum-size">360</property>
                                     <property name="margin-top">6</property>
-                                    <property name="vexpand">True</property>
+                                    <property name="vexpand">1</property>
                                     <property name="valign">center</property>
                                     <child>
                                       <object class="PhoshMediaPlayer" id="media_player">
-                                        <property name="visible">True</property>
+                                        <property name="visible">1</property>
                                         <property name="valign">center</property>
-                                        <property name="can-focus">False</property>
                                         <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
                                       </object>
                                     </child>
@@ -200,10 +193,10 @@
                                 <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
                                 <child>
                                   <object class="HdyClamp">
-                                    <property name="visible">True</property>
+                                    <property name="visible">1</property>
                                     <property name="maximum-size">360</property>
                                     <property name="margin-top">6</property>
-                                    <property name="vexpand">True</property>
+                                    <property name="vexpand">1</property>
                                     <property name="valign">center</property>
                                     <child>
                                       <object class="GtkListBox" id="list_notifications">
@@ -261,7 +254,7 @@
                 </child>
                 <child type="center">
                   <object class="CuiCallDisplay" id="call_display">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                   </object>
                 </child>
               </object>
@@ -309,8 +302,7 @@
                 <property name="visible">1</property>
                 <child>
                   <object class="PhoshKeypad" id="keypad">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="visible">1</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
                     <property name="margin-top">12</property>
