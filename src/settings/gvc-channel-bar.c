@@ -154,80 +154,6 @@ on_scale_button_release_event (GtkWidget      *widget,
 }
 
 
-gboolean
-gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
-{
-  double value;
-  GdkScrollDirection direction;
-  double dx, dy;
-
-  g_return_val_if_fail (self != NULL, FALSE);
-  g_return_val_if_fail (GVC_IS_CHANNEL_BAR (self), FALSE);
-
-  direction = event->direction;
-
-  /* Switch direction for RTL */
-  if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL) {
-    if (direction == GDK_SCROLL_RIGHT)
-      direction = GDK_SCROLL_LEFT;
-    else if (direction == GDK_SCROLL_LEFT)
-      direction = GDK_SCROLL_RIGHT;
-  }
-  /* Switch side scroll to vertical */
-  if (direction == GDK_SCROLL_RIGHT)
-    direction = GDK_SCROLL_UP;
-  else if (direction == GDK_SCROLL_LEFT)
-    direction = GDK_SCROLL_DOWN;
-
-  if (!gdk_event_get_scroll_deltas ((GdkEvent*)event, &dx, &dy)) {
-    dx = 0.0;
-    dy = 0.0;
-
-    switch (direction) {
-    case GDK_SCROLL_UP:
-    case GDK_SCROLL_LEFT:
-      dy = 1.0;
-      break;
-    case GDK_SCROLL_DOWN:
-    case GDK_SCROLL_RIGHT:
-      dy = -1.0;
-      break;
-    case GDK_SCROLL_SMOOTH:
-    default:
-      ;
-    }
-  }
-
-  value = gtk_adjustment_get_value (self->adjustment);
-
-  if (dy > 0) {
-    if (value + dy * SCROLLSTEP > ADJUSTMENT_MAX)
-      value = ADJUSTMENT_MAX;
-    else
-      value = value + dy * SCROLLSTEP;
-  } else if (dy < 0) {
-    if (value + dy * SCROLLSTEP < 0)
-      value = 0.0;
-    else
-      value = value + dy * SCROLLSTEP;
-  }
-
-  gvc_channel_bar_set_is_muted (self, ((int) value == 0));
-  gtk_adjustment_set_value (self->adjustment, value);
-
-  return TRUE;
-}
-
-
-static gboolean
-on_scale_scroll_event (GtkWidget      *widget,
-                       GdkEventScroll *event,
-                       GvcChannelBar  *self)
-{
-  return gvc_channel_bar_scroll (self, event);
-}
-
-
 static void
 on_adjustment_value_changed (GtkAdjustment *adjustment, GvcChannelBar *self)
 {
@@ -438,7 +364,6 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_adjustment_value_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_button_press_event);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_button_release_event);
-  gtk_widget_class_bind_template_callback (widget_class, on_scale_scroll_event);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-gvc-channel-bar");
 }
