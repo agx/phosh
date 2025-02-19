@@ -13,19 +13,11 @@
 
 #include "phosh-config.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <math.h>
-
-#include <pulse/pulseaudio.h>
-
-#include <glib.h>
-#include <glib/gi18n-lib.h>
-#include <gtk/gtk.h>
-
 #include "gvc-channel-bar.h"
-#include "gvc-mixer-control.h"
+
+#include <glib/gi18n-lib.h>
+#include <math.h>
+#include <pulse/pulseaudio.h>
 
 #define SCALE_SIZE 128
 #define ADJUSTMENT_MAX_NORMAL PA_VOLUME_NORM
@@ -309,7 +301,7 @@ gvc_channel_bar_finalize (GObject *object)
 static void
 gvc_channel_bar_class_init (GvcChannelBarClass *klass)
 {
-  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = gvc_channel_bar_finalize;
@@ -387,7 +379,6 @@ GtkWidget *
 gvc_channel_bar_new (void)
 {
   return g_object_new (GVC_TYPE_CHANNEL_BAR,
-                       "orientation", GTK_ORIENTATION_HORIZONTAL,
                        "icon-name", "audio-speakers-symbolic",
                        NULL);
 }
