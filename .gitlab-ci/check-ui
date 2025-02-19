@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Copyright (C) 2025 Tether Operations Limited
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Author: Arun Mani J <arun.mani@tether.to>
+
+# Check the UI files changed from `source_ref` to `target_ref` for
+# simplification.
+#
+# Usage: check-ui target_ref source_ref
+#
+# By default, `source_ref` is `HEAD` and `target_ref` is `main`.
+
+set -e
+
+source="${2:-HEAD}"
+target="${1:-main}"
+
+files=$(
+    git diff-tree \
+    --no-commit-id \
+    --name-only \
+    -r \
+    "$target" \
+    "$source" \
+    -- *.ui
+)
+
+GTK3='<requires lib="gtk+" version="3.24"/>'
+GTK4='<requires lib="gtk" version="4.0"/>'
+
+tmpdir=$(mktemp -d)
+
+status=0
+
+for file in $files; do
+    name=$(basename "$file")
+    echo "Checking $name"
+
+    if grep -Fq "$GTK3" "$file"; then
+        tool="gtk-builder-tool"
+    elif grep -Fq "$GTK4" "$file"; then
+        tool="gtk4-builder-tool"
+    else
+        echo "Could not determine GTK version of $file"
+        exit 2
+    fi
+
+    tmpfile="$tmpdir/$name"
+    $tool simplify "$file" > "$tmpfile" 2> /dev/null
+
+    if ! cmp --silent "$file" "$tmpfile"; then
+        echo "$file can be simplified through $tool"
+        diff -u "$file" "$tmpfile" || :
+        echo
+        status=1
+    fi
+
+    rm -f "$tmpfile"
+done
+
+rmdir "$tmpdir"
+
+if [ $status -ne 0 ]; then
+   echo "Simplify the GTK 3 files using: gtk-builder-tool --simplify --replace file.ui"
+   echo "Simplify the GTK 4 files using: gtk4-builder-tool --simplify --replace file.ui"
+fi
+
+exit $status
