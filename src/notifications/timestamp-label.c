@@ -251,12 +251,12 @@ phosh_timestamp_label_update (PhoshTimestampLabel *self)
   if (self->date != NULL) {
     GTimeSpan time;
 
-    str = phosh_time_ago_in_words (self ->date);
+    str = phosh_time_ago_in_words (self->date);
     gtk_label_set_label (self->label, str);
 
     g_clear_handle_id (&(self->refresh_time), g_source_remove);
     time = phosh_timestamp_label_calc_timeout (self);
-    self->refresh_time = g_timeout_add (time/ G_TIME_SPAN_MILLISECOND,
+    self->refresh_time = g_timeout_add (time / G_TIME_SPAN_MILLISECOND,
                                         (GSourceFunc) phosh_timestamp_label_update,
                                         self);
     g_source_set_name_by_id (self->refresh_time, "[PhoshTimestampLable] refresh");
@@ -278,12 +278,12 @@ phosh_timestamp_label_get_property (GObject    *object,
   PhoshTimestampLabel *self = PHOSH_TIMESTAMP_LABEL (object);
 
   switch (property_id) {
-    case PROP_TIMESTAMP:
-      g_value_set_boxed (value, phosh_timestamp_label_get_timestamp (self));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_TIMESTAMP:
+    g_value_set_boxed (value, phosh_timestamp_label_get_timestamp (self));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
@@ -297,12 +297,12 @@ phosh_timestamp_label_set_property (GObject      *object,
   PhoshTimestampLabel *self = PHOSH_TIMESTAMP_LABEL (object);
 
   switch (property_id) {
-    case PROP_TIMESTAMP:
-      phosh_timestamp_label_set_timestamp (self, g_value_get_boxed (value));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_TIMESTAMP:
+    phosh_timestamp_label_set_timestamp (self, g_value_get_boxed (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
@@ -380,15 +380,14 @@ phosh_timestamp_label_set_timestamp (PhoshTimestampLabel *self,
 {
   g_return_if_fail (PHOSH_IS_TIMESTAMP_LABEL (self));
 
-  g_debug ("notification setting timestamp %d %d", self->date == NULL , date == NULL);
+  g_debug ("notification setting timestamp %d %d", self->date == NULL, date == NULL);
 
   if (self->date && date && g_date_time_compare (self->date, date) == 0)
     return;
 
   g_clear_pointer (&self->date, g_date_time_unref);
-  if (date != NULL) {
+  if (date != NULL)
     self->date = g_date_time_ref (date);
-  }
   phosh_timestamp_label_update (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TIMESTAMP]);
