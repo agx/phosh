@@ -24,9 +24,11 @@
 #define MPRIS_OBJECT_PATH "/org/mpris/MediaPlayer2"
 #define MPRIS_PREFIX "org.mpris.MediaPlayer2."
 
+#define ART_PIXEL_SIZE 48
 #define SEEK_SECOND 1000000
 #define SEEK_BACK (-10 * SEEK_SECOND)
 #define SEEK_FORWARD (30 * SEEK_SECOND)
+
 
 /**
  * PhoshMediaPlayer:
@@ -83,6 +85,7 @@ typedef struct _PhoshMediaPlayer {
   GtkWidget                        *lbl_length;
 
   GCancellable                     *cancel;
+  GCancellable                     *fetch_icon_cancel;
   /* Base interface to raise player */
   PhoshMprisDBusMediaPlayer2       *mpris;
   /* Actual player controls */
@@ -420,6 +423,46 @@ btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 
 
 static void
+on_fetch_icon_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhoshMediaPlayer *self;
+  g_autoptr (GInputStream) stream = NULL;
+  g_autoptr (GError) err = NULL;
+  g_autofree char *type = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+
+  stream = g_loadable_icon_load_finish (G_LOADABLE_ICON (source_object), res, &type, &err);
+  if (!stream) {
+    g_warning ("Failed to fetch icon: %s", err->message);
+    return;
+  }
+
+  g_debug ("Loading icon of type: %s", type);
+  self = PHOSH_MEDIA_PLAYER (user_data);
+  pixbuf = gdk_pixbuf_new_from_stream (stream, self->fetch_icon_cancel, &err);
+  g_object_set (self->img_art, "gicon", pixbuf, NULL);
+}
+
+
+static void
+fetch_icon_async (PhoshMediaPlayer *self, const char *url)
+
+{
+  g_autoptr (GFile) file = g_file_new_for_uri (url);
+  GIcon *icon;
+
+  g_debug ("Fetching icon for %s", url);
+
+  icon = g_file_icon_new (file);
+  g_loadable_icon_load_async (G_LOADABLE_ICON (icon),
+                              ART_PIXEL_SIZE,
+                              self->fetch_icon_cancel,
+                              on_fetch_icon_ready,
+                              self);
+}
+
+
+static void
 on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMediaPlayer2Player *player)
 {
   GVariant *metadata;
@@ -471,12 +514,19 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   self->track_length = length;
   update_position (self);
 
+  /* Cancel any pending icon loads */
+  g_cancellable_cancel (self->fetch_icon_cancel);
+  g_clear_object (&self->fetch_icon_cancel);
+
   if (url && g_strcmp0 (g_uri_peek_scheme (url), "file") == 0) {
     g_autoptr (GIcon) icon = NULL;
     g_autoptr (GFile) file = g_file_new_for_uri (url);
     icon = g_file_icon_new (file);
     g_object_set (self->img_art, "gicon", icon, NULL);
     has_art = TRUE;
+  } else if (url && (g_strcmp0 (g_uri_peek_scheme (url), "http") == 0 ||
+                     g_strcmp0 (g_uri_peek_scheme (url), "https") == 0)) {
+    fetch_icon_async (self, url);
   } else if (url && g_strcmp0 (g_uri_peek_scheme (url), "data") == 0) {
     g_autoptr (GdkPixbuf) pixbuf = NULL;
     g_autoptr (GError) error = NULL;
@@ -490,9 +540,8 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     }
   }
 
-  if (!has_art) {
+  if (!has_art)
     g_object_set (self->img_art, "icon-name", "audio-x-generic-symbolic", NULL);
-  }
 }
 
 
@@ -605,6 +654,9 @@ phosh_media_player_dispose (GObject *object)
   stop_pos_poller (self);
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
+
+  g_cancellable_cancel (self->fetch_icon_cancel);
+  g_clear_object (&self->fetch_icon_cancel);
 
   if (self->dbus_id) {
     g_dbus_connection_signal_unsubscribe (self->session_bus, self->dbus_id);
