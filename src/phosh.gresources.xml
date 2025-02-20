@@ -40,6 +40,7 @@
     <file preprocess="xml-stripblanks">ui/status-page-placeholder.ui</file>
     <file preprocess="xml-stripblanks">ui/system-modal-dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/system-prompt.ui</file>
+    <file preprocess="xml-stripblanks">ui/timestamp-label.ui</file>
     <file preprocess="xml-stripblanks">ui/top-panel.ui</file>
     <file preprocess="xml-stripblanks">ui/widget-box.ui</file>
     <file preprocess="xml-stripblanks">ui/wifi-network-row.ui</file>

@@ -22,7 +22,9 @@
 
 
 struct _PhoshTimestampLabel {
-  GtkLabel   parent;
+  GtkBin     parent;
+
+  GtkLabel  *label;
   GDateTime *date;
   guint      refresh_time;
 };
@@ -36,7 +38,7 @@ enum {
 static GParamSpec *props[LAST_PROP];
 
 
-G_DEFINE_TYPE (PhoshTimestampLabel, phosh_timestamp_label, GTK_TYPE_LABEL)
+G_DEFINE_TYPE (PhoshTimestampLabel, phosh_timestamp_label, GTK_TYPE_BIN)
 
 
 #define SECONDS_PER_MINUTE 60.0
@@ -250,7 +252,7 @@ phosh_timestamp_label_update (PhoshTimestampLabel *self)
     GTimeSpan time;
 
     str = phosh_time_ago_in_words (self ->date);
-    gtk_label_set_label (GTK_LABEL (self), str);
+    gtk_label_set_label (self->label, str);
 
     g_clear_handle_id (&(self->refresh_time), g_source_remove);
     time = phosh_timestamp_label_calc_timeout (self);
@@ -259,7 +261,7 @@ phosh_timestamp_label_update (PhoshTimestampLabel *self)
                                         self);
     g_source_set_name_by_id (self->refresh_time, "[PhoshTimestampLable] refresh");
   } else {
-    gtk_label_set_label (GTK_LABEL (self), "");
+    gtk_label_set_label (self->label, "");
 
     g_clear_handle_id (&(self->refresh_time), g_source_remove);
   }
@@ -321,6 +323,7 @@ static void
 phosh_timestamp_label_class_init (PhoshTimestampLabelClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = phosh_timestamp_label_dispose;
   object_class->set_property = phosh_timestamp_label_set_property;
@@ -335,6 +338,10 @@ phosh_timestamp_label_class_init (PhoshTimestampLabelClass *klass)
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
+
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/timestamp-label.ui");
+
+  gtk_widget_class_bind_template_child (widget_class, PhoshTimestampLabel, label);
 }
 
 
@@ -343,8 +350,10 @@ phosh_timestamp_label_init (PhoshTimestampLabel *self)
 {
   PangoAttrList *attrs = pango_attr_list_new ();
 
+  gtk_widget_init_template (GTK_WIDGET (self));
+
   pango_attr_list_insert (attrs, pango_attr_font_features_new ("tnum=1"));
-  gtk_label_set_attributes (GTK_LABEL (self), attrs);
+  gtk_label_set_attributes (self->label, attrs);
 
   g_clear_pointer (&attrs, pango_attr_list_unref);
 }
