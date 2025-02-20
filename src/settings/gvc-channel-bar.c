@@ -13,19 +13,11 @@
 
 #include "phosh-config.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <math.h>
-
-#include <pulse/pulseaudio.h>
-
-#include <glib.h>
-#include <glib/gi18n-lib.h>
-#include <gtk/gtk.h>
-
 #include "gvc-channel-bar.h"
-#include "gvc-mixer-control.h"
+
+#include <glib/gi18n-lib.h>
+#include <math.h>
+#include <pulse/pulseaudio.h>
 
 #define SCALE_SIZE 128
 #define ADJUSTMENT_MAX_NORMAL PA_VOLUME_NORM
@@ -151,80 +143,6 @@ on_scale_button_release_event (GtkWidget      *widget,
   gvc_channel_bar_set_is_muted (self, ((int)value == (int)0.0));
 
   return FALSE;
-}
-
-
-gboolean
-gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
-{
-  double value;
-  GdkScrollDirection direction;
-  double dx, dy;
-
-  g_return_val_if_fail (self != NULL, FALSE);
-  g_return_val_if_fail (GVC_IS_CHANNEL_BAR (self), FALSE);
-
-  direction = event->direction;
-
-  /* Switch direction for RTL */
-  if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL) {
-    if (direction == GDK_SCROLL_RIGHT)
-      direction = GDK_SCROLL_LEFT;
-    else if (direction == GDK_SCROLL_LEFT)
-      direction = GDK_SCROLL_RIGHT;
-  }
-  /* Switch side scroll to vertical */
-  if (direction == GDK_SCROLL_RIGHT)
-    direction = GDK_SCROLL_UP;
-  else if (direction == GDK_SCROLL_LEFT)
-    direction = GDK_SCROLL_DOWN;
-
-  if (!gdk_event_get_scroll_deltas ((GdkEvent*)event, &dx, &dy)) {
-    dx = 0.0;
-    dy = 0.0;
-
-    switch (direction) {
-    case GDK_SCROLL_UP:
-    case GDK_SCROLL_LEFT:
-      dy = 1.0;
-      break;
-    case GDK_SCROLL_DOWN:
-    case GDK_SCROLL_RIGHT:
-      dy = -1.0;
-      break;
-    case GDK_SCROLL_SMOOTH:
-    default:
-      ;
-    }
-  }
-
-  value = gtk_adjustment_get_value (self->adjustment);
-
-  if (dy > 0) {
-    if (value + dy * SCROLLSTEP > ADJUSTMENT_MAX)
-      value = ADJUSTMENT_MAX;
-    else
-      value = value + dy * SCROLLSTEP;
-  } else if (dy < 0) {
-    if (value + dy * SCROLLSTEP < 0)
-      value = 0.0;
-    else
-      value = value + dy * SCROLLSTEP;
-  }
-
-  gvc_channel_bar_set_is_muted (self, ((int) value == 0));
-  gtk_adjustment_set_value (self->adjustment, value);
-
-  return TRUE;
-}
-
-
-static gboolean
-on_scale_scroll_event (GtkWidget      *widget,
-                       GdkEventScroll *event,
-                       GvcChannelBar  *self)
-{
-  return gvc_channel_bar_scroll (self, event);
 }
 
 
@@ -383,7 +301,7 @@ gvc_channel_bar_finalize (GObject *object)
 static void
 gvc_channel_bar_class_init (GvcChannelBarClass *klass)
 {
-  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = gvc_channel_bar_finalize;
@@ -438,7 +356,6 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_adjustment_value_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_button_press_event);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_button_release_event);
-  gtk_widget_class_bind_template_callback (widget_class, on_scale_scroll_event);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-gvc-channel-bar");
 }
@@ -462,7 +379,6 @@ GtkWidget *
 gvc_channel_bar_new (void)
 {
   return g_object_new (GVC_TYPE_CHANNEL_BAR,
-                       "orientation", GTK_ORIENTATION_HORIZONTAL,
                        "icon-name", "audio-speakers-symbolic",
                        NULL);
 }

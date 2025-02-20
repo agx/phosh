@@ -22,7 +22,6 @@
             <property name="adjustment">adjustment</property>
             <signal name="button-press-event" handler="on_scale_button_press_event" swapped="false"/>
             <signal name="button-release-event" handler="on_scale_button_release_event" swapped="false"/>
-            <signal name="scroll-event" handler="on_scale_scroll_event" swapped="false"/>
           </object>
         </child>
       </object>

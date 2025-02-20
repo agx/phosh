@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <glib-object.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -48,9 +48,6 @@ void                gvc_channel_bar_set_base_volume     (GvcChannelBar *bar,
 gboolean            gvc_channel_bar_get_ellipsize       (GvcChannelBar *bar);
 void                gvc_channel_bar_set_ellipsize       (GvcChannelBar *bar,
                                                          gboolean       ellipsized);
-
-gboolean            gvc_channel_bar_scroll              (GvcChannelBar  *bar,
-                                                         GdkEventScroll *event);
 
 double              gvc_channel_bar_get_volume          (GvcChannelBar *self);
 
