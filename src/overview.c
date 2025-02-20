@@ -286,6 +286,9 @@ get_last_app_id_pos (PhoshOverview *self, const char *app_id)
   g_autoptr (GList) children = NULL;
   int pos;
 
+  if (!app_id)
+    return 0;
+
   priv = phosh_overview_get_instance_private (self);
 
   children = gtk_container_get_children (GTK_CONTAINER (priv->carousel_running_activities));
