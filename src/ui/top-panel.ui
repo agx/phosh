@@ -221,8 +221,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">wwaninfo</property>
                           </object>
                         </child>
@@ -230,8 +228,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">wifiinfo</property>
                           </object>
                         </child>
@@ -239,8 +235,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">btinfo</property>
                           </object>
                         </child>
@@ -248,8 +242,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="vpn_info" bind-property="enabled" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">vpn_info</property>
                           </object>
                         </child>
@@ -257,8 +249,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="connectivity_info" bind-property="connectivity" bind-flags="invert-boolean|sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">connectivity_info</property>
                           </object>
                         </child>
@@ -266,8 +256,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="docked_info" bind-property="enabled" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">docked_info</property>
                           </object>
                         </child>
@@ -303,8 +291,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="hks_info_mic" bind-property="blocked" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">hks_info_mic</property>
                           </object>
                         </child>
@@ -312,8 +298,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="hks_info_camera" bind-property="blocked" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">hks_info_camera</property>
                           </object>
                         </child>
@@ -321,8 +305,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="feedback_info" bind-property="muted" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">feedback_info</property>
                           </object>
                         </child>
@@ -330,8 +312,6 @@
                           <object class="PhoshRevealer">
                             <property name="visible">1</property>
                             <property name="show-child" bind-source="location_info" bind-property="active" bind-flags="sync-create"/>
-                            <property name="transition-duration">400</property>
-                            <property name="transition-type">crossfade</property>
                             <property name="child">location_info</property>
                           </object>
                         </child>
