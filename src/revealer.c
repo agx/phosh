@@ -34,12 +34,12 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshRevealer {
-  GtkBin                parent;
+  GtkBin       parent;
 
-  GtkRevealer          *revealer;
-  GtkWidget            *child;
-  gboolean              show_child;
-  guint                 transition_duration;
+  GtkRevealer *revealer;
+  GtkWidget   *child;
+  gboolean     show_child;
+  guint        transition_duration;
   GtkRevealerTransitionType transition_type;
 };
 G_DEFINE_TYPE (PhoshRevealer, phosh_revealer, GTK_TYPE_BIN)
@@ -49,27 +49,23 @@ static void
 on_child_revealed_changed (PhoshRevealer *self)
 {
   gboolean visible;
-  GtkWidget *child;
-
-  g_return_if_fail (PHOSH_IS_REVEALER (self));
 
   visible = (gtk_revealer_get_child_revealed (GTK_REVEALER (self->revealer)) ||
              gtk_revealer_get_reveal_child (GTK_REVEALER (self->revealer)));
   if (visible)
     return;
 
-  child = gtk_bin_get_child (GTK_BIN (self->revealer));
   /* Hide the widget so it gives up it's space */
-  if (child)
-    gtk_widget_set_visible (child, FALSE);
+  if (self->child)
+    gtk_widget_set_visible (self->child, FALSE);
 }
 
 
 static void
 phosh_revealer_set_property (GObject      *object,
-                            guint         property_id,
-                            const GValue *value,
-                            GParamSpec   *pspec)
+                             guint         property_id,
+                             const GValue *value,
+                             GParamSpec   *pspec)
 {
   PhoshRevealer *self = PHOSH_REVEALER (object);
 
@@ -91,7 +87,6 @@ phosh_revealer_set_property (GObject      *object,
     break;
   }
 }
-
 
 
 static void
@@ -256,7 +251,7 @@ phosh_revealer_set_child (PhoshRevealer *self, GtkWidget *child)
  *
  * If %TRUE the child should be shown, otherwise hidden.
  *
- * Returns; Whether the child should be shown.
+ * Returns: Whether the child should be shown.
  */
 gboolean
 phosh_revealer_get_show_child (PhoshRevealer *self)
@@ -280,16 +275,12 @@ phosh_revealer_set_show_child (PhoshRevealer *self, gboolean show_child)
   g_return_if_fail (PHOSH_IS_REVEALER (self));
 
   if (show_child == self->show_child)
-      return;
+    return;
 
   self->show_child = show_child;
   if (show_child) {
-    GtkWidget *child ;
-
-    child = gtk_bin_get_child (GTK_BIN (self->revealer));
-    if (child) {
-      gtk_widget_set_visible (child, TRUE);
-    }
+    if (self->child)
+      gtk_widget_set_visible (self->child, TRUE);
   } else {
     /* Child will be hidden at the end of the animation */
   }
