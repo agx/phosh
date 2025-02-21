@@ -27,17 +27,22 @@ enum {
   PROP_0,
   PROP_CHILD,
   PROP_SHOW_CHILD,
+  PROP_TRANSITION_DURATION,
+  PROP_TRANSITION_TYPE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshRevealer {
-  GtkRevealer           parent;
+  GtkBin                parent;
 
+  GtkRevealer          *revealer;
   GtkWidget            *child;
   gboolean              show_child;
+  guint                 transition_duration;
+  GtkRevealerTransitionType transition_type;
 };
-G_DEFINE_TYPE (PhoshRevealer, phosh_revealer, GTK_TYPE_REVEALER)
+G_DEFINE_TYPE (PhoshRevealer, phosh_revealer, GTK_TYPE_BIN)
 
 
 static void
@@ -48,12 +53,12 @@ on_child_revealed_changed (PhoshRevealer *self)
 
   g_return_if_fail (PHOSH_IS_REVEALER (self));
 
-  visible = (gtk_revealer_get_child_revealed (GTK_REVEALER (self)) ||
-             gtk_revealer_get_reveal_child (GTK_REVEALER (self)));
+  visible = (gtk_revealer_get_child_revealed (GTK_REVEALER (self->revealer)) ||
+             gtk_revealer_get_reveal_child (GTK_REVEALER (self->revealer)));
   if (visible)
     return;
 
-  child = gtk_bin_get_child (GTK_BIN (self));
+  child = gtk_bin_get_child (GTK_BIN (self->revealer));
   /* Hide the widget so it gives up it's space */
   if (child)
     gtk_widget_set_visible (child, FALSE);
@@ -71,6 +76,12 @@ phosh_revealer_set_property (GObject      *object,
   switch (property_id) {
   case PROP_CHILD:
     phosh_revealer_set_child (self, g_value_get_object (value));
+    break;
+  case PROP_TRANSITION_DURATION:
+    phosh_revealer_set_transition_duration (self, g_value_get_uint (value));
+    break;
+  case PROP_TRANSITION_TYPE:
+    phosh_revealer_set_transition_type (self, g_value_get_enum (value));
     break;
   case PROP_SHOW_CHILD:
     phosh_revealer_set_show_child (self, g_value_get_boolean (value));
@@ -95,6 +106,12 @@ phosh_revealer_get_property (GObject    *object,
   case PROP_CHILD:
     g_value_set_object (value, phosh_revealer_get_child (self));
     break;
+  case PROP_TRANSITION_DURATION:
+    g_value_set_uint (value, phosh_revealer_get_transition_duration (self));
+    break;
+  case PROP_TRANSITION_TYPE:
+    g_value_set_enum (value, phosh_revealer_get_transition_type (self));
+    break;
   case PROP_SHOW_CHILD:
     g_value_set_boolean (value, phosh_revealer_get_show_child (self));
     break;
@@ -111,6 +128,7 @@ phosh_revealer_destroy (GtkWidget *widget)
   PhoshRevealer *self = PHOSH_REVEALER (widget);
 
   self->child = NULL;
+  self->revealer = NULL;
 
   GTK_WIDGET_CLASS (phosh_revealer_parent_class)->destroy (widget);
 }
@@ -136,6 +154,24 @@ phosh_revealer_class_init (PhoshRevealerClass *klass)
                          GTK_TYPE_WIDGET,
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
+   * PhoshRevealer:transition-duration:
+   *
+   * The duration of transition.
+   */
+  props[PROP_TRANSITION_DURATION] =
+    g_param_spec_uint ("transition-duration", "", "",
+                       0, G_MAXUINT, 400,
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshRevealer:transition-type:
+   *
+   * The type of transition.
+   */
+  props[PROP_TRANSITION_TYPE] =
+    g_param_spec_enum ("transition-type", "", "",
+                       GTK_TYPE_REVEALER_TRANSITION_TYPE, GTK_REVEALER_TRANSITION_TYPE_CROSSFADE,
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
    * PhoshRevealer:show-child:
    *
    * Whether the child should be shown. This make it visible and fades
@@ -154,7 +190,16 @@ phosh_revealer_class_init (PhoshRevealerClass *klass)
 static void
 phosh_revealer_init (PhoshRevealer *self)
 {
-  g_signal_connect (self, "notify::child-revealed", G_CALLBACK (on_child_revealed_changed), NULL);
+  self->transition_duration = 400;
+  self->transition_type = GTK_REVEALER_TRANSITION_TYPE_CROSSFADE;
+  self->revealer = g_object_new (GTK_TYPE_REVEALER,
+                                 "transition-duration", self->transition_duration,
+                                 "transition-type", self->transition_type,
+                                 "visible", TRUE,
+                                 NULL);
+  gtk_container_add (GTK_CONTAINER (self), GTK_WIDGET (self->revealer));
+
+  g_signal_connect_swapped (self->revealer, "notify::child-revealed", G_CALLBACK (on_child_revealed_changed), self);
   on_child_revealed_changed (self);
 }
 
@@ -197,12 +242,12 @@ phosh_revealer_set_child (PhoshRevealer *self, GtkWidget *child)
     return;
 
   if (self->child)
-    gtk_container_remove (GTK_CONTAINER (self), self->child);
+    gtk_container_remove (GTK_CONTAINER (self->revealer), self->child);
 
   self->child = child;
 
   if (self->child)
-    gtk_container_add (GTK_CONTAINER (self), self->child);
+    gtk_container_add (GTK_CONTAINER (self->revealer), self->child);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CHILD]);
 }
@@ -243,7 +288,7 @@ phosh_revealer_set_show_child (PhoshRevealer *self, gboolean show_child)
   if (show_child) {
     GtkWidget *child ;
 
-    child = gtk_bin_get_child (GTK_BIN (self));
+    child = gtk_bin_get_child (GTK_BIN (self->revealer));
     if (child) {
       gtk_widget_set_visible (child, TRUE);
     }
@@ -251,5 +296,75 @@ phosh_revealer_set_show_child (PhoshRevealer *self, gboolean show_child)
     /* Child will be hidden at the end of the animation */
   }
 
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), show_child);
+  gtk_revealer_set_reveal_child (self->revealer, show_child);
+}
+
+/**
+ * phosh_revealer_get_transition_duration:
+ * @self: The PhoshRevealer.
+ *
+ * Get the transition duration.
+ *
+ * Returns: The transition duration.
+ */
+guint
+phosh_revealer_get_transition_duration (PhoshRevealer *self)
+{
+  g_return_val_if_fail (PHOSH_IS_REVEALER (self), 0);
+
+  return self->transition_duration;
+}
+
+/**
+ * phosh_revealer_set_transition_duration:
+ * @self: The PhoshRevealer.
+ * @transition_duraiton: Duration for transition.
+ *
+ * Set the transition duration.
+ */
+void
+phosh_revealer_set_transition_duration (PhoshRevealer *self, guint transition_duration)
+{
+  g_return_if_fail (PHOSH_IS_REVEALER (self));
+
+  if (self->transition_duration == transition_duration)
+    return;
+
+  self->transition_duration = transition_duration;
+  gtk_revealer_set_transition_duration (self->revealer, self->transition_duration);
+}
+
+/**
+ * phosh_revealer_get_transition_type:
+ * @self: The PhoshRevealer.
+ *
+ * Get the transition type.
+ *
+ * Returns: The transition type.
+ */
+GtkRevealerTransitionType
+phosh_revealer_get_transition_type (PhoshRevealer *self)
+{
+  g_return_val_if_fail (PHOSH_IS_REVEALER (self), GTK_REVEALER_TRANSITION_TYPE_NONE);
+
+  return self->transition_type;
+}
+
+/**
+ * phosh_revealer_set_transition_type:
+ * @self: The PhoshRevealer.
+ * @transition_type: Type for transition.
+ *
+ * Set the transition type.
+ */
+void
+phosh_revealer_set_transition_type (PhoshRevealer *self, GtkRevealerTransitionType transition_type)
+{
+  g_return_if_fail (PHOSH_IS_REVEALER (self));
+
+  if (self->transition_type == transition_type)
+    return;
+
+  self->transition_type = transition_type;
+  gtk_revealer_set_transition_type (self->revealer, self->transition_type);
 }
