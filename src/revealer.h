@@ -15,6 +15,8 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshRevealer, phosh_revealer, PHOSH, REVEALER, GtkRevealer)
 
 PhoshRevealer *phosh_revealer_new (void);
+GtkWidget     *phosh_revealer_get_child (PhoshRevealer *self);
+void           phosh_revealer_set_child (PhoshRevealer *self, GtkWidget *child);
 gboolean       phosh_revealer_get_show_child (PhoshRevealer *self);
 void           phosh_revealer_set_show_child (PhoshRevealer *self, gboolean show_child);
 

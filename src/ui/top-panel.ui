@@ -223,16 +223,7 @@
                             <property name="show-child" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshWWanInfo" id="wwaninfo">
-                                <property name="margin-end">8</property>
-                                <property name="icon-size">2</property>
-                                <property name="show-detail">1</property>
-                                <style>
-                                  <class name="phosh-wwan-indicator"/>
-                                </style>
-                              </object>
-                            </child>
+                            <property name="child">wwaninfo</property>
                           </object>
                         </child>
                         <child>
@@ -241,12 +232,7 @@
                             <property name="show-child" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshWifiInfo" id="wifiinfo">
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">wifiinfo</property>
                           </object>
                         </child>
                         <child>
@@ -255,12 +241,7 @@
                             <property name="show-child" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshBtInfo" id="btinfo">
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">btinfo</property>
                           </object>
                         </child>
                         <child>
@@ -269,12 +250,7 @@
                             <property name="show-child" bind-source="vpn_info" bind-property="enabled" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshVpnInfo" id="vpn_info">
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">vpn_info</property>
                           </object>
                         </child>
                         <child>
@@ -283,12 +259,7 @@
                             <property name="show-child" bind-source="connectivity_info" bind-property="connectivity" bind-flags="invert-boolean|sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshConnectivityInfo" id="connectivity_info">
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">connectivity_info</property>
                           </object>
                         </child>
                         <child>
@@ -297,12 +268,7 @@
                             <property name="show-child" bind-source="docked_info" bind-property="enabled" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshDockedInfo" id="docked_info">
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">docked_info</property>
                           </object>
                         </child>
                       </object>
@@ -339,13 +305,7 @@
                             <property name="show-child" bind-source="hks_info_mic" bind-property="blocked" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshHksInfo" id="hks_info_mic">
-                                <property name="device-type">mic</property>
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">hks_info_mic</property>
                           </object>
                         </child>
                         <child>
@@ -354,13 +314,7 @@
                             <property name="show-child" bind-source="hks_info_camera" bind-property="blocked" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshHksInfo" id="hks_info_camera">
-                                <property name="device-type">camera</property>
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">hks_info_camera</property>
                           </object>
                         </child>
                         <child>
@@ -369,12 +323,7 @@
                             <property name="show-child" bind-source="feedback_info" bind-property="muted" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshFeedbackInfo" id="feedback_info">
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">feedback_info</property>
                           </object>
                         </child>
                         <child>
@@ -383,12 +332,7 @@
                             <property name="show-child" bind-source="location_info" bind-property="active" bind-flags="sync-create"/>
                             <property name="transition-duration">400</property>
                             <property name="transition-type">crossfade</property>
-                            <child>
-                              <object class="PhoshLocationInfo" id="location_info">
-                                <property name="icon-size">2</property>
-                                <property name="margin-end">8</property>
-                              </object>
-                            </child>
+                            <property name="child">location_info</property>
                           </object>
                         </child>
                         <child>
@@ -432,6 +376,52 @@
       </object>
     </child>
   </template>
+  <object class="PhoshWWanInfo" id="wwaninfo">
+    <property name="margin-end">8</property>
+    <property name="icon-size">2</property>
+    <property name="show-detail">1</property>
+    <style>
+      <class name="phosh-wwan-indicator"/>
+    </style>
+  </object>
+  <object class="PhoshWifiInfo" id="wifiinfo">
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshBtInfo" id="btinfo">
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshVpnInfo" id="vpn_info">
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshConnectivityInfo" id="connectivity_info">
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshDockedInfo" id="docked_info">
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshHksInfo" id="hks_info_mic">
+    <property name="device-type">mic</property>
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshHksInfo" id="hks_info_camera">
+    <property name="device-type">camera</property>
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshFeedbackInfo" id="feedback_info">
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
+  <object class="PhoshLocationInfo" id="location_info">
+    <property name="icon-size">2</property>
+    <property name="margin-end">8</property>
+  </object>
   <object class="GtkGestureMultiPress" id="click_gesture">
     <property name="widget">PhoshTopPanel</property>
     <property name="propagation-phase">target</property>

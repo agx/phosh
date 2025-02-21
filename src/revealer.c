@@ -25,6 +25,7 @@
 
 enum {
   PROP_0,
+  PROP_CHILD,
   PROP_SHOW_CHILD,
   PROP_LAST_PROP
 };
@@ -33,6 +34,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 struct _PhoshRevealer {
   GtkRevealer           parent;
 
+  GtkWidget            *child;
   gboolean              show_child;
 };
 G_DEFINE_TYPE (PhoshRevealer, phosh_revealer, GTK_TYPE_REVEALER)
@@ -67,6 +69,9 @@ phosh_revealer_set_property (GObject      *object,
   PhoshRevealer *self = PHOSH_REVEALER (object);
 
   switch (property_id) {
+  case PROP_CHILD:
+    phosh_revealer_set_child (self, g_value_get_object (value));
+    break;
   case PROP_SHOW_CHILD:
     phosh_revealer_set_show_child (self, g_value_get_boolean (value));
     break;
@@ -87,6 +92,9 @@ phosh_revealer_get_property (GObject    *object,
   PhoshRevealer *self = PHOSH_REVEALER (object);
 
   switch (property_id) {
+  case PROP_CHILD:
+    g_value_set_object (value, phosh_revealer_get_child (self));
+    break;
   case PROP_SHOW_CHILD:
     g_value_set_boolean (value, phosh_revealer_get_show_child (self));
     break;
@@ -98,13 +106,35 @@ phosh_revealer_get_property (GObject    *object,
 
 
 static void
+phosh_revealer_destroy (GtkWidget *widget)
+{
+  PhoshRevealer *self = PHOSH_REVEALER (widget);
+
+  self->child = NULL;
+
+  GTK_WIDGET_CLASS (phosh_revealer_parent_class)->destroy (widget);
+}
+
+
+static void
 phosh_revealer_class_init (PhoshRevealerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->set_property = phosh_revealer_set_property;
   object_class->get_property = phosh_revealer_get_property;
+  widget_class->destroy = phosh_revealer_destroy;
 
+  /**
+   * PhoshRevealer:child:
+   *
+   * The child to be revealed and hidden.
+   */
+  props[PROP_CHILD] =
+    g_param_spec_object ("child", "", "",
+                         GTK_TYPE_WIDGET,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshRevealer:show-child:
    *
@@ -133,6 +163,48 @@ PhoshRevealer *
 phosh_revealer_new (void)
 {
   return PHOSH_REVEALER (g_object_new (PHOSH_TYPE_REVEALER, NULL));
+}
+
+/**
+ * phosh_revealer_get_child:
+ * @self: The PhoshRevealer.
+ *
+ * Get the child of revealer.
+ *
+ * Returns:(transfer none): The child of revealer.
+ */
+GtkWidget *
+phosh_revealer_get_child (PhoshRevealer *self)
+{
+  g_return_val_if_fail (PHOSH_IS_REVEALER (self), NULL);
+
+  return self->child;
+}
+
+/**
+ * phosh_revealer_set_child:
+ * @self: The PhoshRevealer.
+ * @child: The child to set.
+ *
+ * Set the child of revealer.
+ */
+void
+phosh_revealer_set_child (PhoshRevealer *self, GtkWidget *child)
+{
+  g_return_if_fail (PHOSH_IS_REVEALER (self));
+
+  if (child == self->child)
+    return;
+
+  if (self->child)
+    gtk_container_remove (GTK_CONTAINER (self), self->child);
+
+  self->child = child;
+
+  if (self->child)
+    gtk_container_add (GTK_CONTAINER (self), self->child);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CHILD]);
 }
 
 /**
