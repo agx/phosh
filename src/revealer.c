@@ -128,7 +128,6 @@ phosh_revealer_destroy (GtkWidget *widget)
   PhoshRevealer *self = PHOSH_REVEALER (widget);
 
   self->child = NULL;
-  self->revealer = NULL;
 
   GTK_WIDGET_CLASS (phosh_revealer_parent_class)->destroy (widget);
 }
@@ -184,22 +183,21 @@ phosh_revealer_class_init (PhoshRevealerClass *klass)
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/revealer.ui");
+
+  gtk_widget_class_bind_template_child (widget_class, PhoshRevealer, revealer);
+
+  gtk_widget_class_bind_template_callback (widget_class, on_child_revealed_changed);
 }
 
 
 static void
 phosh_revealer_init (PhoshRevealer *self)
 {
+  gtk_widget_init_template (GTK_WIDGET (self));
   self->transition_duration = 400;
   self->transition_type = GTK_REVEALER_TRANSITION_TYPE_CROSSFADE;
-  self->revealer = g_object_new (GTK_TYPE_REVEALER,
-                                 "transition-duration", self->transition_duration,
-                                 "transition-type", self->transition_type,
-                                 "visible", TRUE,
-                                 NULL);
-  gtk_container_add (GTK_CONTAINER (self), GTK_WIDGET (self->revealer));
-
-  g_signal_connect_swapped (self->revealer, "notify::child-revealed", G_CALLBACK (on_child_revealed_changed), self);
   on_child_revealed_changed (self);
 }
 
