@@ -50,14 +50,12 @@
   phosh_status_icon_get_icon_name;
   phosh_status_icon_get_icon_size;
   phosh_status_icon_get_info;
-  phosh_status_icon_get_show_always;
   phosh_status_icon_get_type;
   phosh_status_icon_new;
   phosh_status_icon_set_extra_widget;
   phosh_status_icon_set_icon_name;
   phosh_status_icon_set_icon_size;
   phosh_status_icon_set_info;
-  phosh_status_icon_set_show_always;
   phosh_status_page_get_footer;
   phosh_status_page_get_header;
   phosh_status_page_get_title;
