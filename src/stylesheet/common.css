@@ -275,9 +275,11 @@ phosh-activity > widget > button {
   background: none;
   transition: none;
   border: none;
-  padding: 4px;
   border-radius: 6px;
   color: inherit;
+  /* don't add padding here - it will break PhoshActivity's sizing */
+  /* use GtkDrawingArea's margin instead */
+  padding: 0px;
 }
 
 phosh-activity > widget > button:hover {
@@ -313,7 +315,7 @@ phosh-home {
   min-width: 32px;
   min-height: 32px;
   padding: 8px;
-  margin: 6px;
+  margin: 10px;
   border-radius: 50%;
 }
 
