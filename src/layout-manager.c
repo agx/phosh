@@ -48,18 +48,18 @@ struct _PhoshLayoutManager {
 G_DEFINE_TYPE (PhoshLayoutManager, phosh_layout_manager, G_TYPE_OBJECT)
 
 /* Space we want reserved for the central clock */
-static GdkRectangle center_clock_rect = {
+static const GdkRectangle center_clock_rect = {
   .width = 40,
   .height = PHOSH_TOP_BAR_HEIGHT
 };
 
-static GdkRectangle network_box_rect = {
+static const GdkRectangle network_box_rect = {
   /* Relevant icons are wifi, bt, 2 * wwan, network status */
   .width = 24 /* px */ * 5,
   .height = PHOSH_TOP_BAR_HEIGHT
 };
 
-static GdkRectangle indicators_box_rect = {
+static const GdkRectangle indicators_box_rect = {
   /* Relevant icons are  battery, vpn, location and language */
   .width = 24 /* px */ * 4 /* max icons */,
   .height = PHOSH_TOP_BAR_HEIGHT
