@@ -27,11 +27,12 @@
 #include <gmobile.h>
 
 #ifdef PHOSH_HAVE_MEMFD_CREATE
-#include <sys/mman.h>
 #include <linux/memfd.h>
 #include <linux/mman.h>
-#include <fcntl.h>
 #endif
+
+#include <sys/mman.h>
+#include <fcntl.h>
 
 #include <math.h>
 
