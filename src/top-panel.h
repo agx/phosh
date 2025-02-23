@@ -15,7 +15,10 @@ G_DECLARE_FINAL_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH, TOP_PANEL, PhoshDra
 
 #define PHOSH_TOP_BAR_HEIGHT 32
 #define PHOSH_TOP_BAR_ICON_SIZE GTK_ICON_SIZE_SMALL_TOOLBAR
+/* Minimum padding of network and indicator box to the left / right screen edge */
 #define PHOSH_TOP_BAR_MIN_PADDING 9
+/* Minimum padding of network and indicator box to the left / right display cutouts */
+#define PHOSH_TOP_BAR_CUTOUT_MIN_PADDING (PHOSH_TOP_BAR_MIN_PADDING / 2)
 
 /**
  * PhoshTopPanelState:
