@@ -59,17 +59,6 @@ update_title_visibility (PhoshStatusPagePlaceholder *self)
 
 
 static void
-phosh_status_page_placeholder_destroy (GtkWidget *widget)
-{
-  PhoshStatusPagePlaceholder *self = PHOSH_STATUS_PAGE_PLACEHOLDER (widget);
-
-  phosh_status_page_placeholder_set_extra_widget (self, NULL);
-
-  GTK_WIDGET_CLASS (phosh_status_page_placeholder_parent_class)->destroy (widget);
-}
-
-
-static void
 phosh_status_page_placeholder_set_property (GObject      *object,
                                             guint         property_id,
                                             const GValue *value,
@@ -127,6 +116,17 @@ phosh_status_page_placeholder_dispose (GObject *object)
   g_clear_pointer (&self->icon_name, g_free);
 
   G_OBJECT_CLASS (phosh_status_page_placeholder_parent_class)->dispose (object);
+}
+
+
+static void
+phosh_status_page_placeholder_destroy (GtkWidget *widget)
+{
+  PhoshStatusPagePlaceholder *self = PHOSH_STATUS_PAGE_PLACEHOLDER (widget);
+
+  phosh_status_page_placeholder_set_extra_widget (self, NULL);
+
+  GTK_WIDGET_CLASS (phosh_status_page_placeholder_parent_class)->destroy (widget);
 }
 
 
