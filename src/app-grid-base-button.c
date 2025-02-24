@@ -29,10 +29,10 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 typedef struct {
-  GtkBox                *box;
-  GtkWidget             *button;
-  PhoshFadingLabel      *label;
-  GtkWidget             *child;
+  GtkBox           *box;
+  GtkWidget        *button;
+  PhoshFadingLabel *label;
+  GtkWidget        *child;
 } PhoshAppGridBaseButtonPrivate;
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhoshAppGridBaseButton, phosh_app_grid_base_button,
@@ -48,35 +48,35 @@ phosh_app_grid_base_button_set_property (GObject      *object,
   PhoshAppGridBaseButton *self = PHOSH_APP_GRID_BASE_BUTTON (object);
 
   switch (property_id) {
-    case PROP_LABEL:
-      phosh_app_grid_base_button_set_label (self, g_value_get_string (value));
-      break;
-    case PROP_CHILD:
-      phosh_app_grid_base_button_set_child (self, g_value_get_object (value));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+  case PROP_LABEL:
+    phosh_app_grid_base_button_set_label (self, g_value_get_string (value));
+    break;
+  case PROP_CHILD:
+    phosh_app_grid_base_button_set_child (self, g_value_get_object (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
   }
 }
 
 
 static void
-phosh_app_grid_base_button_get_property (GObject      *object,
-                                         guint         property_id,
-                                         GValue       *value,
-                                         GParamSpec   *pspec)
+phosh_app_grid_base_button_get_property (GObject    *object,
+                                         guint       property_id,
+                                         GValue     *value,
+                                         GParamSpec *pspec)
 {
   PhoshAppGridBaseButton *self = PHOSH_APP_GRID_BASE_BUTTON (object);
 
   switch (property_id) {
-    case PROP_LABEL:
-      g_value_set_string (value, phosh_app_grid_base_button_get_label (self));
-      break;
-    case PROP_CHILD:
-      g_value_set_object (value, phosh_app_grid_base_button_get_child (self));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+  case PROP_LABEL:
+    g_value_set_string (value, phosh_app_grid_base_button_get_label (self));
+    break;
+  case PROP_CHILD:
+    g_value_set_object (value, phosh_app_grid_base_button_get_child (self));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
   }
 }
 
