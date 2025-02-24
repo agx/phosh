@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-24 09:47+0000\n"
-"PO-Revision-Date: 2025-01-26 15:28+0100\n"
+"POT-Creation-Date: 2025-01-30 17:57+0000\n"
+"PO-Revision-Date: 2025-02-02 11:57+0100\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -19,6 +19,7 @@ msgstr ""
 "n%100<=19) ? 1 : 2);\n"
 "X-Generator: Poedit 3.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Flags-xgettext: --add-comments\n"
 
 #: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
@@ -143,7 +144,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Arată numai aplicații pentru mobil"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "Bateria %.0f%%"
@@ -157,11 +158,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Pornit"
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "Nu s-au găsit dispozitive Bluetooth conectabile"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "Bluetooth dezactivat"
 
@@ -169,16 +170,16 @@ msgstr "Bluetooth dezactivat"
 msgid "Unknown caller"
 msgstr "Apelant necunoscut"
 
-#: src/connectivity-manager.c:86
+#: src/connectivity-manager.c:114
 #, c-format
 msgid "Wi-Fi network '%s' uses a captive portal"
 msgstr "Rețeaua Wi-Fi „%s” utilizează un portal captiv"
 
-#: src/connectivity-manager.c:88
+#: src/connectivity-manager.c:116
 msgid "The Wi-Fi network uses a captive portal"
 msgstr "Rețeaua Wi-Fi utilizează un portal captiv"
 
-#: src/connectivity-manager.c:91
+#: src/connectivity-manager.c:123
 msgid "Sign into Wi-Fi network"
 msgstr "Autentificare în rețeaua Wi-Fi"
 
@@ -580,11 +581,11 @@ msgstr "Dispozitive de intrare"
 msgid "Sound Settings"
 msgstr "Opțiuni pentru sunet"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Activează Bluetooth"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "Opțiuni Bluetooth"
 
@@ -609,7 +610,7 @@ msgid "Owner unknown"
 msgstr "Proprietar necunoscut"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:190
 msgid "Emergency Contacts"
 msgstr "Contacte de urgență"
 
@@ -650,7 +651,7 @@ msgid "Authentication required"
 msgstr "Autentificare necesară"
 
 #: src/ui/network-auth-prompt.ui:41
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:235
 msgid "_Cancel"
 msgstr "_Anulează"
 
@@ -714,7 +715,7 @@ msgstr "_Deconectare…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:72
+#: src/ui/wifi-status-page.ui:73
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
 
@@ -737,27 +738,27 @@ msgstr "Modulul n-a fost găsit"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Modulul „%s” nu a putut fi încărcat."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "Niciun dispozitiv Wi-Fi"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi Dezactivat"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "Activează Wi-Fi"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "Punct de acces Wi-Fi Activ"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "Oprește"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "Niciun punct de acces Wi-Fi"
 
@@ -799,47 +800,41 @@ msgid "Personal Information"
 msgstr "Informații personale"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "Data nașterii"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "Limba preferată"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:92
 msgid "Home Address"
 msgstr "Adresa"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Medical Information"
 msgstr "Informații medicale"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "Vârsta"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "Grupa sanguină"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "Înălțimea"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "Greutatea"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:140
 msgid "Allergies"
 msgstr "Alergii"
 
@@ -848,7 +843,7 @@ msgid "Medications & Conditions"
 msgstr "Medicamente și Boli"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Other Information"
 msgstr "Alte informații"
 
@@ -861,35 +856,59 @@ msgstr "Preferințe pentru Urgență"
 msgid "Done"
 msgstr "Gata"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
-msgid "Owner Name"
-msgstr "Numele proprietarului"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Owner Name"
+msgstr "Numele _proprietarului"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Date of Birth"
+msgstr "_Data nașterii"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
+msgid "_Preferred Language"
+msgstr "_Limba preferată"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:115
+msgid "_Age"
+msgstr "_Vârsta"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:121
+msgid "_Blood Type"
+msgstr "Grupa _sanguină"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:127
+msgid "_Height"
+msgstr "Î_nălțimea"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:133
+msgid "_Weight"
+msgstr "_Greutatea"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:156
 msgid "Medications and Conditions"
 msgstr "Medicamente și Boli"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:199
 msgid "Add Contact"
 msgstr "Adaugă un contact"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:226
 msgid "Add New Contact"
 msgstr "Adaugă un contact nou"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "_Add"
 msgstr "_Adaugă"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:263
 msgid "_Contact Name"
 msgstr "Numele _contactului"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:269
 msgid "Relationship"
 msgstr "Relație"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:275
 msgid "_Contact Number"
 msgstr "Numărul _contactului"
 
@@ -1075,7 +1094,7 @@ msgstr "Scala monitorului"
 
 #. Translators: This is scale factor of a monitor in percent
 #: plugins/scaling-quick-setting/scale-row.c:48
-#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
