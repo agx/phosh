@@ -34,15 +34,14 @@ enum {
 };
 static GParamSpec *props[PHOSH_STATUS_ICON_PROP_LAST_PROP];
 
-typedef struct
-{
+typedef struct {
   GtkBox      *box;
   GtkWidget   *image;
   GtkWidget   *extra_widget;
   GtkIconSize  icon_size;
   char        *info;
 
-  guint        idle_id;
+  guint       idle_id;
 } PhoshStatusIconPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusIcon, phosh_status_icon, GTK_TYPE_BIN);
@@ -147,7 +146,8 @@ phosh_status_icon_dispose (GObject *object)
 static void
 phosh_status_icon_finalize (GObject *gobject)
 {
-  PhoshStatusIconPrivate *priv = phosh_status_icon_get_instance_private (PHOSH_STATUS_ICON (gobject));
+  PhoshStatusIconPrivate *priv =
+    phosh_status_icon_get_instance_private (PHOSH_STATUS_ICON (gobject));
 
   g_clear_pointer (&priv->info, g_free);
 
