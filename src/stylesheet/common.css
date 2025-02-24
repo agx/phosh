@@ -15,6 +15,14 @@ phosh-top-panel-bg {
   transition: background-color 200ms ease;
 }
 
+#top-bar-bin:not(.p-solid) #top-bar label {
+  text-shadow: 1px 1px 1.1px rgba(0, 0, 0, 0.3);
+}
+
+#top-bar-bin:not(.p-solid) #top-bar image {
+  -gtk-icon-shadow: 1px 1px 1.1px rgba(0, 0, 0, 0.3);
+}
+
 #top-bar {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -379,6 +387,10 @@ phosh-app-grid-button button {
   margin: 0;
   padding: 0;
   background: none;
+}
+
+phosh-home:not(.p-solid) phosh-app-grid label {
+  text-shadow: 1px 1px 1.1px rgba(0, 0, 0, 0.3);
 }
 
 phosh-app-grid-button button:active,

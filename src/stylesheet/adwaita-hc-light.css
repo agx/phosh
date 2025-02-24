@@ -44,3 +44,11 @@ button:disabled {
 .emergency-button:focus {
   box-shadow: inset 0 0 2px 0 shade(@phosh_emergency_button_bg_color, .4);
 }
+
+#top-bar-bin:not(.p-solid) #top-bar label {
+  text-shadow: none;
+}
+
+#top-bar-bin:not(.p-solid) #top-bar image {
+  -gtk-icon-shadow: none;
+}
