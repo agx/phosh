@@ -1,6 +1,10 @@
 [org.gnome.desktop.a11y.applications:Phosh]
 screen-keyboard-enabled=true
 
+[org.gnome.desktop.background:Phosh]
+picture-uri='file:///usr/share/backgrounds/gnome/blobs-l.svg'
+picture-uri-dark='file:///usr/share/backgrounds/gnome/blobs-d.svg'
+
 [org.gnome.desktop.interface:Phosh]
 clock-show-date=false
 clock-show-weekday=false
