@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshRevealer" parent="GtkBin">
+    <property name="visible">1</property>
+    <child>
+      <object class="GtkRevealer" id="revealer">
+        <property name="visible">1</property>
+        <property name="transition-duration">400</property>
+        <property name="transition-type">crossfade</property>
+        <signal name="notify::child-revealed" handler="on_child_revealed_changed" object="PhoshRevealer" swapped="yes"/>
+      </object>
+    </child>
+  </template>
+</interface>
