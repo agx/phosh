@@ -224,12 +224,13 @@ phosh_revealer_get_child (PhoshRevealer *self)
  * @self: The PhoshRevealer.
  * @child: The child to set.
  *
- * Set the child of revealer.
+ * Set the child of revealer. Use `NULL` to remove existing child.
  */
 void
 phosh_revealer_set_child (PhoshRevealer *self, GtkWidget *child)
 {
   g_return_if_fail (PHOSH_IS_REVEALER (self));
+  g_return_if_fail (child == NULL || GTK_IS_WIDGET (child));
 
   if (child == self->child)
     return;
