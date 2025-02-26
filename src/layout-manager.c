@@ -115,10 +115,10 @@ get_clock_pos (PhoshLayoutManager *self, guint *clock_shift)
 
     bounds = gm_cutout_get_bounds (cutout);
     notch = (GdkRectangle) {
-      .x = bounds->x / scale,
-      .y = bounds->y / scale,
-      .width = bounds->width / scale,
-      .height = bounds->height / scale
+      .x = floor (bounds->x / scale),
+      .y = floor (bounds->y / scale),
+      .width = ceil (bounds->width / scale),
+      .height = ceil (bounds->height / scale),
     };
 
     /* Look for top-bar notch */
