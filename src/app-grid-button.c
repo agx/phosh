@@ -159,12 +159,12 @@ populate_folders_menu (PhoshAppGridButton *self)
         g_app_info_equal (G_APP_INFO (folder), G_APP_INFO (priv->folder_info)))
       continue;
 
-    detailed_action = g_strdup_printf ("folder-add::%s", folder_paths[i]);
+    detailed_action = g_strdup_printf ("app-btn.folder-add::%s", folder_paths[i]);
     g_menu_append (folders_section, phosh_folder_info_get_name (folder), detailed_action);
   }
 
   g_menu_append_section (submenu, NULL, G_MENU_MODEL (folders_section));
-  g_menu_append (new_folder_section, _("Create new folder"), "folder-new");
+  g_menu_append (new_folder_section, _("Create new folder"), "app-btn.folder-new");
   g_menu_append_section (submenu, NULL, G_MENU_MODEL (new_folder_section));
 
   g_menu_append_item (priv->folders, submenu_item);
@@ -554,7 +554,7 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
 
   gtk_popover_bind_model (GTK_POPOVER (priv->popover),
                           G_MENU_MODEL (priv->menu),
-                          "app-btn");
+                          NULL);
 }
 
 
@@ -688,7 +688,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
         g_autofree char *detailed_action = NULL;
         g_autofree char *label = NULL;
 
-        detailed_action = g_strdup_printf ("action::%s", actions[i]);
+        detailed_action = g_strdup_printf ("app-btn.action::%s", actions[i]);
 
         label = g_desktop_app_info_get_action_name (G_DESKTOP_APP_INFO (priv->info),
                                                     actions[i]);
