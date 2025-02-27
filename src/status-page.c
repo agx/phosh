@@ -313,7 +313,7 @@ phosh_status_page_set_header (PhoshStatusPage *self, GtkWidget *header_widget)
   PhoshStatusPagePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_STATUS_PAGE (self));
-  g_return_if_fail (GTK_IS_WIDGET (header_widget));
+  g_return_if_fail (header_widget == NULL || GTK_IS_WIDGET (header_widget));
 
   priv = phosh_status_page_get_instance_private (self);
 
@@ -365,7 +365,7 @@ phosh_status_page_set_footer (PhoshStatusPage *self, GtkWidget *footer_widget)
   PhoshStatusPagePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_STATUS_PAGE (self));
-  g_return_if_fail (GTK_IS_WIDGET (footer_widget));
+  g_return_if_fail (footer_widget == NULL || GTK_IS_WIDGET (footer_widget));
 
   priv = phosh_status_page_get_instance_private (self);
 
