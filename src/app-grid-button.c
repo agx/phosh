@@ -27,26 +27,27 @@
 
 typedef struct _PhoshAppGridButtonPrivate PhoshAppGridButtonPrivate;
 struct _PhoshAppGridButtonPrivate {
-  GAppInfo *info;
-  gboolean is_favorite;
+  GAppInfo              *info;
+  gboolean               is_favorite;
   PhoshAppGridButtonMode mode;
-  PhoshFolderInfo *folder_info;
+  PhoshFolderInfo       *folder_info;
 
   gulong favorite_changed_watcher;
 
-  GtkWidget  *icon;
-  GtkWidget  *popover;
-  GtkGesture *long_gesture;
-  GtkGesture *right_gesture;
+  GtkWidget             *icon;
+  GtkWidget             *popover;
+  GtkGesture            *long_gesture;
+  GtkGesture            *right_gesture;
 
-  GMenu *menu;
-  GMenu *actions;
-  GMenu *folders;
+  GMenu      *menu;
+  GMenu      *actions;
+  GMenu      *folders;
 
   GActionMap *action_map;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGridButton, phosh_app_grid_button, PHOSH_TYPE_APP_GRID_BASE_BUTTON)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGridButton, phosh_app_grid_button,
+                            PHOSH_TYPE_APP_GRID_BASE_BUTTON)
 
 enum {
   PROP_0,
@@ -73,18 +74,18 @@ phosh_app_grid_button_set_property (GObject      *object,
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (object);
 
   switch (property_id) {
-    case PROP_APP_INFO:
-      phosh_app_grid_button_set_app_info (self, g_value_get_object (value));
-      break;
-    case PROP_MODE:
-      phosh_app_grid_button_set_mode (self, g_value_get_enum (value));
-      break;
-    case PROP_FOLDER_INFO:
-      phosh_app_grid_button_set_folder_info (self, g_value_get_object (value));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_APP_INFO:
+    phosh_app_grid_button_set_app_info (self, g_value_get_object (value));
+    break;
+  case PROP_MODE:
+    phosh_app_grid_button_set_mode (self, g_value_get_enum (value));
+    break;
+  case PROP_FOLDER_INFO:
+    phosh_app_grid_button_set_folder_info (self, g_value_get_object (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
@@ -98,18 +99,18 @@ phosh_app_grid_button_get_property (GObject    *object,
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (object);
 
   switch (property_id) {
-    case PROP_APP_INFO:
-      g_value_set_object (value, phosh_app_grid_button_get_app_info (self));
-      break;
-    case PROP_IS_FAVORITE:
-      g_value_set_boolean (value, phosh_app_grid_button_is_favorite (self));
-      break;
-    case PROP_MODE:
-      g_value_set_enum (value, phosh_app_grid_button_get_mode (self));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_APP_INFO:
+    g_value_set_object (value, phosh_app_grid_button_get_app_info (self));
+    break;
+  case PROP_IS_FAVORITE:
+    g_value_set_boolean (value, phosh_app_grid_button_is_favorite (self));
+    break;
+  case PROP_MODE:
+    g_value_set_enum (value, phosh_app_grid_button_get_mode (self));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
@@ -189,9 +190,8 @@ static void
 on_right_pressed (GtkWidget *self, int n_press, double x, double y, GtkGesture *gesture)
 {
   const GdkEvent *event = gtk_gesture_get_last_event (gesture, NULL);
-  if (gdk_event_triggers_context_menu (event)) {
+  if (gdk_event_triggers_context_menu (event))
     context_menu (self, (GdkEvent *) event);
-  }
 }
 
 static void
@@ -218,7 +218,7 @@ activate_cb (PhoshAppGridButton *self)
 static void
 phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
 {
-  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->set_property = phosh_app_grid_button_set_property;
@@ -440,7 +440,7 @@ static void
 add_to_folder (PhoshAppGridButton *self, PhoshFolderInfo *folder_info)
 {
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
-   /* If the app-info gets removed, then the change causes the grid to be filled with new buttons.
+  /* If the app-info gets removed, then the change causes the grid to be filled with new buttons.
    * This would cause the button and in-turn the app-info to be disposed. Take a reference to avoid
    * that and clear it when we are done. */
   g_autoptr (GAppInfo) info = g_object_ref (priv->info);
@@ -591,11 +591,10 @@ favorites_changed (GListModel         *list,
   priv = phosh_app_grid_button_get_instance_private (self);
 
   favorite = phosh_favorite_list_model_app_is_favorite (PHOSH_FAVORITE_LIST_MODEL (list),
-                                                           priv->info);
+                                                        priv->info);
 
-  if (priv->is_favorite == favorite) {
+  if (priv->is_favorite == favorite)
     return;
-  }
 
   act = g_action_map_lookup_action (priv->action_map, "favorite-add");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), !favorite);
@@ -610,7 +609,7 @@ favorites_changed (GListModel         *list,
 
 void
 phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
-                                    GAppInfo *info)
+                                    GAppInfo           *info)
 {
   PhoshFavoriteListModel *list = NULL;
   PhoshAppGridButtonPrivate *priv;
@@ -623,7 +622,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
   priv = phosh_app_grid_button_get_instance_private (self);
 
   if (priv->info == info)
-      return;
+    return;
 
   g_clear_object (&priv->info);
 
@@ -637,9 +636,9 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
     priv->info = g_object_ref (info);
 
     priv->favorite_changed_watcher = g_signal_connect (list,
-                                                        "items-changed",
-                                                        G_CALLBACK (favorites_changed),
-                                                        self);
+                                                       "items-changed",
+                                                       G_CALLBACK (favorites_changed),
+                                                       self);
     favorites_changed (G_LIST_MODEL (list), 0, 0, 0, self);
 
     name = g_app_info_get_name (G_APP_INFO (priv->info));
@@ -740,8 +739,8 @@ phosh_app_grid_button_is_favorite (PhoshAppGridButton *self)
 
 
 void
-phosh_app_grid_button_set_mode (PhoshAppGridButton     *self,
-                                PhoshAppGridButtonMode  mode)
+phosh_app_grid_button_set_mode (PhoshAppGridButton    *self,
+                                PhoshAppGridButtonMode mode)
 {
   PhoshAppGridButtonPrivate *priv;
   const char *name;
@@ -749,22 +748,21 @@ phosh_app_grid_button_set_mode (PhoshAppGridButton     *self,
   g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
   priv = phosh_app_grid_button_get_instance_private (self);
 
-  if (priv->mode == mode) {
+  if (priv->mode == mode)
     return;
-  }
 
   name = priv->info == NULL ? _("Application") : g_app_info_get_name (priv->info);
 
   switch (mode) {
-    case PHOSH_APP_GRID_BUTTON_LAUNCHER:
-      phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), name);
-      break;
-    case PHOSH_APP_GRID_BUTTON_FAVORITES:
-      phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), NULL);
-      break;
-    default:
-      g_critical ("Invalid mode %i", mode);
-      return;
+  case PHOSH_APP_GRID_BUTTON_LAUNCHER:
+    phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), name);
+    break;
+  case PHOSH_APP_GRID_BUTTON_FAVORITES:
+    phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), NULL);
+    break;
+  default:
+    g_critical ("Invalid mode %i", mode);
+    return;
   }
 
   priv->mode = mode;

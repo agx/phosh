@@ -23,7 +23,7 @@ G_BEGIN_DECLS
  */
 #define PHOSH_APP_UNKNOWN_ICON "app-icon-unknown"
 
-#define PHOSH_TYPE_APP_GRID_BUTTON phosh_app_grid_button_get_type()
+#define PHOSH_TYPE_APP_GRID_BUTTON phosh_app_grid_button_get_type ()
 
 /**
  * PhoshAppGridButtonMode:
@@ -40,8 +40,7 @@ typedef enum /*< enum,prefix=PHOSH >*/
 
 G_DECLARE_DERIVABLE_TYPE (PhoshAppGridButton, phosh_app_grid_button, PHOSH, APP_GRID_BUTTON, PhoshAppGridBaseButton)
 
-struct _PhoshAppGridButtonClass
-{
+struct _PhoshAppGridButtonClass {
   PhoshAppGridBaseButtonClass parent_class;
 };
 
