@@ -36,7 +36,7 @@ struct _PhoshAppGridButtonPrivate {
 
   GtkWidget  *icon;
   GtkWidget  *popover;
-  GtkGesture *gesture;
+  GtkGesture *long_gesture;
   GtkGesture *right_gesture;
 
   GMenu *menu;
@@ -195,10 +195,7 @@ on_right_pressed (GtkWidget *self, int n_press, double x, double y, GtkGesture *
 }
 
 static void
-long_pressed (GtkGestureLongPress *gesture,
-              double               x,
-              double               y,
-              GtkWidget           *self)
+on_long_pressed (GtkWidget *self, double x, double y, GtkGesture *gesture)
 {
   context_menu (self, NULL);
 }
@@ -287,13 +284,13 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, popover);
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, gesture);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, long_gesture);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, right_gesture);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, menu);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, actions);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, folders);
 
-  gtk_widget_class_bind_template_callback (widget_class, long_pressed);
+  gtk_widget_class_bind_template_callback (widget_class, on_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_right_pressed);
   gtk_widget_class_bind_template_callback (widget_class, activate_cb);
 
