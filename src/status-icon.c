@@ -156,6 +156,16 @@ phosh_status_icon_finalize (GObject *gobject)
 
 
 static void
+phosh_status_icon_destroy (GtkWidget *widget)
+{
+  PhoshStatusIcon *self = PHOSH_STATUS_ICON (widget);
+
+  phosh_status_icon_set_extra_widget (self, NULL);
+
+  GTK_WIDGET_CLASS (phosh_status_icon_parent_class)->destroy (widget);
+}
+
+static void
 phosh_status_icon_class_init (PhoshStatusIconClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -166,6 +176,8 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
   object_class->constructed = phosh_status_icon_constructed;
   object_class->dispose = phosh_status_icon_dispose;
   object_class->finalize = phosh_status_icon_finalize;
+
+  widget_class->destroy = phosh_status_icon_destroy;
 
   gtk_widget_class_set_css_name (widget_class, "phosh-status-icon");
 
