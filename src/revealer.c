@@ -122,7 +122,7 @@ phosh_revealer_destroy (GtkWidget *widget)
 {
   PhoshRevealer *self = PHOSH_REVEALER (widget);
 
-  self->child = NULL;
+  phosh_revealer_set_child (self, NULL);
 
   GTK_WIDGET_CLASS (phosh_revealer_parent_class)->destroy (widget);
 }
