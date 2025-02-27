@@ -169,10 +169,6 @@ test_phosh_app_grid_button_menu (void)
 
   btn = phosh_app_grid_button_new (info);
 
-  /* Pretend someone pressed the menu button */
-  GTK_WIDGET_GET_CLASS (btn)->popup_menu (btn);
-  /* Ideally we would check the popover actually opened */
-
   actions = gtk_widget_get_action_group (btn, "app-btn");
   g_action_group_activate_action (actions, "favorite-add", NULL);
 

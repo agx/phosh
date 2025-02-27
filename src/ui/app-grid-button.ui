@@ -11,6 +11,11 @@
     <property name="icon-name">app-icon-unknown</property>
     <property name="icon-size">6</property>
   </object>
+  <object class="GtkGestureMultiPress" id="right_gesture">
+    <property name="button">3</property>
+    <property name="widget">PhoshAppGridButton</property>
+    <signal name="pressed" handler="on_right_pressed" swapped="true"/>
+  </object>
   <object class="GtkPopover" id="popover">
     <property name="relative-to">PhoshAppGridButton</property>
   </object>

@@ -37,6 +37,7 @@ struct _PhoshAppGridButtonPrivate {
   GtkWidget  *icon;
   GtkWidget  *popover;
   GtkGesture *gesture;
+  GtkGesture *right_gesture;
 
   GMenu *menu;
   GMenu *actions;
@@ -196,25 +197,13 @@ context_menu (GtkWidget *widget,
 }
 
 
-static gboolean
-phosh_app_grid_button_popup_menu (GtkWidget *self)
+static void
+on_right_pressed (GtkWidget *self, int n_press, double x, double y, GtkGesture *gesture)
 {
-  context_menu (self, NULL);
-  return TRUE;
-}
-
-
-static gboolean
-phosh_app_grid_button_button_press_event (GtkWidget      *self,
-                                          GdkEventButton *event)
-{
-  if (gdk_event_triggers_context_menu ((GdkEvent *) event)) {
+  const GdkEvent *event = gtk_gesture_get_last_event (gesture, NULL);
+  if (gdk_event_triggers_context_menu (event)) {
     context_menu (self, (GdkEvent *) event);
-
-    return TRUE;
   }
-
-  return GTK_WIDGET_CLASS (phosh_app_grid_button_parent_class)->button_press_event (self, event);
 }
 
 
@@ -241,9 +230,6 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
   object_class->get_property = phosh_app_grid_button_get_property;
   object_class->dispose = phosh_app_grid_button_dispose;
   object_class->finalize = phosh_app_grid_button_finalize;
-
-  widget_class->popup_menu = phosh_app_grid_button_popup_menu;
-  widget_class->button_press_event = phosh_app_grid_button_button_press_event;
 
   props[PROP_APP_INFO] =
     g_param_spec_object ("app-info", "App", "App Info",
@@ -304,10 +290,12 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, popover);
 
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, right_gesture);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, menu);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, actions);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, folders);
 
+  gtk_widget_class_bind_template_callback (widget_class, on_right_pressed);
   gtk_widget_class_bind_template_callback (widget_class, activate_cb);
 
   signals[APP_LAUNCHED] = g_signal_new ("app-launched",
