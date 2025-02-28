@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-21 15:17+0000\n"
-"PO-Revision-Date: 2025-01-21 22:19+0100\n"
+"POT-Creation-Date: 2025-02-21 13:49+0000\n"
+"PO-Revision-Date: 2025-02-21 22:41+0100\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -142,7 +142,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "Bateria %.0f%%"
@@ -156,11 +156,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Activat"
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "No s'ha trobat cap dispositiu Bluetooth connectable"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "El Bluetooth està desactivat"
 
@@ -168,16 +168,16 @@ msgstr "El Bluetooth està desactivat"
 msgid "Unknown caller"
 msgstr "Trucada desconeguda"
 
-#: src/connectivity-manager.c:86
+#: src/connectivity-manager.c:114
 #, c-format
 msgid "Wi-Fi network '%s' uses a captive portal"
 msgstr "La xarxa sense fil «%s» usa un portal captiu"
 
-#: src/connectivity-manager.c:88
+#: src/connectivity-manager.c:116
 msgid "The Wi-Fi network uses a captive portal"
 msgstr "La xarxa sense fil usa un portal captiu"
 
-#: src/connectivity-manager.c:91
+#: src/connectivity-manager.c:123
 msgid "Sign into Wi-Fi network"
 msgstr "Connecta't a la xarxa sense fil"
 
@@ -189,8 +189,8 @@ msgstr "Acoblat"
 msgid "Undocked"
 msgstr "Desacoblat"
 
-#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/cell-broadcast-prompt.ui:23 src/ui/end-session-dialog.ui:71
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
+#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "D'acord"
 
@@ -213,7 +213,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Es tancarà la sessió de %s automàticament d'aquí a %d segon."
 msgstr[1] "Es tancarà la sessió de %s automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "Apaga"
 
@@ -273,11 +273,11 @@ msgid "No"
 msgstr "No"
 
 #. give visual feedback on error
-#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:277
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:948
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
@@ -291,7 +291,7 @@ msgstr "S'ha desat la captura de pantalla a «%s»"
 msgid "Failed to save screenshot"
 msgstr "No s'ha pogut desar la captura de pantalla"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
@@ -309,12 +309,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Captura de pantalla de %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:450 src/ui/media-player.ui:213
+#: src/media-player.c:493 src/ui/media-player.ui:211
 msgid "Unknown Title"
 msgstr "Títol desconegut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:458 src/ui/media-player.ui:201
+#: src/media-player.c:501 src/ui/media-player.ui:199
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
@@ -358,41 +358,41 @@ msgstr "Obre"
 
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
-#: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1004
+#: src/notifications/notification.c:422 src/notifications/notification.c:695
+#: src/notifications/notify-manager.c:1013
 msgid "Notification"
 msgstr "Notificació"
 
 #. Translators: Point in time, use a short word or abbreviation
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:86
+#: src/notifications/timestamp-label.c:88
 msgid "now"
 msgstr "ara"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:91
+#: src/notifications/timestamp-label.c:93
 #, c-format
 msgid "<30s"
 msgstr "<30s"
 
 #. Translators: abbreviated time difference "Less than one minute"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:96
+#: src/notifications/timestamp-label.c:98
 #, c-format
 msgid "<1m"
 msgstr "<1 min"
 
 #. Translators: abbreviated time difference "About one minute"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:101
+#: src/notifications/timestamp-label.c:103
 #, c-format
 msgid "~1m"
 msgstr "~1 min"
 
 #. Translators: abbreviated, exact time difference "1 minute ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:109
+#: src/notifications/timestamp-label.c:111
 #, c-format
 msgid "%dm"
 msgid_plural "%dm"
@@ -401,7 +401,7 @@ msgstr[1] "%dm"
 
 #. Translators: abbreviated time difference "About 3 hours ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:117
+#: src/notifications/timestamp-label.c:119
 #, c-format
 msgid "~%dh"
 msgid_plural "~%dh"
@@ -410,14 +410,14 @@ msgstr[1] "~%dh"
 
 #. Translators: abbreviated time difference "About 1 day ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:122
+#: src/notifications/timestamp-label.c:124
 #, c-format
 msgid "~1d"
 msgstr "~1d"
 
 #. Translators: abbreviated, exact time difference "3 days ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:127
+#: src/notifications/timestamp-label.c:129
 #, c-format
 msgid "%dd"
 msgid_plural "%dd"
@@ -426,14 +426,14 @@ msgstr[1] "%ddies"
 
 #. Translators: abbreviated time difference "About 1 month ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:132
+#: src/notifications/timestamp-label.c:134
 #, c-format
 msgid "~1mo"
 msgstr "~1 mes"
 
 #. Translators: abbreviated, exact time difference "3 months ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:137
+#: src/notifications/timestamp-label.c:139
 #, c-format
 msgid "%dmo"
 msgid_plural "%dmos"
@@ -442,7 +442,7 @@ msgstr[1] "%dmes"
 
 #. Translators: abbreviated time difference "About 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:147
+#: src/notifications/timestamp-label.c:149
 #, c-format
 msgid "~%dy"
 msgid_plural "~%dy"
@@ -451,7 +451,7 @@ msgstr[1] "~%danys"
 
 #. Translators: abbreviated time difference "Over 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:151
+#: src/notifications/timestamp-label.c:153
 #, c-format
 msgid "Over %dy"
 msgid_plural "Over %dy"
@@ -460,7 +460,7 @@ msgstr[1] "Més de %d anys"
 
 #. Translators: abbreviated time difference "almost 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:156
+#: src/notifications/timestamp-label.c:158
 #, c-format
 msgid "Almost %dy"
 msgid_plural "Almost %dy"
@@ -471,9 +471,9 @@ msgstr[1] "Gairebé %d anys"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "L'usuari ha descartat el diàleg d'autenticació"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
-#: src/ui/system-prompt.ui:32
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
+#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "Contrasenya:"
 
@@ -524,33 +524,32 @@ msgstr "La contrasenya no pot estar en blanc"
 msgid "Torch"
 msgstr "Llanterna"
 
-#: src/ui/app-auth-prompt.ui:49
+#: src/ui/app-auth-prompt.ui:43
 msgid "Remember decision"
 msgstr "Recorda la decisió"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
+#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:25
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/ui/app-grid-button.ui:23
+#: src/ui/app-grid-button.ui:22
 msgid "Remove from _Favorites"
 msgstr "Suprimeix dels _preferits"
 
-#: src/ui/app-grid-button.ui:28
+#: src/ui/app-grid-button.ui:27
 msgid "Add to _Favorites"
 msgstr "Afegeix als _preferits"
 
-#: src/ui/app-grid-button.ui:33
+#: src/ui/app-grid-button.ui:32
 msgid "View _Details"
 msgstr "Veieu els _detalls"
 
-#: src/ui/app-grid-button.ui:38
+#: src/ui/app-grid-button.ui:37
 msgid "Uninstall"
 msgstr "Desinstal·la"
 
-#: src/ui/app-grid-button.ui:46
+#: src/ui/app-grid-button.ui:44
 msgid "_Remove from Folder"
 msgstr "Suprimeix de la carpeta"
 
@@ -558,144 +557,145 @@ msgstr "Suprimeix de la carpeta"
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
 
-#: src/ui/audio-settings.ui:85
+#: src/ui/audio-settings.ui:84
 msgid "Output Devices"
 msgstr "Dispositius de sortida"
 
-#: src/ui/audio-settings.ui:109
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Dispositius d'entrada"
 
-#: src/ui/audio-settings.ui:137
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Paràmetres de so"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Activa el Bluetooth"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "Paràmetres del Bluetooth"
 
-#: src/ui/emergency-menu.ui:26
+#: src/ui/emergency-menu.ui:24
 msgid "Close the emergency call dialog"
 msgstr "Tanca la pantalla de trucada d'emergència"
 
-#: src/ui/emergency-menu.ui:52
+#: src/ui/emergency-menu.ui:50
 msgid "Emergency _Contacts"
 msgstr "_Contactes d'emergència"
 
-#: src/ui/emergency-menu.ui:59
+#: src/ui/emergency-menu.ui:57
 msgid "Go to the emergency contacts page"
 msgstr "Torna a la pàgina de contactes d'emergència"
 
-#: src/ui/emergency-menu.ui:83
+#: src/ui/emergency-menu.ui:80
 msgid "Go back to the emergency dialpad page"
 msgstr "Torna a la pàgina del teclat d'emergència"
 
-#: src/ui/emergency-menu.ui:106
+#: src/ui/emergency-menu.ui:103
 msgid "Owner unknown"
 msgstr "Propietari desconegut"
 
-#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
+#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "Contactes d'emergència"
 
-#: src/ui/emergency-menu.ui:142
+#: src/ui/emergency-menu.ui:139
 msgid "No emergency contacts available."
 msgstr "No hi ha disponible cap contacte d'emergència."
 
-#: src/ui/end-session-dialog.ui:31
+#: src/ui/end-session-dialog.ui:27
 msgid "Some applications are busy or have unsaved work"
 msgstr "Algunes aplicacions estan ocupades o tenen feina sense desar"
 
-#: src/ui/gtk-mount-prompt.ui:88
+#: src/ui/gtk-mount-prompt.ui:77
 msgid "User:"
 msgstr "Usuari:"
 
-#: src/ui/gtk-mount-prompt.ui:111
+#: src/ui/gtk-mount-prompt.ui:99
 msgid "Domain:"
 msgstr "Domini:"
 
-#: src/ui/gtk-mount-prompt.ui:144
+#: src/ui/gtk-mount-prompt.ui:131
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
-#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
+#: src/ui/lockscreen.ui:42 src/ui/lockscreen.ui:243
 msgid "Back"
 msgstr "Torna"
 
-#: src/ui/lockscreen.ui:98
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Llisqueu cap amunt per desbloquejar"
 
-#: src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:327
 msgid "Unlock"
 msgstr "Desbloqueja"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:5
 msgid "Authentication required"
 msgstr "Cal autenticació"
 
-#: src/ui/network-auth-prompt.ui:40
+#: src/ui/network-auth-prompt.ui:37
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:212
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:54
 msgid "C_onnect"
 msgstr "C_onnecta"
 
-#: src/ui/polkit-auth-prompt.ui:117
+#: src/ui/polkit-auth-prompt.ui:100
 msgid "Authenticate"
 msgstr "Autenticació"
 
-#: src/ui/power-menu.ui:109
+#: src/ui/power-menu.ui:106
 msgid "Suspend"
 msgstr "Suspèn"
 
-#: src/ui/power-menu.ui:153
+#: src/ui/power-menu.ui:149
 msgid "Lock"
 msgstr "Bloca"
 
-#: src/ui/power-menu.ui:231
+#: src/ui/power-menu.ui:225
 msgid "Emergency"
 msgstr "Emergència"
 
-#: src/ui/run-command-dialog.ui:6
+#: src/ui/run-command-dialog.ui:5
 msgid "Run Command"
 msgstr "Executa una ordre"
 
-#: src/ui/settings.ui:142
+#: src/ui/settings.ui:138
 msgid "No notifications"
 msgstr "Cap notificació"
 
-#: src/ui/settings.ui:173
+#: src/ui/settings.ui:167
 msgid "Notifications"
 msgstr "Notificacions"
 
-#: src/ui/settings.ui:182
+#: src/ui/settings.ui:176
 msgid "Clear all"
 msgstr "Neteja-ho tot"
 
-#: src/ui/system-prompt.ui:57
+#: src/ui/system-prompt.ui:52
 msgid "Confirm:"
 msgstr "Confirmació:"
 
-#: src/ui/top-panel.ui:32
+#: src/ui/top-panel.ui:31
 msgid "_Power Off…"
 msgstr "A_paga…"
 
-#: src/ui/top-panel.ui:60
+#: src/ui/top-panel.ui:58
 msgid "_Restart…"
 msgstr "Reinicia…"
 
-#: src/ui/top-panel.ui:88
+#: src/ui/top-panel.ui:85
 msgid "_Suspend…"
 msgstr "_Suspèn…"
 
-#: src/ui/top-panel.ui:116
+#: src/ui/top-panel.ui:112
 msgid "_Log Out…"
 msgstr "Surt…"
 
@@ -726,27 +726,27 @@ msgstr "No s'ha trobat el connector"
 msgid "The plugin '%s' could not be loaded."
 msgstr "No s'ha pogut carregar el connector «%s» ."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "No s'ha trobat cap dispositiu de xarxa sense fil"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "La xarxa sense fil està desactivada"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "Habilita la xarxa sense fil"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "Punt d'accés de xarxa sense fil actiu"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "Apaga"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "No hi ha cap punt d'accés Wi-Fi"
 
@@ -782,111 +782,129 @@ msgstr "Mode fosc"
 msgid "Light mode"
 msgstr "Mode clar"
 
-#: plugins/emergency-info/emergency-info.ui:39
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:68
+#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "Informació personal"
 
-#: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
+#: plugins/emergency-info/emergency-info.ui:48
 msgid "Date of Birth"
 msgstr "Data de naixement"
 
-#: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
+#: plugins/emergency-info/emergency-info.ui:68
 msgid "Preferred Language"
 msgstr "Idioma preferit"
 
-#: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "Adreça particular"
 
-#: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
+#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "Informació mèdica"
 
-#: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
+#: plugins/emergency-info/emergency-info.ui:104
 msgid "Age"
 msgstr "Edat"
 
-#: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
+#: plugins/emergency-info/emergency-info.ui:124
 msgid "Blood Type"
 msgstr "Grup sanguini"
 
-#: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
+#: plugins/emergency-info/emergency-info.ui:144
 msgid "Height"
 msgstr "Alçada"
 
-#: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
+#: plugins/emergency-info/emergency-info.ui:164
 msgid "Weight"
 msgstr "Pes"
 
-#: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
+#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "Al·lèrgies"
 
-#: plugins/emergency-info/emergency-info.ui:179
+#: plugins/emergency-info/emergency-info.ui:192
 msgid "Medications & Conditions"
 msgstr "Medicacions i condicions"
 
-#: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
+#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "Altra informació"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:17
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:16
 msgid "Emergency Info Preferences"
 msgstr "Preferències de la informació d'emergència"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:38
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:36
 msgid "Done"
 msgstr "Fet"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
-msgid "Owner Name"
-msgstr "Nom del propietari"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:67
+msgid "_Owner Name"
+msgstr "Nom del pr_opietari"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Date of Birth"
+msgstr "_Data de naixement"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Preferred Language"
+msgstr "Idioma _preferit"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:105
+msgid "_Age"
+msgstr "Ed_at"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:111
+msgid "_Blood Type"
+msgstr "_Grup sanguini"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:117
+msgid "_Height"
+msgstr "_Alçada"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:123
+msgid "_Weight"
+msgstr "_Pes"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:142
 msgid "Medications and Conditions"
 msgstr "Medicacions i condicions"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:179
 msgid "Add Contact"
 msgstr "Afegeix el contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:203
 msgid "Add New Contact"
 msgstr "Afegeix un nou contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
-msgid "Add"
-msgstr "Afegeix"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:220
+msgid "_Add"
+msgstr "_Afegeix"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
-msgid "New Contact Name"
-msgstr "Nom del nou contacte"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:240
+msgid "_Contact Name"
+msgstr "_Contacte nou"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:246
 msgid "Relationship"
 msgstr "Relació"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
-msgid "Number"
-msgstr "Número"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:252
+msgid "_Contact Number"
+msgstr "Número del _contacte"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "No hi ha cap llançador configurat"
 
-#: plugins/launcher-box/launcher-box.ui:32
+#: plugins/launcher-box/launcher-box.ui:30
 msgid "Launchers"
 msgstr "Llançadors"
 
@@ -964,7 +982,7 @@ msgstr "Durada del descans entre sessions"
 msgid "No documents to display"
 msgstr "No hi ha cap document per mostrar"
 
-#: plugins/ticket-box/ticket-box.ui:83
+#: plugins/ticket-box/ticket-box.ui:78
 msgid "Tickets"
 msgstr "Tiquets"
 
@@ -984,15 +1002,15 @@ msgstr "Preferències de la caixa de tiquets"
 msgid "Paths"
 msgstr "Camins"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:14
 msgid "Folder Settings"
 msgstr "Configuració de la carpeta"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:16
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
 msgid "Where Phosh looks for your tickets"
 msgstr "Allà on Phosh cerca els vostres tiquets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
 msgid "Ticket Folder"
 msgstr "Carpeta de tiquets"
 
@@ -1063,7 +1081,7 @@ msgstr "Escalat del monitor"
 
 #. Translators: This is scale factor of a monitor in percent
 #: plugins/scaling-quick-setting/scale-row.c:48
-#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
@@ -1075,6 +1093,12 @@ msgstr "Activa el punt d'accés Wi-Fi"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Desactiva el punt d'accés Wi-Fi"
+
+#~ msgid "Add"
+#~ msgstr "Afegeix"
+
+#~ msgid "Number"
+#~ msgstr "Número"
 
 #~ msgid "Screenshot copied to clipboard"
 #~ msgstr "S'ha copiat la captura de pantalla al porta-retalls"
