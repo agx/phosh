@@ -2,3 +2,6 @@ Test-Command: /usr/libexec/phosh --help
 Restrictions: superficial
 Depends: phosh
 
+Test-Command: pkg-config --libs --cflags libphosh-0.45
+Restrictions: superficial
+Depends: libphosh-0.45-dev

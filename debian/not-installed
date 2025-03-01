@@ -1,6 +1,3 @@
 usr/include/gmobile/
+usr/lib/*/libphosh-0.??.a
 usr/lib/*/girepository-1.0/Phosh-0.typelib
-usr/lib/*/libgmobile.a
-usr/lib/*/libgmobile.so*
-usr/lib/*/pkgconfig/gmobile.pc
-usr/lib/*/libphosh-0.*.a
