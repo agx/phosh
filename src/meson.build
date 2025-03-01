@@ -536,7 +536,7 @@ if abi_check
 
   custom_target(
     'abi-compliance',
-    input: [abi_dump, 'libphosh-abi.dump'],
+    input: ['libphosh-abi.dump', abi_dump],
     output: 'abi-compliance-check-report.html',
     command: [
       abi_compliance_checker,
