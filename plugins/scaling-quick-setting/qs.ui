@@ -2,29 +2,24 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <template class="PhoshScalingQuickSetting" parent="PhoshQuickSetting">
+    <property name="status-icon">info</property>
     <property name="status-page">status_page</property>
     <signal name="clicked" handler="on_clicked" object="PhoshScalingQuickSetting" swapped="yes"/>
-    <child>
-      <object class="PhoshStatusIcon" id="info">
-        <property name="visible">1</property>
-      </object>
-    </child>
   </template>
+  <object class="PhoshStatusIcon" id="info">
+    <property name="visible">1</property>
+  </object>
   <object class="PhoshStatusPage" id="status_page">
     <property name="visible">1</property>
     <property name="title" translatable="yes">Monitor scales</property>
-    <child>
-      <object class="GtkListBox" id="list_box">
-        <property name="visible">1</property>
-        <property name="selection-mode">none</property>
-        <signal name="row-activated" handler="on_scale_row_activated" object="PhoshScalingQuickSetting" swapped="yes"/>
-        <style>
-          <class name="content"/>
-        </style>
-      </object>
-      <packing>
-        <property name="name">devices</property>
-      </packing>
-    </child>
+    <property name="content">list_box</property>
+  </object>
+  <object class="GtkListBox" id="list_box">
+    <property name="visible">1</property>
+    <property name="selection-mode">none</property>
+    <signal name="row-activated" handler="on_scale_row_activated" object="PhoshScalingQuickSetting" swapped="yes"/>
+    <style>
+      <class name="content"/>
+    </style>
   </object>
 </interface>

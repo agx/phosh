@@ -30,6 +30,7 @@ enum {
   PROP_0,
   PROP_TITLE,
   PROP_ICON_NAME,
+  PROP_EXTRA_WIDGET,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -58,77 +59,6 @@ update_title_visibility (PhoshStatusPagePlaceholder *self)
 
 
 static void
-phosh_status_page_placeholder_destroy (GtkWidget *widget)
-{
-  PhoshStatusPagePlaceholder *self = PHOSH_STATUS_PAGE_PLACEHOLDER (widget);
-
-  if (self->toplevel_box) {
-    /* Trigger destruction of all contained widgets */
-    gtk_container_remove (GTK_CONTAINER (self), GTK_WIDGET (self->toplevel_box));
-    self->toplevel_box = NULL;
-    self->icon = NULL;
-    self->title_label = NULL;
-    self->extra_widget = NULL;
-  }
-
-  GTK_WIDGET_CLASS (phosh_status_page_placeholder_parent_class)->destroy (widget);
-}
-
-
-static void
-phosh_status_page_placeholder_add (GtkContainer *container,
-                                   GtkWidget    *child)
-{
-  PhoshStatusPagePlaceholder *self = PHOSH_STATUS_PAGE_PLACEHOLDER (container);
-
-  if (!self->toplevel_box) {
-    GTK_CONTAINER_CLASS (phosh_status_page_placeholder_parent_class)->add (container, child);
-  } else if (!self->extra_widget) {
-    gtk_container_add (GTK_CONTAINER (self->toplevel_box), child);
-    self->extra_widget = child;
-  } else {
-    g_warning ("Attempting to add a second child to a PhoshStatusPagePlaceholder,"
-               "but a PhoshStatusPagePlaceholder can only have one child");
-  }
-}
-
-
-static void
-phosh_status_page_placeholder_remove (GtkContainer *container,
-                                      GtkWidget    *child)
-{
-  PhoshStatusPagePlaceholder *self = PHOSH_STATUS_PAGE_PLACEHOLDER (container);
-
-  if (child == GTK_WIDGET (self->toplevel_box)) {
-    GTK_CONTAINER_CLASS (phosh_status_page_placeholder_parent_class)->remove (container, child);
-  } else if (child == self->extra_widget) {
-    gtk_container_remove (GTK_CONTAINER (self->toplevel_box), child);
-    self->extra_widget = NULL;
-  } else {
-    g_return_if_reached ();
-  }
-}
-
-
-static void
-phosh_status_page_placeholder_forall (GtkContainer *container,
-                                      gboolean      include_internals,
-                                      GtkCallback   callback,
-                                      gpointer      callback_data)
-{
-  PhoshStatusPagePlaceholder *self = PHOSH_STATUS_PAGE_PLACEHOLDER (container);
-
-  if (include_internals)
-    GTK_CONTAINER_CLASS (phosh_status_page_placeholder_parent_class)->forall (container,
-                                                                              include_internals,
-                                                                              callback,
-                                                                              callback_data);
-  else if (self->extra_widget)
-    callback (self->extra_widget, callback_data);
-}
-
-
-static void
 phosh_status_page_placeholder_set_property (GObject      *object,
                                             guint         property_id,
                                             const GValue *value,
@@ -142,6 +72,9 @@ phosh_status_page_placeholder_set_property (GObject      *object,
     break;
   case PROP_ICON_NAME:
     phosh_status_page_placeholder_set_icon_name (self, g_value_get_string (value));
+    break;
+  case PROP_EXTRA_WIDGET:
+    phosh_status_page_placeholder_set_extra_widget (self, g_value_get_object (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -165,6 +98,9 @@ phosh_status_page_placeholder_get_property (GObject    *object,
   case PROP_ICON_NAME:
     g_value_set_string (value, phosh_status_page_placeholder_get_icon_name (self));
     break;
+  case PROP_EXTRA_WIDGET:
+    g_value_set_object (value, phosh_status_page_placeholder_get_extra_widget (self));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -184,21 +120,27 @@ phosh_status_page_placeholder_dispose (GObject *object)
 
 
 static void
+phosh_status_page_placeholder_destroy (GtkWidget *widget)
+{
+  PhoshStatusPagePlaceholder *self = PHOSH_STATUS_PAGE_PLACEHOLDER (widget);
+
+  phosh_status_page_placeholder_set_extra_widget (self, NULL);
+
+  GTK_WIDGET_CLASS (phosh_status_page_placeholder_parent_class)->destroy (widget);
+}
+
+
+static void
 phosh_status_page_placeholder_class_init (PhoshStatusPagePlaceholderClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-  GtkContainerClass *container_class = GTK_CONTAINER_CLASS (klass);
 
   object_class->get_property = phosh_status_page_placeholder_get_property;
   object_class->set_property = phosh_status_page_placeholder_set_property;
   object_class->dispose = phosh_status_page_placeholder_dispose;
 
   widget_class->destroy = phosh_status_page_placeholder_destroy;
-
-  container_class->add = phosh_status_page_placeholder_add;
-  container_class->remove = phosh_status_page_placeholder_remove;
-  container_class->forall = phosh_status_page_placeholder_forall;
 
   /**
    * PhoshStatusPagePlaceholder:title:
@@ -218,6 +160,16 @@ phosh_status_page_placeholder_class_init (PhoshStatusPagePlaceholderClass *klass
     g_param_spec_string ("icon-name", "", "",
                          NULL,
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshStatusPagePlaceholder:extra-widget:
+   *
+   * An extra widget to add to bottom of the placeholder page.
+   */
+  props[PROP_EXTRA_WIDGET] =
+    g_param_spec_object ("extra-widget", "", "",
+                         GTK_TYPE_WIDGET,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -301,4 +253,47 @@ phosh_status_page_placeholder_get_icon_name (PhoshStatusPagePlaceholder *self)
   g_return_val_if_fail (PHOSH_IS_STATUS_PAGE_PLACEHOLDER (self), NULL);
 
   return self->icon_name;
+}
+
+/**
+ * phosh_status_page_placeholder_set_extra_widget:
+ * @self: A status page placeholder
+ *
+ * Set the extra widget shown at the bottom of a status page placeholder. Use `NULL` to remove
+ * existing widget.
+ */
+void
+phosh_status_page_placeholder_set_extra_widget (PhoshStatusPagePlaceholder *self, GtkWidget *extra_widget)
+{
+  g_return_if_fail (PHOSH_IS_STATUS_PAGE_PLACEHOLDER (self));
+  g_return_if_fail (extra_widget == NULL || GTK_IS_WIDGET (extra_widget));
+
+  if (self->extra_widget == extra_widget)
+    return;
+
+  if (self->extra_widget)
+    gtk_container_remove (GTK_CONTAINER (self->toplevel_box), self->extra_widget);
+
+  self->extra_widget = extra_widget;
+
+  if (self->extra_widget)
+    gtk_container_add (GTK_CONTAINER (self->toplevel_box), self->extra_widget);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_EXTRA_WIDGET]);
+}
+
+/**
+ * phosh_status_page_placeholder_get_extra_widget:
+ * @self: A status page placeholder
+ *
+ * Get the extra_widget of the status page placeholder.
+ *
+ * Returns:(transfer none): The status page placeholder extra_widget
+ */
+GtkWidget *
+phosh_status_page_placeholder_get_extra_widget (PhoshStatusPagePlaceholder *self)
+{
+  g_return_val_if_fail (PHOSH_IS_STATUS_PAGE_PLACEHOLDER (self), NULL);
+
+  return self->extra_widget;
 }

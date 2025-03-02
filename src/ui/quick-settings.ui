@@ -11,137 +11,128 @@
           <object class="PhoshQuickSetting">
             <property name="visible">1</property>
             <property name="sensitive" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">wwaninfo</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;wwan&quot;</property>
             <signal name="clicked" handler="on_wwan_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshWWanInfo" id="wwaninfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible">1</property>
             <property name="sensitive" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">wifiinfo</property>
             <property name="status-page">wifi_status_page</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;wifi&quot;</property>
             <signal name="clicked" handler="on_wifi_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshWifiInfo" id="wifiinfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible">1</property>
             <property name="sensitive" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">btinfo</property>
             <property name="status-page">bt_status_page</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;bluetooth&quot;</property>
             <signal name="clicked" handler="on_bt_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshBtInfo" id="btinfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible">1</property>
             <property name="sensitive" bind-source="batteryinfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">batteryinfo</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;power&quot;</property>
             <signal name="clicked" handler="on_battery_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshBatteryInfo" id="batteryinfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible">1</property>
             <property name="sensitive" bind-source="rotateinfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">rotateinfo</property>
             <signal name="clicked" handler="on_rotate_clicked" object="PhoshQuickSettings" swapped="yes"/>
             <signal name="long-pressed" handler="on_rotate_long_pressed" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshRotateInfo" id="rotateinfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="feedbackinfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">feedbackinfo</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;notifications&quot;</property>
             <signal name="clicked" handler="on_feedback_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshFeedbackInfo" id="feedbackinfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="torchinfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">torchinfo</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;power&quot;</property>
             <signal name="clicked" handler="on_torch_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshTorchInfo" id="torchinfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="dockedinfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">dockedinfo</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;display&quot;</property>
             <signal name="clicked" handler="on_docked_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshDockedInfo" id="dockedinfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="vpninfo" bind-property="present" bind-flags="sync-create"/>
+            <property name="status-icon">vpninfo</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;network&quot;</property>
             <signal name="clicked" handler="on_vpn_clicked" object="PhoshQuickSettings" swapped="yes"/>
-            <child>
-              <object class="PhoshVpnInfo" id="vpninfo">
-                <property name="visible">1</property>
-                <property name="icon-size">1</property>
-              </object>
-            </child>
           </object>
         </child>
       </object>
     </child>
   </template>
+  <object class="PhoshWWanInfo" id="wwaninfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshWifiInfo" id="wifiinfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshBtInfo" id="btinfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshBatteryInfo" id="batteryinfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshRotateInfo" id="rotateinfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshFeedbackInfo" id="feedbackinfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshTorchInfo" id="torchinfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshDockedInfo" id="dockedinfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="PhoshVpnInfo" id="vpninfo">
+    <property name="visible">1</property>
+    <property name="icon-size">1</property>
+  </object>
   <object class="PhoshWifiStatusPage" id="wifi_status_page">
     <property name="visible">1</property>
   </object>

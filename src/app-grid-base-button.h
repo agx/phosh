@@ -21,5 +21,7 @@ struct _PhoshAppGridBaseButtonClass
 
 void        phosh_app_grid_base_button_set_label (PhoshAppGridBaseButton *self, const char *label);
 const char *phosh_app_grid_base_button_get_label (PhoshAppGridBaseButton *self);
+void        phosh_app_grid_base_button_set_child (PhoshAppGridBaseButton *self, GtkWidget *child);
+GtkWidget  *phosh_app_grid_base_button_get_child (PhoshAppGridBaseButton *self);
 
 G_END_DECLS

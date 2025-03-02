@@ -5,44 +5,8 @@
     <property name="visible">1</property>
     <property name="title" translatable="yes">Wi-Fi</property>
     <property name="header">wifi_scan</property>
+    <property name="content">stack</property>
     <property name="footer">footer</property>
-    <child>
-      <object class="GtkStack" id="stack">
-        <property name="visible">1</property>
-        <property name="transition-type">crossfade</property>
-        <property name="vhomogeneous">0</property>
-        <child>
-          <object class="PhoshStatusPagePlaceholder" id="empty_state">
-            <property name="visible">1</property>
-            <child>
-              <object class="GtkButton" id="empty_state_btn">
-                <property name="visible">1</property>
-                <property name="halign">center</property>
-                <property name="focus-on-click">0</property>
-                <signal name="clicked" handler="on_placeholder_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="name">empty-state</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkListBox" id="networks">
-            <property name="visible">1</property>
-            <property name="selection-mode">none</property>
-            <property name="hexpand">1</property>
-            <style>
-              <class name="content"/>
-            </style>
-            <signal name="row-activated" handler="on_network_activated" object="PhoshWifiStatusPage" swapped="yes"/>
-          </object>
-          <packing>
-            <property name="name">list_box</property>
-          </packing>
-        </child>
-      </object>
-    </child>
   </template>
   <object class="GtkButton" id="wifi_scan">
     <property name="visible">1</property>
@@ -58,6 +22,40 @@
         <property name="icon-name">view-refresh-symbolic</property>
       </object>
     </child>
+  </object>
+  <object class="GtkStack" id="stack">
+    <property name="visible">1</property>
+    <property name="transition-type">crossfade</property>
+    <property name="vhomogeneous">0</property>
+    <child>
+      <object class="PhoshStatusPagePlaceholder" id="empty_state">
+        <property name="visible">1</property>
+        <property name="extra-widget">empty_state_btn</property>
+      </object>
+      <packing>
+        <property name="name">empty-state</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkListBox" id="networks">
+        <property name="visible">1</property>
+        <property name="selection-mode">none</property>
+        <property name="hexpand">1</property>
+        <style>
+          <class name="content"/>
+        </style>
+        <signal name="row-activated" handler="on_network_activated" object="PhoshWifiStatusPage" swapped="yes"/>
+      </object>
+      <packing>
+        <property name="name">list_box</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkButton" id="empty_state_btn">
+    <property name="visible">1</property>
+    <property name="halign">center</property>
+    <property name="focus-on-click">0</property>
+    <signal name="clicked" handler="on_placeholder_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
   </object>
   <object class="GtkButton" id="footer">
     <property name="visible">1</property>

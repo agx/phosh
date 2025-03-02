@@ -34,14 +34,14 @@ enum {
 };
 static GParamSpec *props[PHOSH_STATUS_ICON_PROP_LAST_PROP];
 
-typedef struct
-{
+typedef struct {
+  GtkBox      *box;
   GtkWidget   *image;
   GtkWidget   *extra_widget;
   GtkIconSize  icon_size;
   char        *info;
 
-  guint        idle_id;
+  guint       idle_id;
 } PhoshStatusIconPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusIcon, phosh_status_icon, GTK_TYPE_BIN);
@@ -146,13 +146,24 @@ phosh_status_icon_dispose (GObject *object)
 static void
 phosh_status_icon_finalize (GObject *gobject)
 {
-  PhoshStatusIconPrivate *priv = phosh_status_icon_get_instance_private (PHOSH_STATUS_ICON (gobject));
+  PhoshStatusIconPrivate *priv =
+    phosh_status_icon_get_instance_private (PHOSH_STATUS_ICON (gobject));
 
   g_clear_pointer (&priv->info, g_free);
 
   G_OBJECT_CLASS (phosh_status_icon_parent_class)->finalize (gobject);
 }
 
+
+static void
+phosh_status_icon_destroy (GtkWidget *widget)
+{
+  PhoshStatusIcon *self = PHOSH_STATUS_ICON (widget);
+
+  phosh_status_icon_set_extra_widget (self, NULL);
+
+  GTK_WIDGET_CLASS (phosh_status_icon_parent_class)->destroy (widget);
+}
 
 static void
 phosh_status_icon_class_init (PhoshStatusIconClass *klass)
@@ -165,6 +176,8 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
   object_class->constructed = phosh_status_icon_constructed;
   object_class->dispose = phosh_status_icon_dispose;
   object_class->finalize = phosh_status_icon_finalize;
+
+  widget_class->destroy = phosh_status_icon_destroy;
 
   gtk_widget_class_set_css_name (widget_class, "phosh-status-icon");
 
@@ -210,6 +223,12 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PHOSH_STATUS_ICON_PROP_LAST_PROP, props);
+
+  gtk_widget_class_set_template_from_resource (widget_class,
+                                               "/mobi/phosh/ui/status-icon.ui");
+
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshStatusIcon, box);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshStatusIcon, image);
 }
 
 
@@ -217,22 +236,10 @@ static void
 phosh_status_icon_init (PhoshStatusIcon *self)
 {
   PhoshStatusIconPrivate *priv = phosh_status_icon_get_instance_private (self);
-  GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
-  gtk_widget_set_visible (box, TRUE);
+  gtk_widget_init_template (GTK_WIDGET (self));
 
   priv->icon_size = GTK_ICON_SIZE_LARGE_TOOLBAR;
-  priv->image = gtk_image_new();
-  gtk_widget_set_visible (priv->image, TRUE);
-
-  gtk_container_add (GTK_CONTAINER (box), GTK_WIDGET (priv->image));
-
-  if (priv->extra_widget) {
-    gtk_container_add (GTK_CONTAINER (box), GTK_WIDGET (priv->extra_widget));
-    gtk_widget_set_visible (priv->extra_widget, TRUE);
-  }
-
-  gtk_container_add (GTK_CONTAINER (self), box);
 }
 
 
@@ -316,20 +323,18 @@ void
 phosh_status_icon_set_extra_widget (PhoshStatusIcon *self, GtkWidget *widget)
 {
   PhoshStatusIconPrivate *priv;
-  GtkWidget *box;
   g_return_if_fail (PHOSH_IS_STATUS_ICON (self));
 
   priv = phosh_status_icon_get_instance_private (self);
-  box = gtk_bin_get_child (GTK_BIN (self));
 
   if (priv->extra_widget == widget)
     return;
 
   if (priv->extra_widget != NULL)
-    gtk_container_remove (GTK_CONTAINER (box), priv->extra_widget);
+    gtk_container_remove (GTK_CONTAINER (priv->box), priv->extra_widget);
 
   if (widget != NULL)
-    gtk_container_add (GTK_CONTAINER (box), widget);
+    gtk_container_add (GTK_CONTAINER (priv->box), widget);
 
   priv->extra_widget = widget;
 

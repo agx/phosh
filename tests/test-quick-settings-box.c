@@ -55,7 +55,7 @@ test_phosh_quick_settings_box_add (void)
   g_object_ref_sink (box);
   child = phosh_quick_setting_new (NULL);
 
-  gtk_container_add (box, child);
+  phosh_quick_settings_box_add (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (child));
   children = gtk_container_get_children (box);
   g_assert_cmpuint (g_list_length (children), ==, 1);
   g_assert_true (g_list_nth_data (children, 0) == child);
@@ -75,8 +75,8 @@ test_phosh_quick_settings_box_remove (void)
   g_object_ref_sink (box);
   child = phosh_quick_setting_new (NULL);
 
-  gtk_container_add (box, child);
-  gtk_container_remove (box, child);
+  phosh_quick_settings_box_add (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (child));
+  phosh_quick_settings_box_remove (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (child));
   children = gtk_container_get_children (box);
   g_assert_cmpuint (g_list_length (children), ==, 0);
 

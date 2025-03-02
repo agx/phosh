@@ -91,10 +91,10 @@ make_status_page (GtkWidget *child)
     gtk_widget_set_visible (scrollw, TRUE);
     gtk_container_add (GTK_CONTAINER (scrollw), image);
     gtk_widget_set_hexpand (scrollw, TRUE);
-    gtk_container_add (GTK_CONTAINER (status_page), scrollw);
+    phosh_status_page_set_content (status_page, scrollw);
   } else {
     gtk_widget_set_hexpand (image, TRUE);
-    gtk_container_add (GTK_CONTAINER (status_page), image);
+    phosh_status_page_set_content (status_page, image);
   }
 
   return status_page;
@@ -105,12 +105,15 @@ static GtkWidget *
 make_child (int i)
 {
   g_autofree char *label = g_strdup_printf ("%d", i);
-  GtkWidget *status_icon = g_object_new (PHOSH_TYPE_STATUS_ICON, "icon-name", "face-smile-symbolic",
-                                         "info", label, "visible", TRUE, NULL);
+  PhoshStatusIcon *status_icon = g_object_new (PHOSH_TYPE_STATUS_ICON,
+                                               "icon-name", "face-smile-symbolic",
+                                               "info", label,
+                                               "visible", TRUE,
+                                               NULL);
   GtkWidget *child = phosh_quick_setting_new (NULL);
   PhoshStatusPage *status_page = make_status_page (child);
 
-  gtk_container_add (GTK_CONTAINER (child), status_icon);
+  phosh_quick_setting_set_status_icon (PHOSH_QUICK_SETTING (child), status_icon);
   phosh_quick_setting_set_status_page (PHOSH_QUICK_SETTING (child), status_page);
 
   g_signal_connect_object (child, "show-status", G_CALLBACK (on_show_status), NULL,
@@ -131,7 +134,7 @@ on_del_clicked (GtkWidget *child)
   GtkWidget *controls_box = g_object_get_data (G_OBJECT (child), "controls_box");
 
   gtk_container_remove (GTK_CONTAINER (controls_grid), controls_box);
-  gtk_container_remove (GTK_CONTAINER (box), child);
+  phosh_quick_settings_box_remove (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (child));
 }
 
 
@@ -186,7 +189,7 @@ on_add_clicked (PhoshQuickSettingsBox *box)
   g_object_set_data (G_OBJECT (child), "controls_grid", controls_grid);
   g_object_set_data (G_OBJECT (child), "controls_box", controls_box);
 
-  gtk_container_add (GTK_CONTAINER (box), child);
+  phosh_quick_settings_box_add (PHOSH_QUICK_SETTINGS_BOX (box), PHOSH_QUICK_SETTING (child));
   gtk_grid_attach (GTK_GRID (controls_grid), controls_box, i % COLUMNS, i / COLUMNS, 1, 1);
   i += 1;
 }

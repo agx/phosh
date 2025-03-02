@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "quick-setting.h"
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
@@ -20,5 +21,7 @@ void       phosh_quick_settings_box_set_spacing (PhoshQuickSettingsBox *self, gu
 guint      phosh_quick_settings_box_get_spacing (PhoshQuickSettingsBox *self);
 void       phosh_quick_settings_box_set_can_show_status (PhoshQuickSettingsBox *self, gboolean can_show_status);
 gboolean   phosh_quick_settings_box_get_can_show_status (PhoshQuickSettingsBox *self);
+void       phosh_quick_settings_box_add (PhoshQuickSettingsBox *self, PhoshQuickSetting *child);
+void       phosh_quick_settings_box_remove (PhoshQuickSettingsBox *self, PhoshQuickSetting *child);
 
 G_END_DECLS

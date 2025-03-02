@@ -217,8 +217,8 @@ on_vpn_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 unload_custom_quick_setting (GtkWidget *quick_setting)
 {
-  GtkWidget *box = gtk_widget_get_parent (quick_setting);
-  gtk_container_remove (GTK_CONTAINER (box), quick_setting);
+  PhoshQuickSettingsBox *box = PHOSH_QUICK_SETTINGS_BOX (gtk_widget_get_parent (quick_setting));
+  phosh_quick_settings_box_remove (box, PHOSH_QUICK_SETTING (quick_setting));
 }
 
 
@@ -241,7 +241,7 @@ load_custom_quick_settings (PhoshQuickSettings *self, GSettings *settings, gchar
     if (widget == NULL) {
       g_warning ("Custom quick setting '%s' not found", plugins[i]);
     } else {
-      gtk_container_add (GTK_CONTAINER (self->box), widget);
+      phosh_quick_settings_box_add (self->box, PHOSH_QUICK_SETTING (widget));
       g_ptr_array_add (self->custom_quick_settings, widget);
     }
   }

@@ -241,6 +241,122 @@ The reason public methods go at the bottom is that they have
 declarations in the header file and can thus be referenced from
 anywhere else in the source file.
 
+### Derivable Parent Widgets
+
+If the widget is derivable and accepts a child, then prefer to expose the child
+as a property than as its UI child (`<child>` in UI file). This way we align
+with how GTK 4 structures the API and avoid the need to hijack the parent
+container's add/remove method in the derivatives.
+
+For example, a derivable parent widget called `PhoshFoo` would have the code for
+adding and removing child like this:
+
+```c
+...
+
+enum {
+  PROP_0,
+  PROP_CHILD,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
+typedef struct {
+  GtkWidget       *child;
+} PhoshFooPrivate;
+
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshFoo, phosh_foo, GTK_TYPE_BOX);
+
+...
+
+static void
+phosh_foo_set_child (PhoshFoo *self, GtkWidget *child)
+{
+  PhoshFooPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_FOO (self));
+
+  priv = phosh_foo_get_instance_private (self);
+
+  if (priv->child) {
+    /* Remove the existing child */
+  }
+
+  priv->child = child;
+
+  /* child can be NULL, which is used to remove
+    existing child without replacement. */
+  if (priv->child) {
+   /* Add the new child */
+  }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CHILD]);
+}
+```
+
+For the widgets that take multiple children and adds them to internal widgets,
+prefer to implement `GtkBuildable` interface and expose methods to add and
+remove child like `phosh_foo_add` and `phosh_foo_remove`.
+
+As an example, a `PhoshFoo` that can have multiple children, its code would be
+like:
+
+```c
+...
+
+static void phosh_foo_buildable_init (GtkBuildableIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (PhoshFoo, phosh_foo,
+                         PHOSH_TYPE_FOO,
+                         G_ADD_PRIVATE (PhoshFoo)
+                         G_IMPLEMENT_INTERFACE (GTK_TYPE_BUILDABLE,
+                                                phosh_foo_buildable_init))
+
+...
+
+static GtkBuildableIface *parent_buildable_iface;
+
+static void
+phosh_foo_buildable_add_child (GtkBuildable *buildable,
+                               GtkBuilder   *builder,
+                               GObject      *child,
+                               const gchar  *type)
+{
+  PhoshFoo *self = PHOSH_FOO (buildable);
+
+  /* Check if the child is meant for PhoshFoo by checking child's type etc. */
+  if (condition) {
+    phosh_foo_add (self, child);
+    return;
+  }
+
+  /* The parent is a container itself so chain up */
+  parent_buildable_iface->add_child (buildable, builder, child, type);
+}
+
+
+static void
+phosh_foo_buildable_init (GtkBuildableIface *iface)
+{
+  parent_buildable_iface = g_type_interface_peek_parent (iface);
+  iface->add_child = phosh_foo_buildable_add_child;
+}
+
+...
+
+void
+phosh_foo_add (PhoshFoo *self, GtkWidget *child)
+{
+  /* Add the child to self using usual logic. */
+  ...
+}
+```
+
+The ultimate aim is to do a little heavy-lifting in the widget implementations,
+so it is easy to port them to GTK 4. And, as a direct consequence, restrict the
+usage of `GtkContainer` APIs for implementation logic only and expose public
+methods to do the same.
+
 ### CSS Theming
 
 For custom widgets set the css name using `gtk_widget_class_set_css_name ()`.
