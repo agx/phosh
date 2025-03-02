@@ -326,8 +326,8 @@ on_monitor_added (PhoshBackgroundManager *self,
 
 static void
 on_primary_monitor_changed (PhoshBackgroundManager *self,
-                            GParamSpec *pspec,
-                            PhoshShell *shell)
+                            GParamSpec             *pspec,
+                            PhoshShell             *shell)
 {
   PhoshBackground *background;
   PhoshMonitor *monitor;
@@ -387,7 +387,7 @@ phosh_background_manager_idle_init (PhoshManager *manager)
                             self);
   self->primary_monitor = g_object_ref (phosh_shell_get_primary_monitor (shell));
 
- /* catch up with monitors already present */
+  /* catch up with monitors already present */
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
 
