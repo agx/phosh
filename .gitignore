@@ -18,9 +18,11 @@ debian/phosh.service
 debian/files
 debian/*.substvars
 debian/*debhelper*
-debian/libphosh/
-debian/libphosh-dev/
+debian/gir1.2-phosh-0-dev/
+debian/libphosh-0.45-0/
+debian/libphosh-0.45-dev/
 debian/phosh/
+debian/phosh-common/
 debian/phosh-dev/
 debian/phosh-doc/
 debian/phosh-mobile-tweaks/

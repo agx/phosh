@@ -17,17 +17,8 @@ Copyright: 2018 Purism SPC
  2020 Arnaud Ferraris <arnaud.ferraris@gmail.com>
 License: GPL-3+
 
-Files: protocol/idle.xml
-Copyright: 2015 Martin Gräßlin
-License: LGPL-2.1+
-
 Files: protocol/wlr-foreign-toplevel-management-unstable-v1.xml
 Copyright: 2018 Ilia Bozhinov
-License: MIT
-
-Files: protocol/wlr-input-inhibitor-unstable-v1.xml
- protocol/wlr-layer-shell-unstable-v1.xml
-Copyright: 2017, 2018 Drew DeVault
 License: MIT
 
 Files: protocol/wlr-output-management-unstable-v1.xml
