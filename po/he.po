@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-11 09:22+0000\n"
-"PO-Revision-Date: 2024-11-24 08:25+0200\n"
+"POT-Creation-Date: 2025-02-21 13:49+0000\n"
+"PO-Revision-Date: 2025-03-02 11:53+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16,12 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
 "2 : 3);\n"
-"X-Generator: Poedit 3.4.2\n"
-
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
-msgid "Phosh"
-msgstr "Phosh"
+"X-Generator: Poedit 3.5\n"
 
 #: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
@@ -30,6 +25,11 @@ msgstr "מעטפת לטלפון"
 #: data/mobi.phosh.Shell.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "מנהל חלונות ומשגר יישומים לטלפון נייד"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/wayland-sessions/phosh.desktop:5
 msgid "This session logs you into Phosh"
@@ -118,15 +118,15 @@ msgstr "אירועים קרובים"
 msgid "Show upcoming calendar events"
 msgstr "הצגת אירועים קרובים בלוח השנה"
 
-#: src/app-grid-button.c:153
+#: src/app-grid-button.c:154
 msgid "Add to Folder"
 msgstr "הוספה לתיקייה"
 
-#: src/app-grid-button.c:177
+#: src/app-grid-button.c:178
 msgid "Create new folder"
 msgstr "יצירת תיקייה חדשה"
 
-#: src/app-grid-button.c:692 src/app-grid-button.c:749
+#: src/app-grid-button.c:731 src/app-grid-button.c:788
 msgid "Application"
 msgstr "יישום"
 
@@ -139,7 +139,7 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "הצגת יישומים מותאמים לנייד בלבד"
 
 #. Translators: a battery level in percent
-#: src/bt-device-row.c:72
+#: src/bt-device-row.c:81
 #, c-format
 msgid "Battery %.0f%%"
 msgstr "סוללה %.0f%%"
@@ -153,17 +153,30 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "פעיל"
 
-#: src/bt-status-page.c:95
+#: src/bt-status-page.c:123
 msgid "No connectable Bluetooth Devices found"
 msgstr "לא נמצאו התקני בלוטות׳ שאפשר להתחבר אליהם"
 
-#: src/bt-status-page.c:99
+#: src/bt-status-page.c:127
 msgid "Bluetooth disabled"
 msgstr "בלוטות׳ מושבת"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "שיחה לא מזוהה"
+
+#: src/connectivity-manager.c:114
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "הרשת האלחוטית ‚%s’ משתמשת במסך חסימה"
+
+#: src/connectivity-manager.c:116
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "הרשת האלחוטית משתמשת במסך חסימה"
+
+#: src/connectivity-manager.c:123
+msgid "Sign into Wi-Fi network"
+msgstr "כניסה לרשת אלחוטית"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -173,8 +186,8 @@ msgstr "מעוגן"
 msgid "Undocked"
 msgstr "לא מעוגן"
 
-#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:71
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
+#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "אישור"
 
@@ -186,11 +199,11 @@ msgstr "לא ניתן לבצע שיחת חירום"
 msgid "Internal error"
 msgstr "שגיאה פנימית"
 
-#: src/end-session-dialog.c:174
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "יציאה"
 
-#: src/end-session-dialog.c:177
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -199,11 +212,11 @@ msgstr[1] "המשתמש %s יצא אוטומטית בעוד שתי שניות."
 msgstr[2] "המשתמש %s יצא אוטומטית בעוד %d שניות."
 msgstr[3] "‫המשתמש %s יצא אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "כיבוי"
 
-#: src/end-session-dialog.c:184
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -212,11 +225,11 @@ msgstr[1] "המערכת תכבה אוטומטית בעוד שתי שניות."
 msgstr[2] "המערכת תכבה אוטומטית בעוד %d שניות."
 msgstr[3] "‫המערכת תכבה אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "הפעלה מחדש"
 
-#: src/end-session-dialog.c:191
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -263,7 +276,7 @@ msgid "No"
 msgstr "לא"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:277
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
@@ -272,39 +285,39 @@ msgid "Checking…"
 msgstr "בודק…"
 
 #. Translators: '%s' is the filename of a screenshot
-#: src/screenshot-manager.c:235
+#: src/screenshot-manager.c:238
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "צילום המסך נשמר אל ‚%s’"
 
-#: src/screenshot-manager.c:237
+#: src/screenshot-manager.c:240
 msgid "Failed to save screenshot"
 msgstr "שמירת צילום המסך נכשלה"
 
-#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
 msgid "Screenshot"
 msgstr "צילום מסך"
 
 #. Translators: name of the folder beneath ~/Pictures used to store screenshots
-#: src/screenshot-manager.c:416
+#: src/screenshot-manager.c:527
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
 #. Translators: Name of a screenshot file. The first '%s' is a timestamp
 #. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
 #. * the file already exists like '-3'
-#: src/screenshot-manager.c:436
+#: src/screenshot-manager.c:547
 #, c-format
 msgid "Screenshot from %s%s.png"
 msgstr "צילום מסך מ־%s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:446 src/ui/media-player.ui:213
+#: src/media-player.c:493 src/ui/media-player.ui:211
 msgid "Unknown Title"
 msgstr "כותרת לא ידועה"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:454 src/ui/media-player.ui:201
+#: src/media-player.c:501 src/ui/media-player.ui:199
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -348,41 +361,41 @@ msgstr "פתיחה"
 
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
-#: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1004
+#: src/notifications/notification.c:422 src/notifications/notification.c:695
+#: src/notifications/notify-manager.c:1013
 msgid "Notification"
 msgstr "התרעה"
 
 #. Translators: Point in time, use a short word or abbreviation
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:86
+#: src/notifications/timestamp-label.c:88
 msgid "now"
 msgstr "לא ידוע1"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:91
+#: src/notifications/timestamp-label.c:93
 #, c-format
 msgid "<30s"
 msgstr "< 30 שנ׳"
 
 #. Translators: abbreviated time difference "Less than one minute"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:96
+#: src/notifications/timestamp-label.c:98
 #, c-format
 msgid "<1m"
 msgstr "< דק׳"
 
 #. Translators: abbreviated time difference "About one minute"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:101
+#: src/notifications/timestamp-label.c:103
 #, c-format
 msgid "~1m"
 msgstr "בערך דקה"
 
 #. Translators: abbreviated, exact time difference "1 minute ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:109
+#: src/notifications/timestamp-label.c:111
 #, c-format
 msgid "%dm"
 msgid_plural "%dm"
@@ -393,7 +406,7 @@ msgstr[3] "‫%d דק׳"
 
 #. Translators: abbreviated time difference "About 3 hours ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:117
+#: src/notifications/timestamp-label.c:119
 #, c-format
 msgid "~%dh"
 msgid_plural "~%dh"
@@ -404,14 +417,14 @@ msgstr[3] "בערך %d שעות"
 
 #. Translators: abbreviated time difference "About 1 day ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:122
+#: src/notifications/timestamp-label.c:124
 #, c-format
 msgid "~1d"
 msgstr "בערך יום"
 
 #. Translators: abbreviated, exact time difference "3 days ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:127
+#: src/notifications/timestamp-label.c:129
 #, c-format
 msgid "%dd"
 msgid_plural "%dd"
@@ -422,14 +435,14 @@ msgstr[3] "‫%d ימים"
 
 #. Translators: abbreviated time difference "About 1 month ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:132
+#: src/notifications/timestamp-label.c:134
 #, c-format
 msgid "~1mo"
 msgstr "בערך חודש"
 
 #. Translators: abbreviated, exact time difference "3 months ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:137
+#: src/notifications/timestamp-label.c:139
 #, c-format
 msgid "%dmo"
 msgid_plural "%dmos"
@@ -440,7 +453,7 @@ msgstr[3] "‫%d חודשים"
 
 #. Translators: abbreviated time difference "About 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:147
+#: src/notifications/timestamp-label.c:149
 #, c-format
 msgid "~%dy"
 msgid_plural "~%dy"
@@ -451,7 +464,7 @@ msgstr[3] "בערך %d שנים"
 
 #. Translators: abbreviated time difference "Over 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:151
+#: src/notifications/timestamp-label.c:153
 #, c-format
 msgid "Over %dy"
 msgid_plural "Over %dy"
@@ -462,7 +475,7 @@ msgstr[3] "יותר מ־%d שנים"
 
 #. Translators: abbreviated time difference "almost 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:156
+#: src/notifications/timestamp-label.c:158
 #, c-format
 msgid "Almost %dy"
 msgid_plural "Almost %dy"
@@ -475,9 +488,9 @@ msgstr[3] "כמעט %d שנים"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "המשתמש בחר להתעלם מתיבת דו־שיח האימות"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
-#: src/ui/system-prompt.ui:32
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
+#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "ססמה:"
 
@@ -528,175 +541,178 @@ msgstr "הססמה אינה יכולה להישאר ריקה"
 msgid "Torch"
 msgstr "פנס"
 
-#: src/ui/app-auth-prompt.ui:49
+#: src/ui/app-auth-prompt.ui:43
 msgid "Remember decision"
 msgstr "לזכור את הבחירה"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:25
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/ui/app-grid-button.ui:23
+#: src/ui/app-grid-button.ui:22
 msgid "Remove from _Favorites"
 msgstr "הסרה מה_מועדפים"
 
-#: src/ui/app-grid-button.ui:28
+#: src/ui/app-grid-button.ui:27
 msgid "Add to _Favorites"
 msgstr "הוספה למועד_פים"
 
-#: src/ui/app-grid-button.ui:33
+#: src/ui/app-grid-button.ui:32
 msgid "View _Details"
 msgstr "הצגת _פרטים"
 
-#: src/ui/app-grid-button.ui:41
+#: src/ui/app-grid-button.ui:37
+msgid "Uninstall"
+msgstr "הסרה"
+
+#: src/ui/app-grid-button.ui:44
 msgid "_Remove from Folder"
 msgstr "הסרה מ_תיקייה"
 
-#: src/ui/app-grid.ui:24
+#: src/ui/app-grid.ui:25
 msgid "Search apps…"
 msgstr "חיפוש יישומים…"
 
-#: src/ui/audio-settings.ui:85
+#: src/ui/audio-settings.ui:84
 msgid "Output Devices"
 msgstr "התקני פלט"
 
-#: src/ui/audio-settings.ui:109
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "התקני קלט"
 
-#: src/ui/audio-settings.ui:137
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "הגדרות שמע"
 
-#: src/ui/bt-status-page.ui:31
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "הפעלת בלוטות׳"
 
-#: src/ui/bt-status-page.ui:55
+#: src/ui/bt-status-page.ui:56
 msgid "Bluetooth Settings"
 msgstr "הגדרות בלוטות׳"
 
-#: src/ui/emergency-menu.ui:26
+#: src/ui/emergency-menu.ui:24
 msgid "Close the emergency call dialog"
 msgstr "סגירת דו־שיח לחיוג במקרה חירום"
 
-#: src/ui/emergency-menu.ui:52
+#: src/ui/emergency-menu.ui:50
 msgid "Emergency _Contacts"
 msgstr "_אנשי קשר למקרה חירום"
 
-#: src/ui/emergency-menu.ui:59
+#: src/ui/emergency-menu.ui:57
 msgid "Go to the emergency contacts page"
 msgstr "מעבר לעמוד אנשי קשר למקרה חירום"
 
-#: src/ui/emergency-menu.ui:83
+#: src/ui/emergency-menu.ui:80
 msgid "Go back to the emergency dialpad page"
 msgstr "חזרה לדף החיוג במקרה חירום"
 
-#: src/ui/emergency-menu.ui:106
+#: src/ui/emergency-menu.ui:103
 msgid "Owner unknown"
 msgstr "בעלים לא ידוע"
 
-#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
+#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "אנשי קשר למקרה חירום"
 
-#: src/ui/emergency-menu.ui:142
+#: src/ui/emergency-menu.ui:139
 msgid "No emergency contacts available."
 msgstr "אין בנמצא אנשי קשר למקרה חירום."
 
-#: src/ui/end-session-dialog.ui:31
+#: src/ui/end-session-dialog.ui:27
 msgid "Some applications are busy or have unsaved work"
 msgstr "כמה יישומים עסוקים או שיש עבודה שלא נשמרה"
 
-#: src/ui/gtk-mount-prompt.ui:88
+#: src/ui/gtk-mount-prompt.ui:77
 msgid "User:"
 msgstr "משתמש:"
 
-#: src/ui/gtk-mount-prompt.ui:111
+#: src/ui/gtk-mount-prompt.ui:99
 msgid "Domain:"
 msgstr "מתחם:"
 
-#: src/ui/gtk-mount-prompt.ui:144
+#: src/ui/gtk-mount-prompt.ui:131
 msgid "Co_nnect"
 msgstr "הת_חברות"
 
-#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
+#: src/ui/lockscreen.ui:42 src/ui/lockscreen.ui:243
 msgid "Back"
 msgstr "חזרה"
 
-#: src/ui/lockscreen.ui:98
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:327
 msgid "Unlock"
 msgstr "שחרור"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:5
 msgid "Authentication required"
 msgstr "נדרש אימות"
 
-#: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: src/ui/network-auth-prompt.ui:37
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:212
 msgid "_Cancel"
 msgstr "_ביטול"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:54
 msgid "C_onnect"
 msgstr "הת_חברות"
 
-#: src/ui/polkit-auth-prompt.ui:117
+#: src/ui/polkit-auth-prompt.ui:100
 msgid "Authenticate"
 msgstr "אימות"
 
-#: src/ui/power-menu.ui:109
+#: src/ui/power-menu.ui:106
 msgid "Suspend"
 msgstr "השהיה"
 
-#: src/ui/power-menu.ui:153
+#: src/ui/power-menu.ui:149
 msgid "Lock"
 msgstr "נעילה"
 
-#: src/ui/power-menu.ui:231
+#: src/ui/power-menu.ui:225
 msgid "Emergency"
 msgstr "מצב חירום"
 
-#: src/ui/run-command-dialog.ui:6
+#: src/ui/run-command-dialog.ui:5
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
-#: src/ui/settings.ui:142
+#: src/ui/settings.ui:138
 msgid "No notifications"
 msgstr "אין התרעות"
 
-#: src/ui/settings.ui:173
+#: src/ui/settings.ui:167
 msgid "Notifications"
 msgstr "התראות"
 
-#: src/ui/settings.ui:182
+#: src/ui/settings.ui:176
 msgid "Clear all"
 msgstr "ניקוי הכול"
 
-#: src/ui/system-prompt.ui:57
+#: src/ui/system-prompt.ui:52
 msgid "Confirm:"
 msgstr "אישור:"
 
-#: src/ui/top-panel.ui:32
+#: src/ui/top-panel.ui:31
 msgid "_Power Off…"
 msgstr "_כיבוי…"
 
-#: src/ui/top-panel.ui:60
+#: src/ui/top-panel.ui:58
 msgid "_Restart…"
 msgstr "ה_פעלה מחדש…"
 
-#: src/ui/top-panel.ui:88
+#: src/ui/top-panel.ui:85
 msgid "_Suspend…"
 msgstr "_השהיה…"
 
-#: src/ui/top-panel.ui:116
+#: src/ui/top-panel.ui:112
 msgid "_Log Out…"
 msgstr "י_ציאה…"
 
@@ -727,27 +743,27 @@ msgstr "לא נמצאו תוספים"
 msgid "The plugin '%s' could not be loaded."
 msgstr "לא ניתן לטעון את התוסף '%s'."
 
-#: src/wifi-status-page.c:51
+#: src/wifi-status-page.c:52
 msgid "No Wi-Fi Device Found"
 msgstr "לא נמצא התקן לרשת אלחוטית"
 
-#: src/wifi-status-page.c:55
+#: src/wifi-status-page.c:56
 msgid "Wi-Fi Disabled"
 msgstr "הרשת האלחוטית מושבתת"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Enable Wi-Fi"
 msgstr "הפעלת רשת אלחוטית"
 
-#: src/wifi-status-page.c:59
+#: src/wifi-status-page.c:60
 msgid "Wi-Fi Hotspot Active"
 msgstr "נקודת גישה אלחוטית פעילה"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Turn Off"
 msgstr "כיבוי"
 
-#: src/wifi-status-page.c:63
+#: src/wifi-status-page.c:64
 msgid "No Wi-Fi Hotspots"
 msgstr "אין נק׳ גישה לרשת אלחוטית"
 
@@ -783,111 +799,129 @@ msgstr "מצב כהה"
 msgid "Light mode"
 msgstr "מצב בהיר"
 
-#: plugins/emergency-info/emergency-info.ui:39
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "מידע אישי"
 
-#: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+#: plugins/emergency-info/emergency-info.ui:48
 msgid "Date of Birth"
 msgstr "תאריך לידה"
 
-#: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+#: plugins/emergency-info/emergency-info.ui:68
 msgid "Preferred Language"
 msgstr "שפה מועדפת"
 
-#: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "כתובת בית"
 
-#: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
+#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "מידע רפואי"
 
-#: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
+#: plugins/emergency-info/emergency-info.ui:104
 msgid "Age"
 msgstr "גיל"
 
-#: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
+#: plugins/emergency-info/emergency-info.ui:124
 msgid "Blood Type"
 msgstr "סוג דם"
 
-#: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
+#: plugins/emergency-info/emergency-info.ui:144
 msgid "Height"
 msgstr "גובה"
 
-#: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
+#: plugins/emergency-info/emergency-info.ui:164
 msgid "Weight"
 msgstr "משקל"
 
-#: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
+#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "אלרגיות"
 
-#: plugins/emergency-info/emergency-info.ui:179
+#: plugins/emergency-info/emergency-info.ui:192
 msgid "Medications & Conditions"
 msgstr "תרופות והגבלות"
 
-#: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
+#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "מידע נוסף"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:16
 msgid "Emergency Info Preferences"
 msgstr "העדפות מידע למקרה חירום"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:36
 msgid "Done"
 msgstr "בוצע"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
-msgid "Owner Name"
-msgstr "שם בעלים"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:67
+msgid "_Owner Name"
+msgstr "שם _בעלים"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+msgid "_Date of Birth"
+msgstr "תאריך _לידה"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+msgid "_Preferred Language"
+msgstr "_שפה מועדפת"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:105
+msgid "_Age"
+msgstr "_גיל"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:111
+msgid "_Blood Type"
+msgstr "סוג _דם"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:117
+msgid "_Height"
+msgstr "_גובה"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:123
+msgid "_Weight"
+msgstr "מ_שקל"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:142
 msgid "Medications and Conditions"
 msgstr "תרופות והגבלות"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:179
 msgid "Add Contact"
 msgstr "הוספת איש קשר"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:203
 msgid "Add New Contact"
 msgstr "הוספת איש קשר חדש"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
-msgid "Add"
-msgstr "הוספה"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:220
+msgid "_Add"
+msgstr "הו_ספה"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
-msgid "New Contact Name"
-msgstr "הוספת שם איש קשר"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:240
+msgid "_Contact Name"
+msgstr "_שם איש קשר"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:246
 msgid "Relationship"
 msgstr "קרבה"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
-msgid "Number"
-msgstr "מספר"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:252
+msgid "_Contact Number"
+msgstr "מ_ספר איש קשר"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "לא הוגדרו משגרים"
 
-#: plugins/launcher-box/launcher-box.ui:32
+#: plugins/launcher-box/launcher-box.ui:30
 msgid "Launchers"
 msgstr "משגרים"
 
@@ -941,23 +975,23 @@ msgstr "פומודורו כבוי"
 msgid "Pomodoro Quick Setting Preferences"
 msgstr "העדפות הגדרות מהירות לפומודורו"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:11
 msgid "Pomodoro Technique"
 msgstr "טכניקת פומודורו"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
 msgid "_Active Duration"
 msgstr "משך _פעילות"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:15
 msgid "Duration of the focus session"
 msgstr "משך פעילות ממוקדת"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:29
 msgid "_Break Duration"
 msgstr "משך הפ_סקה"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "משך ההפסקה בין הפעילויות"
 
@@ -965,35 +999,35 @@ msgstr "משך ההפסקה בין הפעילויות"
 msgid "No documents to display"
 msgstr "אין מסמכים להצגה"
 
-#: plugins/ticket-box/ticket-box.ui:83
+#: plugins/ticket-box/ticket-box.ui:78
 msgid "Tickets"
 msgstr "תעודות"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
-msgid "Choose Folder"
-msgstr "בחירת תיקייה"
-
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:94
 msgid "_Open"
 msgstr "_פתיחה"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:95
+msgid "Choose Folder"
+msgstr "בחירת תיקייה"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
 msgstr "העדפות תיבת כרטיסים"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:10
 msgid "Paths"
 msgstr "נתיבים"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:14
 msgid "Folder Settings"
 msgstr "הגדרות תיקיות"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
 msgid "Where Phosh looks for your tickets"
 msgstr "היכן Phosh יחפש את הכרטיסים שלך"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
 msgid "Ticket Folder"
 msgstr "תיקיית כרטיסים"
 
@@ -1047,18 +1081,29 @@ msgstr "אירוע ללא כותרת"
 msgid "Upcoming Events Preferences"
 msgstr "העדפות אירועים קרובים"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:10
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
 msgid "Days"
 msgstr "ימים"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
 msgid "Date Range"
 msgstr "טווח תאריכים"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:14
 msgid "Number of days to show events for"
 msgstr "מספר הימים להצגת אירועים"
+
+#: plugins/scaling-quick-setting/qs.ui:15
+msgid "Monitor scales"
+msgstr "קני מידה של צגים"
+
+#. Translators: This is scale factor of a monitor in percent
+#: plugins/scaling-quick-setting/scale-row.c:48
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:93
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
 
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
@@ -1067,6 +1112,12 @@ msgstr "נק׳ חמה פעילה"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "נק׳ חמה כבויה"
+
+#~ msgid "Add"
+#~ msgstr "הוספה"
+
+#~ msgid "Number"
+#~ msgstr "מספר"
 
 #~ msgid "Screenshot copied to clipboard"
 #~ msgstr "המסך צולם והועתק ללוח הגזירים"
