@@ -255,16 +255,47 @@ on_settings_changed (PhoshBackgroundManager *self)
 }
 
 
+static void
+on_background_destroy (PhoshBackgroundManager *self, GtkWidget *widget)
+{
+  PhoshBackground *background = PHOSH_BACKGROUND (widget);
+  GHashTableIter iter;
+  gpointer key, value;
+
+  g_return_if_fail (PHOSH_IS_BACKGROUND (widget));
+
+  g_hash_table_iter_init (&iter, self->backgrounds);
+  while (g_hash_table_iter_next (&iter, &key, &value)) {
+
+
+    if (background == PHOSH_BACKGROUND (value)) {
+      PhoshMonitor *monitor = PHOSH_MONITOR (key);
+
+      g_hash_table_remove (self->backgrounds, monitor);
+      return;
+    }
+  }
+
+  g_critical ("Failed to remove background %p from list of know backgrounds", background);
+}
+
+
 static PhoshBackground *
 create_background_for_monitor (PhoshBackgroundManager *self, PhoshMonitor *monitor)
 {
-  PhoshWayland *wl = phosh_wayland_get_default();
+  PhoshWayland *wl = phosh_wayland_get_default ();
   GtkWidget *background;
 
   background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                      monitor,
                                      monitor == self->primary_monitor,
                                      ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND);
+  g_signal_connect_object (background,
+                           "destroy",
+                           G_CALLBACK (on_background_destroy),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   return PHOSH_BACKGROUND (background);
 }
 
@@ -278,7 +309,12 @@ on_monitor_removed (PhoshBackgroundManager *self,
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
 
   g_debug ("Monitor %p removed", monitor);
-  g_return_if_fail (g_hash_table_remove (self->backgrounds, monitor));
+
+  if (!g_hash_table_lookup (self->backgrounds,  monitor))
+    return;
+
+  g_critical ("Monitor %p shouldn't have a background anymore", monitor);
+  g_hash_table_remove (self->backgrounds, monitor);
 }
 
 
