@@ -623,18 +623,30 @@ phosh_overview_new (void)
 
 
 void
-phosh_overview_reset (PhoshOverview *self)
+phosh_overview_refresh (PhoshOverview *self)
 {
   PhoshOverviewPrivate *priv;
   g_return_if_fail(PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
-  phosh_app_grid_reset (PHOSH_APP_GRID (priv->app_grid));
 
   if (priv->activity) {
     gtk_widget_grab_focus (GTK_WIDGET (priv->activity));
     request_thumbnail (priv->activity, get_toplevel_from_activity (priv->activity));
   }
 }
+
+
+void
+phosh_overview_reset (PhoshOverview *self)
+{
+  PhoshOverviewPrivate *priv;
+
+  g_return_if_fail(PHOSH_IS_OVERVIEW (self));
+  priv = phosh_overview_get_instance_private (self);
+
+  phosh_app_grid_reset (PHOSH_APP_GRID (priv->app_grid));
+}
+
 
 void
 phosh_overview_focus_app_search (PhoshOverview *self)
