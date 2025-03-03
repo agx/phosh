@@ -225,6 +225,7 @@ Description: Pure Wayland shell for mobile devices - binding shared library
 Package: gir1.2-phosh-0-dev
 Architecture: any
 Section: libdevel
+Build-Profiles: <!pkg.phosh.nolib>
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
