@@ -11,6 +11,17 @@
     <property name="icon-name">app-icon-unknown</property>
     <property name="icon-size">6</property>
   </object>
+  <object class="GtkGestureLongPress" id="long_gesture">
+    <property name="touch-only">1</property>
+    <property name="widget">PhoshAppGridButton</property>
+    <property name="propagation-phase">capture</property>
+    <signal name="pressed" handler="on_long_pressed" swapped="true"/>
+  </object>
+  <object class="GtkGestureMultiPress" id="right_gesture">
+    <property name="button">3</property>
+    <property name="widget">PhoshAppGridButton</property>
+    <signal name="pressed" handler="on_right_pressed" swapped="true"/>
+  </object>
   <object class="GtkPopover" id="popover">
     <property name="relative-to">PhoshAppGridButton</property>
   </object>
@@ -19,29 +30,29 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Remove from _Favorites</attribute>
-        <attribute name="action">favorite-remove</attribute>
+        <attribute name="action">app-btn.favorite-remove</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Add to _Favorites</attribute>
-        <attribute name="action">favorite-add</attribute>
+        <attribute name="action">app-btn.favorite-add</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">View _Details</attribute>
-        <attribute name="action">view-details</attribute>
+        <attribute name="action">app-btn.view-details</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Uninstall</attribute>
-        <attribute name="action">uninstall</attribute>
+        <attribute name="action">app-btn.uninstall</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>
     <section id="folders"/>
     <item>
       <attribute name="label" translatable="yes">_Remove from Folder</attribute>
-      <attribute name="action">folder-remove</attribute>
+      <attribute name="action">app-btn.folder-remove</attribute>
       <attribute name="hidden-when">action-disabled</attribute>
     </item>
   </menu>
