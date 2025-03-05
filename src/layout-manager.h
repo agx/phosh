@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Guido Günther
+ * Copyright (C) 2023-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -21,6 +21,7 @@ G_DECLARE_FINAL_TYPE (PhoshLayoutManager, phosh_layout_manager, PHOSH, LAYOUT_MA
 PhoshLayoutManager          *phosh_layout_manager_new (void);
 PhoshLayoutClockPosition     phosh_layout_manager_get_clock_pos        (PhoshLayoutManager *self);
 guint                        phosh_layout_manager_get_clock_shift      (PhoshLayoutManager *self);
-guint                        phosh_layout_manager_get_corner_shift     (PhoshLayoutManager *self);
-
+void                         phosh_layout_manager_get_box_shifts       (PhoshLayoutManager *self,
+                                                                        guint *network_shift,
+                                                                        guint *indicators_shift);
 G_END_DECLS

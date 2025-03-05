@@ -101,6 +101,7 @@ typedef struct _PhoshTopPanel {
   GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
 
   PhoshTopPanelBg *background;
+  GtkCssProvider  *cutout_css_provider;
 } PhoshTopPanel;
 
 G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_DRAG_SURFACE)
@@ -669,6 +670,7 @@ phosh_top_panel_dispose (GObject *object)
     self->seat = NULL;
   }
   g_clear_pointer (&self->background, phosh_cp_widget_destroy);
+  g_clear_object (&self->cutout_css_provider);
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->dispose (object);
 }
@@ -845,13 +847,29 @@ set_clock_position (PhoshTopPanel *self, PhoshLayoutManager *layout_manager)
 static void
 set_margin (PhoshTopPanel *self, PhoshLayoutManager *layout_manager)
 {
-  guint shift;
+  guint network_box_shift = 0, indicators_box_shift = 0;
+  g_autofree char *css = NULL;
+  g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
-  shift = phosh_layout_manager_get_corner_shift (layout_manager);
-  g_debug ("Shifting UI elements %d pixels to center ", shift);
+  phosh_layout_manager_get_box_shifts (layout_manager,
+                                       &network_box_shift,
+                                       &indicators_box_shift);
 
-  gtk_widget_set_margin_start (GTK_WIDGET (self->box_top_bar), shift);
-  gtk_widget_set_margin_end (GTK_WIDGET (self->box_top_bar), shift);
+  g_debug ("Shifting UI elements %u,%u pixels to center ",
+           network_box_shift,
+           indicators_box_shift);
+
+  css = g_strdup_printf ("#top-bar > :first-child {"
+                         "  padding-left: %dpx;"
+                         "}"
+                         "#top-bar > :last-child {"
+                         "  padding-right: %dpx;"
+                         "}", network_box_shift, indicators_box_shift);
+  gtk_css_provider_load_from_data (provider, css, -1, NULL);
+  gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+                                             GTK_STYLE_PROVIDER (provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
+  g_set_object (&self->cutout_css_provider, provider);
 }
 
 
@@ -861,8 +879,8 @@ on_layout_changed (PhoshTopPanel *self, PhoshLayoutManager *layout_manager)
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (PHOSH_IS_LAYOUT_MANAGER (layout_manager));
 
-  set_margin (self, layout_manager);
   set_clock_position (self, layout_manager);
+  set_margin (self, layout_manager);
 }
 
 
