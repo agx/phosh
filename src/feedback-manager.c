@@ -40,6 +40,11 @@ struct _PhoshFeedbackManager {
   const char *profile;
   const char *icon_name;
   gboolean    inited;
+
+  /* signal emission hooks */
+  gulong      button_clicked_hook_id;
+  gulong      row_activated_hook_id;
+  gulong      long_press_hook_id;
 };
 
 G_DEFINE_TYPE (PhoshFeedbackManager, phosh_feedback_manager, G_TYPE_OBJECT);
@@ -125,6 +130,22 @@ on_profile_changed (PhoshFeedbackManager *self, GParamSpec *psepc, LfbGdbusFeedb
 }
 
 
+static gboolean
+on_signal_hook (GSignalInvocationHint *ihint,
+                guint                  n_param_values,
+                const GValue          *param_values,
+                gpointer               user_data)
+{
+  g_autoptr (LfbEvent) event = NULL;
+  const char *event_name = user_data;
+
+  g_return_val_if_fail (event_name, TRUE);
+
+  phosh_trigger_feedback (event_name);
+  return TRUE;
+}
+
+
 static void
 phosh_feedback_manager_constructed (GObject *object)
 {
@@ -150,6 +171,38 @@ phosh_feedback_manager_constructed (GObject *object)
 }
 
 
+static gulong
+connect_hook (const char *signal_name, GType type, const char *event_name)
+{
+  g_autoptr (GTypeClass) type_class = NULL;
+  guint signal_id;
+  gulong hook_id;
+
+  type_class = g_type_class_ref (type);
+  signal_id = g_signal_lookup (signal_name, type);
+  hook_id = g_signal_add_emission_hook (signal_id, 0, on_signal_hook, (gpointer)event_name, NULL);
+
+  return hook_id;
+}
+
+
+static void
+clear_hook (gulong *hook_id, const char *signal_name, GType type)
+{
+  g_autoptr (GTypeClass) type_class = NULL;
+  guint signal_id;
+
+  if (!*hook_id)
+    return;
+
+  type_class = g_type_class_ref (type);
+  signal_id = g_signal_lookup (signal_name, type);
+  g_signal_remove_emission_hook (signal_id, *hook_id);
+
+  *hook_id = 0;
+}
+
+
 static void
 phosh_feedback_manager_finalize (GObject *object)
 {
@@ -160,6 +213,11 @@ phosh_feedback_manager_finalize (GObject *object)
     lfb_uninit ();
     self->inited = FALSE;
   }
+
+  clear_hook (&self->button_clicked_hook_id, "clicked", GTK_TYPE_BUTTON);
+  clear_hook (&self->row_activated_hook_id, "row-activated", GTK_TYPE_LIST_BOX);
+  clear_hook (&self->long_press_hook_id, "pressed", GTK_TYPE_GESTURE_LONG_PRESS);
+
   G_OBJECT_CLASS (phosh_feedback_manager_parent_class)->finalize (object);
 }
 
@@ -287,7 +345,6 @@ phosh_trigger_feedback (const char *name)
                                     NULL);
 }
 
-
 /**
  * phosh_connect_feedback:
  * @widget: The widget that should trigger feedback
@@ -309,4 +366,22 @@ phosh_connect_feedback (GtkWidget *widget)
                             "button-release-event",
                             G_CALLBACK (on_button_event_triggered),
                             "button-released");
+}
+
+/**
+ * phosh_feedback_manager_setup_hooks:
+ * @self: The feedback manager
+ *
+ * Setup signal emission hooks that trigger event feedback.
+ */
+void
+phosh_feedback_manager_setup_event_hooks (PhoshFeedbackManager *self)
+{
+  g_return_if_fail (PHOSH_IS_FEEDBACK_MANAGER (self));
+
+  self->button_clicked_hook_id = connect_hook ("clicked", GTK_TYPE_BUTTON, "button-pressed");
+  self->row_activated_hook_id = connect_hook ("row-activated", GTK_TYPE_LIST_BOX, "button-pressed");
+  self->long_press_hook_id = connect_hook ("pressed",
+                                           GTK_TYPE_GESTURE_LONG_PRESS,
+                                           "button-pressed");
 }
