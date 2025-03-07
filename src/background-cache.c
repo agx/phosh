@@ -172,6 +172,25 @@ phosh_background_cache_lookup_background (PhoshBackgroundCache *self, GFile *fil
 }
 
 /**
+ * phosh_background_cache_remove:
+ * @self: The background cache
+ * @file: The background to remove
+ *
+ * Drop the background identified by the given file from the background cache
+ */
+void
+phosh_background_cache_remove (PhoshBackgroundCache *self, GFile *file)
+{
+  gboolean success;
+
+  g_return_if_fail (PHOSH_IS_BACKGROUND_CACHE (self));
+
+  success = g_hash_table_remove (self->background_images, file);
+  if (!success)
+    g_warning ("'%s' not found in cache", g_file_peek_path (file));
+}
+
+/**
  * phosh_background_cache_clear_all:
  * @self: The background cache
  *

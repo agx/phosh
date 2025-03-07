@@ -23,6 +23,8 @@ void                          phosh_background_cache_fetch_background  (PhoshBac
                                                                         GCancellable         *cancel);
 PhoshBackgroundImage         *phosh_background_cache_lookup_background (PhoshBackgroundCache *self,
                                                                         GFile                *file);
+void                          phosh_background_cache_remove            (PhoshBackgroundCache *self,
+                                                                        GFile                *file);
 void                          phosh_background_cache_clear_all         (PhoshBackgroundCache *self);
 
 G_END_DECLS
