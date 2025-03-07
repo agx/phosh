@@ -586,3 +586,13 @@ phosh_settings_get_drag_handle_offset (PhoshSettings *self)
 
   return self->drag_handle_offset;
 }
+
+
+void
+phosh_settings_hide_details (PhoshSettings *self)
+{
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+
+  phosh_audio_settings_hide_details (self->audio_settings);
+  phosh_quick_settings_hide_status (PHOSH_QUICK_SETTINGS (self->quick_settings));
+}
