@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2018-2022 Purism SPC
- *               2023-2024 Guido Günther
+ *               2023-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -301,10 +301,19 @@ update_image (PhoshBackground *self)
 
 
 static void
-on_background_image_present (PhoshBackground        *self,
-                             PhoshBackgroundImage   *image,
-                             PhoshBackgroundCache   *cache)
+on_background_cache_fetch_ready (GObject *source_object, GAsyncResult *res, gpointer data)
 {
+  g_autoptr (GError) err = NULL;
+  g_autoptr (PhoshBackgroundImage) image = NULL;
+  PhoshBackground *self = PHOSH_BACKGROUND (data);
+  PhoshBackgroundCache *cache = PHOSH_BACKGROUND_CACHE (source_object);
+
+  image = phosh_background_cache_fetch_finish (cache, res, &err);
+  if (!image) {
+    phosh_async_error_warn (err, "Failed to load background image");
+    return;
+  }
+
   g_assert (PHOSH_IS_BACKGROUND (self));
   g_assert (PHOSH_IS_BACKGROUND_CACHE (cache));
 
@@ -333,7 +342,11 @@ trigger_update (PhoshBackground *self)
   self->cancel_load = g_cancellable_new ();
 
   if (self->uri) {
-    phosh_background_cache_fetch_background (cache, self->uri, self->cancel_load);
+    phosh_background_cache_fetch_async (cache,
+                                        self->uri,
+                                        self->cancel_load,
+                                        on_background_cache_fetch_ready,
+                                        self);
   } else {
     g_clear_object (&self->cached_bg_image);
     update_image (self);
@@ -406,11 +419,6 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 static void
 phosh_background_init (PhoshBackground *self)
 {
-  g_signal_connect_object (phosh_background_cache_get_default (),
-                           "image-present",
-                           G_CALLBACK (on_background_image_present),
-                           self,
-                           G_CONNECT_SWAPPED);
 }
 
 
