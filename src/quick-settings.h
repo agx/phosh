@@ -14,5 +14,6 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshQuickSettings, phosh_quick_settings, PHOSH, QUICK_SETTINGS, GtkBin)
 
 GtkWidget *phosh_quick_settings_new (void);
+void       phosh_quick_settings_hide_status (PhoshQuickSettings *self);
 
 G_END_DECLS
