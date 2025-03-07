@@ -129,7 +129,7 @@ phosh_background_cache_get_default (void)
  * @file: The file to lookup or load
  * @cancel: A cancellable
  *
- * Loads an image into the cache and if not yet present. It always
+ * Loads an image into the cache if not yet present. It always
  * reports success via the `image-loaded` signal.
  */
 void
@@ -171,6 +171,12 @@ phosh_background_cache_lookup_background (PhoshBackgroundCache *self, GFile *fil
   return g_hash_table_lookup (self->background_images, file);
 }
 
+/**
+ * phosh_background_cache_clear_all:
+ * @self: The background cache
+ *
+ * Drop all files from the cache.
+ */
 void
 phosh_background_cache_clear_all (PhoshBackgroundCache *self)
 {
