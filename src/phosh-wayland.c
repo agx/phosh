@@ -38,146 +38,125 @@ static GParamSpec *props[PHOSH_WAYLAND_PROP_LAST_PROP];
 #define DEVICE_STATE_SHIFT      8
 
 struct _PhoshWayland {
-  GObject parent;
+  GObject                                  parent;
 
-  struct ext_idle_notifier_v1 *ext_idle_notifier_v1;
-  struct phosh_private *phosh_private;
-  uint32_t phosh_private_version;
-  struct zwp_virtual_keyboard_manager_v1 *zwp_virtual_keyboard_manager_v1;
-  struct wl_display *display;
-  struct wl_registry *registry;
-  struct wl_seat *wl_seat;
-  struct xdg_wm_base *xdg_wm_base;
+  struct ext_idle_notifier_v1             *ext_idle_notifier_v1;
+  struct phosh_private                    *phosh_private;
+  uint32_t                                 phosh_private_version;
+  struct zwp_virtual_keyboard_manager_v1  *zwp_virtual_keyboard_manager_v1;
+  struct wl_display                       *display;
+  struct wl_registry                      *registry;
+  struct wl_seat                          *wl_seat;
+  struct xdg_wm_base                      *xdg_wm_base;
   struct zwlr_foreign_toplevel_manager_v1 *zwlr_foreign_toplevel_manager_v1;
-  struct zwlr_gamma_control_manager_v1 *zwlr_gamma_control_manager_v1;
-  struct zwlr_layer_shell_v1 *layer_shell;
-  struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
-  struct zwlr_output_power_manager_v1 *zwlr_output_power_manager_v1;
-  struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
-  struct zwlr_screencopy_manager_v1 *zwlr_screencopy_manager_v1;
-  struct zphoc_layer_shell_effects_v1 *zphoc_layer_shell_effects_v1;
-  struct zphoc_device_state_v1 *zphoc_device_state_v1;
-  struct wl_shm *wl_shm;
-  GHashTable *wl_outputs;
-  PhoshWaylandSeatCapabilities seat_capabilities;
+  struct zwlr_gamma_control_manager_v1    *zwlr_gamma_control_manager_v1;
+  struct zwlr_layer_shell_v1              *layer_shell;
+  struct zwlr_output_manager_v1           *zwlr_output_manager_v1;
+  struct zwlr_output_power_manager_v1     *zwlr_output_power_manager_v1;
+  struct zxdg_output_manager_v1           *zxdg_output_manager_v1;
+  struct zwlr_screencopy_manager_v1       *zwlr_screencopy_manager_v1;
+  struct zphoc_layer_shell_effects_v1     *zphoc_layer_shell_effects_v1;
+  struct zphoc_device_state_v1            *zphoc_device_state_v1;
+  struct wl_shm                           *wl_shm;
+  GHashTable                              *wl_outputs;
+  PhoshWaylandSeatCapabilities             seat_capabilities;
 };
 
 G_DEFINE_TYPE (PhoshWayland, phosh_wayland, G_TYPE_OBJECT)
 
 
 static void
-registry_handle_global (void *data,
+registry_handle_global (void               *data,
                         struct wl_registry *registry,
-                        uint32_t name,
-                        const char *interface,
-                        uint32_t version)
+                        uint32_t            name,
+                        const char         *interface,
+                        uint32_t            version)
 {
   PhoshWayland *self = data;
   struct wl_output *output;
 
   if (!strcmp (interface, "phosh_private")) {
-    self->phosh_private = wl_registry_bind (
-      registry,
-      name,
-      &phosh_private_interface,
-      MIN(7, version));
+    self->phosh_private = wl_registry_bind (registry,
+                                            name,
+                                            &phosh_private_interface,
+                                            MIN (7, version));
     self->phosh_private_version = version;
   } else if (!strcmp (interface, zphoc_layer_shell_effects_v1_interface.name)) {
-    self->zphoc_layer_shell_effects_v1 = wl_registry_bind (
-      registry,
-      name,
-      &zphoc_layer_shell_effects_v1_interface,
-      MIN (3, version));
+    self->zphoc_layer_shell_effects_v1 = wl_registry_bind (registry,
+                                                           name,
+                                                           &zphoc_layer_shell_effects_v1_interface,
+                                                           MIN (3, version));
   } else if (!strcmp (interface, zphoc_device_state_v1_interface.name)) {
-    self->zphoc_device_state_v1 = wl_registry_bind (
-      registry,
-      name,
-      &zphoc_device_state_v1_interface,
-      1);
+    self->zphoc_device_state_v1 = wl_registry_bind (registry,
+                                                    name,
+                                                    &zphoc_device_state_v1_interface,
+                                                    1);
   } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
-    self->layer_shell = wl_registry_bind (
-      registry,
-      name,
-      &zwlr_layer_shell_v1_interface,
-      2);
+    self->layer_shell = wl_registry_bind (registry,
+                                          name,
+                                          &zwlr_layer_shell_v1_interface,
+                                          2);
   } else if (!strcmp (interface, "wl_output")) {
-    output = wl_registry_bind (
-      registry,
-      name,
-      &wl_output_interface, 2);
+    output = wl_registry_bind (registry, name, &wl_output_interface, 2);
     g_debug ("Got new output %p", output);
     g_hash_table_insert (self->wl_outputs, GINT_TO_POINTER (name), output);
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_WL_OUTPUTS]);
-  } else if (!strcmp(interface, "wl_seat")) {
-    self->wl_seat = wl_registry_bind(
-      registry, name, &wl_seat_interface,
-      1);
-  } else if (!strcmp(interface, "wl_shm")) {
-    self->wl_shm = wl_registry_bind(
-      registry, name, &wl_shm_interface,
-      1);
-  } else if (!strcmp(interface, xdg_wm_base_interface.name)) {
-    self->xdg_wm_base = wl_registry_bind(
-      registry,
-      name,
-      &xdg_wm_base_interface,
-      1);
-  } else if (!strcmp(interface, zwlr_gamma_control_manager_v1_interface.name)) {
-    self->zwlr_gamma_control_manager_v1 = wl_registry_bind(
-      registry,
-      name,
-      &zwlr_gamma_control_manager_v1_interface,
-      1);
-  } else  if (!strcmp (interface, zxdg_output_manager_v1_interface.name)) {
-    self->zxdg_output_manager_v1 = wl_registry_bind(
-      registry,
-      name,
-      &zxdg_output_manager_v1_interface,
-      3);
+  } else if (!strcmp (interface, "wl_seat")) {
+    self->wl_seat = wl_registry_bind (registry, name, &wl_seat_interface, 1);
+  } else if (!strcmp (interface, "wl_shm")) {
+    self->wl_shm = wl_registry_bind (registry, name, &wl_shm_interface, 1);
+  } else if (!strcmp (interface, xdg_wm_base_interface.name)) {
+    self->xdg_wm_base = wl_registry_bind (registry, name, &xdg_wm_base_interface, 1);
+  } else if (!strcmp (interface, zwlr_gamma_control_manager_v1_interface.name)) {
+    self->zwlr_gamma_control_manager_v1 = wl_registry_bind (registry,
+                                                            name,
+                                                            &zwlr_gamma_control_manager_v1_interface,
+                                                            1);
+  } else if (!strcmp (interface, zxdg_output_manager_v1_interface.name)) {
+    self->zxdg_output_manager_v1 = wl_registry_bind (registry,
+                                                     name,
+                                                     &zxdg_output_manager_v1_interface,
+                                                     3);
   } else if (!strcmp (interface, zwlr_output_manager_v1_interface.name)) {
-    self->zwlr_output_manager_v1 = wl_registry_bind(
-      registry,
-      name,
-      &zwlr_output_manager_v1_interface,
-      MIN(2, version));
-  } else  if (!strcmp (interface, zwlr_output_power_manager_v1_interface.name)) {
-    self->zwlr_output_power_manager_v1 = wl_registry_bind(
-      registry,
-      name,
-      &zwlr_output_power_manager_v1_interface,
-      1);
+    self->zwlr_output_manager_v1 = wl_registry_bind (registry,
+                                                     name,
+                                                     &zwlr_output_manager_v1_interface,
+                                                     MIN (2, version));
+  } else if (!strcmp (interface, zwlr_output_power_manager_v1_interface.name)) {
+    self->zwlr_output_power_manager_v1 = wl_registry_bind (registry,
+                                                           name,
+                                                           &zwlr_output_power_manager_v1_interface,
+                                                           1);
   } else if (!strcmp (interface, zwlr_foreign_toplevel_manager_v1_interface.name)) {
-    self->zwlr_foreign_toplevel_manager_v1 = wl_registry_bind(
-      registry,
-      name,
-      &zwlr_foreign_toplevel_manager_v1_interface,
-      3);
+    self->zwlr_foreign_toplevel_manager_v1 =
+      wl_registry_bind (registry,
+                        name,
+                        &zwlr_foreign_toplevel_manager_v1_interface,
+                        3);
   } else if (!strcmp (interface, zwlr_screencopy_manager_v1_interface.name)) {
-    self->zwlr_screencopy_manager_v1 = wl_registry_bind (
-      registry,
-      name,
-      &zwlr_screencopy_manager_v1_interface,
-      2);
+    self->zwlr_screencopy_manager_v1 = wl_registry_bind (registry,
+                                                         name,
+                                                         &zwlr_screencopy_manager_v1_interface,
+                                                         2);
   } else if (!strcmp (interface, zwp_virtual_keyboard_manager_v1_interface.name)) {
-    self->zwp_virtual_keyboard_manager_v1 = wl_registry_bind (
-      registry,
-      name,
-      &zwp_virtual_keyboard_manager_v1_interface,
-      1);
+    self->zwp_virtual_keyboard_manager_v1 =
+      wl_registry_bind (registry,
+                        name,
+                        &zwp_virtual_keyboard_manager_v1_interface,
+                        1);
   } else if (!strcmp (interface, ext_idle_notifier_v1_interface.name)) {
-    self->ext_idle_notifier_v1 = wl_registry_bind (
-      registry,
-      name,
-      &ext_idle_notifier_v1_interface,
-      1);
+    self->ext_idle_notifier_v1 = wl_registry_bind (registry,
+                                                   name,
+                                                   &ext_idle_notifier_v1_interface,
+                                                   1);
   }
 }
 
 
 static void
-registry_handle_global_remove (void *data,
+registry_handle_global_remove (void               *data,
                                struct wl_registry *registry,
-                               uint32_t name)
+                               uint32_t            name)
 {
   PhoshWayland *self = data;
   struct wl_output *wl_output;
@@ -200,9 +179,9 @@ static const struct wl_registry_listener registry_listener = {
 
 
 static void
-phosh_wayland_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
+phosh_wayland_get_property (GObject    *object,
+                            guint       property_id,
+                            GValue     *value,
                             GParamSpec *pspec)
 {
   PhoshWayland *self = PHOSH_WAYLAND (object);
@@ -259,7 +238,8 @@ device_state_handle_capabilities (void                         *data,
   g_return_if_fail (PHOSH_IS_WAYLAND (self));
 
   if ((DEVICE_STATE_CAPS (self->seat_capabilities) >> DEVICE_STATE_SHIFT) != capabilities) {
-    self->seat_capabilities = WL_SEAT_CAPS (self->seat_capabilities) | (capabilities << DEVICE_STATE_SHIFT);
+    self->seat_capabilities =
+      WL_SEAT_CAPS (self->seat_capabilities) | (capabilities << DEVICE_STATE_SHIFT);
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_SEAT_CAPABILITIES]);
   }
 }
@@ -283,16 +263,15 @@ phosh_wayland_constructed (GObject *object)
   gdk_display = gdk_display_get_default ();
   self->display = gdk_wayland_display_get_wl_display (gdk_display);
 
-  if (self->display == NULL) {
-      g_error ("Failed to get display: %m\n");
-  }
+  if (self->display == NULL)
+    g_error ("Failed to get display: %m\n");
 
   self->registry = wl_display_get_registry (self->display);
   wl_registry_add_listener (self->registry, &registry_listener, self);
 
   /* Wait until we have been notified about the wayland globals we require */
   phosh_wayland_roundtrip (self);
-  num_outputs = g_hash_table_size(self->wl_outputs);
+  num_outputs = g_hash_table_size (self->wl_outputs);
   if (!num_outputs || !self->layer_shell || !self->ext_idle_notifier_v1 ||
       !self->xdg_wm_base ||
       !self->zxdg_output_manager_v1 ||
@@ -314,9 +293,8 @@ phosh_wayland_constructed (GObject *object)
              self->zwlr_output_power_manager_v1,
              self->zphoc_layer_shell_effects_v1);
   }
-  if (!self->phosh_private) {
+  if (!self->phosh_private)
     g_info ("Could not find phosh private interface, disabling some features");
-  }
 
   wl_seat_add_listener (self->wl_seat, &seat_listener, self);
 
@@ -498,7 +476,7 @@ phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self)
 {
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
 
-   return self->zxdg_output_manager_v1;
+  return self->zxdg_output_manager_v1;
 }
 
 
@@ -581,7 +559,7 @@ phosh_wayland_roundtrip (PhoshWayland *self)
 {
   g_return_if_fail (PHOSH_IS_WAYLAND (self));
 
-  wl_display_roundtrip(self->display);
+  wl_display_roundtrip (self->display);
 }
 
 
