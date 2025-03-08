@@ -261,9 +261,10 @@ phosh_background_draw (GtkWidget *widget, cairo_t *cr)
     cairo_paint (cr);
   }
 
-  if (self->pixbuf)
+  if (self->pixbuf) {
     gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
-  cairo_paint (cr);
+    cairo_paint (cr);
+  }
 
   cairo_restore (cr);
 
