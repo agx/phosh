@@ -298,13 +298,18 @@ on_top_panel_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshTopPanel *
 static void
 update_top_bar_transparency (PhoshShell *self)
 {
-  PhoshShellPrivate *priv;
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   PhoshHomeState state;
 
-  priv = phosh_shell_get_instance_private (self);
+  if (!priv->top_panel)
+    return;
+
+  if (priv->locked) {
+    phosh_top_panel_set_bar_transparent (PHOSH_TOP_PANEL (priv->top_panel), TRUE);
+    return;
+  }
 
   state = phosh_home_get_state (PHOSH_HOME (priv->home));
-
   phosh_top_panel_set_bar_transparent (PHOSH_TOP_PANEL (priv->top_panel),
                                        (state != PHOSH_HOME_STATE_FOLDED));
 }
@@ -456,6 +461,7 @@ set_locked (PhoshShell *self, gboolean locked)
     phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
 
   update_top_level_layer (self);
+  update_top_bar_transparency (self);
 }
 
 
