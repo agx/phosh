@@ -123,43 +123,6 @@ phosh_background_get_property (GObject    *object,
 
 
 static GdkPixbuf *
-pb_scale_to_min (GdkPixbuf *src, int min_width, int min_height)
-{
-  double factor;
-  int src_width, src_height;
-  int new_width, new_height;
-  GdkPixbuf *dest;
-
-  g_return_val_if_fail (GDK_IS_PIXBUF (src), NULL);
-
-  src_width = gdk_pixbuf_get_width (src);
-  src_height = gdk_pixbuf_get_height (src);
-
-  factor = MAX (min_width / (double) src_width, min_height / (double) src_height);
-
-  new_width = floor (src_width * factor + 0.5);
-  new_height = floor (src_height * factor + 0.5);
-
-  dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
-                         gdk_pixbuf_get_has_alpha (src),
-                         8, min_width, min_height);
-  if (!dest)
-    return NULL;
-
-  /* crop the result */
-  gdk_pixbuf_scale (src, dest,
-                    0, 0,
-                    min_width, min_height,
-                    (new_width - min_width) / -2,
-                    (new_height - min_height) / -2,
-                    factor,
-                    factor,
-                    GDK_INTERP_BILINEAR);
-  return dest;
-}
-
-
-static GdkPixbuf *
 pb_scale_to_fit (GdkPixbuf *src, int width, int height, GdkRGBA *color)
 {
   int orig_width, orig_height;
@@ -225,7 +188,9 @@ image_background (PhoshBackgroundImage    *image,
     G_GNUC_FALLTHROUGH;
   case G_DESKTOP_BACKGROUND_STYLE_ZOOM:
   default:
-    scaled_bg = pb_scale_to_min (phosh_background_image_get_pixbuf (image), width, height);
+    scaled_bg = phosh_utils_pixbuf_scale_to_min (phosh_background_image_get_pixbuf (image),
+                                                 width,
+                                                 height);
     break;
   }
 
