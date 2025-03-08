@@ -532,7 +532,7 @@ phosh_home_add_background (PhoshHome *self)
 
   monitor = phosh_shell_get_primary_monitor (shell);
   self->background = PHOSH_BACKGROUND (phosh_background_new (
-                                         phosh_wayland_get_zwlr_layer_shell_v1(wl),
+                                         phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                          monitor,
                                          /* Span over whole display */
                                          FALSE,
@@ -545,7 +545,7 @@ phosh_home_add_background (PhoshHome *self)
                            self->background,
                            G_CONNECT_SWAPPED);
 
-  region = cairo_region_create_rectangle(&rect);
+  region = cairo_region_create_rectangle (&rect);
   gtk_widget_input_shape_combine_region (GTK_WIDGET (self->background), region);
   cairo_region_destroy (region);
 }
