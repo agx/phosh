@@ -295,6 +295,20 @@ on_top_panel_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshTopPanel *
   phosh_shell_set_state (self, PHOSH_STATE_SETTINGS, state == PHOSH_TOP_PANEL_STATE_UNFOLDED);
 }
 
+static void
+update_top_bar_transparency (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  PhoshHomeState state;
+
+  priv = phosh_shell_get_instance_private (self);
+
+  state = phosh_home_get_state (PHOSH_HOME (priv->home));
+
+  phosh_top_panel_set_bar_transparent (PHOSH_TOP_PANEL (priv->top_panel),
+                                       (state != PHOSH_HOME_STATE_FOLDED));
+}
+
 
 static void
 on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
@@ -304,14 +318,11 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   g_return_if_fail (PHOSH_IS_HOME (home));
-
   priv = phosh_shell_get_instance_private (self);
 
+  update_top_bar_transparency (self);
+
   state = phosh_home_get_state (PHOSH_HOME (priv->home));
-
-  phosh_top_panel_set_bar_transparent (PHOSH_TOP_PANEL (priv->top_panel),
-                                       (state != PHOSH_HOME_STATE_FOLDED));
-
   phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
 }
 
