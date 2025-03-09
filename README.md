@@ -86,12 +86,10 @@ The result should look something like this:
 ### Running from the Debian packages
 
 If you're running a display manager like GDM or LightDM you can select the
-`Phosh` session from the display managers menu. If you want run without a
-display manager but nevertheless start phosh at system boot there's a systemd
-unit file in */lib/systemd/system/phosh* which is disabled by default:
+`Phosh` session from the display managers menu. For development purposes
+you can use the provided systemd unit:
 
 ```sh
-systemctl enable phosh
 systemctl start phosh
 ```
 
