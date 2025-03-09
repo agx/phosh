@@ -171,12 +171,11 @@ on_accelerometer_released (PhoshSensorProxyManager *sensor_proxy_manager,
     res, &err);
 
   if (!success) {
-    phosh_async_error_warn (err, "Failed to release accelerometer");
+    phosh_async_error_warn (err, "Failed to release accelerometer cleanly");
     return;
   }
 
   g_debug ("Released accelerometer");
-  self->claimed = FALSE;
 }
 
 static void
@@ -201,6 +200,8 @@ phosh_rotation_manager_claim_accelerometer (PhoshRotationManager *self, gboolean
       self->cancel,
       (GAsyncReadyCallback)on_accelerometer_released,
       self);
+    /* Immediately mark the sensor as released */
+    self->claimed = FALSE;
   }
 }
 
