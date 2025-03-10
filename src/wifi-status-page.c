@@ -23,7 +23,8 @@
 struct _PhoshWifiStatusPage {
   PhoshStatusPage             parent_instance;
 
-  GtkButton                  *wifi_scan;
+  GtkStack                   *wifi_scan;
+  GtkSpinner                 *wifi_scan_spinner;
   GtkStack                   *stack;
   GtkListBox                 *networks;
   PhoshStatusPagePlaceholder *empty_state;
@@ -94,6 +95,26 @@ on_ssid_changed (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager 
     g_signal_emit_by_name (self, "done", TRUE);
     g_clear_pointer (&self->connecting_network, g_free);
   }
+}
+
+
+static void
+on_scanning_changed (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager *manager)
+{
+  gboolean scanning;
+  const char *page;
+
+  g_assert (PHOSH_IS_WIFI_STATUS_PAGE (self));
+  g_assert (PHOSH_IS_WIFI_MANAGER (manager));
+
+  scanning = phosh_wifi_manager_get_scanning (manager);
+  if (scanning)
+    gtk_spinner_start (self->wifi_scan_spinner);
+  else
+    gtk_spinner_stop (self->wifi_scan_spinner);
+
+  page = scanning ? "spinner" : "button";
+  gtk_stack_set_visible_child_name (self->wifi_scan, page);
 }
 
 
@@ -176,6 +197,7 @@ phosh_wifi_status_page_class_init (PhoshWifiStatusPageClass *klass)
                                                "/mobi/phosh/ui/wifi-status-page.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, wifi_scan);
+  gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, wifi_scan_spinner);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, networks);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, empty_state);
@@ -210,6 +232,7 @@ phosh_wifi_status_page_init (PhoshWifiStatusPage *self)
                     "swapped-object-signal::notify::enabled", set_visible_page, self,
                     "swapped-object-signal::notify::is-hotspot-master", set_visible_page, self,
                     "swapped-object-signal::notify::ssid", on_ssid_changed, self,
+                    "swapped-object-signal::notify::scanning", on_scanning_changed, self,
                     NULL);
 
   g_signal_connect_object (model,
