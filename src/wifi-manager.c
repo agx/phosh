@@ -114,9 +114,8 @@ get_icon_name (PhoshWifiManager *self)
   guint8 strength;
 
   if (!self->conn_dev) {
-    if (self->enabled && self->present) {
+    if (self->enabled && self->present)
       return "network-wireless-offline-symbolic";
-    }
     return "network-wireless-disabled-symbolic";
   }
 
@@ -154,9 +153,8 @@ update_icon_name (PhoshWifiManager *self)
   old_icon_name = self->icon_name;
   self->icon_name = get_icon_name (self);
 
-  if (g_strcmp0 (self->icon_name, old_icon_name) != 0) {
+  if (g_strcmp0 (self->icon_name, old_icon_name) != 0)
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
-  }
 }
 
 
@@ -438,10 +436,9 @@ start_hotspot (PhoshWifiManager *self)
   }
 }
 
+
 static void
-on_hotspot_connection_deactivated (GObject      *object,
-                                   GAsyncResult *result,
-                                   gpointer      data)
+on_hotspot_connection_deactivated (GObject *object, GAsyncResult *result, gpointer data)
 {
   NMClient *client = NM_CLIENT (object);
   g_autoptr (GError) err = NULL;
@@ -452,6 +449,7 @@ on_hotspot_connection_deactivated (GObject      *object,
   else
     g_warning ("Failed to deactivate hotspot connection: %s", err->message);
 }
+
 
 static void
 stop_hotspot (PhoshWifiManager *self)
@@ -465,10 +463,9 @@ stop_hotspot (PhoshWifiManager *self)
                                          NULL);
 }
 
+
 static void
-on_wifi_connection_added_and_activated (GObject      *object,
-                                        GAsyncResult *result,
-                                        gpointer      data)
+on_wifi_connection_added_and_activated (GObject *object, GAsyncResult *result, gpointer data)
 {
   NMClient *client = NM_CLIENT (object);
   PhoshWifiNetwork *network = PHOSH_WIFI_NETWORK (data);
@@ -491,9 +488,7 @@ on_wifi_connection_added_and_activated (GObject      *object,
 
 
 static void
-on_wifi_connection_activated (GObject      *object,
-                              GAsyncResult *result,
-                              gpointer      data)
+on_wifi_connection_activated (GObject *object, GAsyncResult *result, gpointer data)
 {
   NMClient *client = NM_CLIENT (object);
   PhoshWifiNetwork *network = PHOSH_WIFI_NETWORK (data);
@@ -516,9 +511,7 @@ on_wifi_connection_activated (GObject      *object,
 
 
 static void
-on_request_scan (GObject      *object,
-                 GAsyncResult *result,
-                 gpointer      data)
+on_request_scan (GObject *object, GAsyncResult *result, gpointer data)
 {
   NMDeviceWifi *dev = NM_DEVICE_WIFI (object);
   g_autoptr (GError) err = NULL;
@@ -573,9 +566,8 @@ get_access_point_ssid (NMAccessPoint *ap)
   char *ssid = NULL;
 
   ssid_bytes = nm_access_point_get_ssid (ap);
-  if (!ssid_bytes || !g_bytes_get_size (ssid_bytes)) {
+  if (!ssid_bytes || !g_bytes_get_size (ssid_bytes))
     return FALSE;
-  }
 
   ssid = nm_utils_ssid_to_utf8 (g_bytes_get_data (ssid_bytes, NULL),
                                 g_bytes_get_size (ssid_bytes));
@@ -699,7 +691,9 @@ on_nm_access_point_strength_changed (PhoshWifiManager *self, GParamSpec *pspec, 
 
 
 static void
-on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpec *pspec, NMDeviceWifi *dev)
+on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self,
+                                               GParamSpec       *pspec,
+                                               NMDeviceWifi     *dev)
 {
   NMAccessPoint *old_ap;
   GBytes *ssid;
@@ -741,9 +735,8 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
     g_debug ("Wifi network name was set to '%s'", self->ssid);
   }
 
-  if (g_strcmp0 (self->ssid, old_ssid) != 0) {
+  if (g_strcmp0 (self->ssid, old_ssid) != 0)
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SSID]);
-  }
 }
 
 
@@ -768,9 +761,8 @@ check_connected_device (PhoshWifiManager *self)
 
     /* Is this still the same device? */
     if (dev != NM_DEVICE (self->conn_dev)) {
-      if (self->conn_dev) {
+      if (self->conn_dev)
         g_signal_handlers_disconnect_by_data (self->conn_dev, self);
-      }
       g_set_object (&self->conn_dev, NM_DEVICE_WIFI (dev));
 
       g_signal_connect_swapped (self->conn_dev, "notify::active-access-point",
@@ -855,7 +847,9 @@ on_nmclient_wireless_enabled_changed (PhoshWifiManager *self, GParamSpec *pspec,
  * for changes on that connection.
  */
 static void
-on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient *nmclient)
+on_nmclient_active_connections_changed (PhoshWifiManager *self,
+                                        GParamSpec       *pspec,
+                                        NMClient         *nmclient)
 {
   const GPtrArray *conns;
   NMActiveConnection *conn;
@@ -1095,9 +1089,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled", "", "",
                           FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshWifiManager:present:
    *
@@ -1106,9 +1098,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PROP_PRESENT] =
     g_param_spec_boolean ("present", "", "",
                           FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshWifiManager:hotspot-master:
    *
@@ -1117,9 +1107,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PROP_IS_HOTSPOT_MASTER] =
     g_param_spec_boolean ("is-hotspot-master", "", "",
                           FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshWifiManager:networks:
    *
@@ -1128,8 +1116,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PROP_NETWORKS] =
     g_param_spec_object ("networks", "", "",
                          G_TYPE_LIST_STORE,
-                         G_PARAM_READABLE |
-                         G_PARAM_STATIC_STRINGS);
+                         G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshWifiManager:state:
    *
@@ -1138,10 +1125,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PROP_STATE] =
     g_param_spec_enum ("state", "", "",
                        NM_TYPE_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_UNKNOWN,
-                       G_PARAM_READABLE |
-                       G_PARAM_EXPLICIT_NOTIFY |
-                       G_PARAM_STATIC_STRINGS);
-
+                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -1197,6 +1181,7 @@ phosh_wifi_manager_get_enabled (PhoshWifiManager *self)
   return self->enabled;
 }
 
+
 void
 phosh_wifi_manager_set_enabled (PhoshWifiManager *self, gboolean enabled)
 {
@@ -1209,11 +1194,13 @@ phosh_wifi_manager_set_enabled (PhoshWifiManager *self, gboolean enabled)
 
   g_return_if_fail (NM_IS_CLIENT (self->nmclient));
 
-  nm_client_dbus_set_property (
-    self->nmclient, NM_DBUS_PATH, NM_DBUS_INTERFACE,
-    "WirelessEnabled", g_variant_new_boolean (enabled),
-    DEFAULT_TIMEOUT_MSEC, NULL, NULL, NULL
-  );
+  nm_client_dbus_set_property (self->nmclient,
+                               NM_DBUS_PATH,
+                               NM_DBUS_INTERFACE,
+                               "WirelessEnabled",
+                               g_variant_new_boolean (enabled),
+                               DEFAULT_TIMEOUT_MSEC,
+                               NULL, NULL, NULL);
 }
 
 
@@ -1271,6 +1258,7 @@ phosh_wifi_manager_get_networks (PhoshWifiManager *self)
   return self->networks;
 }
 
+
 void
 phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *network)
 {
@@ -1318,6 +1306,7 @@ phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *ne
   }
 }
 
+
 void
 phosh_wifi_manager_request_scan (PhoshWifiManager *self)
 {
@@ -1326,9 +1315,9 @@ phosh_wifi_manager_request_scan (PhoshWifiManager *self)
   if (self->dev == NULL)
     return;
 
-  nm_device_wifi_request_scan_async (self->dev, self->cancel,
-                                     on_request_scan, NULL);
+  nm_device_wifi_request_scan_async (self->dev, self->cancel, on_request_scan, NULL);
 }
+
 
 NMActiveConnectionState
 phosh_wifi_manager_get_state (PhoshWifiManager *self)
