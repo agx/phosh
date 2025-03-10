@@ -795,7 +795,7 @@ cleanup_connection_device (PhoshWifiManager *self)
     /* Since conn_dev and dev point to same instance,
      * disconnecting by data will disconnect all signals. */
     g_signal_handlers_disconnect_by_func (self->conn_dev,
-                                          G_CALLBACK (on_nm_device_wifi_active_access_point_changed),
+                                          on_nm_device_wifi_active_access_point_changed,
                                           self);
     g_clear_object (&self->conn_dev);
   }
