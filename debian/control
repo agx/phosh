@@ -39,6 +39,7 @@ Build-Depends:
 # for the plugins
  libecal2.0-dev,
  evolution-data-server-dev,
+ universal-ctags,
 # to run the tests
  at-spi2-core <!nocheck>,
  black <!nocheck>,
