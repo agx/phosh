@@ -34,6 +34,7 @@ enum {
   PROP_IS_HOTSPOT_MASTER,
   PROP_NETWORKS,
   PROP_STATE,
+  PROP_SCANNING,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -50,6 +51,10 @@ struct _PhoshWifiManager {
 
   const char         *icon_name;
   char               *ssid;
+
+  gboolean            scanning;
+  guint               scanning_id;
+  gint64              last_scan;
 
   NMClient           *nmclient;
   GCancellable       *cancel;
@@ -511,15 +516,61 @@ on_wifi_connection_activated (GObject *object, GAsyncResult *result, gpointer da
 
 
 static void
+set_scanning (PhoshWifiManager *self, gboolean scanning)
+{
+  if (self->scanning == scanning)
+    return;
+
+  self->scanning = scanning;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SCANNING]);
+
+}
+
+
+static gboolean
+check_scanning (gpointer user_data)
+{
+  PhoshWifiManager *self = PHOSH_WIFI_MANAGER (user_data);
+  gint64 last_scan;
+
+  if (!self->dev) {
+    self->scanning_id = 0;
+    set_scanning (self, FALSE);
+    return G_SOURCE_REMOVE;
+  }
+
+  last_scan = nm_device_wifi_get_last_scan (self->dev);
+  if (self->last_scan != last_scan) {
+    self->scanning_id = 0;
+    self->last_scan = last_scan;
+    set_scanning (self, FALSE);
+    return G_SOURCE_REMOVE;
+  }
+
+  return G_SOURCE_CONTINUE;
+}
+
+
+static void
 on_request_scan (GObject *object, GAsyncResult *result, gpointer data)
 {
+  PhoshWifiManager *self;
   NMDeviceWifi *dev = NM_DEVICE_WIFI (object);
   g_autoptr (GError) err = NULL;
   gboolean success = nm_device_wifi_request_scan_finish (dev, result, &err);
 
-  if (!success)
+  if (!success) {
     g_warning ("Failed to scan for access points: %s", err->message);
+    return;
+  }
 
+  self = PHOSH_WIFI_MANAGER (data);
+
+  if (self->scanning_id)
+    return;
+
+  self->scanning_id = g_timeout_add (2000, check_scanning, self);
+  set_scanning (self, TRUE);
 }
 
 
@@ -1037,6 +1088,7 @@ phosh_wifi_manager_dispose (GObject *object)
     g_clear_object (&self->nmclient);
   }
 
+  g_clear_handle_id (&self->scanning_id, g_source_remove);
   cleanup_connection_device (self);
   cleanup_wifi_device (self);
 
@@ -1126,6 +1178,15 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
     g_param_spec_enum ("state", "", "",
                        NM_TYPE_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_UNKNOWN,
                        G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshWifiManager:scanning:
+   *
+   * Whether a Wi-Fi scan is ongoing
+   */
+  props[PROP_SCANNING] =
+    g_param_spec_boolean ("scanning", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -1315,7 +1376,24 @@ phosh_wifi_manager_request_scan (PhoshWifiManager *self)
   if (self->dev == NULL)
     return;
 
-  nm_device_wifi_request_scan_async (self->dev, self->cancel, on_request_scan, NULL);
+  self->last_scan = nm_device_wifi_get_last_scan (self->dev);
+  nm_device_wifi_request_scan_async (self->dev, self->cancel, on_request_scan, self);
+}
+
+/**
+ * phosh_wifi_manager_get_scanning:
+ * @self: The WiFi manager
+ *
+ * Get whether a WiFi scan is in progress
+ *
+ * Returns: `TRUE` if scanning, otherwise `FALSE`
+ */
+gboolean
+phosh_wifi_manager_get_scanning (PhoshWifiManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), FALSE);
+
+  return self->scanning;
 }
 
 
