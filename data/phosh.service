@@ -1,5 +1,5 @@
 [Unit]
-Description=Phosh, a shell for mobile phones
+Description=Phosh, a shell for mobile phones (Development service)
 Documentation=https://gitlab.gnome.org/World/Phosh/phosh
 
 # replaces the getty

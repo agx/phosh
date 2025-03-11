@@ -23,7 +23,7 @@
    the output below.
 
  - [ ] I used the precompiled Debian package (e.g. by running a prebuilt
-   image). Please paste the output oof ``dpkg -s phosh`` below.
+   image). Please paste the output of ``dpkg -s phosh`` below.b
 
 ```
   Phosh Version:
@@ -31,14 +31,15 @@
 
 # How are you running phosh?
 
- - [ ] PureOS amd64 qemu image
  - [ ] Mobile phone (model: ... , operating system version: ... )
- - [ ] Librem5 devkit
- - [ ] nested compositor. If so please give the full command you start phosh
-   with.
+   - [ ] Through a display manager (which one?)
+   - [ ] other (please elaborate)
+ - [ ] Weekly Phosh [QEMU image](https://images.phosh.mobi/nightly/)
+ - [ ] Nested compositor. If so please give the full command you start
+   phosh with.
  - [ ] other (please elaborate)
 
-# Releveant logfiles
+# Relevant logfiles
 
   Please provide relevant logs. You can e.g. the logs since last boot read
   with ``journalctl -b 0``.
