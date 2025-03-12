@@ -52,7 +52,7 @@ if get_option('gtk_doc')
 endif
 
 if get_option('man')
-  manpages = [['phosh', 1], ['phosh-session', 1]]
+  manpages = [['phosh', 1], ['phosh.gsettings', 5], ['phosh-session', 1]]
 
   rst2man = find_program('rst2man', 'rst2man.py', required: false)
   rst2man_flags = ['--syntax-highlight=none']

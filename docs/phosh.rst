@@ -36,8 +36,7 @@ OPTIONS
 CONFIGURATION
 -------------
 
-``phosh`` is configured via ``GSettings``. The core settings are within the ``mobi.phosh.shell`` and ``sm.puri.phosh`` schema.
-See also https://gitlab.gnome.org/World/Phosh/phosh/-/wikis/Configuration
+``phosh`` is configured via ``GSettings``, see ``phosh-config(5)``.
 
 Plugins
 ^^^^^^^
@@ -72,4 +71,4 @@ ENVIRONMENT VARIABLES
 See also
 --------
 
-``gsettings(1)`` ``phosh-session(1)``
+``gsettings(1)`` ``phosh-session(1)`` ``phosh.gsettings(5)``
