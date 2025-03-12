@@ -34,11 +34,11 @@ test_system_modal_dialog_new (PhoshTestCompositorFixture *fixture, gconstpointer
   phosh_system_modal_dialog_add_button (PHOSH_SYSTEM_MODAL_DIALOG (dialog),
                                         GTK_WIDGET (gtk_button_new_with_label ("Cancel")), -1);  
   
-  gtk_widget_show (dialog);
+  gtk_widget_set_visible (dialog, TRUE);
   /* Run the unmapped code path */
   g_assert_true (gtk_widget_get_visible (dialog));
   g_assert_true (gtk_widget_get_mapped (dialog));
-  gtk_widget_hide (dialog);
+  gtk_widget_set_visible (dialog, FALSE);
   g_assert_false (gtk_widget_get_visible (dialog));
   g_assert_false (gtk_widget_get_mapped (dialog));
   gtk_widget_destroy (dialog);
