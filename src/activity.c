@@ -473,7 +473,7 @@ set_hovering (PhoshActivity *self,
 
   /* Revealer won't animate if not mapped, show it preemptively */
   if (hovering)
-    gtk_widget_show (priv->revealer_close);
+    gtk_widget_set_visible (priv->revealer_close, TRUE);
 
   gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer_close), hovering);
 }
