@@ -172,7 +172,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
 
   if (icon_name) {
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
-    gtk_widget_hide (access_tec_widget);
+    gtk_widget_set_visible (access_tec_widget, FALSE);
     return;
   }
 
@@ -183,19 +183,19 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
   phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
 
   if (!self->show_detail) {
-    gtk_widget_hide (access_tec_widget);
+    gtk_widget_set_visible (access_tec_widget, FALSE);
     return;
   }
 
   /* Access technology */
   access_tec = phosh_wwan_get_access_tec (self->wwan);
   if (access_tec == NULL) {
-    gtk_widget_hide (access_tec_widget);
+    gtk_widget_set_visible (access_tec_widget, FALSE);
     return;
   }
 
   gtk_label_set_text (GTK_LABEL (access_tec_widget), access_tec);
-  gtk_widget_show (access_tec_widget);
+  gtk_widget_set_visible (access_tec_widget, TRUE);
 }
 
 static void
