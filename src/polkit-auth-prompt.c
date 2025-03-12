@@ -310,7 +310,7 @@ on_auth_session_completed (PhoshPolkitAuthPrompt *self,
 {
   g_debug ("Gained auth: %d", gained_auth);
   gtk_spinner_stop (GTK_SPINNER (self->spinner_authenticate));
-  gtk_widget_hide (self->spinner_authenticate);
+  gtk_widget_set_visible (self->spinner_authenticate, FALSE);
 
   if (self->done_emitted)
     return;
@@ -385,7 +385,7 @@ on_btn_authenticate_clicked (PhoshPolkitAuthPrompt *self, GtkButton *btn)
     return;
 
   gtk_label_set_text (GTK_LABEL (self->lbl_info), "");
-  gtk_widget_show (self->spinner_authenticate);
+  gtk_widget_set_visible (self->spinner_authenticate, TRUE);
   gtk_spinner_start (GTK_SPINNER (self->spinner_authenticate));
   polkit_agent_session_response (self->session, password);
 }
