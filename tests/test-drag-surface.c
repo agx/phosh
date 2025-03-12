@@ -41,7 +41,7 @@ test_drag_surface_g_object_new (PhoshTestCompositorFixture *fixture, gconstpoint
                                      NULL);
 
   g_assert_true (PHOSH_IS_DRAG_SURFACE (surface));
-  gtk_widget_show (surface);
+  gtk_widget_set_visible (surface, TRUE);
 
   g_assert_cmpint (phosh_drag_surface_get_drag_handle (PHOSH_DRAG_SURFACE (surface)), ==, 10);
   g_assert_cmpint (phosh_drag_surface_get_drag_mode (PHOSH_DRAG_SURFACE (surface)), ==,
@@ -52,7 +52,7 @@ test_drag_surface_g_object_new (PhoshTestCompositorFixture *fixture, gconstpoint
 
   g_assert_true (gtk_widget_get_visible (surface));
   g_assert_true (gtk_widget_get_mapped (surface));
-  gtk_widget_hide (surface);
+  gtk_widget_set_visible (surface, FALSE);
   g_assert_false (gtk_widget_get_visible (surface));
   g_assert_false (gtk_widget_get_mapped (surface));
   gtk_widget_destroy (surface);
@@ -81,7 +81,7 @@ test_drag_surface_set_state (PhoshTestCompositorFixture *fixture, gconstpointer 
                                      NULL);
 
   g_assert_true (PHOSH_IS_DRAG_SURFACE (surface));
-  gtk_widget_show (surface);
+  gtk_widget_set_visible (surface, TRUE);
 
   g_assert_cmpint (phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (surface)),
                    ==, PHOSH_DRAG_SURFACE_STATE_FOLDED);
@@ -89,7 +89,7 @@ test_drag_surface_set_state (PhoshTestCompositorFixture *fixture, gconstpointer 
   g_assert_cmpint (phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (surface)),
                    ==, PHOSH_DRAG_SURFACE_STATE_FOLDED);
 
-  gtk_widget_hide (surface);
+  gtk_widget_set_visible (surface, FALSE);
   gtk_widget_destroy (surface);
 }
 
