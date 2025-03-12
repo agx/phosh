@@ -54,7 +54,7 @@ test_background_new (Fixture *fixture, gconstpointer unused)
                                      TRUE,
                                      ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND);
 
-  gtk_widget_show (background);
+  gtk_widget_set_visible (background, TRUE);
 
   g_assert_true (PHOSH_IS_BACKGROUND (background));
   g_object_get (background, "primary", &primary, NULL);
