@@ -121,9 +121,9 @@ set_message (PhoshGtkMountPrompt *self, const char *message)
   phosh_system_modal_dialog_set_title (PHOSH_SYSTEM_MODAL_DIALOG (self), primary ?: message);
   if (secondary) {
     gtk_label_set_label (GTK_LABEL (self->lbl_msg), secondary);
-    gtk_widget_show (self->lbl_msg);
+    gtk_widget_set_visible (self->lbl_msg, TRUE);
   } else {
-    gtk_widget_hide (self->lbl_msg);
+    gtk_widget_set_visible (self->lbl_msg, FALSE);
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MESSAGE]);
@@ -218,7 +218,7 @@ set_choices (PhoshGtkMountPrompt *self, GStrv choices)
   for (int i = 0; i < g_strv_length (self->choices); i++) {
     GtkWidget *btn = gtk_button_new_with_label (self->choices[i]);
     g_object_set_data (G_OBJECT (btn), "phosh-num", GINT_TO_POINTER (i));
-    gtk_widget_show (GTK_WIDGET (btn));
+    gtk_widget_set_visible (GTK_WIDGET (btn), TRUE);
     phosh_system_modal_dialog_add_button (PHOSH_SYSTEM_MODAL_DIALOG (self), btn, -1);
     g_signal_connect_swapped (btn, "clicked", G_CALLBACK (on_button_clicked), self);
 
