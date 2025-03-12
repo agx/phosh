@@ -36,11 +36,11 @@ test_system_modal_g_object_new (PhoshTestCompositorFixture *fixture, gconstpoint
 
   g_assert_true (PHOSH_IS_SYSTEM_MODAL (modal));
 
-  gtk_widget_show (modal);
+  gtk_widget_set_visible (modal, TRUE);
   /* Run the unmapped code path */
   g_assert_true (gtk_widget_get_visible (modal));
   g_assert_true (gtk_widget_get_mapped (modal));
-  gtk_widget_hide (modal);
+  gtk_widget_set_visible (modal, FALSE);
   g_assert_false (gtk_widget_get_visible (modal));
   g_assert_false (gtk_widget_get_mapped (modal));
   gtk_widget_destroy (modal);
