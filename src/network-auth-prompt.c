@@ -306,8 +306,8 @@ network_prompt_setup_vpn_dialog (PhoshNetworkAuthPrompt *self)
 
     label = g_object_new (GTK_TYPE_LABEL, "label", l, "halign", GTK_ALIGN_END, NULL);
 
-    gtk_widget_show (label);
-    gtk_widget_show (entry);
+    gtk_widget_set_visible (label, TRUE);
+    gtk_widget_set_visible (entry, TRUE);
 
     gtk_grid_attach (GTK_GRID (self->vpn_grid), label, 1, i, 1, 1);
     gtk_grid_attach (GTK_GRID (self->vpn_grid), entry, 2, i, 1, 1);
