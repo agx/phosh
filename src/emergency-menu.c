@@ -112,7 +112,9 @@ on_dial_error (PhoshEmergencyMenu *self, GError *error)
                             G_CALLBACK (gtk_widget_destroy),
                             error_dialog);
 
-  gtk_widget_show_all (GTK_WIDGET (error_dialog));
+  gtk_widget_set_visible (error_label, TRUE);
+  gtk_widget_set_visible (ok_button, TRUE);
+  gtk_widget_set_visible (GTK_WIDGET (error_dialog), TRUE);
 }
 
 
