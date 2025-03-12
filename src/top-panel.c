@@ -458,7 +458,7 @@ on_drag_state_changed (PhoshTopPanel *self)
   double progress = -1.0;
 
   /* Close the popover on any drag */
-  gtk_widget_hide (self->menu_system);
+  gtk_widget_set_visible (self->menu_system, FALSE);
 
   switch (phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self))) {
   case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
