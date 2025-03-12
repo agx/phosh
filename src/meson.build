@@ -520,18 +520,28 @@ if abi_check
   abi_compliance_checker = find_program('abi-compliance-checker')
   abi_dumper = find_program('abi-dumper')
 
+  header_list = custom_target(
+    'public-header-list',
+    input: libphosh_headers,
+    output: 'libphosh-public-headers.txt',
+    capture: true,
+    command: ['ls', '-1', '@INPUT@'],
+  )
+
   abi_dump = custom_target(
     'abi-dump',
-    input: phosh_lib,
+    input: [phosh_lib, header_list],
     output: 'libphosh-abi.dump',
     command: [
       abi_dumper,
-      '@INPUT@',
+      '@INPUT0@',
+      '-public-headers', '@INPUT1@',
       '-o',
       '@OUTPUT@',
       '-lver',
       meson.project_version(),
     ],
+    depends: header_list,
   )
 
   custom_target(
