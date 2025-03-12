@@ -18,7 +18,7 @@ test_lockshield_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
                                            monitor);
 
   g_assert_true (PHOSH_IS_LOCKSHIELD (panel));
-  gtk_widget_show (panel);
+  gtk_widget_set_visible (panel, TRUE);
   gtk_widget_destroy (panel);
 }
 
