@@ -57,7 +57,7 @@ show_fader (PhoshProximity *self, PhoshMonitor *monitor)
                               "monitor", monitor,
                               "style-class", "phosh-fader-proximity-fade",
                               NULL);
-  gtk_widget_show (GTK_WIDGET (self->fader));
+  gtk_widget_set_visible (GTK_WIDGET (self->fader), TRUE);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_FADER]);
 }
