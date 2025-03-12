@@ -206,7 +206,7 @@ show_fader (PhoshScreenshotManager *self)
                               "monitor", monitor,
                               "style-class", "phosh-fader-flash-fade",
                               NULL);
-  gtk_widget_show (GTK_WIDGET (self->fader));
+  gtk_widget_set_visible (GTK_WIDGET (self->fader), TRUE);
 }
 
 
@@ -677,7 +677,7 @@ submit_screenshot (PhoshScreenshotManager *self)
     self->opaque_id = g_timeout_add_seconds_once (1, on_opaque_timeout, self);
     g_source_set_name_by_id (self->opaque_id, "[phosh] screenshot opaque");
 
-    gtk_widget_show (GTK_WIDGET (self->opaque));
+    gtk_widget_set_visible (GTK_WIDGET (self->opaque), TRUE);
   }
 
   if (self->frames->flash) {
