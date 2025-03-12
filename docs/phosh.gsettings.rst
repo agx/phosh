@@ -126,6 +126,8 @@ These gsettings are used by ``phosh``:
 
    - `lock-delay`
    - `lock-enabled`
+   - `picture-uri`: Lockscreen background image / wallpaper
+   - `picture-options`: `none` disable lockscreen image
 
 - `org.gnome.shell.keybindings`
 
