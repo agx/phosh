@@ -266,7 +266,7 @@ phosh_fading_label_init (PhoshFadingLabel *self)
   gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
 
   self->label = gtk_label_new (NULL);
-  gtk_widget_show (self->label);
+  gtk_widget_set_visible (self->label, TRUE);
   gtk_label_set_single_line_mode (GTK_LABEL (self->label), TRUE);
 
   gtk_container_add (GTK_CONTAINER (self), self->label);

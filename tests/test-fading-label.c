@@ -15,7 +15,7 @@ test_phosh_fading_label_new (void)
 
   fading_label = PHOSH_FADING_LABEL (phosh_fading_label_new ("label"));
 
-  gtk_widget_show (GTK_WIDGET (fading_label));
+  gtk_widget_set_visible (GTK_WIDGET (fading_label), TRUE);
   g_assert_cmpstr (phosh_fading_label_get_label (fading_label), ==, "label");
   phosh_fading_label_set_label (fading_label, "label2");
   g_assert_cmpstr (phosh_fading_label_get_label (fading_label), ==, "label2");
