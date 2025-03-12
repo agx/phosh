@@ -198,7 +198,7 @@ handle_show_osd (PhoshDBusGnomeShell   *skeleton,
   } else {
     self->osd = PHOSH_OSD_WINDOW (phosh_osd_window_new (connector, label, icon, level, maxlevel));
     g_signal_connect_swapped (self->osd, "destroy", G_CALLBACK (on_osd_destroyed), self);
-    gtk_widget_show (GTK_WIDGET (self->osd));
+    gtk_widget_set_visible (GTK_WIDGET (self->osd), TRUE);
   }
 
   if (!self->osd_timeoutid) {
