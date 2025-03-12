@@ -337,7 +337,7 @@ on_monitor_configured (PhoshBackgroundManager *self, PhoshMonitor *monitor)
     phosh_background_needs_update (background);
   }
 
-  gtk_widget_show (GTK_WIDGET (background));
+  gtk_widget_set_visible (GTK_WIDGET (background), TRUE);
 }
 
 
