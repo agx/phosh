@@ -13,6 +13,7 @@ color-scheme='prefer-dark'
 
 [org.gnome.desktop.screensaver]
 picture-uri='file:///usr/share/backgrounds/gnome/blobs-d.svg'
+picture-options='none'
 
 [org.gnome.desktop.session:Phosh]
 idle-delay=60
