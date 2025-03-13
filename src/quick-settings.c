@@ -324,3 +324,12 @@ phosh_quick_settings_new (void)
 {
   return g_object_new (PHOSH_TYPE_QUICK_SETTINGS, NULL);
 }
+
+
+void
+phosh_quick_settings_hide_status (PhoshQuickSettings *self)
+{
+  g_return_if_fail (PHOSH_QUICK_SETTINGS (self));
+
+  phosh_quick_settings_box_hide_status (self->box);
+}

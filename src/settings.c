@@ -242,7 +242,7 @@ on_launch_panel_activated (GSimpleAction *action, GVariant *param, gpointer data
   panel = g_variant_get_string (param, NULL);
 
   open_settings_panel (self, panel);
-  phosh_audio_settings_hide_details (self->audio_settings);
+  phosh_settings_hide_details (self);
 }
 
 
@@ -585,4 +585,14 @@ phosh_settings_get_drag_handle_offset (PhoshSettings *self)
   g_return_val_if_fail (PHOSH_IS_SETTINGS (self), 0);
 
   return self->drag_handle_offset;
+}
+
+
+void
+phosh_settings_hide_details (PhoshSettings *self)
+{
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+
+  phosh_audio_settings_hide_details (self->audio_settings);
+  phosh_quick_settings_hide_status (PHOSH_QUICK_SETTINGS (self->quick_settings));
 }

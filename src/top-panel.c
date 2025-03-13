@@ -492,6 +492,9 @@ on_drag_state_changed (PhoshTopPanel *self)
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TOP_PANEL_STATE]);
   }
 
+  if (self->state == PHOSH_TOP_PANEL_STATE_FOLDED)
+    phosh_settings_hide_details (PHOSH_SETTINGS (self->settings));
+
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
 }

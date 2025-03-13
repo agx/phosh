@@ -175,6 +175,34 @@ test_phosh_quick_settings_box_get_can_show_status (void)
 }
 
 
+static void
+test_phosh_quick_settings_box_hide_status (void)
+{
+  PhoshQuickSettingsBox *box;
+  PhoshQuickSetting *child;
+  gboolean showing_status;
+  gboolean got_showing_status;
+
+  box = PHOSH_QUICK_SETTINGS_BOX (phosh_quick_settings_box_new (3, 0));
+  g_object_ref_sink (box);
+
+  child = PHOSH_QUICK_SETTING (phosh_quick_setting_new (phosh_status_page_new ()));
+  phosh_quick_settings_box_add (box, child);
+
+  g_signal_emit_by_name (child, "show-status");
+  showing_status = TRUE;
+  got_showing_status = phosh_quick_setting_get_showing_status (child);
+  g_assert_true (got_showing_status == showing_status);
+
+  phosh_quick_settings_box_hide_status (box);
+  showing_status = FALSE;
+  got_showing_status = phosh_quick_setting_get_showing_status (child);
+  g_assert_true (got_showing_status == showing_status);
+
+  g_assert_finalize_object (box);
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -194,6 +222,8 @@ main (int argc, char *argv[])
                    test_phosh_quick_settings_box_set_can_show_status);
   g_test_add_func ("/phosh/quick-settings-box/get_can_show_status",
                    test_phosh_quick_settings_box_get_can_show_status);
+  g_test_add_func ("/phosh/quick-settings-box/hide_status",
+                   test_phosh_quick_settings_box_hide_status);
 
   return g_test_run ();
 }

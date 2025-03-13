@@ -848,6 +848,15 @@ phosh_quick_settings_box_get_can_show_status (PhoshQuickSettingsBox *self)
 
 
 void
+phosh_quick_settings_box_hide_status (PhoshQuickSettingsBox *self)
+{
+  g_return_if_fail (PHOSH_QUICK_SETTINGS_BOX (self));
+
+  on_hide_status (self, self->shown_child);
+}
+
+
+void
 phosh_quick_settings_box_add (PhoshQuickSettingsBox *self, PhoshQuickSetting *child)
 {
   g_return_if_fail (PHOSH_QUICK_SETTINGS_BOX (self));
