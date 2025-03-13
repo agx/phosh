@@ -78,12 +78,12 @@ main (int argc, char *argv[])
   gtk_window_set_default_size (GTK_WINDOW (win), 360, 720);
   g_signal_connect (win, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
 
-  gtk_widget_show (win);
+  gtk_widget_set_visible (win, TRUE);
 
   plugin_dirs = get_plugin_dirs (plugins);
   box = g_object_new (PHOSH_TYPE_WIDGET_BOX, "plugin-dirs", plugin_dirs, NULL);
   phosh_widget_box_set_plugins (PHOSH_WIDGET_BOX (box), plugins);
-  gtk_widget_show (box);
+  gtk_widget_set_visible (box, TRUE);
 
   gtk_container_add (GTK_CONTAINER (win), box);
 

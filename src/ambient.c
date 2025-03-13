@@ -133,7 +133,7 @@ switch_theme (PhoshAmbient *self, gboolean use_hc)
                               "fade-out-time", 1500,
                               "fade-out-type", PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC,
                               NULL);
-  gtk_widget_show (GTK_WIDGET (self->fader));
+  gtk_widget_set_visible (GTK_WIDGET (self->fader), TRUE);
 
   self->fader_id = g_timeout_add (100 * PHOSH_ANIMATION_SLOWDOWN,
                                   G_SOURCE_FUNC (on_fade_in_done),

@@ -12,6 +12,7 @@
 #include "notification-content.h"
 
 #include <gio/gdesktopappinfo.h>
+#include <gmobile.h>
 
 /**
  * PhoshNotificationContent:
@@ -74,11 +75,7 @@ set_summary (GBinding     *binding,
   PhoshNotificationContent *self = user_data;
   const char* summary = g_value_get_string (from_value);
 
-  if (summary != NULL && g_strcmp0 (summary, "")) {
-    gtk_widget_show (self->lbl_summary);
-  } else {
-    gtk_widget_hide (self->lbl_summary);
-  }
+  gtk_widget_set_visible (self->lbl_summary, !gm_str_is_null_or_empty (summary));
 
   g_value_set_string (to_value, summary);
 

@@ -49,11 +49,11 @@ main (int argc, char *argv[])
   win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   g_signal_connect (win, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
 
-  gtk_widget_show (win);
+  gtk_widget_set_visible (win, TRUE);
 
   widget = g_object_new (PHOSH_TYPE_APP_GRID, NULL);
 
-  gtk_widget_show (widget);
+  gtk_widget_set_visible (widget, TRUE);
 
   gtk_container_add (GTK_CONTAINER (win), widget);
 

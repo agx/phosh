@@ -346,7 +346,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
     hdy_carousel_insert (HDY_CAROUSEL (priv->carousel_running_activities), activity, pos);
   else
     gtk_container_add (GTK_CONTAINER (priv->carousel_running_activities), activity);
-  gtk_widget_show (activity);
+  gtk_widget_set_visible (activity, TRUE);
 
   g_object_connect (activity,
                     "swapped-signal::clicked", on_activity_clicked, self,
@@ -382,7 +382,7 @@ get_running_activities (PhoshOverview *self)
 
   priv->has_activities = !!toplevels_num;
   if (toplevels_num == 0)
-    gtk_widget_hide (priv->carousel_running_activities);
+    gtk_widget_set_visible (priv->carousel_running_activities, FALSE);
 
   for (guint i = 0; i < toplevels_num; i++) {
     PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);

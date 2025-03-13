@@ -69,7 +69,7 @@ on_access_dialog_closed (PhoshPortalAccessManager *self)
   self->invocation = NULL;
 
   if (self->app_auth_prompt != NULL)
-    gtk_widget_hide (GTK_WIDGET (self->app_auth_prompt));
+    gtk_widget_set_visible (GTK_WIDGET (self->app_auth_prompt), FALSE);
   g_clear_pointer (&self->app_auth_prompt, phosh_cp_widget_destroy);
 }
 

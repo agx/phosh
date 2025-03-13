@@ -123,7 +123,7 @@ handle_end_session_open (PhoshDBusEndSessionDialog *object,
       g_object_set (self->dialog,
                     "inhibitor-paths", arg_inhibitor_object_paths,
                     NULL);
-      gtk_widget_show (GTK_WIDGET (self->dialog));
+      gtk_widget_set_visible (GTK_WIDGET (self->dialog), TRUE);
       phosh_dbus_end_session_dialog_complete_open (
         object, invocation);
       return TRUE;
@@ -135,7 +135,7 @@ handle_end_session_open (PhoshDBusEndSessionDialog *object,
   g_signal_connect_swapped (self->dialog, "closed",
                             G_CALLBACK (on_end_session_dialog_closed), self);
 
-  gtk_widget_show (GTK_WIDGET (self->dialog));
+  gtk_widget_set_visible (GTK_WIDGET (self->dialog), TRUE);
   phosh_dbus_end_session_dialog_complete_open (object, invocation);
 
   return TRUE;

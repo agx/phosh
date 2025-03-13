@@ -188,7 +188,7 @@ create_folder_app_launcher (gpointer item, gpointer self)
   phosh_app_grid_button_set_folder_info (PHOSH_APP_GRID_BUTTON (btn), priv->open_folder);
   g_signal_connect (btn, "app-launched", G_CALLBACK (app_launched_cb), self);
 
-  gtk_widget_show (btn);
+  gtk_widget_set_visible (btn, TRUE);
 
   return btn;
 }
@@ -373,7 +373,7 @@ create_favorite_launcher (gpointer item,
   g_signal_connect (btn, "app-launched",
                     G_CALLBACK (app_launched_cb), self);
 
-  gtk_widget_show (btn);
+  gtk_widget_set_visible (btn, TRUE);
 
   return btn;
 }
@@ -424,7 +424,7 @@ create_launcher (gpointer item,
                       G_CALLBACK (app_launched_cb), self);
   }
 
-  gtk_widget_show (btn);
+  gtk_widget_set_visible (btn, TRUE);
 
   return btn;
 }

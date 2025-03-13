@@ -27,11 +27,11 @@ test_end_session_dialog_new (PhoshTestCompositorFixture *fixture, gconstpointer 
 
   g_assert_true (PHOSH_IS_END_SESSION_DIALOG (dialog));
 
-  gtk_widget_show (dialog);
+  gtk_widget_set_visible (dialog, TRUE);
 
   g_assert_true (gtk_widget_get_visible (dialog));
   g_assert_true (gtk_widget_get_mapped (dialog));
-  gtk_widget_hide (dialog);
+  gtk_widget_set_visible (dialog, FALSE);
   g_assert_false (gtk_widget_get_visible (dialog));
   g_assert_false (gtk_widget_get_mapped (dialog));
   gtk_widget_destroy (dialog);
@@ -71,7 +71,7 @@ test_end_session_dialog_timeout (PhoshTestCompositorFixture *fixture, gconstpoin
 
   g_signal_connect_swapped (dialog, "closed", G_CALLBACK (on_closed), mainloop);
   g_timeout_add_seconds (3, (GSourceFunc)on_expired, mainloop);
-  gtk_widget_show (GTK_WIDGET (dialog));
+  gtk_widget_set_visible (GTK_WIDGET (dialog), TRUE);
 
   g_main_loop_run (mainloop);
   /* Letting the dialog timeout means confirmation */

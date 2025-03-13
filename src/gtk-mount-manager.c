@@ -151,7 +151,7 @@ new_prompt (PhoshGtkMountManager *self,
                             G_CALLBACK (on_prompt_done),
                             self);
 
-  gtk_widget_show (GTK_WIDGET (self->prompt));
+  gtk_widget_set_visible (GTK_WIDGET (self->prompt), TRUE);
 
   g_signal_emit (self, signals[NEW_PROMPT], 0);
 }

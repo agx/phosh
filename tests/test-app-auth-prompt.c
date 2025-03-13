@@ -24,7 +24,7 @@ test_app_auth_prompt_new (PhoshTestCompositorFixture *fixture, gconstpointer unu
 
   g_assert_true (PHOSH_IS_APP_AUTH_PROMPT (prompt));
 
-  gtk_widget_show (prompt);
+  gtk_widget_set_visible (prompt, TRUE);
   gtk_widget_destroy (prompt);
 }
 

@@ -53,11 +53,11 @@ test_layer_surface_g_object_new (PhoshTestCompositorFixture *fixture, gconstpoin
                                      NULL);
 
   g_assert_true (PHOSH_IS_LAYER_SURFACE (surface));
-  gtk_widget_show (surface);
+  gtk_widget_set_visible (surface, TRUE);
   /* Run the unmapped code path */
   g_assert_true (gtk_widget_get_visible (surface));
   g_assert_true (gtk_widget_get_mapped (surface));
-  gtk_widget_hide (surface);
+  gtk_widget_set_visible (surface, FALSE);
   g_assert_false (gtk_widget_get_visible (surface));
   g_assert_false (gtk_widget_get_mapped (surface));
   gtk_widget_destroy (surface);
@@ -116,8 +116,8 @@ test_layer_surface_set_size (PhoshTestCompositorFixture *fixture, gconstpointer 
   g_object_set (surface, "height", 12, NULL);
   g_assert_cmpint (width_count, ==, 3);
   g_assert_cmpint (height_count, ==, 3);
-  gtk_widget_show (surface);
-  gtk_widget_hide (surface);
+  gtk_widget_set_visible (surface, TRUE);
+  gtk_widget_set_visible (surface, FALSE);
   gtk_widget_destroy (surface);
 }
 

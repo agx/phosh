@@ -385,7 +385,7 @@ panels_create (PhoshShell *self)
                                           phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
                                           monitor,
                                           top_layer));
-  gtk_widget_show (GTK_WIDGET (priv->top_panel));
+  gtk_widget_set_visible (GTK_WIDGET (priv->top_panel), TRUE);
 
   /* Home is created after the top-panel so it honors its exclusive zone */
   priv->home = PHOSH_DRAG_SURFACE (phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
@@ -645,7 +645,7 @@ on_new_notification (PhoshShell         *self,
     g_set_weak_pointer (&priv->notification_banner,
                         phosh_notification_banner_new (notification));
 
-    gtk_widget_show (GTK_WIDGET (priv->notification_banner));
+    gtk_widget_set_visible (GTK_WIDGET (priv->notification_banner), TRUE);
   }
 }
 
@@ -2183,7 +2183,7 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
 
     fader = phosh_fader_new (monitor);
     g_ptr_array_add (priv->faders, fader);
-    gtk_widget_show (GTK_WIDGET (fader));
+    gtk_widget_set_visible (GTK_WIDGET (fader), TRUE);
     if (timeout > 0) {
       guint id;
 

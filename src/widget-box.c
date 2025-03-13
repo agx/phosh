@@ -81,7 +81,7 @@ phosh_widget_box_load_widgets (PhoshWidgetBox *self)
       widget = missing_plugin_widget_new (self->plugins[i]);
     }
 
-    gtk_widget_show (widget);
+    gtk_widget_set_visible (widget, TRUE);
     gtk_widget_set_hexpand (widget, TRUE);
     hdy_carousel_insert (HDY_CAROUSEL (self->carousel), widget, -1);
   }

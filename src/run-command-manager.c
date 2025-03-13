@@ -109,7 +109,7 @@ show_run_command_dialog (GSimpleAction *action, GVariant *param, gpointer data)
     return;
   dialog = phosh_run_command_dialog_new ();
   self->dialog = PHOSH_RUN_COMMAND_DIALOG (dialog);
-  gtk_widget_show (GTK_WIDGET (self->dialog));
+  gtk_widget_set_visible (GTK_WIDGET (self->dialog), TRUE);
   g_object_connect (self->dialog,
                     "swapped-object-signal::submitted", G_CALLBACK (on_run_command_dialog_submitted), self,
                     "swapped-object-signal::cancelled", G_CALLBACK (on_run_command_dialog_cancelled), self,

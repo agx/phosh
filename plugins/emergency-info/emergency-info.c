@@ -224,7 +224,7 @@ load_info (PhoshEmergencyInfo *self)
   }
 
   if (!self->contacts || !self->contacts[0])
-    gtk_widget_hide (GTK_WIDGET (self->emer_contacts));
+    gtk_widget_set_visible (GTK_WIDGET (self->emer_contacts), FALSE);
 
   set_label_or_hide_widget (self->owner_name, self->label_owner_name,
                             GTK_WIDGET (self->row_owner_name));

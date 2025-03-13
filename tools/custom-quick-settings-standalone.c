@@ -130,11 +130,11 @@ main (int argc, char *argv[])
   win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (win), "Custom Quick Settings");
   g_signal_connect (win, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
-  gtk_widget_show (win);
+  gtk_widget_set_visible (win, TRUE);
 
   plugin_dirs = get_plugin_dirs (plugins);
   box = setup_plugins (plugin_dirs, plugins, (const char * const *)enabled);
-  gtk_widget_show (box);
+  gtk_widget_set_visible (box, TRUE);
 
   gtk_container_add (GTK_CONTAINER (win), box);
 

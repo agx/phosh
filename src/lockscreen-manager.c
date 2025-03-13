@@ -113,7 +113,7 @@ lock_monitor (PhoshLockscreenManager *self,
   g_object_set_data (G_OBJECT (shield), "phosh-monitor", monitor);
 
   g_ptr_array_add (self->shields, shield);
-  gtk_widget_show (shield);
+  gtk_widget_set_visible (shield, TRUE);
 }
 
 
@@ -193,7 +193,7 @@ lock_primary_monitor (PhoshLockscreenManager *self)
     "swapped-object-signal::wakeup-output", G_CALLBACK (lockscreen_wakeup_output_cb), self,
     NULL);
 
-  gtk_widget_show (GTK_WIDGET (self->lockscreen));
+  gtk_widget_set_visible (GTK_WIDGET (self->lockscreen), TRUE);
   /* Old lockscreen gets remove due to `layer_surface_closed` */
 }
 

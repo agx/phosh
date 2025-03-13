@@ -299,7 +299,7 @@ create_notification_row (gpointer item, gpointer data)
   frame = phosh_notification_frame_new (TRUE, NULL);
   phosh_notification_frame_bind_model (PHOSH_NOTIFICATION_FRAME (frame), item);
 
-  gtk_widget_show (frame);
+  gtk_widget_set_visible (frame, TRUE);
 
   gtk_container_add (GTK_CONTAINER (row), frame);
 

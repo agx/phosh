@@ -139,7 +139,7 @@ on_power_menu_activated (GSimpleAction *action, GVariant *param, gpointer data)
   show_suspend = locked && g_action_get_enabled (suspend_action);
   phosh_power_menu_set_show_suspend (self->dialog, show_suspend);
 
-  gtk_widget_show (GTK_WIDGET (self->dialog));
+  gtk_widget_set_visible (GTK_WIDGET (self->dialog), TRUE);
 }
 
 

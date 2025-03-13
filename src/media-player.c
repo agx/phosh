@@ -205,7 +205,7 @@ on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
   } else {
     g_warning ("Could not get Position from MPRIS player, hiding box_pos_len: %s", err->message);
     self->track_position = -1;
-    gtk_widget_hide (self->box_pos_len);
+    gtk_widget_set_visible (self->box_pos_len, FALSE);
     stop_pos_poller (self);
   }
 
@@ -505,7 +505,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_autofree char *length_text = cui_call_format_duration ((double) length / G_USEC_PER_SEC);
     gtk_label_set_label (GTK_LABEL (self->lbl_length), length_text);
     g_debug ("Metadata has length, showing box_pos_len");
-    gtk_widget_show (self->box_pos_len);
+    gtk_widget_set_visible (self->box_pos_len, TRUE);
     if (self->status == PHOSH_MEDIA_PLAYER_STATUS_PLAYING)
       start_pos_poller (self);
   } else {
@@ -795,7 +795,7 @@ attach_player_cb (GObject          *source_object,
   /* Set 'attached' before running notifiers, since we check it on e.g. start_pos_poller() */
   set_attached (self, TRUE);
   /* Hide progress bar box by default, it's shown if track length is given in metadata */
-  gtk_widget_hide (self->box_pos_len);
+  gtk_widget_set_visible (self->box_pos_len, FALSE);
 
   g_object_notify (G_OBJECT (self->player), "metadata");
   g_object_notify (G_OBJECT (self->player), "playback-status");

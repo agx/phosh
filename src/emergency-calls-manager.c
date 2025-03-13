@@ -123,7 +123,7 @@ on_emergency_menu_activated (GSimpleAction *action, GVariant *param, gpointer da
   g_signal_connect_swapped (self->dialog, "done",
                             G_CALLBACK (on_emergency_menu_done), self);
 
-  gtk_widget_show (GTK_WIDGET (self->dialog));
+  gtk_widget_set_visible (GTK_WIDGET (self->dialog), TRUE);
 }
 
 
