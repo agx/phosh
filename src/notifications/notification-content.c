@@ -35,6 +35,7 @@ struct _PhoshNotificationContent {
 
   PhoshNotification *notification;
 
+  GtkWidget *msg_body;
   GtkWidget *lbl_summary;
   GtkWidget *lbl_body;
   GtkWidget *img_image;
@@ -170,6 +171,8 @@ set_actions (PhoshNotificationContent *self,  PhoshNotification *notification)
 
     /* The default action is already triggered by the notification body */
     if (g_strcmp0 (actions[i], "default") == 0) {
+      GtkStyleContext *context = gtk_widget_get_style_context (GTK_WIDGET (self->msg_body));
+      gtk_style_context_add_class (context, "phosh-notification-body");
       continue;
     }
 
@@ -377,6 +380,7 @@ phosh_notification_content_class_init (PhoshNotificationContentClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/mobi/phosh/ui/notification-content.ui");
 
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, msg_body);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, lbl_summary);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, lbl_body);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, img_image);

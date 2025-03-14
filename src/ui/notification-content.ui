@@ -9,9 +9,10 @@
         <property name="valign">start</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkBox" id="msg_body">
             <property name="visible">1</property>
             <property name="spacing">12</property>
+            <property name="can-focus">1</property>
             <child>
               <object class="GtkImage" id="img_image">
                 <property name="visible">1</property>
