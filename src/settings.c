@@ -209,7 +209,6 @@ static void
 close_settings_menu (PhoshSettings *self)
 {
   g_signal_emit (self, signals[SETTING_DONE], 0);
-  phosh_trigger_feedback ("button-pressed");
 }
 
 static void

@@ -362,8 +362,6 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_signal_connect (activity, "resized", G_CALLBACK (on_activity_resized), toplevel);
   g_signal_connect_swapped (activity, "notify::has-focus", G_CALLBACK (on_activity_has_focus_changed), self);
 
-  phosh_connect_feedback (activity);
-
   if (phosh_toplevel_is_activated (toplevel)) {
     scroll_to_activity (self, PHOSH_ACTIVITY (activity));
     priv->activity = PHOSH_ACTIVITY (activity);

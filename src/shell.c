@@ -801,6 +801,8 @@ setup_idle_cb (PhoshShell *self)
   priv->cell_broadcast_manager = phosh_cell_broadcast_manager_new ();
 
   setup_primary_monitor_signal_handlers (self);
+  /* Setup event hooks late so state changes in UI files don't trigger feedback */
+  phosh_feedback_manager_setup_event_hooks (priv->feedback_manager);
 
   /* Delay signaling to the compositor a bit so that idle handlers get a chance to run and
      the user can unlock right away. Ideally we'd not need this */

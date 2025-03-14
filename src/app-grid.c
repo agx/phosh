@@ -14,7 +14,6 @@
 #define _GNU_SOURCE
 #include <string.h>
 
-#include "feedback-manager.h"
 #include "app-grid.h"
 #include "app-grid-button.h"
 #include "app-grid-folder-button.h"
@@ -173,7 +172,6 @@ app_launched_cb (GtkWidget    *widget,
                  GAppInfo     *info,
                  PhoshAppGrid *self)
 {
-  phosh_trigger_feedback ("button-pressed");
   g_signal_emit (self, signals[APP_LAUNCHED], 0, info);
 }
 
