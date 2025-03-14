@@ -44,14 +44,14 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 
 struct _PhoshLockscreenManager {
-  GObject parent;
+  GObject               parent;
 
   PhoshLockscreen      *lockscreen;     /* phone display lock screen */
-  GPtrArray             *shields;       /* other outputs */
+  GPtrArray            *shields;        /* other outputs */
 
-  gboolean locked;
-  gboolean locking;
-  gint64 active_time;                   /* when lock was activated (in us) */
+  gboolean              locked;
+  gboolean              locking;
+  gint64                active_time;    /* when lock was activated (in us) */
 
   PhoshCallsManager    *calls_manager;  /* Calls DBus Interface */
 };
@@ -200,8 +200,8 @@ lock_primary_monitor (PhoshLockscreenManager *self)
 
 static void
 on_primary_monitor_changed (PhoshLockscreenManager *self,
-                            GParamSpec *pspec,
-                            PhoshShell *shell)
+                            GParamSpec             *pspec,
+                            PhoshShell             *shell)
 {
   PhoshMonitor *monitor;
 
@@ -368,17 +368,18 @@ phosh_lockscreen_manager_class_init (PhoshLockscreenManagerClass *klass)
   object_class->set_property = phosh_lockscreen_manager_set_property;
   object_class->get_property = phosh_lockscreen_manager_get_property;
 
+  /**
+   * PhoshLockscreenManager:locked:
+   *
+   * Whether the screen is locked
+   */
   props[PROP_LOCKED] =
-    g_param_spec_boolean ("locked",
-                          "Locked",
-                          "Whether the screen is locked",
+    g_param_spec_boolean ("locked", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_CALLS_MANAGER] =
-    g_param_spec_object ("calls-manager",
-                         "",
-                         "",
+    g_param_spec_object ("calls-manager", "", "",
                          PHOSH_TYPE_CALLS_MANAGER,
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
 
