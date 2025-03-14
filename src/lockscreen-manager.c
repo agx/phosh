@@ -60,7 +60,7 @@ G_DEFINE_TYPE (PhoshLockscreenManager, phosh_lockscreen_manager, G_TYPE_OBJECT)
 
 
 static void
-lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
+on_lockscreen_unlock (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 {
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
@@ -84,7 +84,7 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 
 
 static void
-lockscreen_wakeup_output_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
+on_lockscreen_wakeup_output (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 {
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
@@ -187,11 +187,10 @@ lock_primary_monitor (PhoshLockscreenManager *self)
                                          phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                          primary_monitor->wl_output,
                                          self->calls_manager));
-  g_object_connect (
-    self->lockscreen,
-    "swapped-object-signal::lockscreen-unlock", G_CALLBACK (lockscreen_unlock_cb), self,
-    "swapped-object-signal::wakeup-output", G_CALLBACK (lockscreen_wakeup_output_cb), self,
-    NULL);
+  g_object_connect (self->lockscreen,
+                    "swapped-object-signal::lockscreen-unlock", on_lockscreen_unlock, self,
+                    "swapped-object-signal::wakeup-output", on_lockscreen_wakeup_output, self,
+                    NULL);
 
   gtk_widget_set_visible (GTK_WIDGET (self->lockscreen), TRUE);
   /* Old lockscreen gets remove due to `layer_surface_closed` */
@@ -429,7 +428,7 @@ phosh_lockscreen_manager_set_locked (PhoshLockscreenManager *self, gboolean lock
   if (lock)
     lockscreen_lock (self);
   else
-    lockscreen_unlock_cb (self, PHOSH_LOCKSCREEN (self->lockscreen));
+    on_lockscreen_unlock (self, PHOSH_LOCKSCREEN (self->lockscreen));
 }
 
 
