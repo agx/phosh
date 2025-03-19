@@ -8,19 +8,35 @@
     <property name="content">stack</property>
     <property name="footer">footer</property>
   </template>
-  <object class="GtkButton" id="wifi_scan">
-    <property name="visible">1</property>
-    <property name="valign">center</property>
-    <property name="focus-on-click">0</property>
-    <signal name="clicked" handler="on_wifi_scan_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
-    <style>
-      <class name="flat"/>
-    </style>
+  <object class="GtkStack" id="wifi_scan">
     <child>
-      <object class="GtkImage">
+      <object class="GtkButton">
         <property name="visible">1</property>
-        <property name="icon-name">view-refresh-symbolic</property>
+        <property name="valign">center</property>
+        <property name="focus-on-click">0</property>
+        <signal name="clicked" handler="on_wifi_scan_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
+        <style>
+          <class name="flat"/>
+        </style>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">1</property>
+            <property name="icon-name">view-refresh-symbolic</property>
+          </object>
+        </child>
       </object>
+      <packing>
+        <property name="name">button</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinner" id="wifi_scan_spinner">
+        <property name="visible">1</property>
+        <property name="margin">4</property>
+      </object>
+      <packing>
+        <property name="name">spinner</property>
+      </packing>
     </child>
   </object>
   <object class="GtkStack" id="stack">
