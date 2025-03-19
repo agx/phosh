@@ -478,9 +478,9 @@ phosh-lockscreen,
 }
 
 @keyframes pulsate {
-  0% {-gtk-icon-transform: translateY(0); opacity: 0.7}
-  35% {-gtk-icon-transform: translateY(-14px); opacity: 1}
-  100% {-gtk-icon-transform: translateY(0); opacity: 0.7}
+  0% {-gtk-icon-transform: translateY(0); opacity: 0.7;}
+  35% {-gtk-icon-transform: translateY(-14px); opacity: 1;}
+  100% {-gtk-icon-transform: translateY(0); opacity: 0.7;}
 }
 
 /* Lockscreen keypad */
