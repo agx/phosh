@@ -109,11 +109,13 @@ on_placeholder_clicked (PhoshWifiStatusPage *self, GtkWidget *widget)
     phosh_wifi_manager_set_hotspot_master (self->wifi, FALSE);
 }
 
+
 static void
 on_wifi_scan_clicked (PhoshWifiStatusPage *self)
 {
   phosh_wifi_manager_request_scan (self->wifi);
 }
+
 
 static void
 on_network_activated (PhoshWifiStatusPage *self, GtkWidget *row)
@@ -135,6 +137,7 @@ on_network_activated (PhoshWifiStatusPage *self, GtkWidget *row)
   phosh_wifi_manager_connect_network (self->wifi, network);
 }
 
+
 static GtkWidget *
 create_network_row (PhoshWifiNetwork *network)
 {
@@ -143,6 +146,7 @@ create_network_row (PhoshWifiNetwork *network)
   row = phosh_wifi_network_row_new (network);
   return row;
 }
+
 
 static void
 phosh_wifi_status_page_dispose (GObject *object)
@@ -158,6 +162,7 @@ phosh_wifi_status_page_dispose (GObject *object)
 
   G_OBJECT_CLASS (phosh_wifi_status_page_parent_class)->dispose (object);
 }
+
 
 static void
 phosh_wifi_status_page_class_init (PhoshWifiStatusPageClass *klass)
@@ -180,6 +185,7 @@ phosh_wifi_status_page_class_init (PhoshWifiStatusPageClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_placeholder_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_wifi_scan_clicked);
 }
+
 
 static void
 phosh_wifi_status_page_init (PhoshWifiStatusPage *self)
@@ -218,6 +224,7 @@ phosh_wifi_status_page_init (PhoshWifiStatusPage *self)
                            NULL,
                            NULL);
 }
+
 
 GtkWidget *
 phosh_wifi_status_page_new (void)
