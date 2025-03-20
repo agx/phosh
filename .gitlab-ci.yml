@@ -173,7 +173,6 @@ asan-test:native-debian-trixie:
   <<: *test_before_script
   script:
     - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
-    - meson compile -C _build-asan ./data/glib-compile-schemas:custom
     - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit --timeout-multiplier 5
   allow_failure: true
 
