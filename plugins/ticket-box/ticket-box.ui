@@ -40,7 +40,7 @@
                       <object class="GtkImage">
                         <property name="visible">1</property>
                         <property name="icon-name">window-close-symbolic</property>
-                        <property name="icon-size">1</property>
+                        <property name="pixel-size">16</property>
                       </object>
                     </child>
                   </object>
