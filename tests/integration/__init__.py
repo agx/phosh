@@ -93,6 +93,8 @@ class Phosh:
             timeout -= 1
 
         assert timedout is False
+        self.process.stdout.close()
+        self.process.stderr.close()
 
         display_re = re.compile(
             r"Running compositor on wayland display '(?P<display>wayland-([0-9]+))'"
