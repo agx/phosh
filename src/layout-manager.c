@@ -274,7 +274,8 @@ get_corner_shift (PhoshLayoutManager *self)
    *    +----+---*
    *    | m    a
    */
-  b = c - (PHOSH_TOP_BAR_HEIGHT - PHOSH_TOP_BAR_ICON_PIXEL_SIZE) / 2;
+  /* Icons usually don't fill the full height so assume 80% */
+  b = c - (PHOSH_TOP_BAR_HEIGHT - 0.8 * PHOSH_TOP_BAR_ICON_PIXEL_SIZE) / 2;
   a = floor (sqrt((c * c) - (b * b)));
 
   shift = MAX (PHOSH_TOP_BAR_MIN_PADDING, ceil (r - a));
