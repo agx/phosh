@@ -111,7 +111,7 @@ copy_schema = custom_target('copy-gschema-to-builddir',
   command: ['cp', '@INPUT@', '@OUTPUT@']
 )
 schemas = ['mobi.phosh.shell.gschema.xml']
-compile_schemas = custom_target('glib-compile-schemas',
+compiled_schemas = custom_target('glib-compile-schemas',
   build_by_default: true,
   output: 'gschemas.compiled',
   install: false,
