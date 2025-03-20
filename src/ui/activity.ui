@@ -46,7 +46,6 @@
                         <property name="halign">center</property>
                         <property name="pixel-size">48</property>
                         <property name="icon-name">app-icon-unknown</property>
-                        <property name="icon-size">6</property>
                         <style>
                           <class name="phosh-dropicon-shadow"/>
                         </style>
