@@ -144,6 +144,7 @@ foreach test : tests
                  dependencies: [testlib_dep, test_stubs_dep])
   test(test, t,
        env: test_env_unit,
+       depends: compiled_schemas,
        suite: ['unit'])
 endforeach
 
