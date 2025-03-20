@@ -22,7 +22,10 @@
                 <child>
                   <object class="GtkDrawingArea" id="preview">
                     <property name="visible">1</property>
-                    <property name="margin-bottom">12</property>
+                    <property name="margin-start">4</property>
+                    <property name="margin-end">4</property>
+                    <property name="margin-top">4</property>
+                    <property name="margin-bottom">18</property>
                     <signal name="draw" handler="draw_cb" object="PhoshActivity" swapped="true"/>
                     <signal name="size-allocate" handler="size_allocate_cb" object="PhoshActivity" swapped="true"/>
                     <style>
