@@ -42,7 +42,6 @@
           <object class="GtkImage" id="arrow">
             <property name="visible">1</property>
             <property name="icon-name">go-next-symbolic</property>
-            <property name="icon-size">2</property>
             <property name="pixel-size">16</property>
           </object>
         </child>
