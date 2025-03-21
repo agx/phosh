@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Guido Günther
+ * Copyright (C) 2024-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -22,12 +22,6 @@
  * A cache of background images
  */
 
-enum {
-  IMAGE_PRESENT,
-  N_SIGNALS
-};
-static guint signals[N_SIGNALS] = { 0 };
-
 struct _PhoshBackgroundCache {
   GObject     parent;
 
@@ -39,22 +33,24 @@ G_DEFINE_TYPE (PhoshBackgroundCache, phosh_background_cache, G_TYPE_OBJECT)
 static void
 on_background_image_loaded (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhoshBackgroundCache *self = PHOSH_BACKGROUND_CACHE (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
+  PhoshBackgroundCache *self;
   PhoshBackgroundImage *image;
-  g_autoptr (GError) err = NULL;
+  GError *err = NULL;
   GFile *file;
 
   image = phosh_background_image_new_finish (res, &err);
   if (!image) {
-    phosh_async_error_warn (err, "Failed to load background image");
+    g_task_return_error (task, err);
     return;
   }
 
+  self = PHOSH_BACKGROUND_CACHE (g_task_get_source_object (task));
   g_return_if_fail (PHOSH_IS_BACKGROUND_CACHE (self));
   file = phosh_background_image_get_file (image);
-  g_hash_table_insert (self->background_images, g_object_ref (file), image);
+  g_hash_table_insert (self->background_images, g_object_ref (file), g_object_ref (image));
 
-  g_signal_emit (self, signals[IMAGE_PRESENT], 0, image);
+  g_task_return_pointer (task, g_steal_pointer (&image), g_object_unref);
 }
 
 
@@ -75,22 +71,6 @@ phosh_background_cache_class_init (PhoshBackgroundCacheClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->finalize = phosh_background_cache_finalize;
-
-  /**
-   * PhoshBackgroundCache:image-present
-   * @self: The background cache
-   * @image: The loaded background image
-   *
-   * Emitted when an image requested via [type@fetch_background] can be fetched
-   * from the cache.
-   */
-  signals[IMAGE_PRESENT] = g_signal_new ("image-present",
-                                         G_TYPE_FROM_CLASS (klass),
-                                         G_SIGNAL_RUN_LAST, 0,
-                                         NULL, NULL, NULL,
-                                         G_TYPE_NONE,
-                                         1,
-                                         PHOSH_TYPE_BACKGROUND_IMAGE);
 }
 
 
@@ -129,28 +109,56 @@ phosh_background_cache_get_default (void)
  * @file: The file to lookup or load
  * @cancel: A cancellable
  *
- * Loads an image into the cache and if not yet present. It always
+ * Loads an image into the cache if not yet present. It always
  * reports success via the `image-loaded` signal.
  */
 void
-phosh_background_cache_fetch_background (PhoshBackgroundCache *self,
-                                         GFile                *file,
-                                         GCancellable         *cancel)
+phosh_background_cache_fetch_async (PhoshBackgroundCache *self,
+                                    GFile                *file,
+                                    GCancellable         *cancel,
+                                    GAsyncReadyCallback   callback,
+                                    gpointer              user_data)
 {
   PhoshBackgroundImage *image;
+  g_autoptr (GTask) task = NULL;
 
   g_return_if_fail (PHOSH_IS_BACKGROUND_CACHE (self));
   g_return_if_fail (G_IS_FILE (file));
   g_return_if_fail (cancel == NULL || G_IS_CANCELLABLE (cancel));
 
+  task = g_task_new (self, cancel, callback, user_data);
+  g_task_set_source_tag (task, phosh_background_cache_fetch_async);
+
   image = g_hash_table_lookup (self->background_images, file);
   if (image) {
     g_debug ("Background cache hit for %s", g_file_peek_path (file));
-    g_signal_emit (self, signals[IMAGE_PRESENT], 0, image);
+    g_task_return_pointer (task, g_object_ref (image), g_object_unref);
   } else {
     g_debug ("Background cache miss for %s", g_file_peek_path (file));
-    phosh_background_image_new (file, cancel, on_background_image_loaded, self);
+    phosh_background_image_new (file, cancel, on_background_image_loaded, g_steal_pointer (&task));
   }
+}
+
+/**
+ * phosh_background_cache_fetch_finish:
+ * @self: The background cache
+ * @res: The Result
+ * @cancel: A cancellable
+ *
+ * Finished the async operation started with `phosh_background_cache_fetch_async`.
+ *
+ * Returns; The laoded image or `NULL` on error
+ */
+PhoshBackgroundImage *
+phosh_background_cache_fetch_finish (PhoshBackgroundCache *self,
+                                     GAsyncResult         *res,
+                                     GError              **error)
+{
+  g_assert (PHOSH_IS_BACKGROUND_CACHE (self));
+  g_assert (G_IS_TASK (res));
+  g_assert (!error || !*error);
+
+  return g_task_propagate_pointer (G_TASK (res), error);
 }
 
 /**
@@ -171,6 +179,31 @@ phosh_background_cache_lookup_background (PhoshBackgroundCache *self, GFile *fil
   return g_hash_table_lookup (self->background_images, file);
 }
 
+/**
+ * phosh_background_cache_remove:
+ * @self: The background cache
+ * @file: The background to remove
+ *
+ * Drop the background identified by the given file from the background cache
+ */
+void
+phosh_background_cache_remove (PhoshBackgroundCache *self, GFile *file)
+{
+  gboolean success;
+
+  g_return_if_fail (PHOSH_IS_BACKGROUND_CACHE (self));
+
+  success = g_hash_table_remove (self->background_images, file);
+  if (!success)
+    g_warning ("'%s' not found in cache", g_file_peek_path (file));
+}
+
+/**
+ * phosh_background_cache_clear_all:
+ * @self: The background cache
+ *
+ * Drop all files from the cache.
+ */
 void
 phosh_background_cache_clear_all (PhoshBackgroundCache *self)
 {

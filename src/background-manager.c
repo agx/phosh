@@ -180,7 +180,7 @@ on_file_changed (PhoshBackgroundManager *self,
     return;
 
   g_warning ("Background file changed, clearing cache");
-  phosh_background_cache_clear_all (cache);
+  phosh_background_cache_remove (cache, self->file);
 
   refresh (self);
 }
@@ -241,8 +241,8 @@ on_settings_changed (PhoshBackgroundManager *self)
   }
 
   /* Clear cache if uri changed */
-  if (!phosh_util_file_equal (self->file, file))
-    phosh_background_cache_clear_all (cache);
+  if (self->file && !phosh_util_file_equal (self->file, file))
+    phosh_background_cache_remove (cache, self->file);
 
   self->style = style;
   self->color = color;

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
+ *               2024-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -8,6 +9,8 @@
 
 #define G_LOG_DOMAIN "phosh-lockscreen-manager"
 
+#include "background-cache.h"
+#include "background-image.h"
 #include "lockscreen-manager-priv.h"
 #include "lockscreen-priv.h"
 #include "lockshield.h"
@@ -16,7 +19,14 @@
 #include "phosh-wayland.h"
 #include "shell-priv.h"
 #include "util.h"
+
+#include <gmobile.h>
+#include <gdesktop-enums.h>
 #include <gdk/gdkwayland.h>
+
+#define SCREENSAVER_SETTINGS "org.gnome.desktop.screensaver"
+#define KEY_PICTURE_URI       "picture-uri"
+#define KEY_PICTURE_OPTIONS   "picture-options"
 
 /**
  * PhoshLockscreenManager:
@@ -44,23 +54,148 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 
 struct _PhoshLockscreenManager {
-  GObject parent;
+  GObject                  parent;
 
-  PhoshLockscreen      *lockscreen;     /* phone display lock screen */
-  GPtrArray             *shields;       /* other outputs */
+  PhoshLockscreen         *lockscreen;     /* phone display lock screen */
+  GPtrArray               *shields;        /* other outputs */
 
-  gboolean locked;
-  gboolean locking;
-  gint64 active_time;                   /* when lock was activated (in us) */
+  GSettings               *bg_settings;
+  GFile                   *bg_file;
+  GFileMonitor            *bg_file_monitor;
+  GDesktopBackgroundStyle  bg_style;
+  PhoshBackgroundImage    *cached_bg_image;
+  GCancellable            *bg_load_cancel;
 
-  PhoshCallsManager    *calls_manager;  /* Calls DBus Interface */
+  gboolean                 locked;
+  gboolean                 locking;
+  gint64                   active_time;    /* when lock was activated (in us) */
+
+  PhoshCallsManager       *calls_manager;  /* Calls DBus Interface */
 };
 
 G_DEFINE_TYPE (PhoshLockscreenManager, phosh_lockscreen_manager, G_TYPE_OBJECT)
 
 
 static void
-lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
+on_background_cache_fetch_ready (GObject *source_object, GAsyncResult *res, gpointer data)
+{
+  PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (data);
+  PhoshBackgroundCache *cache = PHOSH_BACKGROUND_CACHE (source_object);
+  g_autoptr (PhoshBackgroundImage) image = NULL;
+  g_autoptr (GError) err = NULL;
+
+  image = phosh_background_cache_fetch_finish (cache, res, &err);
+  if (!image) {
+    phosh_async_error_warn (err, "Failed to load background image");
+    return;
+  }
+
+  g_assert (PHOSH_IS_LOCKSCREEN_MANAGER (self));
+  g_assert (PHOSH_IS_BACKGROUND_CACHE (cache));
+
+  g_set_object (&self->cached_bg_image, image);
+  if (self->lockscreen)
+    phosh_lockscreen_set_bg_image (self->lockscreen, self->cached_bg_image);
+}
+
+
+static void
+load_background (PhoshLockscreenManager *self)
+{
+  PhoshBackgroundCache *cache = phosh_background_cache_get_default ();
+
+  g_cancellable_cancel (self->bg_load_cancel);
+  g_clear_object (&self->bg_load_cancel);
+  self->bg_load_cancel = g_cancellable_new ();
+
+  phosh_background_cache_fetch_async (cache,
+                                      self->bg_file,
+                                      self->bg_load_cancel,
+                                      on_background_cache_fetch_ready,
+                                      self);
+}
+
+
+static void
+on_file_changed (PhoshLockscreenManager *self,
+                 GFile                  *file,
+                 GFile                  *other_file,
+                 GFileMonitorEvent       event_type,
+                 GFileMonitor           *monitor)
+{
+  PhoshBackgroundCache *cache = phosh_background_cache_get_default ();
+
+  if (event_type != G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT)
+    return;
+
+  g_debug ("Lockscreen bg file %s changed, clearing cache", g_file_peek_path (self->bg_file));
+  phosh_background_cache_remove (cache, self->bg_file);
+
+  load_background (self);
+}
+
+
+static void
+monitor_bg_file (PhoshLockscreenManager *self)
+{
+  g_autoptr (GError) err = NULL;
+
+  g_clear_object (&self->bg_file_monitor);
+
+  self->bg_file_monitor = g_file_monitor_file (self->bg_file, G_FILE_MONITOR_NONE, NULL, &err);
+  if (!self->bg_file_monitor) {
+    g_autofree char *uri = g_file_get_uri (self->bg_file);
+
+    g_warning ("Failed to setup file monitor for %s: %s", uri, err->message);
+    return;
+  }
+
+  g_signal_connect_object (self->bg_file_monitor,
+                           "changed",
+                           G_CALLBACK (on_file_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+}
+
+
+static void
+on_picture_params_changed (PhoshLockscreenManager *self)
+{
+  PhoshBackgroundCache *cache = phosh_background_cache_get_default ();
+  GDesktopBackgroundStyle style;
+  g_autoptr (GFile) file = NULL;
+  g_autofree char *uri = NULL;
+
+  uri = g_settings_get_string (self->bg_settings, KEY_PICTURE_URI);
+  style = g_settings_get_enum (self->bg_settings, KEY_PICTURE_OPTIONS);
+
+  if (!gm_str_is_null_or_empty (uri) &&
+      g_str_has_prefix (uri, "file:///") &&
+      style != G_DESKTOP_BACKGROUND_STYLE_NONE) {
+    file = g_file_new_for_uri (uri);
+  }
+
+  if (phosh_util_file_equal (self->bg_file, file))
+    return;
+
+  if (self->bg_file)
+    phosh_background_cache_remove (cache, self->bg_file);
+  g_clear_object (&self->bg_file);
+  g_clear_object (&self->bg_file_monitor);
+  g_clear_object (&self->cached_bg_image);
+
+  if (!file)
+    return;
+
+  g_set_object (&self->bg_file, file);
+  g_debug ("Loading '%s'", g_file_peek_path (self->bg_file));
+  monitor_bg_file (self);
+  load_background (self);
+}
+
+
+static void
+on_lockscreen_unlock (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 {
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
@@ -84,7 +219,7 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 
 
 static void
-lockscreen_wakeup_output_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
+on_lockscreen_wakeup_output (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 {
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
@@ -187,11 +322,11 @@ lock_primary_monitor (PhoshLockscreenManager *self)
                                          phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                          primary_monitor->wl_output,
                                          self->calls_manager));
-  g_object_connect (
-    self->lockscreen,
-    "swapped-object-signal::lockscreen-unlock", G_CALLBACK (lockscreen_unlock_cb), self,
-    "swapped-object-signal::wakeup-output", G_CALLBACK (lockscreen_wakeup_output_cb), self,
-    NULL);
+  g_object_connect (self->lockscreen,
+                    "swapped-object-signal::lockscreen-unlock", on_lockscreen_unlock, self,
+                    "swapped-object-signal::wakeup-output", on_lockscreen_wakeup_output, self,
+                    NULL);
+  phosh_lockscreen_set_bg_image (self->lockscreen, self->cached_bg_image);
 
   gtk_widget_set_visible (GTK_WIDGET (self->lockscreen), TRUE);
   /* Old lockscreen gets remove due to `layer_surface_closed` */
@@ -200,8 +335,8 @@ lock_primary_monitor (PhoshLockscreenManager *self)
 
 static void
 on_primary_monitor_changed (PhoshLockscreenManager *self,
-                            GParamSpec *pspec,
-                            PhoshShell *shell)
+                            GParamSpec             *pspec,
+                            PhoshShell             *shell)
 {
   PhoshMonitor *monitor;
 
@@ -338,6 +473,14 @@ phosh_lockscreen_manager_dispose (GObject *object)
   g_clear_pointer (&self->lockscreen, phosh_cp_widget_destroy);
   g_clear_object (&self->calls_manager);
 
+  g_cancellable_cancel (self->bg_load_cancel);
+  g_clear_object (&self->bg_load_cancel);
+
+  g_clear_object (&self->bg_file_monitor);
+  g_clear_object (&self->bg_file);
+  g_clear_object (&self->bg_settings);
+  g_clear_object (&self->cached_bg_image);
+
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->dispose (object);
 }
 
@@ -368,17 +511,18 @@ phosh_lockscreen_manager_class_init (PhoshLockscreenManagerClass *klass)
   object_class->set_property = phosh_lockscreen_manager_set_property;
   object_class->get_property = phosh_lockscreen_manager_get_property;
 
+  /**
+   * PhoshLockscreenManager:locked:
+   *
+   * Whether the screen is locked
+   */
   props[PROP_LOCKED] =
-    g_param_spec_boolean ("locked",
-                          "Locked",
-                          "Whether the screen is locked",
+    g_param_spec_boolean ("locked", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_CALLS_MANAGER] =
-    g_param_spec_object ("calls-manager",
-                         "",
-                         "",
+    g_param_spec_object ("calls-manager", "", "",
                          PHOSH_TYPE_CALLS_MANAGER,
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
 
@@ -400,6 +544,17 @@ phosh_lockscreen_manager_class_init (PhoshLockscreenManagerClass *klass)
 static void
 phosh_lockscreen_manager_init (PhoshLockscreenManager *self)
 {
+  self->bg_settings = g_settings_new (SCREENSAVER_SETTINGS);
+
+  g_object_connect (self->bg_settings,
+                    "swapped-object-signal::changed::" KEY_PICTURE_URI,
+                    G_CALLBACK (on_picture_params_changed),
+                    self,
+                    "swapped-object-signal::changed::" KEY_PICTURE_OPTIONS,
+                    G_CALLBACK (on_picture_params_changed),
+                    self,
+                    NULL);
+  on_picture_params_changed (self);
 }
 
 
@@ -428,7 +583,7 @@ phosh_lockscreen_manager_set_locked (PhoshLockscreenManager *self, gboolean lock
   if (lock)
     lockscreen_lock (self);
   else
-    lockscreen_unlock_cb (self, PHOSH_LOCKSCREEN (self->lockscreen));
+    on_lockscreen_unlock (self, PHOSH_LOCKSCREEN (self->lockscreen));
 }
 
 

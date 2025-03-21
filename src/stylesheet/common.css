@@ -421,7 +421,16 @@ phosh-app-grid-folder-button button:focus {
  * Lock screen
  */
 
-phosh-lockscreen,
+phosh-lockscreen {
+  background-color: transparent;
+  color: @phosh_fg_color;
+}
+
+phosh-lockscreen-bg {
+  background-color: @phosh_bg_color;
+  color: @phosh_fg_color;
+}
+
 .phosh-lockshield {
   background-color: @phosh_bg_color;
   color: @phosh_fg_color;

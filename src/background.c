@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2018-2022 Purism SPC
- *               2023-2024 Guido Günther
+ *               2023-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -123,43 +123,6 @@ phosh_background_get_property (GObject    *object,
 
 
 static GdkPixbuf *
-pb_scale_to_min (GdkPixbuf *src, int min_width, int min_height)
-{
-  double factor;
-  int src_width, src_height;
-  int new_width, new_height;
-  GdkPixbuf *dest;
-
-  g_return_val_if_fail (GDK_IS_PIXBUF (src), NULL);
-
-  src_width = gdk_pixbuf_get_width (src);
-  src_height = gdk_pixbuf_get_height (src);
-
-  factor = MAX (min_width / (double) src_width, min_height / (double) src_height);
-
-  new_width = floor (src_width * factor + 0.5);
-  new_height = floor (src_height * factor + 0.5);
-
-  dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
-                         gdk_pixbuf_get_has_alpha (src),
-                         8, min_width, min_height);
-  if (!dest)
-    return NULL;
-
-  /* crop the result */
-  gdk_pixbuf_scale (src, dest,
-                    0, 0,
-                    min_width, min_height,
-                    (new_width - min_width) / -2,
-                    (new_height - min_height) / -2,
-                    factor,
-                    factor,
-                    GDK_INTERP_BILINEAR);
-  return dest;
-}
-
-
-static GdkPixbuf *
 pb_scale_to_fit (GdkPixbuf *src, int width, int height, GdkRGBA *color)
 {
   int orig_width, orig_height;
@@ -225,7 +188,9 @@ image_background (PhoshBackgroundImage    *image,
     G_GNUC_FALLTHROUGH;
   case G_DESKTOP_BACKGROUND_STYLE_ZOOM:
   default:
-    scaled_bg = pb_scale_to_min (phosh_background_image_get_pixbuf (image), width, height);
+    scaled_bg = phosh_utils_pixbuf_scale_to_min (phosh_background_image_get_pixbuf (image),
+                                                 width,
+                                                 height);
     break;
   }
 
@@ -261,9 +226,10 @@ phosh_background_draw (GtkWidget *widget, cairo_t *cr)
     cairo_paint (cr);
   }
 
-  if (self->pixbuf)
+  if (self->pixbuf) {
     gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
-  cairo_paint (cr);
+    cairo_paint (cr);
+  }
 
   cairo_restore (cr);
 
@@ -300,10 +266,19 @@ update_image (PhoshBackground *self)
 
 
 static void
-on_background_image_present (PhoshBackground        *self,
-                             PhoshBackgroundImage   *image,
-                             PhoshBackgroundCache   *cache)
+on_background_cache_fetch_ready (GObject *source_object, GAsyncResult *res, gpointer data)
 {
+  g_autoptr (GError) err = NULL;
+  g_autoptr (PhoshBackgroundImage) image = NULL;
+  PhoshBackground *self = PHOSH_BACKGROUND (data);
+  PhoshBackgroundCache *cache = PHOSH_BACKGROUND_CACHE (source_object);
+
+  image = phosh_background_cache_fetch_finish (cache, res, &err);
+  if (!image) {
+    phosh_async_error_warn (err, "Failed to load background image");
+    return;
+  }
+
   g_assert (PHOSH_IS_BACKGROUND (self));
   g_assert (PHOSH_IS_BACKGROUND_CACHE (cache));
 
@@ -332,7 +307,11 @@ trigger_update (PhoshBackground *self)
   self->cancel_load = g_cancellable_new ();
 
   if (self->uri) {
-    phosh_background_cache_fetch_background (cache, self->uri, self->cancel_load);
+    phosh_background_cache_fetch_async (cache,
+                                        self->uri,
+                                        self->cancel_load,
+                                        on_background_cache_fetch_ready,
+                                        self);
   } else {
     g_clear_object (&self->cached_bg_image);
     update_image (self);
@@ -405,11 +384,6 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 static void
 phosh_background_init (PhoshBackground *self)
 {
-  g_signal_connect_object (phosh_background_cache_get_default (),
-                           "image-present",
-                           G_CALLBACK (on_background_image_present),
-                           self,
-                           G_CONNECT_SWAPPED);
 }
 
 
