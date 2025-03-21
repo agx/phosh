@@ -1,3 +1,435 @@
+phosh (0.46~rc1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * media-player: Bind playable property to player's can-play.
+    That way we also show the player when e.g. media play is stopped (rather
+    than paused). Let's see if players implement that property properly.
+  * overview: Insert app to the right if no parent is found.
+    We didn't mean to change the position of new apps, just that of
+    children.
+    Fixes 6b0a4d539 ("overview: Insert new children right of their parents")
+  * media-player: Fetch cover art via http.
+    Do that using an async method to not block the UI should the download
+    hang.
+    We avoided that so far but e.g. shortwave provides http URLs to radio
+    stations so lets do it and rather switch to glycene at some point.
+  * build: Swap old and new in abi compliance check.
+    The symbols we have checked into version control are the ones from the
+    old version (at least when you're not a tachyon).
+  * package: Update from Debian. This makes sure our packages don't file
+    conflict with those in downstreams and also takes the new library
+    versioning into account.
+  * packaging: Don't build gir package when not building a lib
+  * home: Reset overview when folded.
+    Resetting the overview's app grid when unfolding introduces flicker when
+    clearing the search (when a search term is present). This is very
+    visible when there are running apps.
+    Avoid the flicker by clearing the search when the app grid isn't
+    visible.
+    As the former `reset` now mostly refreshes the thumbnails we rename it
+    accordingly.
+  * top-panel: Set padding via css.
+    So far we set the margins on the top panel itself which was fine as long
+    as those were symmetric. If we set different margins this would shift
+    the clock out of center but setting the margins on the network and
+    indicator boxes doesn't work either as the case where we move the clock
+    off center needs the margins applied to the clock.`
+    So instead of worrying about all those cases use `:first-child` and
+    `last-child` css which handles this for us (at the expense of style
+    calculations on layout changes).
+    This also has the advantage that we don't need to worry about start and
+    end in RTL locales.
+  * top-panel: Introduce padding towards cutouts.
+    If there's a cutout in the indicator areas we use a smaller margin than
+    towards the screen edge.
+  * layout-manager: Make rectangles const.
+    These are the references that should stay the constant.
+  * layout-manager: Round float values.
+    We want the cutouts bounding box to be at least as large as the physical
+    notch.
+  * layout-manager: Handle cutouts in the indicator areas.
+    Shift elements towards the center unless that would result in massive
+    movement.
+    For smaller cutouts within the indicator boxes we'll insert stub
+    elements at some point in the future.
+  * data: Select less noisy default background
+  * data: Select accent color matching the back ground
+  * background-manager: Remove background when it goes away.
+    When we unplug a monitor the widget goes away due to the layer surface
+    being destroyed, make sure we remove it from the list of known
+    backgrounds as we otherwise might access stale data.
+    Instead of dropping on_monitor_removed completely we keep it as
+    consistency check.
+    That way it doesnt' matter if the widget gets destroyed before the
+    output or the other way around.
+  * treewide: Systemd unit is for development purposes only.
+    Clarify that the systemd unit shouldn't be used in production.
+  * issue-template: Mention display manager.
+    Update some other parts while at that
+  * ci: No need to fetch phoc from sid
+  * build: Specify the public headers. This ensures abi-dumper doesn't
+    care about non public structs. It needs universal-ctags for that.
+  * build: Regenrate the ABI dump
+  * docs: Add phosh.gsettings manpage.
+    We'll document used gsettings here. This makes it easier to contribute
+    to than the wiki as everyone can make pull requests and also ensures the
+    shipped documentation matches the running shell.
+  * feedback-manager: Add emission hook for clicked and row-activated signals.
+    This ensures consistent feedback for all "press" related events.
+  * treewide: Remove most "button-pressed" emissions.
+    Remove those that were triggered by button presses anyway.
+  * packaging: Install new manpage.
+    This fixes the nightly build. We run with nodoc in CI so we didn't
+    notice.
+  * style: Close block.
+    GTK4's CSS parser catches this
+  * wifi-manager: Track whether a WiFi scan is going on.
+    Consumers can track the `scanning` property
+  * wifi-status-page: Show spinner when a network scan is ongoing.
+    This provides better feedback to the user about the ongoing
+    operation.
+    We use a callback rather than property binding as we'd need transform
+    functions for the stack page and related code in this class uses
+    callbacks too.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1138
+  * wifi-status-page: Reindent UI file.
+    No functional change
+  * tests/integration: Close stdin and stdout.
+    This prevents to prevent the buffers to being filled and phoc entering a
+    blocking state.
+    I've been able to trigger this locally and could see phoc hanging on
+    writing to stdout and thus `wlr-randr` blocking as can be seen in the
+    failed tests:
+    https://gitlab.gnome.org/World/Phosh/phosh/-/jobs/4884009
+  * tests: Make unit tests depend on schema.
+    This allows them to run without invoking any extra targets.
+    We rename the target as the plugins use `compile_schemas` to locate
+    `glib-compile-schemas`.
+  * ci: Drop extra step to build schema.
+    We fixed the dependencies in the previous commit
+    Fixes 3f328c7d6 ("gitlab-ci: Run unit tests under ASAN too")
+  * home: Fix indent
+  * lockscreen-manager: Modernize indent and property definitions
+  * lockscreen-manager: Adjust callback names according to style.
+    Also remove unneeded casts.
+  * background: Avoid paint when not rendering pixbuf.
+    No need to do so.
+  * background-cache: Allow to remove cached backgrounds selectively
+  * background-manager: Remove backgrounds selectively.
+    This will allow us to cache different backgrounds (e.g. overview
+    and lockscreen)
+  * background-cache: Make loading an async function.
+    Make it an async function instead of a signal so it is clear which
+    background got loaded.
+  * background: Move scale-to-min pixbuf scaling to utils.
+    This allows it to be used from other classes.
+  * lockscreen: Allow to set background image.
+    Make lockscreen transparent and add a layer surface carrying the
+    background beneath it. This ensures GTK won't be bothered at all when UI
+    elements move over the background.
+    Images are always loaded using cover style to make sure the whole
+    background is covered.
+    We only load images on the lockscreen, ignoring shields.
+  * lockscreen-manager: Handle picture-uri.
+    Setting a background image will triggering an image load using the
+    background-cache. If successful we set the image on the primary
+    lockscreen.
+    Background can be set via
+        gsettings set org.gnome.desktop.screensaver picture-uri 'file:///file/to/background.jpg'
+  * shell: Move updating top panel transparency to its own function.
+    This will become more complex
+  * shell: Make top bar transparent when locked.
+    We need to check if the top bar exists as this can be invoked early when
+    phosh is started locked (`-L`).
+  * docs: Document new settings key
+  * data: Add default lockscreen background
+  * data: Disable lockscreen background by default.
+    This ensures we don't pick up any accidental configuration users might
+    have.
+  * top-panel: Use icon's pixel size. Actually use the icon's pixel
+    size. We accidentally used the enum value.
+    Fixes 79808a34b ("top-panel: Provide default icon size and min padding")
+  * layout-manager: Assume icons don't fill the full height.
+    Status icons usually don't fill the full box so assuem we have 20% of
+    padding.
+
+  [ Arun Mani J ]
+  * event-list: Simplify using `gtk-builder-tool`
+  * upcoming-event: Simplify using `gtk-builder-tool`
+  * emergency-info-prefs: Simplify using `gtk4-builder-tool`
+  * emergency-info-prefs: Simplify derived and `Adw` widgets
+  * emergency-info: Simplify using `gtk-builder-tool`
+  * emergency-info: Simplify derived and `Hdy` widgets
+  * dark-mode-quick-setting: Simplify derived and `Hdy` widgets
+  * home: Simplify using `gtk-builder-tool`
+  * lockscreen: Simplify derived and `Hdy` widgets
+  * notification-frame: Simplify derived and `Hdy` widgets
+  * polkit-auth-prompt: Simplify derived and `Hdy` widgets
+  * notification-frame: Simplify using `gtk-builder-tool`
+  * ci: Check UI files for simplification
+  * gvc-channel-bar: Do not hijack scroll event
+    `GtkScale` handles it natively, so no need for us to override.
+  * gvc-channel-bar: Include GTK headers.
+    Removes linter warnings.
+  * gvc-channel-bar: Simplify
+  * timestamp-label: Wrap under `GtkBin`
+    `GtkLabel` is a final class in GTK 4, so let's wrap it under `GtkBin`
+    which will become `AdwBin` or something similar in GTK 4.
+  * timestamp-label: Uncrustify
+  * revealer: Propertify child
+  * revealer: Wrap under `GtkBin`
+    `GtkRevealer` is a final class in GTK 4, so wrap it under a bin.
+  * revealer: Move UI logic to UI file
+  * revealer: Simplify and reformat
+  * top-panel: Drop assigning default values
+  * status-page: Allow NULL for header and footer
+  * status-page: Propertify child.
+    Makes code more readable and ready for GTK 4 as we expose methods to
+    directly add and remove the child (like in GTK 4 style of "child as
+    property"). At the same time, simplify destroy implementation by
+    worrying only about the widgets we get and set, the remaining will be
+    cleaned by GTK as they are owned by the template API.
+  * status-page-placeholder: Propertify child.
+    Makes code more readable and ready for GTK 4 as we expose methods to
+    directly add and remove the child (like in GTK 4 style of "child as
+    property"). At the same time, simplify destroy implementation by
+    worrying only about the widgets we get and set, the remaining will be
+    cleaned by GTK as they are owned by the template API.
+  * status-page-placeholder: Simplify.
+    Reorder the virtual method implementations like elsewhere.
+  * quick-setting: Propertify child.
+    Makes code more readable and ready for GTK 4 as we expose methods to
+    directly add and remove the child (like in GTK 4 style of "child as property").
+  * quick-setting: Cleanup and reformat.
+    Use most specific type where sensible.
+  * quick-settings-box: Expose methods to add and remove.
+    Makes code more readable and ready for GTK 4 as we expose methods to
+    directly add and remove the children instead of relying on
+    `GtkContainer` APIs.
+  * quick-settings-box: Cleanup and reformat.
+    Use most specific type where sensible.
+  * app-grid-base-button: Propertify child.
+    Makes code more readable and ready for GTK 4 as we expose methods to
+    directly add and remove the child (like in GTK 4 style of "child as property").
+  * app-grid-base-button: Uncrustify
+  * hacking: Add notes about derivable parent widgets
+  * status-icon: Move UI logic to UI file
+  * status-icon: Uncrustify
+  * revealer: Check for child type
+  * revealer: Use setter function in destroy
+  * status-icon: NULLify `extra_widget` in destroy
+  * app-grid-button: Use gesture to handle right click.
+    Also remove `popup_menu` virtual method implementation as it is not
+    available in GTK 4 and handled by gestures already.
+  * app-grid-button: Move long-press gesture to UI file
+  * app-grid-button: Prefix action name with group.
+    The equivalent method in GTK 4 to bind a model to a popover takes no
+    namespace parameter, so let's make the
+    current code ready for it.
+  * app-grid-button: Cleanup.
+    Rename variables and methods to match the style guide.
+  * app-grid-button: Uncrustify
+  * app-grid: Force the box to align start vertically.
+    Fixes the case where the box gets more-than-required allocation and so decides to
+    distribute it among the children, causing odd spacing among them.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1208
+  * activity: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * ambient: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * app-auth-prompt: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * app-grid: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * app-grid-standalone: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * background: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * background-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * cell-broadcast-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * drag-surface: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * emergency-calls-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * emergency-menu: Use `gtk_widget_set_visible`
+    `gtk_widget_show_all` is unavailable in GTK 4, so let us use the
+    proper setter method.
+  * end-session-dialog: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * fading-label: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * gnome-shell-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * gtk-mount-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * gtk-mount-prompt-prompt: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * keypad: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * layer-surface: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * lockshield: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * lockscreen-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * lockscreen: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * media-player: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * mount-operation: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * network-auth-prompt: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * notification-content: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * osd-window: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * overview: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * polkit-auth-prompt: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * portal-access-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * power-menu-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * proximity: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * run-command-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * screenshot-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * session-manager: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * settings: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * shell: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * system-modal: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * system-modal-dialog: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * top-panel: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * widget-box: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * wwan-info: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * emergency-info: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * custom-quick-settings-standalone: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * notify-server-standalone: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * widget-box-standalone: Use `gtk_widget_set_visible`
+    `gtk_widget_{show, hide}` are deprecated in GTK 4, so let us use the
+    proper setter method.
+  * quick-settings-box: Add method to hide status.
+    Can be used to hide status externally, like by settings.
+  * quick-settings: Add method to hide status.
+    Can be used to hide status externally, like by settings.
+  * settings: Add method to hide details.
+    Hides quick-settings box status-page and audio-settings details.
+  * top-panel: Hide settings' details on fold.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1136
+  * settings: Use `hide_details` on panel launch.
+    Hides quick-settings box status in-addition to audio-settings details.
+
+  [ Evangelos Ribeiro Tzaras ]
+  * overview: Only look up carousel position if parent is found.
+    This saves a few cpu cycles.
+
+  [ Sam Day ]
+  * status-icon: Remove obsolete show_always getter+setter.
+    This property was dropped back in 2020. These names managed to sneak
+    their way into the symbol export map, but since the actual symbols don't
+    exist this doesn't break ABI compatibility (or at least,
+    abi-compliance-checker did not complain)
+    Fixes: 1f9f31db ("status-icon: Drop show-always")
+  * ci: Always publish ABI check artifacts.
+    If there's an ABI breakage the pipeline will fail (which is good). This
+    change ensures that when this happens the report containing detailed
+    info is made available.
+
+  [ Bardia Moshiri ]
+  * util: Move sys/mman and fnctl out of MEMFD ifdef
+    these are needed if in meson we set have_memfd_create to false.
+
+  [ Gotam Gorabh ]
+  * notification: Don't focus the notification-frame.
+    Don't focus the notification-frame as it overlap the
+    action buttons. However notification body still can
+    focus without shadow.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1152
+  * notification-frame: Add slide-down animation.
+    Add slide-down animation to rest of the notifications after a new
+    notification appears.
+    We skip the animation when it currently isn't visible anyway.
+
+  [ Sebastian Krzyszkowiak ]
+  * activity: Fix thumbnail scaling.
+    PhoshActivity is unaware of GtkButton's padding. Move it
+    to GtkDrawingArea, so the thumbnail size can be calculated
+    with correct aspect ratio.
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+  [ Andika Triwidada ]
+  * Update Indonesian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 21 Mar 2025 18:19:23 +0100
+
 phosh (0.45.0) experimental; urgency=medium
 
   [ Guido Günther ]
