@@ -128,7 +128,7 @@ transform_call_state (GBinding     *binding,
 {
   PhoshCallState state = g_value_get_enum (from_value);
 
-  g_value_set_string (to_value, cui_call_state_to_string (state));
+  g_value_set_string (to_value, cui_call_state_to_string ((CuiCallState)state));
   return TRUE;
 }
 
