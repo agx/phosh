@@ -113,7 +113,7 @@ get_time_from_property (ECalClient            *cal,
 {
   ICalProperty  *prop;
   ICalTime      *itt;
-  ICalTimezone  *timezone = NULL;
+  ICalTimezone  *tz = NULL;
 
   prop = i_cal_component_get_first_property (icomp, prop_kind);
   if (!prop)
@@ -122,27 +122,27 @@ get_time_from_property (ECalClient            *cal,
   itt = get_prop_func (prop);
 
   if (i_cal_time_is_utc (itt))
-    timezone = i_cal_timezone_get_utc_timezone ();
+    tz = i_cal_timezone_get_utc_timezone ();
   else
    {
       ICalParameter *param;
 
       param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
-      if (param && !e_cal_client_get_timezone_sync (cal, i_cal_parameter_get_tzid (param), &timezone, NULL, NULL))
+      if (param && !e_cal_client_get_timezone_sync (cal, i_cal_parameter_get_tzid (param), &tz, NULL, NULL))
         print_debug ("Failed to get timezone '%s'\n", i_cal_parameter_get_tzid (param));
 
       g_clear_object (&param);
    }
 
-  if (timezone == NULL)
-    timezone = default_zone;
+  if (tz == NULL)
+    tz = default_zone;
 
-  i_cal_time_set_timezone (itt, timezone);
+  i_cal_time_set_timezone (itt, tz);
 
   g_clear_object (&prop);
 
   *out_itt = itt;
-  *out_timezone = timezone;
+  *out_timezone = tz;
 
   return TRUE;
 }
@@ -153,7 +153,7 @@ get_ical_start_time (ECalClient    *cal,
                      ICalTimezone  *default_zone)
 {
   ICalTime     *itt;
-  ICalTimezone *timezone;
+  ICalTimezone *tz;
   time_t        retval;
 
   if (!get_time_from_property (cal,
@@ -162,12 +162,12 @@ get_ical_start_time (ECalClient    *cal,
                                i_cal_property_get_dtstart,
                                default_zone,
                                &itt,
-                               &timezone))
+                               &tz))
     {
       return 0;
     }
 
-  retval = i_cal_time_as_timet_with_zone (itt, timezone);
+  retval = i_cal_time_as_timet_with_zone (itt, tz);
 
   g_clear_object (&itt);
 
@@ -180,7 +180,7 @@ get_ical_end_time (ECalClient    *cal,
                    ICalTimezone  *default_zone)
 {
   ICalTime     *itt;
-  ICalTimezone *timezone;
+  ICalTimezone *tz;
   time_t        retval;
 
   if (!get_time_from_property (cal,
@@ -189,7 +189,7 @@ get_ical_end_time (ECalClient    *cal,
                                i_cal_property_get_dtend,
                                default_zone,
                                &itt,
-                               &timezone))
+                               &tz))
     {
       if (!get_time_from_property (cal,
                                    icomp,
@@ -197,7 +197,7 @@ get_ical_end_time (ECalClient    *cal,
                                    i_cal_property_get_dtstart,
                                    default_zone,
                                    &itt,
-                                   &timezone))
+                                   &tz))
         {
           return 0;
         }
@@ -206,7 +206,7 @@ get_ical_end_time (ECalClient    *cal,
         i_cal_time_adjust (itt, 1, 0, 0, 0);
     }
 
-  retval = i_cal_time_as_timet_with_zone (itt, timezone);
+  retval = i_cal_time_as_timet_with_zone (itt, tz);
 
   g_clear_object (&itt);
 
@@ -269,12 +269,12 @@ static time_t
 timet_from_ical_time (ICalTime     *time,
                       ICalTimezone *default_zone)
 {
-  ICalTimezone *timezone = NULL;
+  ICalTimezone *tz = NULL;
 
-  timezone = i_cal_time_get_timezone (time);
-  if (timezone == NULL)
-    timezone = default_zone;
-  return i_cal_time_as_timet_with_zone (time, timezone);
+  tz = i_cal_time_get_timezone (time);
+  if (tz == NULL)
+    tz = default_zone;
+  return i_cal_time_as_timet_with_zone (time, tz);
 }
 
 static gboolean
