@@ -56,7 +56,7 @@ variables:
                     libadwaita-dev json-glib-dev gnome-bluetooth-dev modemmanager-dev gmobile-dev gsettings-desktop-schemas
   RUST_BINDINGS_BRANCH: main
   LIBPHOSH: libphosh-0.45
-  SID_PKGS: universal-ctags
+  SID_PKGS: universal-ctags clang clang-tools lld
 
 .trixie_vars: &trixie_vars
   variables:
@@ -315,6 +315,18 @@ unit-test:native-alpinelinux-edge:
     paths:
       - _build
   when: manual
+
+build:native-debian-trixie-clang:
+  stage: build
+  image: ${DEBIAN_IMAGE}
+  <<: *build_before_script
+  <<: *trixie_vars
+  script:
+    - CC=clang CC_LD=lld meson setup ${BUILD_OPTS} _build
+    - meson compile -C _build
+  artifacts:
+    paths:
+      - _build
 
 check-consistency:
   stage: test+docs
