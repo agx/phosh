@@ -95,7 +95,7 @@ phoc_stdout_watch (GIOChannel      *source,
   return !finished;
 }
 
-static void
+G_NORETURN static void
 on_phoc_startup_timeout (gpointer unused)
 {
   g_assert_not_reached ();
