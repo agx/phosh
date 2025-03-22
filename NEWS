@@ -1,3 +1,41 @@
+phosh 0.46~rc1
+--------------
+Released March 2025
+* lockscreen: Allow to set background image. Off by default, can be enabled
+  via mobile-settings (or `gsettings`).
+* Close quick-settings status pages when closing the top panel
+* Notifications: Use slide down animation in the message tray and allow to focus
+  default action
+* media-player: Use `can-play` to device whether we should show the widget
+* media-player: Download cover-art when possible
+* layout-manager: Handle notches/cutouts in the indicator areas. This
+  helps devices with a e.g. camera in the left display corner (like
+  the Nothing Phone).
+* Use more consistent button press feedback
+* wifi-quick-setting: Indicate ongoing Wi-Fi scans in the status page
+* Add `phosh.gsettings(5)` manpage.
+* Set more wallpaper friendly defaults, reduce flicker, fix thumbnail
+  scaling and other fixes.
+* Simplify UI files and other bits preps for a GTK4 migration
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1138
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1208
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1136
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1152
+* Contributors:
+    * Arun Mani J
+    * Bardia Moshiri
+    * Evangelos Ribeiro Tzaras
+    * Gotam Gorabh
+    * Guido Günther
+    * Sam Day
+    * Sebastian Krzyszkowiak
+* UI translations:
+    * Andika Triwidada (id)
+    * Daniel Șerbănescu (ro)
+    * Jordi Mas i Hernandez (ca)
+    * Yaron Shahrabani (he)
+
 phosh 0.45.0
 ------------
 Released February 2025
