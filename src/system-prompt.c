@@ -446,7 +446,7 @@ on_password_changed (PhoshSystemPrompt *self,
                      GtkEditable *editable)
 {
   PhoshSystemPromptPrivate *priv;
-  int upper, lower, digit, misc;
+  int upper, digit, misc;
   const char *password;
   double pwstrength;
   int length, i;
@@ -471,18 +471,15 @@ on_password_changed (PhoshSystemPrompt *self,
 
   length = strlen (password);
   upper = 0;
-  lower = 0;
   digit = 0;
   misc = 0;
 
   for ( i = 0; i < length ; i++) {
     if (g_ascii_isdigit (password[i]))
       digit++;
-    else if (g_ascii_islower (password[i]))
-      lower++;
     else if (g_ascii_isupper (password[i]))
       upper++;
-    else
+    else if (!g_ascii_islower (password[i]))
       misc++;
   }
 
