@@ -11,7 +11,7 @@ clock-show-date=false
 clock-show-weekday=false
 color-scheme='prefer-dark'
 
-[org.gnome.desktop.screensaver]
+[org.gnome.desktop.screensaver:Phosh]
 picture-uri='file:///usr/share/backgrounds/gnome/blobs-d.svg'
 picture-options='none'
 
