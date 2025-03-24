@@ -8,6 +8,7 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkImage" id="image">
+            <property name="pixel-size">24</property>
             <property name="visible">1</property>
           </object>
         </child>

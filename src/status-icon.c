@@ -28,6 +28,7 @@ enum {
   PHOSH_STATUS_ICON_PROP_0,
   PHOSH_STATUS_ICON_PROP_ICON_NAME,
   PHOSH_STATUS_ICON_PROP_ICON_SIZE,
+  PHOSH_STATUS_ICON_PROP_PIXEL_SIZE,
   PHOSH_STATUS_ICON_PROP_EXTRA_WIDGET,
   PHOSH_STATUS_ICON_PROP_INFO,
   PHOSH_STATUS_ICON_PROP_LAST_PROP
@@ -39,6 +40,7 @@ typedef struct {
   GtkWidget   *image;
   GtkWidget   *extra_widget;
   GtkIconSize  icon_size;
+  guint        pixel_size;
   char        *info;
 
   guint       idle_id;
@@ -60,7 +62,12 @@ phosh_status_icon_set_property (GObject      *object,
     phosh_status_icon_set_icon_name (self, g_value_get_string (value));
     break;
   case PHOSH_STATUS_ICON_PROP_ICON_SIZE:
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     phosh_status_icon_set_icon_size (self, g_value_get_enum (value));
+    G_GNUC_END_IGNORE_DEPRECATIONS
+    break;
+  case PHOSH_STATUS_ICON_PROP_PIXEL_SIZE:
+    phosh_status_icon_set_pixel_size (self, g_value_get_uint (value));
     break;
   case PHOSH_STATUS_ICON_PROP_EXTRA_WIDGET:
     phosh_status_icon_set_extra_widget (self, g_value_get_object (value));
@@ -87,7 +94,12 @@ phosh_status_icon_get_property (GObject    *object,
     g_value_take_string (value, phosh_status_icon_get_icon_name (self));
     break;
   case PHOSH_STATUS_ICON_PROP_ICON_SIZE:
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     g_value_set_enum (value, phosh_status_icon_get_icon_size (self));
+    G_GNUC_END_IGNORE_DEPRECATIONS
+    break;
+  case PHOSH_STATUS_ICON_PROP_PIXEL_SIZE:
+    g_value_set_uint (value, phosh_status_icon_get_pixel_size (self));
     break;
   case PHOSH_STATUS_ICON_PROP_EXTRA_WIDGET:
     g_value_set_object (value, phosh_status_icon_get_extra_widget (self));
@@ -201,6 +213,15 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
                        GTK_ICON_SIZE_LARGE_TOOLBAR,
                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
   /**
+   * PhoshStatusIcon:pixel-size:
+   *
+   * The size of the icon to display in the widget
+   */
+  props[PHOSH_STATUS_ICON_PROP_PIXEL_SIZE] =
+    g_param_spec_uint ("pixel-size", "", "",
+                       0, G_MAXUINT, 24,
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+  /**
    * PhoshStatusIcon:extra-widget:
    *
    * An extra widget to display. This is used for extra information when
@@ -240,6 +261,7 @@ phosh_status_icon_init (PhoshStatusIcon *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   priv->icon_size = GTK_ICON_SIZE_LARGE_TOOLBAR;
+  priv->pixel_size = 24;
 }
 
 
@@ -264,9 +286,7 @@ phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const char *icon_name)
   if (!g_strcmp0 (old_icon_name, icon_name))
     return;
 
-  gtk_image_set_from_icon_name (GTK_IMAGE (priv->image),
-                                icon_name,
-                                phosh_status_icon_get_icon_size (self));
+  gtk_image_set_from_icon_name (GTK_IMAGE (priv->image), icon_name, -1);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_ICON_NAME]);
 }
@@ -287,11 +307,20 @@ phosh_status_icon_get_icon_name (PhoshStatusIcon *self)
   return icon_name;
 }
 
-
+/**
+ * phosh_status_icon_set_icon_size:
+ * @self: The status-icon
+ * @size: The size of icon
+ *
+ * Set the size of status-icon.
+ *
+ * Deprecated: 0.47: Use [method@Phosh.StatusIcon.set_pixel_size].
+ */
 void
 phosh_status_icon_set_icon_size (PhoshStatusIcon *self, GtkIconSize size)
 {
   PhoshStatusIconPrivate *priv;
+  guint pixel_size;
   g_return_if_fail (PHOSH_IS_STATUS_ICON (self));
 
   priv = phosh_status_icon_get_instance_private (self);
@@ -300,12 +329,49 @@ phosh_status_icon_set_icon_size (PhoshStatusIcon *self, GtkIconSize size)
     return;
 
   priv->icon_size = size;
-  g_object_set (priv->image, "icon-size", size, NULL);
+
+  switch (size) {
+  case GTK_ICON_SIZE_INVALID:
+    pixel_size = 0;
+    break;
+  case GTK_ICON_SIZE_MENU:
+    pixel_size = 16;
+    break;
+  case GTK_ICON_SIZE_SMALL_TOOLBAR:
+    pixel_size = 16;
+    break;
+  case GTK_ICON_SIZE_LARGE_TOOLBAR:
+    pixel_size = 24;
+    break;
+  case GTK_ICON_SIZE_BUTTON:
+    pixel_size = 16;
+    break;
+  case GTK_ICON_SIZE_DND:
+    pixel_size = 32;
+    break;
+  case GTK_ICON_SIZE_DIALOG:
+    pixel_size = 48;
+    break;
+  default:
+    g_critical ("Unknown size %d", size);
+    return;
+  }
+
+  phosh_status_icon_set_pixel_size (self, pixel_size);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_ICON_SIZE]);
 }
 
-
+/**
+ * phosh_status_icon_get_icon_size:
+ * @self: The status-icon
+ *
+ * Return the size of status-icon.
+ *
+ * Returns: The size of status-icon.
+ *
+ * Deprecated: 0.47: Use [method@Phosh.StatusIcon.get_pixel_size].
+ */
 GtkIconSize
 phosh_status_icon_get_icon_size (PhoshStatusIcon *self)
 {
@@ -316,6 +382,37 @@ phosh_status_icon_get_icon_size (PhoshStatusIcon *self)
   priv = phosh_status_icon_get_instance_private (self);
 
   return priv->icon_size;
+}
+
+
+void
+phosh_status_icon_set_pixel_size (PhoshStatusIcon *self, guint size)
+{
+  PhoshStatusIconPrivate *priv;
+  g_return_if_fail (PHOSH_IS_STATUS_ICON (self));
+
+  priv = phosh_status_icon_get_instance_private (self);
+
+  if (priv->pixel_size == size)
+    return;
+
+  priv->pixel_size = size;
+  gtk_image_set_pixel_size (GTK_IMAGE (priv->image), priv->pixel_size);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_PIXEL_SIZE]);
+}
+
+
+guint
+phosh_status_icon_get_pixel_size (PhoshStatusIcon *self)
+{
+  PhoshStatusIconPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_STATUS_ICON (self), 0);
+
+  priv = phosh_status_icon_get_instance_private (self);
+
+  return priv->pixel_size;
 }
 
 

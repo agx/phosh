@@ -61,12 +61,14 @@
    phosh_status_icon_get_extra_widget;
    phosh_status_icon_get_icon_name;
    phosh_status_icon_get_icon_size;
+   phosh_status_icon_get_pixel_size;
    phosh_status_icon_get_info;
    phosh_status_icon_get_type;
    phosh_status_icon_new;
    phosh_status_icon_set_extra_widget;
    phosh_status_icon_set_icon_name;
    phosh_status_icon_set_icon_size;
+   phosh_status_icon_set_pixel_size;
    phosh_status_icon_set_info;
    phosh_status_page_get_content;
    phosh_status_page_get_footer;
