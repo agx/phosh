@@ -99,39 +99,39 @@
   </template>
   <object class="PhoshWWanInfo" id="wwaninfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshWifiInfo" id="wifiinfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshBtInfo" id="btinfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshBatteryInfo" id="batteryinfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshRotateInfo" id="rotateinfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshFeedbackInfo" id="feedbackinfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshTorchInfo" id="torchinfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshDockedInfo" id="dockedinfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshVpnInfo" id="vpninfo">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshWifiStatusPage" id="wifi_status_page">
     <property name="visible">1</property>

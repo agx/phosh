@@ -318,7 +318,7 @@
                         <child>
                           <object class="PhoshBatteryInfo" id="batteryinfo">
                             <property name="visible">1</property>
-                            <property name="icon-size">2</property>
+                            <property name="pixel-size">16</property>
                           </object>
                         </child>
                       </object>
@@ -358,48 +358,48 @@
   </template>
   <object class="PhoshWWanInfo" id="wwaninfo">
     <property name="margin-end">8</property>
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="show-detail">1</property>
     <style>
       <class name="phosh-wwan-indicator"/>
     </style>
   </object>
   <object class="PhoshWifiInfo" id="wifiinfo">
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshBtInfo" id="btinfo">
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshVpnInfo" id="vpn_info">
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshConnectivityInfo" id="connectivity_info">
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshDockedInfo" id="docked_info">
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshHksInfo" id="hks_info_mic">
     <property name="device-type">mic</property>
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshHksInfo" id="hks_info_camera">
     <property name="device-type">camera</property>
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshFeedbackInfo" id="feedback_info">
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="PhoshLocationInfo" id="location_info">
-    <property name="icon-size">2</property>
+    <property name="pixel-size">16</property>
     <property name="margin-end">8</property>
   </object>
   <object class="GtkGestureMultiPress" id="click_gesture">
