@@ -402,8 +402,11 @@ on_save_pixbuf_ready (GObject      *source_object,
   g_return_if_fail (self->frames->filename);
 
   success = gdk_pixbuf_save_to_stream_finish (res, &err);
-  if (!success)
+  if (!success) {
     g_warning ("Failed to save screenshot: %s", err->message);
+    screenshot_done (self, FALSE);
+    return;
+  }
 
   if (!self->frames->invocation)
     update_recent_files (self);
