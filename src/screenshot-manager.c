@@ -461,7 +461,10 @@ on_save_pixbuf_ready (GObject      *source_object,
                                            self->frames->filename,
                                            GDK_PIXBUF (source_object));
 
-  screenshot_done (self, success);
+  if (self->frames->copy_to_clipboard)
+    copy_to_clipboard (self, GDK_PIXBUF (source_object));
+  else
+    screenshot_done (self, success);
 }
 
 
@@ -677,6 +680,7 @@ submit_screenshot (PhoshScreenshotManager *self)
   }
 
   if (stream) {
+    /* on_save_to_pixbuf will trigger copy_to_clipboard if needed */
     gdk_pixbuf_save_to_stream_async (pixbuf,
                                      G_OUTPUT_STREAM (stream),
                                      "png",
@@ -684,9 +688,10 @@ submit_screenshot (PhoshScreenshotManager *self)
                                      on_save_pixbuf_ready,
                                      g_object_ref (self),
                                      NULL);
-  }
-  if (self->frames->copy_to_clipboard)
+  } else if (self->frames->copy_to_clipboard) {
+    /* Copy to clipboard only */
     copy_to_clipboard (self, pixbuf);
+  }
 
   if (self->frames->flash) {
     phosh_trigger_feedback ("screen-capture");
