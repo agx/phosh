@@ -14,6 +14,7 @@
           <object class="GtkButton" id="btn_prev">
             <property name="visible">1</property>
             <signal name="clicked" handler="btn_prev_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+            <property name="focus-on-click">0</property>
             <child>
               <object class="GtkImage">
                 <property name="visible">1</property>
@@ -33,6 +34,7 @@
           <object class="GtkButton" id="btn_seek_backward">
             <property name="visible">1</property>
             <signal name="clicked" handler="btn_seek_backward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+            <property name="focus-on-click">0</property>
             <child>
               <object class="GtkImage">
                 <property name="visible">1</property>
@@ -52,6 +54,7 @@
           <object class="GtkButton" id="btn_play">
             <property name="visible">1</property>
             <signal name="clicked" handler="btn_play_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+            <property name="focus-on-click">0</property>
             <child>
               <object class="GtkImage" id="img_play">
                 <property name="visible">1</property>
@@ -72,6 +75,7 @@
           <object class="GtkButton" id="btn_seek_forward">
             <property name="visible">1</property>
             <signal name="clicked" handler="btn_seek_forward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+            <property name="focus-on-click">0</property>
             <child>
               <object class="GtkImage">
                 <property name="visible">1</property>
@@ -91,6 +95,7 @@
           <object class="GtkButton" id="btn_next">
             <property name="visible">1</property>
             <signal name="clicked" handler="btn_next_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+            <property name="focus-on-click">0</property>
             <child>
               <object class="GtkImage">
                 <property name="visible">1</property>
@@ -170,6 +175,7 @@
         <property name="relief">none</property>
         <signal name="clicked" handler="btn_details_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
         <property name="valign">center</property>
+        <property name="focus-on-click">0</property>
         <child>
           <object class="GtkBox">
             <property name="visible">1</property>
