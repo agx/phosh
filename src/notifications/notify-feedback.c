@@ -208,13 +208,9 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
         g_autoptr (LfbEvent) event = event = lfb_event_new (name);
 
         lfb_event_set_feedback_profile (event, profile);
-        if (sound_file) {
-#ifdef PHOSH_HAVE_LFB_SOUND_FILE
+        if (sound_file)
           lfb_event_set_sound_file (event, sound_file);
-#else
-          g_warning_once ("Lfb lacks sound-file support");
-#endif
-        }
+
         if (app_id)
           lfb_event_set_app_id (event, app_id);
         g_debug ("Emitting event %s for %s, profile: %s", name, app_id ?: "unknown", profile);
