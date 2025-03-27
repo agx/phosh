@@ -97,6 +97,7 @@ find_event_inactive (const char *category)
 /**
  * find_event_active:
  * @category: The category to look up the event for
+ * @important:(out): Whether the event is considered important
  *
  * Look up an event when for a notification category when the device
  * is in active use.
@@ -104,7 +105,7 @@ find_event_inactive (const char *category)
  * Returns:(nullable): The event name
  */
 static const char *
-find_event_active (const char *category)
+find_event_active (const char *category, gboolean *important)
 {
   const char *ret = NULL;
 
@@ -122,7 +123,11 @@ find_event_active (const char *category)
     ret = "phone-incoming-call";
   else if (g_strcmp0 (category, "call.unanswered") == 0)
     ret = "phone-missed-call";
-  else
+  else if (g_str_has_prefix (category, "x-phosh-cellbroadcast.") == 0) {
+    ret = "message-new-cellbroadcast";
+    if (important)
+      *important = TRUE;
+  } else
     ret = "notification-new-generic";
 
   return ret;
@@ -202,8 +207,9 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
     /* The default event */
     if (!inactive_only) {
       const char *name;
+      gboolean important = FALSE;
 
-      name = find_event_active (category);
+      name = find_event_active (category, &important);
       if (name) {
         g_autoptr (LfbEvent) event = event = lfb_event_new (name);
 
@@ -214,6 +220,8 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
         if (app_id)
           lfb_event_set_app_id (event, app_id);
         g_debug ("Emitting event %s for %s, profile: %s", name, app_id ?: "unknown", profile);
+        if (important && app_id)
+          lfb_event_set_important (event, TRUE);
         lfb_event_trigger_feedback_async (event, NULL, NULL, NULL);
         /* TODO: we should better track that on the notification */
         g_set_object (&self->active_event, event);
