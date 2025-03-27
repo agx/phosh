@@ -678,34 +678,23 @@ create_notification_row (gpointer item, gpointer data)
 
 
 static void
-animate_clock (PhoshLockscreen *self)
+on_info_reveal_child_changed (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv;
-
-  priv = phosh_lockscreen_get_instance_private (self);
-
-  /* Use small clock if any additional info elements are revealed */
-  phosh_util_toggle_style_class (priv->box_datetime, LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS,
-                                 !!priv->reveals);
-}
-
-
-static void
-on_info_reveal_child_changed (PhoshLockscreen *self, GParamSpec *pspec, GtkRevealer *revealer)
-{
-  PhoshLockscreenPrivate *priv;
+  gboolean has_info = FALSE;
 
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
 
-  if (gtk_revealer_get_reveal_child (revealer))
-    priv->reveals++;
-  else
-    priv->reveals--;
+  has_info |= gtk_revealer_get_reveal_child (priv->rev_notifications);
+  has_info |= gtk_revealer_get_reveal_child (priv->rev_call_notifications);
+  has_info |= gtk_revealer_get_reveal_child (priv->rev_media_player);
 
-  animate_clock (self);
+  /* Use small clock if any additional info elements are revealed */
+  phosh_util_toggle_style_class (priv->box_datetime,
+                                 LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS,
+                                 has_info);
 }
-
 
 
 static void
@@ -899,6 +888,7 @@ phosh_lockscreen_constructed (GObject *object)
     phosh_widget_box_set_plugins (PHOSH_WIDGET_BOX (priv->widget_box), plugins);
 
   on_deck_visible_child_changed (self, NULL, priv->deck);
+  on_info_reveal_child_changed (self);
 
   phosh_lockscreen_add_background (self);
 }
