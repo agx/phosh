@@ -3,6 +3,7 @@
   <requires lib="gtk+" version="3.24"/>
   <requires lib="libhandy" version="1.8"/>
   <template class="PhoshLockscreen" parent="PhoshLayerSurface">
+    <initial-focus name="btn_submit"/>
     <child>
       <object class="HdyCarousel" id="carousel">
         <property name="visible">1</property>
