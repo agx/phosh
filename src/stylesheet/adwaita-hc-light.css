@@ -53,7 +53,8 @@ button:disabled {
 .phosh-lockscreen-pin:disabled,
 .phosh-lockscreen-pin:focus,
 .phosh-lockscreen-unlocker > label,
-phosh-keypad label.digit
+phosh-keypad label.digit,
+phosh-lockscreen cui-call-display label
  {
   text-shadow: none;
 }

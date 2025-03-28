@@ -552,6 +552,10 @@ phosh-lockscreen cui-call-display actionbar {
   background-color: @phosh_bg_color;
 }
 
+phosh-lockscreen cui-call-display label {
+  text-shadow: 1px 1px 1.1px rgba(0, 0, 0, 0.3);
+}
+
 phosh-lockscreen .phosh-notification-tray {
   margin: 0 6px;
   transition: 200ms ease;
