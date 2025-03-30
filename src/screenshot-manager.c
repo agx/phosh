@@ -390,33 +390,6 @@ phosh_screenshot_manager_save_thumbnail (PhoshScreenshotManager *self,
 
 
 static void
-on_save_pixbuf_ready (GObject      *source_object,
-                      GAsyncResult *res,
-                      gpointer      user_data)
-{
-  gboolean success;
-  g_autoptr (GError) err = NULL;
-  g_autoptr (PhoshScreenshotManager) self = PHOSH_SCREENSHOT_MANAGER (user_data);
-
-  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
-  g_return_if_fail (self->frames->filename);
-
-  success = gdk_pixbuf_save_to_stream_finish (res, &err);
-  if (!success)
-    g_warning ("Failed to save screenshot: %s", err->message);
-
-  if (!self->frames->invocation)
-    update_recent_files (self);
-
-  phosh_screenshot_manager_save_thumbnail (self,
-                                           self->frames->filename,
-                                           GDK_PIXBUF (source_object));
-
-  screenshot_done (self, success);
-}
-
-
-static void
 on_opaque_timeout (gpointer data)
 {
   PhoshScreenshotManager *self = data;
@@ -438,6 +411,60 @@ on_opaque_timeout (gpointer data)
   g_clear_object (&self->for_clipboard);
   g_clear_pointer (&self->opaque, phosh_cp_widget_destroy);
   self->opaque_id = 0;
+}
+
+
+static void
+copy_to_clipboard (PhoshScreenshotManager *self, GdkPixbuf *pixbuf)
+{
+  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
+
+  /* The Wayland clipboard only works if we have focus so use a fully opaque surface */
+  self->opaque = g_object_new (PHOSH_TYPE_FADER,
+                               "monitor", monitor,
+                               "style-class", "phosh-fader-screenshot-opaque",
+                               "kbd-interactivity", TRUE,
+                               NULL);
+  self->for_clipboard = g_object_ref (pixbuf);
+  /* FIXME: Would be better to trigger when the opaque window is up and got
+     input focus but all such attempts failed */
+  self->opaque_id = g_timeout_add_seconds_once (1, on_opaque_timeout, self);
+  g_source_set_name_by_id (self->opaque_id, "[phosh] screenshot opaque");
+
+  gtk_widget_set_visible (GTK_WIDGET (self->opaque), TRUE);
+}
+
+
+static void
+on_save_pixbuf_ready (GObject      *source_object,
+                      GAsyncResult *res,
+                      gpointer      user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (PhoshScreenshotManager) self = PHOSH_SCREENSHOT_MANAGER (user_data);
+
+  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
+  g_return_if_fail (self->frames->filename);
+
+  success = gdk_pixbuf_save_to_stream_finish (res, &err);
+  if (!success) {
+    g_warning ("Failed to save screenshot: %s", err->message);
+    screenshot_done (self, FALSE);
+    return;
+  }
+
+  if (!self->frames->invocation)
+    update_recent_files (self);
+
+  phosh_screenshot_manager_save_thumbnail (self,
+                                           self->frames->filename,
+                                           GDK_PIXBUF (source_object));
+
+  if (self->frames->copy_to_clipboard)
+    copy_to_clipboard (self, GDK_PIXBUF (source_object));
+  else
+    screenshot_done (self, success);
 }
 
 
@@ -653,6 +680,7 @@ submit_screenshot (PhoshScreenshotManager *self)
   }
 
   if (stream) {
+    /* on_save_to_pixbuf will trigger copy_to_clipboard if needed */
     gdk_pixbuf_save_to_stream_async (pixbuf,
                                      G_OUTPUT_STREAM (stream),
                                      "png",
@@ -660,24 +688,9 @@ submit_screenshot (PhoshScreenshotManager *self)
                                      on_save_pixbuf_ready,
                                      g_object_ref (self),
                                      NULL);
-  }
-
-  if (self->frames->copy_to_clipboard) {
-    PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
-
-    /* The Wayland clipboard only works if we have focus so use a fully opaque surface */
-    self->opaque = g_object_new (PHOSH_TYPE_FADER,
-                                 "monitor", monitor,
-                                 "style-class", "phosh-fader-screenshot-opaque",
-                                 "kbd-interactivity", TRUE,
-                                 NULL);
-    self->for_clipboard = g_steal_pointer (&pixbuf);
-    /* FIXME: Would be better to trigger when the opaque window is up and got
-       input focus but all such attempts failed */
-    self->opaque_id = g_timeout_add_seconds_once (1, on_opaque_timeout, self);
-    g_source_set_name_by_id (self->opaque_id, "[phosh] screenshot opaque");
-
-    gtk_widget_set_visible (GTK_WIDGET (self->opaque), TRUE);
+  } else if (self->frames->copy_to_clipboard) {
+    /* Copy to clipboard only */
+    copy_to_clipboard (self, pixbuf);
   }
 
   if (self->frames->flash) {
