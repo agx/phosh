@@ -271,6 +271,9 @@
             <property name="valign">center</property>
             <property name="spacing">12</property>
             <property name="margin-top">100</property>
+            <style>
+                <class name="phosh-lockscreen-unlocker"/>
+            </style>
             <child>
               <object class="GtkLabel" id="lbl_unlock_status">
                 <property name="visible">1</property>
