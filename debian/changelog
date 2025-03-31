@@ -1,3 +1,63 @@
+phosh (0.46.0) experimental; urgency=medium
+
+  [ Sam Day ]
+  * build: Remove nonexistent StatusPagePlaceholder symbol exports.
+    These were introduces in a recent commit, but the actual symbols don't
+    exist.
+    This was identified by @fossdd when building 0.46~rc1 downstream in
+    Alpine, where clang is being used. Seems that lld is more strict about
+    this than gcc is.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1217
+    Fixes: f5ca0cf4 ("status-page-placeholder: Propertify child")
+
+  [ Guido Günther ]
+  * build: Let plugins depend on generated enum headers.
+    Plugins (like dark-mode) use it.
+  * data: Only apply override to Phosh.
+    We don't want to override the default for other environments.
+    Fixes 24a255401 ("data: Disable lockscreen background by default")
+  * screenshot-manager: Exit early when saving screenshot fails.
+    We shouldn't try to update recent files or save a thumbnail.
+    Fixes 0a2228f85 ("screenshot-manager: Create thumbnails of screenshots")
+  * screenshot-manager: Move clipboard copying to separate function.
+    Pure code move. We only change the g_steal_pointer() of the pixbuf to a
+    g_object_ref() to keep a reference.
+  * screenshot-manager: Chain copy to clipboard past saving the image.
+    The code assumed that saving was faster than the clipboard copy opaque
+    timer. If things are I/O is slow the frames would be freed before the
+    on_save_to_pixbuf_read would complete and we'd assert.
+    To avoid this save to disk first and then to clipboard for the case
+    where both is wanted (e.g. power button long press).
+    Fixes ca42c89b2 ("screenshot-manager: Allow to save internal screenshots")
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1220
+
+  [ Sicelo A. Mhlongo ]
+  * rotation-manager: Do not delay marking accelerometer as released.
+    As soon as a request to release the claim on accelerometer is dispatched, mark
+    it as released in Phosh, even if a response from iio-sensor-proxy may only be
+    received much later.
+    This avoids the state inside Phosh getting out of sync with iio-sensor-proxy
+    after a suspend-resume cycle, for which the ReleaseAccelerometer response may
+    only be received after the system has resumed.
+    Closes #1214
+
+  [ Bruce Cowan ]
+  * Update British English translation
+
+  [ Sebastian Krzyszkowiak ]
+  * stylesheet: Improve legibility of app grid and top bar.
+    Add subtle shadows when translucent.
+  * stylesheet: Improve legibility of the lockscreen on arbitrary backgrounds
+  * stylesheet: Improve legibility of call view on arbitrary backgrounds
+
+  [ Vincent Chatelain ]
+  * Update French translation
+
+  [ Vasil Pupkin ]
+  * Update Belarusian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 31 Mar 2025 09:19:21 +0200
+
 phosh (0.46~rc1) experimental; urgency=medium
 
   [ Guido Günther ]
@@ -60,7 +120,7 @@ phosh (0.46~rc1) experimental; urgency=medium
     backgrounds as we otherwise might access stale data.
     Instead of dropping on_monitor_removed completely we keep it as
     consistency check.
-    That way it doesnt' matter if the widget gets destroyed before the
+    That way it doesn't matter if the widget gets destroyed before the
     output or the other way around.
   * treewide: Systemd unit is for development purposes only.
     Clarify that the systemd unit shouldn't be used in production.

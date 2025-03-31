@@ -1,5 +1,5 @@
-phosh 0.46~rc1
---------------
+phosh 0.46.0
+------------
 Released March 2025
 * lockscreen: Allow to set background image. Off by default, can be enabled
   via mobile-settings (or `gsettings`).
@@ -14,14 +14,16 @@ Released March 2025
 * Use more consistent button press feedback
 * wifi-quick-setting: Indicate ongoing Wi-Fi scans in the status page
 * Add `phosh.gsettings(5)` manpage.
-* Set more wallpaper friendly defaults, reduce flicker, fix thumbnail
-  scaling and other fixes.
+* Set more wallpaper friendly defaults and improve legibility, reduce
+  flicker, fix thumbnail scaling and other fixes.
 * Simplify UI files and other bits preps for a GTK4 migration
 * Issues fixed:
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1138
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1208
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1136
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1152
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1217
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1220
 * Contributors:
     * Arun Mani J
     * Bardia Moshiri
@@ -30,7 +32,11 @@ Released March 2025
     * Guido Günther
     * Sam Day
     * Sebastian Krzyszkowiak
+    * Sicelo A. Mhlongo
 * UI translations:
+    * Vasil Pupkin (be)
+    * Bruce Cowan (en_GB)
+    * Vincent Chatelain (fr)
     * Andika Triwidada (id)
     * Daniel Șerbănescu (ro)
     * Jordi Mas i Hernandez (ca)
