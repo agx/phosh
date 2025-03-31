@@ -575,4 +575,21 @@ Use a space after the colon:
  * Returns:(transfer none): The generated wisdom
 ```
 
+## Public API
+
+Phosh's lockscreen and quick setting plugins can use the ABI provided by the
+[plugins symbols file][].
+
+Phosh also provides a shared library to run the "shell in a box" to be
+e.g. used by greeters. The ABI available to library users is the
+plugins ABI plus the symbols from the [library symbols file][]. If you
+need a new symbol for the library but not the plugins, consider adding
+it there.
+
+Symbols in these files can only be changed in a backward compatible manner or
+we need to bump the library API version.
+
 [1]: https://gitlab.gnome.org/GNOME/libhandy/blob/master/HACKING.md#coding-style
+[plugins symbols file]: src/phosh-exported-symbols.txt.in
+[library symbols file]: src/libphosh.syms.in
+[public API documentation]: https://world.pages.gitlab.gnome.org/Phosh/phosh
