@@ -8,7 +8,7 @@
   </template>
   <object class="PhoshStatusIcon" id="info">
     <property name="visible">1</property>
-    <property name="icon-size">1</property>
+    <property name="pixel-size">16</property>
   </object>
   <object class="PhoshStatusPage" id="status_page">
     <property name="visible">1</property>

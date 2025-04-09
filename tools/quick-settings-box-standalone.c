@@ -78,7 +78,10 @@ make_status_page (GtkWidget *child)
   if (g_random_boolean ())
     return NULL;
 
-  image = gtk_image_new_from_icon_name ("face-cool-symbolic", GTK_ICON_SIZE_BUTTON);
+  image = g_object_new (GTK_TYPE_IMAGE,
+                        "icon-name", "face-cool-symbolic",
+                        "pixel-size", 16,
+                        NULL);
   gtk_widget_set_visible (image, TRUE);
   g_object_set_data (G_OBJECT (child), "image", image);
 
@@ -153,9 +156,16 @@ make_controls_box (GtkWidget *child, int i)
   g_autofree char *label = g_strdup_printf ("%d", i);
   GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   GtkWidget *check = gtk_check_button_new_with_label (label);
-  GtkWidget *del_btn = gtk_button_new_from_icon_name ("user-trash-symbolic", GTK_ICON_SIZE_BUTTON);
-  GtkWidget *restatus_btn = gtk_button_new_from_icon_name ("view-refresh-symbolic",
-                                                           GTK_ICON_SIZE_BUTTON);
+  GtkWidget *del_img = g_object_new (GTK_TYPE_IMAGE,
+                                     "icon-name", "user-trash-symbolic",
+                                     "pixel-size", 16,
+                                     NULL);
+  GtkWidget *restatus_img = g_object_new (GTK_TYPE_IMAGE,
+                                          "icon-name", "view-refresh-symbolic",
+                                          "pixel-size", 16,
+                                          NULL);
+  GtkWidget *del_btn = g_object_new (GTK_TYPE_BUTTON, "image", del_img, NULL);
+  GtkWidget *restatus_btn = g_object_new (GTK_TYPE_BUTTON, "image", restatus_img, NULL);
 
   g_object_bind_property (check, "active", child, "visible", G_BINDING_SYNC_CREATE);
   g_signal_connect_object (del_btn, "clicked", G_CALLBACK (on_del_clicked), child,

@@ -466,7 +466,7 @@ phosh_quick_setting_set_showing_status (PhoshQuickSetting *self, gboolean showin
   else
     icon_name = "go-next-symbolic";
 
-  gtk_image_set_from_icon_name (priv->arrow, icon_name, GTK_ICON_SIZE_BUTTON);
+  gtk_image_set_from_icon_name (priv->arrow, icon_name, -1);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHOWING_STATUS]);
 }

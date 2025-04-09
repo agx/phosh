@@ -106,14 +106,13 @@ build_2x2_grid_icon (PhoshAppGridFolderButton *self)
     icon = g_app_info_get_icon (app_info);
 
     if (icon == NULL) {
-      image = gtk_image_new_from_icon_name (PHOSH_APP_UNKNOWN_ICON,
-                                            GTK_ICON_SIZE_DND);
+      image = gtk_image_new_from_icon_name (PHOSH_APP_UNKNOWN_ICON, -1);
     } else {
       if (G_IS_THEMED_ICON (icon)) {
         g_themed_icon_append_name (G_THEMED_ICON (icon),
                                    PHOSH_APP_UNKNOWN_ICON);
       }
-      image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DND);
+      image = gtk_image_new_from_gicon (icon, -1);
     }
 
     /* app-grid-button uses 64px for its icon.

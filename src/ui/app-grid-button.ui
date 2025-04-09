@@ -9,7 +9,6 @@
     <property name="visible">1</property>
     <property name="pixel-size">64</property>
     <property name="icon-name">app-icon-unknown</property>
-    <property name="icon-size">6</property>
   </object>
   <object class="GtkGestureLongPress" id="long_gesture">
     <property name="touch-only">1</property>

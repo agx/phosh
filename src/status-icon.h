@@ -37,8 +37,10 @@ struct _PhoshStatusIconClass {
 };
 
 GtkWidget * phosh_status_icon_new (void);
-void phosh_status_icon_set_icon_size (PhoshStatusIcon *self, GtkIconSize size);
-GtkIconSize phosh_status_icon_get_icon_size (PhoshStatusIcon *self);
+void phosh_status_icon_set_icon_size (PhoshStatusIcon *self, GtkIconSize size) G_GNUC_DEPRECATED_FOR (phosh_status_icon_set_pixel_size);
+GtkIconSize phosh_status_icon_get_icon_size (PhoshStatusIcon *self) G_GNUC_DEPRECATED_FOR (phosh_status_icon_get_pixel_size);
+void phosh_status_icon_set_pixel_size (PhoshStatusIcon *self, guint size);
+guint phosh_status_icon_get_pixel_size (PhoshStatusIcon *self);
 void phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const char *icon_name);
 char *phosh_status_icon_get_icon_name (PhoshStatusIcon *self);
 void phosh_status_icon_set_extra_widget (PhoshStatusIcon *self, GtkWidget *widget);
