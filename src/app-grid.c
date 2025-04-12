@@ -560,8 +560,8 @@ on_folder_edit_toggled (PhoshAppGrid *self, GtkToggleButton *toggle_btn)
     const char *folder_name = phosh_folder_info_get_name (priv->open_folder);
     gtk_entry_set_text (GTK_ENTRY (priv->folder_name_entry), folder_name);
     gtk_widget_grab_focus (priv->folder_name_entry);
-    gtk_image_set_from_icon_name (GTK_IMAGE (priv->folder_name_img),
-                                  "emblem-ok-symbolic", GTK_ICON_SIZE_BUTTON);
+    gtk_image_set_from_icon_name (GTK_IMAGE (priv->folder_name_img), 
+                                  "checkmark-symbolic", GTK_ICON_SIZE_BUTTON);
   } else {
     const char *folder_name = gtk_entry_get_text (GTK_ENTRY (priv->folder_name_entry));
     if (gm_str_is_null_or_empty (folder_name))
