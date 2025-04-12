@@ -123,6 +123,7 @@
                                   <object class="GtkImage" id="btn_adaptive_img">
                                     <property name="visible">1</property>
                                     <property name="icon-name">eye-not-looking-symbolic</property>
+                                    <property name="pixel-size">16</property>
                                   </object>
                                 </child>
                                 <child>
@@ -224,6 +225,7 @@
                       <object class="GtkImage" id="folder_name_img">
                         <property name="visible">1</property>
                         <property name="icon-name">document-edit-symbolic</property>
+                        <property name="pixel-size">16</property>
                       </object>
                     </child>
                   </object>
