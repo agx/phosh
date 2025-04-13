@@ -22,7 +22,7 @@ struct _PhoshAppListModelPrivate {
 
   GSequence *items;
 
-  gulong debounce;
+  guint debounce;
 
   /* cache */
   struct {
