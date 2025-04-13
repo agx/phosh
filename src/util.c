@@ -67,24 +67,10 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
   g_autofree char *lowercase = NULL;
   GDesktopAppInfo *app_info = NULL;
   char *last_component;
-  static char *mappings[][2] = {
-    { "Audacity", "org.audacityteam.Audacity" }, /* flatpak,X11 */
-    { "Gimp-2.10", "gimp" }, /* X11 */
-    { "krita", "org.kde.krita" }, /* X11 */
-  };
   PhoshAppListModel *model = phosh_app_list_model_get_default ();
 
   g_assert (app_id);
 
-  /* fix up applications with known broken app-id */
-  for (int i = 0; i < G_N_ELEMENTS (mappings); i++) {
-    if (strcmp (app_id, mappings[i][0]) == 0) {
-      app_id = mappings[i][1];
-      break;
-    }
-  }
-
-  /* Regular case */
   desktop_id = g_strdup_printf ("%s.desktop", app_id);
   g_return_val_if_fail (desktop_id, NULL);
   app_info = g_desktop_app_info_new (desktop_id);
