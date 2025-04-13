@@ -47,6 +47,8 @@ phosh_app_list_model_finalize (GObject *object)
   PhoshAppListModel *self = PHOSH_APP_LIST_MODEL (object);
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
 
+  g_clear_handle_id (&priv->debounce, g_source_remove);
+
   g_clear_object (&priv->monitor);
   g_clear_object (&priv->settings);
 
