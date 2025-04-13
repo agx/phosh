@@ -103,13 +103,7 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
   if (app_info)
     return g_object_ref (app_info);
 
-  desktop_id = g_strdup_printf ("%s.desktop", lowercase);
-  g_return_val_if_fail (desktop_id, NULL);
-  app_info = g_desktop_app_info_new (desktop_id);
-
-  if (!app_info)
-    g_message ("Could not find application for app-id '%s'", app_id);
-
+  g_message ("Could not find application for app-id '%s'", app_id);
   return NULL;
 }
 
