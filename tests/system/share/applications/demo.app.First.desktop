@@ -23,5 +23,6 @@ Terminal=false
 Type=Application
 Categories=System;TerminalEmulator;X-GNOME-Utilities;GTK;GNOME;
 StartupNotify=true
+StartupWMClass=first-app
 DBusActivatable=true
 X-GNOME-UsesNotifications=true

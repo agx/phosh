@@ -50,6 +50,8 @@ on_items_changed (GListModel *model,
   g_assert_cmpint (removed, ==, 0);
   g_assert_cmpint (position, ==, 0);
 
+  g_assert_nonnull (phosh_app_list_model_lookup_by_startup_wm_class (context->model, "first-app"));
+
   context->changed = TRUE;
   g_main_loop_quit (context->loop);
 }
@@ -68,6 +70,7 @@ test_phosh_app_list_model_api (void)
   g_assert_true (PHOSH_IS_APP_LIST_MODEL (model));
   g_assert_true (G_IS_LIST_MODEL (model));
   g_assert_cmpint (g_list_model_get_n_items (G_LIST_MODEL (model)), ==, 0);
+  g_assert_null (phosh_app_list_model_lookup_by_startup_wm_class (model, "whatever"));
   g_assert_true (g_list_model_get_item_type (G_LIST_MODEL (model)) == G_TYPE_APP_INFO);
   g_signal_connect (model, "items-changed", G_CALLBACK (on_items_changed), &context);
   g_main_loop_run (loop);
