@@ -77,8 +77,8 @@ test_phosh_notify_feedback_screen_wakeup (void)
 static void
 test_phosh_notify_feedback_find_event_inactive (void)
 {
-  g_assert_cmpstr (find_event_inactive ("doesnotexist"), ==, "message-missed-notification");
-  g_assert_cmpstr (find_event_inactive (NULL), ==, "message-missed-notification");
+  g_assert_cmpstr (find_event_inactive ("doesnotexist"), ==, "notification-missed-generic");
+  g_assert_cmpstr (find_event_inactive (NULL), ==, "notification-missed-generic");
   g_assert_cmpstr (find_event_inactive ("call.unanswered"), ==, "phone-missed-call");
   g_assert_cmpstr (find_event_inactive ("im.received"), ==, "message-missed-instant");
 }

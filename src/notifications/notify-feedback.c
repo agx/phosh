@@ -87,8 +87,7 @@ find_event_inactive (const char *category)
   } else if (g_strcmp0 (category, "call.unanswered") == 0) {
     ret = "phone-missed-call";
   } else {
-    /* TODO: notification-missed-generic */
-    ret = "message-missed-notification";
+    ret = "notification-missed-generic";
   }
 
   return ret;
