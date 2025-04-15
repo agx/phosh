@@ -74,20 +74,21 @@ end_notify_feedback (PhoshNotifyFeedback *self)
 static const char *
 find_event_inactive (const char *category)
 {
-  const char *ret = NULL;
+  const char *ret = "notification-missed-generic";
 
-  if (g_strcmp0 (category, "email.arrived") == 0) {
+  if (gm_str_is_null_or_empty (category))
+    return ret;
+
+  if (g_str_equal (category, "email.arrived")) {
     ret = "message-missed-email";
-  } else if (g_strcmp0 (category, "im.received") == 0) {
+  } else if (g_str_equal (category, "im.received")) {
     ret = "message-missed-instant";
-  } else if (g_strcmp0 (category, "x-phosh.sms.received") == 0) {
+  } else if (g_str_equal (category, "x-phosh.sms.received")) {
     ret = "message-missed-sms";
-  } else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0) {
+  } else if (g_str_equal (category, "x-gnome.call.unanswered")) {
     ret = "phone-missed-call";
-  } else if (g_strcmp0 (category, "call.unanswered") == 0) {
+  } else if (g_str_equal (category, "call.unanswered")) {
     ret = "phone-missed-call";
-  } else {
-    ret = "notification-missed-generic";
   }
 
   return ret;
@@ -106,28 +107,30 @@ find_event_inactive (const char *category)
 static const char *
 find_event_active (const char *category, gboolean *important)
 {
-  const char *ret = NULL;
+  const char *ret = "notification-new-generic";
 
-  if (g_strcmp0 (category, "email.arrived") == 0)
+  if (gm_str_is_null_or_empty (category))
+    return ret;
+
+  if (g_str_equal (category, "email.arrived"))
     ret = "message-new-email";
-  else if (g_strcmp0 (category, "im.received") == 0)
+  else if (g_str_equal (category, "im.received"))
     ret = "message-new-instant";
-  else if (g_strcmp0 (category, "x-phosh.sms.received") == 0)
+  else if (g_str_equal (category, "x-phosh.sms.received"))
     ret = "message-new-sms";
-  else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
+  else if (g_str_equal (category, "x-gnome.call.unanswered"))
     ret = "phone-missed-call";
-  else if (g_strcmp0 (category, "call.ended") == 0)
+  else if (g_str_equal (category, "call.ended"))
     ret = "phone-hangup";
-  else if (g_strcmp0 (category, "call.incoming") == 0)
+  else if (g_str_equal (category, "call.incoming"))
     ret = "phone-incoming-call";
-  else if (g_strcmp0 (category, "call.unanswered") == 0)
+  else if (g_str_equal (category, "call.unanswered"))
     ret = "phone-missed-call";
-  else if (category && g_str_has_prefix (category, "x-phosh-cellbroadcast.")) {
+  else if (g_str_has_prefix (category, "x-phosh-cellbroadcast.")) {
     ret = "message-new-cellbroadcast";
     if (important)
       *important = TRUE;
-  } else
-    ret = "notification-new-generic";
+  }
 
   return ret;
 }
