@@ -123,7 +123,7 @@ find_event_active (const char *category, gboolean *important)
     ret = "phone-incoming-call";
   else if (g_strcmp0 (category, "call.unanswered") == 0)
     ret = "phone-missed-call";
-  else if (g_str_has_prefix (category, "x-phosh-cellbroadcast.") == 0) {
+  else if (category && g_str_has_prefix (category, "x-phosh-cellbroadcast.")) {
     ret = "message-new-cellbroadcast";
     if (important)
       *important = TRUE;
