@@ -23,7 +23,6 @@
 
 #include <gmobile.h>
 
-#define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
 #define NOTIFICATIONS_KEY_APP_CHILDREN "application-children"
 
 #define NOTIFICATIONS_APP_SCHEMA_ID PHOSH_NOTIFICATIONS_SCHEMA_ID ".application"
@@ -598,7 +597,7 @@ on_notifications_setting_changed (PhoshNotifyManager *self,
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
   g_return_if_fail (G_IS_SETTINGS (settings));
 
-  self->show_banners = g_settings_get_boolean (settings, NOTIFICATIONS_KEY_SHOW_BANNERS);
+  self->show_banners = g_settings_get_boolean (settings, PHOSH_NOTIFICATIONS_KEY_SHOW_BANNERS);
 }
 
 
@@ -698,7 +697,7 @@ phosh_notify_manager_constructed (GObject *object)
                                        NULL);
 
   self->settings = g_settings_new (PHOSH_NOTIFICATIONS_SCHEMA_ID);
-  g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_SHOW_BANNERS,
+  g_signal_connect_swapped (self->settings, "changed::" PHOSH_NOTIFICATIONS_KEY_SHOW_BANNERS,
                             G_CALLBACK (on_notifications_setting_changed), self);
   on_notifications_setting_changed (self, NULL, self->settings);
 
