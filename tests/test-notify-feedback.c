@@ -5,7 +5,7 @@
  *
  */
 
-#include "notifications/notify-feedback.h"
+#include "notifications/notify-feedback.c"
 
 
 #include <gio/gdesktopappinfo.h>
@@ -74,12 +74,44 @@ test_phosh_notify_feedback_screen_wakeup (void)
 }
 
 
+static void
+test_phosh_notify_feedback_find_event_inactive (void)
+{
+  g_assert_cmpstr (find_event_inactive ("doesnotexist"), ==, "notification-missed-generic");
+  g_assert_cmpstr (find_event_inactive (NULL), ==, "notification-missed-generic");
+  g_assert_cmpstr (find_event_inactive ("call.unanswered"), ==, "phone-missed-call");
+  g_assert_cmpstr (find_event_inactive ("im.received"), ==, "message-missed-instant");
+}
+
+
+static void
+test_phosh_notify_feedback_find_event_active (void)
+{
+  gboolean important = FALSE;
+
+  g_assert_cmpstr (find_event_active ("doesnotexist", &important), ==, "notification-new-generic");
+  g_assert_false (important);
+  g_assert_cmpstr (find_event_active (NULL, &important), ==, "notification-new-generic");
+  g_assert_false (important);
+  g_assert_cmpstr (find_event_active ("im.received", &important), ==, "message-new-instant");
+  g_assert_false (important);
+  g_assert_cmpstr (find_event_active ("x-phosh-cellbroadcast.danger.severe", &important), ==,
+                   "message-new-cellbroadcast");
+  g_assert_true (important);
+}
+
+
 int
 main (int argc, char **argv)
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add_func ("/phosh/notifyfeedback/check-screen-wakeup", test_phosh_notify_feedback_screen_wakeup);
+  g_test_add_func ("/phosh/notifyfeedback/check-screen-wakeup",
+                   test_phosh_notify_feedback_screen_wakeup);
+  g_test_add_func ("/phosh/notifyfeedback/find-event-inactive",
+                   test_phosh_notify_feedback_find_event_inactive);
+  g_test_add_func ("/phosh/notifyfeedback/find-event-active",
+                   test_phosh_notify_feedback_find_event_active);
 
   return g_test_run ();
 }
