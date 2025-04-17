@@ -149,7 +149,7 @@ phosh_metainfo_cache_class_init (PhoshMetainfoCacheClass *klass)
    */
   props[PROP_READY] =
     g_param_spec_boolean ("ready", "", "", FALSE,
-                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 

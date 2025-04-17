@@ -1123,7 +1123,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name", "", "",
                          NULL,
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshWifiManager:ssid:
    *
@@ -1132,7 +1132,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PROP_SSID] =
     g_param_spec_string ("ssid", "", "",
                          NULL,
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshWifiManager:enabled
    *

@@ -108,7 +108,7 @@ phosh_power_menu_class_init (PhoshPowerMenuClass *klass)
   props[PROP_SHOW_SUSPEND] =
     g_param_spec_boolean ("show-suspend", "", "",
                           FALSE,
-                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[DONE] = g_signal_new ("done",

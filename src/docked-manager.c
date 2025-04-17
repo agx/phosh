@@ -211,7 +211,7 @@ phosh_docked_manager_class_init (PhoshDockedManagerClass *klass)
                          "icon name",
                          "The docked icon name",
                          DOCKED_DISABLED_ICON,
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled",

@@ -411,7 +411,7 @@ phosh_session_manager_class_init (PhoshSessionManagerClass *klass)
                           "Active",
                           "Active session",
                           FALSE,
-                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PHOSH_SESSION_MANAGER_PROP_LAST_PROP, props);
 }

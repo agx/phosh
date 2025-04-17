@@ -147,7 +147,7 @@ phosh_cell_broadcast_manager_class_init (PhoshCellBroadcastManagerClass *klass)
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled", "", "",
                           FALSE,
-                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }

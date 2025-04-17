@@ -640,7 +640,9 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    */
   g_object_class_install_property (object_class, PROP_PASSWORD_VISIBLE,
                                    g_param_spec_boolean ("password-visible", "", "",
-                                                         FALSE, G_PARAM_READABLE));
+                                                         FALSE,
+                                                         G_PARAM_READABLE |
+                                                         G_PARAM_STATIC_STRINGS));
 
   /**
    * GcrPromptDialog:confirm-visible:
@@ -649,7 +651,9 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    */
   g_object_class_install_property (object_class, PROP_CONFIRM_VISIBLE,
                                    g_param_spec_boolean ("confirm-visible", "", "",
-                                                         FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
+                                                         FALSE,
+                                                         G_PARAM_READABLE |
+                                                         G_PARAM_STATIC_STRINGS));
 
   /**
    * PhoshSystemPrompt:warning-visible:
@@ -658,7 +662,9 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    */
   g_object_class_install_property (object_class, PROP_WARNING_VISIBLE,
                                    g_param_spec_boolean ("warning-visible", "", "",
-                                                         FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
+                                                         FALSE,
+                                                         G_PARAM_READABLE |
+                                                         G_PARAM_STATIC_STRINGS));
 
   /**
    * PhoshSystemPrompt:choice-visible:
@@ -667,7 +673,9 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    */
   g_object_class_install_property (object_class, PROP_CHOICE_VISIBLE,
                                    g_param_spec_boolean ("choice-visible", "", "",
-                                                         FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
+                                                         FALSE,
+                                                         G_PARAM_READABLE |
+                                                         G_PARAM_STATIC_STRINGS));
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/mobi/phosh/ui/system-prompt.ui");
