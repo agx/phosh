@@ -1,4 +1,4 @@
 [wrap-git]
 directory=feedbackd
 url=https://source.puri.sm/Librem5/feedbackd.git
-revision=v0.4.0
+revision=v0.7.0
