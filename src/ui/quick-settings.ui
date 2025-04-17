@@ -62,6 +62,7 @@
           <object class="PhoshQuickSetting">
             <property name="visible" bind-source="feedbackinfo" bind-property="present" bind-flags="sync-create"/>
             <property name="status-icon">feedbackinfo</property>
+            <property name="status-page">feedback_status_page</property>
             <property name="long-press-action-name">settings.launch-panel</property>
             <property name="long-press-action-target">&quot;notifications&quot;</property>
             <signal name="clicked" handler="on_feedback_clicked" object="PhoshQuickSettings" swapped="yes"/>
@@ -137,6 +138,9 @@
     <property name="visible">1</property>
   </object>
   <object class="PhoshBtStatusPage" id="bt_status_page">
+    <property name="visible">1</property>
+  </object>
+  <object class="PhoshFeedbackStatusPage" id="feedback_status_page">
     <property name="visible">1</property>
   </object>
 </interface>
