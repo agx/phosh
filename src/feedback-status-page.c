@@ -11,7 +11,9 @@
 #include "phosh-config.h"
 
 #include "feedback-status-page.h"
+#include "feedback-manager.h"
 #include "notifications/notify-manager.h"
+#include "shell-priv.h"
 
 /**
  * Phosh_feedback_status_page:
@@ -32,6 +34,7 @@ struct _PhoshFeedbackStatusPage {
   GtkSwitch      *dnd_switch;
   GtkImage       *icon;
   gboolean        do_not_disturb;
+  char           *prev_profile;
 };
 G_DEFINE_TYPE (PhoshFeedbackStatusPage, phosh_feedback_status_page, PHOSH_TYPE_STATUS_PAGE)
 
@@ -53,11 +56,24 @@ dnd_to_icon_name (GBinding     *binding,
 static void
 set_do_not_disturb (PhoshFeedbackStatusPage *self, gboolean do_not_disturb)
 {
+  PhoshFeedbackManager *manager = phosh_shell_get_feedback_manager (phosh_shell_get_default ());
+
   if (self->do_not_disturb == do_not_disturb)
     return;
 
   g_debug ("Do not disturb: %d", do_not_disturb);
   self->do_not_disturb = do_not_disturb;
+
+  if (self->do_not_disturb) {
+    g_free (self->prev_profile);
+    self->prev_profile = g_strdup (phosh_feedback_manager_get_profile (manager));
+    phosh_feedback_manager_set_profile (manager, "silent");
+  } else {
+    /* Restore previous profile only if user didn't change it in between */
+    if (g_str_equal (phosh_feedback_manager_get_profile (manager), "silent") &&
+        self->prev_profile)
+      phosh_feedback_manager_set_profile (manager, self->prev_profile);
+  }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DO_NOT_DISTURB]);
   g_signal_emit_by_name (self, "done", NULL);
@@ -111,13 +127,26 @@ phosh_feedback_status_page_get_property (GObject    *object,
 
 
 static void
+phosh_feedback_status_page_finalize (GObject *object)
+{
+  PhoshFeedbackStatusPage *self = PHOSH_FEEDBACK_STATUS_PAGE (object);
+
+  g_clear_pointer (&self->prev_profile, g_free);
+
+  G_OBJECT_CLASS (phosh_feedback_status_page_parent_class)->finalize (object);
+}
+
+
+static void
 phosh_feedback_status_page_class_init (PhoshFeedbackStatusPageClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  object_class->finalize = phosh_feedback_status_page_finalize;
   object_class->get_property = phosh_feedback_status_page_get_property;
   object_class->set_property = phosh_feedback_status_page_set_property;
+
 
   props[PROP_DO_NOT_DISTURB] =
     g_param_spec_boolean ("do-not-disturb", "", "",
