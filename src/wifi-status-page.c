@@ -92,7 +92,7 @@ on_ssid_changed (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager 
 
   ssid = phosh_wifi_manager_get_ssid (manager);
   if (ssid && self->connecting_network && g_str_equal (ssid, self->connecting_network)) {
-    g_signal_emit_by_name (self, "done", TRUE);
+    g_signal_emit_by_name (self, "done", NULL);
     g_clear_pointer (&self->connecting_network, g_free);
   }
 }

@@ -52,7 +52,7 @@ on_row_activated (PhoshBtStatusPage *self, gboolean success)
   self->activating--;
 
   if (self->activating == 0 && success)
-    g_signal_emit_by_name (self, "done", success);
+    g_signal_emit_by_name (self, "done", NULL);
 }
 
 
