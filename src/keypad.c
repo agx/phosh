@@ -279,7 +279,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
     gtk_widget_class_bind_template_child_full (widget_class,
                                                name,
                                                FALSE,
-                                               G_STRUCT_OFFSET(PhoshKeypad, buttons[i]));
+                                               G_STRUCT_OFFSET (PhoshKeypad, buttons[i]));
   }
 
   gtk_widget_class_bind_template_callback (widget_class, on_button_clicked);

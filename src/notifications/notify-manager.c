@@ -684,7 +684,7 @@ static void
 phosh_notify_manager_constructed (GObject *object)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (object);
-  PhoshShell *shell = phosh_shell_get_default();
+  PhoshShell *shell = phosh_shell_get_default ();
 
   G_OBJECT_CLASS (phosh_notify_manager_parent_class)->constructed (object);
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
