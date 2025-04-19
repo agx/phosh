@@ -13,6 +13,8 @@
 
 #include "phosh-config.h"
 
+#include "app-list-model.h"
+
 #include "util.h"
 #include <gtk/gtk.h>
 
@@ -65,21 +67,9 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
   g_autofree char *lowercase = NULL;
   GDesktopAppInfo *app_info = NULL;
   char *last_component;
-  static char *mappings[][2] = {
-    { "Audacity", "org.audacityteam.Audacity" }, /* flatpak,X11 */
-    { "Gimp-2.10", "gimp" }, /* X11 */
-    { "krita", "org.kde.krita" }, /* X11 */
-  };
+  PhoshAppListModel *model = phosh_app_list_model_get_default ();
 
   g_assert (app_id);
-
-  /* fix up applications with known broken app-id */
-  for (int i = 0; i < G_N_ELEMENTS (mappings); i++) {
-    if (strcmp (app_id, mappings[i][0]) == 0) {
-      app_id = mappings[i][1];
-      break;
-    }
-  }
 
   desktop_id = g_strdup_printf ("%s.desktop", app_id);
   g_return_val_if_fail (desktop_id, NULL);
@@ -87,6 +77,10 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
 
   if (app_info)
     return app_info;
+
+  app_info = phosh_app_list_model_lookup_by_startup_wm_class (model, app_id);
+  if (app_info)
+    return g_object_ref (app_info);
 
   /* try to handle the case where app-id is rev-DNS, but desktop file is not */
   last_component = strrchr(app_id, '.');
@@ -103,15 +97,14 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
 
   /* X11 WM_CLASS is often capitalized, so try in lowercase as well */
   lowercase = g_utf8_strdown (last_component ?: app_id, -1);
-  g_free (desktop_id);
-  desktop_id = g_strdup_printf ("%s.desktop", lowercase);
-  g_return_val_if_fail (desktop_id, NULL);
-  app_info = g_desktop_app_info_new (desktop_id);
+  g_clear_pointer (&desktop_id, g_free);
 
-  if (!app_info)
-    g_message ("Could not find application for app-id '%s'", app_id);
+  app_info = phosh_app_list_model_lookup_by_startup_wm_class (model, lowercase);
+  if (app_info)
+    return g_object_ref (app_info);
 
-  return app_info;
+  g_message ("Could not find application for app-id '%s'", app_id);
+  return NULL;
 }
 
 /**

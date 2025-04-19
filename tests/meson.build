@@ -30,6 +30,8 @@ test_env_common.set('LSAN_OPTIONS',
                     'suppressions=@0@/data/leak-suppress.txt'.format(meson.project_source_root()))
 # as our libraries lack frame pointers since otherwise back traces are incomplete
 test_env_common.set('ASAN_OPTIONS', 'fast_unwind_on_malloc=0')
+# Useful when running locally and glib hits an assertion:
+#test_env_common.set('ASAN_OPTIONS', 'fast_unwind_on_malloc=0:disable_coredump=0:unmap_shadow_on_exit=1:abort_on_error=1')
 
 # xdg setup for the app-grid:
 test_env_unit = test_env_common

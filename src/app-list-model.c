@@ -1,5 +1,6 @@
 /*
  * Copyright © 2019-2020 Zander Brown <zbrown@gnome.org>
+ *             2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -22,7 +23,7 @@ struct _PhoshAppListModelPrivate {
 
   GSequence *items;
 
-  gulong debounce;
+  guint debounce;
 
   /* cache */
   struct {
@@ -32,6 +33,8 @@ struct _PhoshAppListModelPrivate {
   } last;
 
   GSettings *settings;
+
+  GHashTable *startup_wm_class;
 };
 
 static void list_iface_init (GListModelInterface *iface);
@@ -47,6 +50,9 @@ phosh_app_list_model_finalize (GObject *object)
   PhoshAppListModel *self = PHOSH_APP_LIST_MODEL (object);
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
 
+  g_clear_handle_id (&priv->debounce, g_source_remove);
+
+  g_clear_pointer (&priv->startup_wm_class, g_hash_table_destroy);
   g_clear_object (&priv->monitor);
   g_clear_object (&priv->settings);
 
@@ -173,9 +179,9 @@ items_changed (gpointer data)
   g_return_val_if_fail (new_apps != NULL, G_SOURCE_REMOVE);
 
   removed = g_sequence_get_length (priv->items);
-
   g_sequence_remove_range (g_sequence_get_begin_iter (priv->items),
                            g_sequence_get_end_iter (priv->items));
+  g_hash_table_remove_all (priv->startup_wm_class);
 
   folder_paths = g_settings_get_strv (priv->settings, "folder-children");
 
@@ -191,13 +197,23 @@ items_changed (gpointer data)
   }
 
   for (GList *l = new_apps; l; l = g_list_next (l)) {
+    const char *startup_wm_class;
+    GAppInfo *app_info = l->data;
+
     /* We add folders irrespective of their emptiness because otherwise we won't be able to listen
      * for apps-changed signal. */
-    if (!PHOSH_IS_FOLDER_INFO (l->data) && !g_app_info_should_show (G_APP_INFO (l->data))) {
+    if (!PHOSH_IS_FOLDER_INFO (l->data) && !g_app_info_should_show (app_info)) {
       continue;
     }
-    g_sequence_append (priv->items, g_object_ref (l->data));
+    g_sequence_append (priv->items, g_object_ref (app_info));
     added++;
+
+    startup_wm_class = g_desktop_app_info_get_startup_wm_class (G_DESKTOP_APP_INFO (app_info));
+    if (startup_wm_class) {
+      g_hash_table_insert (priv->startup_wm_class,
+                           g_strdup (startup_wm_class),
+                           g_object_ref (app_info));
+    }
   }
 
   priv->last.is_valid = FALSE;
@@ -244,6 +260,10 @@ phosh_app_list_model_init (PhoshAppListModel *self)
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
 
   priv->debounce = 0;
+  priv->startup_wm_class = g_hash_table_new_full (g_str_hash,
+                                                  g_str_equal,
+                                                  g_free,
+                                                  g_object_unref);
 
   priv->last.is_valid = FALSE;
 
@@ -276,4 +296,26 @@ phosh_app_list_model_get_default (void)
   }
 
   return instance;
+}
+
+/**
+ * phosh_app_list_model_lookup_by_startup_wm_class:
+ * @self: The app list model
+ * @class: The `StartupWMClass`
+ *
+ * Lookup the app-id by the wm class of the toplevel.
+ * https://specifications.freedesktop.org/desktop-entry-spec/latest/recognized-keys.html
+ *
+ * Returns: (transfer full)(nullable): GDesktopAppInfo for requested app_id
+ */
+GDesktopAppInfo *
+phosh_app_list_model_lookup_by_startup_wm_class (PhoshAppListModel *self,
+                                                 const char        *class)
+{
+  PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_APP_LIST_MODEL (self), NULL);
+  g_return_val_if_fail (class, NULL);
+
+  return g_hash_table_lookup (priv->startup_wm_class, class);
 }
