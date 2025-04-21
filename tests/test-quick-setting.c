@@ -122,11 +122,11 @@ test_phosh_quick_setting_set_active (void)
 
   phosh_quick_setting_set_active (PHOSH_QUICK_SETTING (quick_setting), TRUE);
   flags = gtk_widget_get_state_flags (quick_setting);
-  g_assert_true (flags & GTK_STATE_FLAG_ACTIVE);
+  g_assert_true (flags & GTK_STATE_FLAG_CHECKED);
 
   phosh_quick_setting_set_active (PHOSH_QUICK_SETTING (quick_setting), FALSE);
   flags = gtk_widget_get_state_flags (quick_setting);
-  g_assert_false (flags & GTK_STATE_FLAG_ACTIVE);
+  g_assert_false (flags & GTK_STATE_FLAG_CHECKED);
 
   gtk_widget_destroy (quick_setting);
 }
