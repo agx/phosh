@@ -88,6 +88,7 @@
     <file alias="screenshot-portrait-symbolic.svg">../data/icons/screenshot-portrait-symbolic.svg</file>
     <file alias="skip-backwards-10-symbolic.svg">../data/icons/skip-backwards-10-symbolic.svg</file>
     <file alias="skip-forward-30-symbolic.svg">../data/icons/skip-forward-30-symbolic.svg</file>
+    <file alias="splash-process-working-symbolic.svg">../data/icons/splash-process-working-symbolic.svg</file>
     <file alias="swipe-arrow-symbolic.svg">../data/icons/swipe-arrow-symbolic.svg</file>
     <file alias="torch-disabled-symbolic.svg">../data/icons/torch-disabled-symbolic.svg</file>
     <file alias="torch-enabled-symbolic.svg">../data/icons/torch-enabled-symbolic.svg</file>
