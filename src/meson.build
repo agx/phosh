@@ -240,6 +240,7 @@ phosh_tool_sources = files(
   'lockshield.c',
   'log.c',
   'manager.c',
+  'mpris-manager.c',
   'media-player.c',
   'metainfo-cache.c',
   'mode-manager.c',

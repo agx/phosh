@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
- *               2023-2024 The Phosh Developers
+ *               2023-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -64,6 +64,7 @@
 #include "revealer.h"
 #include "settings.h"
 #include "system-modal-dialog.h"
+#include "mpris-manager.h"
 #include "network-auth-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-banner.h"
@@ -184,6 +185,7 @@ typedef struct
   PhoshLauncherEntryManager *launcher_entry_manager;
   PhoshCellBroadcastManager *cell_broadcast_manager;
   PhoshConnectivityManager *connectivity_manager;
+  PhoshMprisManager *mpris_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -545,6 +547,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->mpris_manager);
   g_clear_object (&priv->connectivity_manager);
   g_clear_object (&priv->cell_broadcast_manager);
   g_clear_object (&priv->launcher_entry_manager);
@@ -1932,6 +1935,29 @@ phosh_shell_get_location_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_LOCATION_MANAGER (priv->location_manager), NULL);
   return priv->location_manager;
+}
+
+/**
+ * phosh_shell_get_mpris_manager:
+ * @self: The shell singleton
+ *
+ * Get the MPRIS manager
+ *
+ * Returns: (transfer none): The MPRIS manager
+ */
+PhoshMprisManager *
+phosh_shell_get_mpris_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->mpris_manager)
+    priv->mpris_manager = phosh_mpris_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_MPRIS_MANAGER (priv->mpris_manager), NULL);
+  return priv->mpris_manager;
 }
 
 /**
