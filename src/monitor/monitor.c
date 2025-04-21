@@ -61,9 +61,9 @@ output_handle_geometry (void             *data,
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
-  g_debug ("handle geometry output %p, position %d %d, size %dx%d, subpixel layout %d, vendor %s, "
-           "product %s, transform %d",
-           self, x, y, physical_width, physical_height, subpixel, make, model, transform);
+  g_debug ("handle geometry output %p, position %d %d, size %dx%d, subpixel layout %d, "
+           "transform %d",
+           self, x, y, physical_width, physical_height, subpixel, transform);
 
   self->wl_output_done = FALSE;
   self->x = x;
@@ -71,8 +71,6 @@ output_handle_geometry (void             *data,
   self->width_mm = physical_width;
   self->height_mm = physical_height;
   self->subpixel = subpixel;
-  self->vendor = g_strdup (make);
-  self->product = g_strdup (model);
   self->transform = transform;
 }
 
@@ -367,8 +365,6 @@ phosh_monitor_finalize (GObject *object)
   self->modes = NULL;
 
   g_clear_pointer (&self->description, g_free);
-  g_clear_pointer (&self->vendor, g_free);
-  g_clear_pointer (&self->product, g_free);
   g_clear_pointer (&self->name, g_free);
 
   G_OBJECT_CLASS (phosh_monitor_parent_class)->finalize (object);

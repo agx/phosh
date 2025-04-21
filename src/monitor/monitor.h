@@ -126,8 +126,6 @@ struct _PhoshMonitor {
   int width_mm;
   int height_mm;
 
-  char *vendor;
-  char *product;
   char *description;
 
   GArray *modes;
