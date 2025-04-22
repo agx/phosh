@@ -35,7 +35,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_int ("signal-quality", "", "",
                       0, 100, 0,
-                      G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+                      G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS));
   /**
    * PhoshWWan:access-tec:
    *
@@ -45,7 +45,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_string ("access-tec", "", "",
                          NULL,
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS));
   /**
    * PhoshWWan:unlocked:
    *
@@ -55,7 +55,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_boolean ("unlocked", "", "",
                           FALSE,
-                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS));
   /**
    * PhoshWWan:sim:
    *
@@ -65,7 +65,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_boolean ("sim", "", "",
                           FALSE,
-                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS));
   /**
    * PhoshWWan:present:
    *
@@ -75,7 +75,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_boolean ("present", "", "",
                           FALSE,
-                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS));
   /**
    * PhoshWWan:enabled:
    *
@@ -85,7 +85,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_boolean ("enabled", "", "",
                           FALSE,
-                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS));
   /**
    * PhoshWWan:operator:
    *
@@ -95,7 +95,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_string ("operator", "", "",
                          NULL,
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS));
 }
 
 

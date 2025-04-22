@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshFeedbackStatusPage" parent="PhoshStatusPage">
+    <property name="visible">1</property>
+    <property name="title" translatable="yes">Feedback</property>
+    <property name="content">box</property>
+    <property name="footer">footer</property>
+  </template>
+  <object class="GtkBox" id="box">
+    <property name="visible">1</property>
+    <child>
+      <object class="GtkListBox">
+        <property name="visible">1</property>
+        <property name="selection-mode">none</property>
+        <child>
+          <object class="HdyActionRow">
+            <property name="visible">1</property>
+            <property name="title" translatable="yes">Do not disturb</property>
+            <property name="activatable">1</property>
+            <signal name="activated" handler="on_dnd_row_activated" swapped="true"/>
+            <child type="prefix">
+              <object class="GtkImage" id="icon">
+                <property name="visible">1</property>
+                <property name="pixel-size">16</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="dnd_switch">
+                <property name="visible">1</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <style>
+          <class name="content"/>
+        </style>
+      </object>
+    </child>
+  </object>
+  <object class="GtkButton" id="footer">
+    <property name="visible">1</property>
+    <property name="hexpand">1</property>
+    <property name="action-name">settings.launch-mobile-panel</property>
+    <property name="action-target">&quot;feedback&quot;</property>
+    <property name="focus-on-click">0</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">1</property>
+        <property name="ellipsize">end</property>
+        <property name="label" translatable="yes">Feedback Settings</property>
+      </object>
+    </child>
+  </object>
+</interface>

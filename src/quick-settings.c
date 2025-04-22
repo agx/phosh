@@ -13,6 +13,7 @@
 #include "quick-settings.h"
 
 #include "bt-status-page.h"
+#include "feedback-status-page.h"
 #include "plugin-loader.h"
 #include "quick-setting.h"
 #include "quick-settings-box.h"
@@ -276,6 +277,7 @@ phosh_quick_settings_class_init (PhoshQuickSettingsClass *klass)
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
 
   g_type_ensure (PHOSH_TYPE_BT_STATUS_PAGE);
+  g_type_ensure (PHOSH_TYPE_FEEDBACK_STATUS_PAGE);
   g_type_ensure (PHOSH_TYPE_WIFI_STATUS_PAGE);
 
   gtk_widget_class_set_template_from_resource (widget_class,

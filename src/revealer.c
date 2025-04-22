@@ -175,7 +175,7 @@ phosh_revealer_class_init (PhoshRevealerClass *klass)
   props[PROP_SHOW_CHILD] =
     g_param_spec_boolean ("show-child", "", "",
                           FALSE,
-                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 

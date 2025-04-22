@@ -222,12 +222,16 @@ brightness_value_changed_cb (GtkScale *scale_brightness, gpointer unused)
 
 
 static void
-open_settings_panel (PhoshSettings *self, const char *panel)
+open_settings_panel (PhoshSettings *self, gboolean mobile, const char *panel)
 {
   if (self->on_lockscreen)
     return;
 
-  phosh_util_open_settings_panel (panel);
+  if (mobile)
+    phosh_util_open_mobile_settings_panel (panel);
+  else
+    phosh_util_open_settings_panel (panel);
+
   close_settings_menu (self);
 }
 
@@ -240,7 +244,20 @@ on_launch_panel_activated (GSimpleAction *action, GVariant *param, gpointer data
 
   panel = g_variant_get_string (param, NULL);
 
-  open_settings_panel (self, panel);
+  open_settings_panel (self, FALSE, panel);
+  phosh_settings_hide_details (self);
+}
+
+
+static void
+on_launch_mobile_panel_activated (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  const char *panel;
+
+  panel = g_variant_get_string (param, NULL);
+
+  open_settings_panel (self, TRUE, panel);
   phosh_settings_hide_details (self);
 }
 
@@ -536,6 +553,9 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 
 static const GActionEntry entries[] = {
   { .name = "launch-panel", .activate = on_launch_panel_activated, .parameter_type = "s" },
+  { .name = "launch-mobile-panel",
+    .activate = on_launch_mobile_panel_activated,
+    .parameter_type = "s" },
 };
 
 

@@ -16,6 +16,7 @@
     <file preprocess="xml-stripblanks">ui/emergency-contact-row.ui</file>
     <file preprocess="xml-stripblanks">ui/emergency-menu.ui</file>
     <file preprocess="xml-stripblanks">ui/end-session-dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/feedback-status-page.ui</file>
     <file preprocess="xml-stripblanks">ui/gtk-mount-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/gvc-channel-bar.ui</file>
     <file preprocess="xml-stripblanks">ui/home.ui</file>
@@ -63,6 +64,8 @@
     <file alias="auth-sim-locked-symbolic.svg">../data/icons/auth-sim-locked-symbolic.svg</file>
     <file alias="auth-sim-missing-symbolic.svg">../data/icons/auth-sim-missing-symbolic.svg</file>
     <file alias="camera-hardware-disabled-symbolic.svg">../data/icons/camera-hardware-disabled-symbolic.svg</file>
+    <file alias="chat-symbolic.svg">../data/icons/chat-symbolic.svg</file>
+    <file alias="chat-none-symbolic.svg">../data/icons/chat-none-symbolic.svg</file>
     <file alias="eye-not-looking-symbolic.svg">../data/icons/eye-not-looking-symbolic.svg</file>
     <file alias="eye-open-negative-filled-symbolic.svg">../data/icons/eye-open-negative-filled-symbolic.svg</file>
     <file alias="feedback-quiet-symbolic.svg">../data/icons/feedback-quiet-symbolic.svg</file>

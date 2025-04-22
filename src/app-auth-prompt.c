@@ -347,7 +347,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "Icon",
       "The auth dialog icon",
       G_TYPE_ICON,
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_SUBTITLE] =
     g_param_spec_string (
@@ -355,7 +355,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "Subtitle",
       "The auth dialog subtitle",
       "",
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_BODY] =
     g_param_spec_string (
@@ -363,7 +363,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "Body",
       "The auth dialog body",
       "",
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_GRANT_LABEL] =
     g_param_spec_string (
@@ -371,7 +371,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "Grant label",
       "The auth dialog's grant access button label",
       "",
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_DENY_LABEL] =
     g_param_spec_string (
@@ -379,7 +379,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "Deny label",
       "The auth dialog's deny access button label",
       "",
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_OFFER_REMEMBER] =
     g_param_spec_boolean (
@@ -387,7 +387,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "Offer Remember",
       "Whether to offer to remember the auth decision result",
       FALSE,
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_CHOICES] =
     g_param_spec_variant (
@@ -396,7 +396,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "The dialogs shown permissions and their possible values",
       G_VARIANT_TYPE (PHOSH_APP_AUTH_PROMPT_CHOICES_FORMAT),
       NULL,
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 

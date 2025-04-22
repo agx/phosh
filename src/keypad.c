@@ -232,7 +232,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
                          "Entry",
                          "The entry widget connected to the keypad",
                          GTK_TYPE_ENTRY,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   /**
    * PhoshKeypad:end-action:
@@ -244,7 +244,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
                          "End action",
                          "The end action widget",
                          GTK_TYPE_WIDGET,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   /**
    * PhoshKeypad:start-action:
@@ -256,7 +256,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
                          "Start action",
                          "The start action widget",
                          GTK_TYPE_WIDGET,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   /**
    * PhoshKeypad:shuffle:
@@ -267,7 +267,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
   props[PROP_SHUFFLE] =
     g_param_spec_boolean ("shuffle", "", "",
                           FALSE,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -279,7 +279,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
     gtk_widget_class_bind_template_child_full (widget_class,
                                                name,
                                                FALSE,
-                                               G_STRUCT_OFFSET(PhoshKeypad, buttons[i]));
+                                               G_STRUCT_OFFSET (PhoshKeypad, buttons[i]));
   }
 
   gtk_widget_class_bind_template_callback (widget_class, on_button_clicked);
