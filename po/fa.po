@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-30 17:57+0000\n"
-"PO-Revision-Date: 2025-02-02 14:42+0330\n"
+"POT-Creation-Date: 2025-04-22 08:34+0000\n"
+"PO-Revision-Date: 2025-04-22 14:20+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
@@ -118,23 +118,23 @@ msgstr "رویدادهای پیش رو"
 msgid "Show upcoming calendar events"
 msgstr "نمایش رویدادهای تقویم پیش رو"
 
-#: src/app-grid-button.c:154
+#: src/app-grid-button.c:144
 msgid "Add to Folder"
 msgstr "افزودن به شاخه"
 
-#: src/app-grid-button.c:178
+#: src/app-grid-button.c:168
 msgid "Create new folder"
 msgstr "ایجاد شاخهٔ جدید"
 
-#: src/app-grid-button.c:731 src/app-grid-button.c:788
+#: src/app-grid-button.c:694 src/app-grid-button.c:748
 msgid "Application"
 msgstr "برنامه"
 
-#: src/app-grid.c:263
+#: src/app-grid.c:261
 msgid "Show All Apps"
 msgstr "نمایش تمامی کاره‌ها"
 
-#: src/app-grid.c:266
+#: src/app-grid.c:264
 msgid "Show Only Mobile Friendly Apps"
 msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
@@ -186,8 +186,8 @@ msgstr "داک شده"
 msgid "Undocked"
 msgstr "داک نشده"
 
-#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/cell-broadcast-prompt.ui:23 src/ui/end-session-dialog.ui:71
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
+#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "قبول"
 
@@ -210,7 +210,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "خاموش کردن"
 
@@ -270,11 +270,11 @@ msgid "No"
 msgstr "نه"
 
 #. give visual feedback on error
-#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:311 src/ui/lockscreen.ui:281
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:948
+#: src/lockscreen.c:974
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -288,30 +288,30 @@ msgstr "نماگرفت در %s ذخیره شد"
 msgid "Failed to save screenshot"
 msgstr "شکست در ذخیرهٔ نماگرفت"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
 msgid "Screenshot"
 msgstr "نماگرفت"
 
 #. Translators: name of the folder beneath ~/Pictures used to store screenshots
-#: src/screenshot-manager.c:527
+#: src/screenshot-manager.c:554
 msgid "Screenshots"
 msgstr "نماگرفت‌ها"
 
 #. Translators: Name of a screenshot file. The first '%s' is a timestamp
 #. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
 #. * the file already exists like '-3'
-#: src/screenshot-manager.c:547
+#: src/screenshot-manager.c:574
 #, c-format
 msgid "Screenshot from %s%s.png"
 msgstr "نماگرفت از ‪%s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:450 src/ui/media-player.ui:213
+#: src/media-player.c:486 src/ui/media-player.ui:217
 msgid "Unknown Title"
 msgstr "عنوان ناشناخته"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:458 src/ui/media-player.ui:201
+#: src/media-player.c:494 src/ui/media-player.ui:205
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناخته"
 
@@ -355,41 +355,41 @@ msgstr "گشودن"
 
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
-#: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1004
+#: src/notifications/notification.c:422 src/notifications/notification.c:695
+#: src/notifications/notify-manager.c:1012
 msgid "Notification"
 msgstr "آگاهی"
 
 #. Translators: Point in time, use a short word or abbreviation
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:86
+#: src/notifications/timestamp-label.c:88
 msgid "now"
 msgstr "اکنون"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:91
+#: src/notifications/timestamp-label.c:93
 #, c-format
 msgid "<30s"
 msgstr "<۳۰ث"
 
 #. Translators: abbreviated time difference "Less than one minute"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:96
+#: src/notifications/timestamp-label.c:98
 #, c-format
 msgid "<1m"
 msgstr "<۱د"
 
 #. Translators: abbreviated time difference "About one minute"
 #. Please stick to a maximum of 12 chars
-#: src/notifications/timestamp-label.c:101
+#: src/notifications/timestamp-label.c:103
 #, c-format
 msgid "~1m"
 msgstr "~۱د"
 
 #. Translators: abbreviated, exact time difference "1 minute ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:109
+#: src/notifications/timestamp-label.c:111
 #, c-format
 msgid "%dm"
 msgid_plural "%dm"
@@ -398,7 +398,7 @@ msgstr[1] "%Idد"
 
 #. Translators: abbreviated time difference "About 3 hours ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:117
+#: src/notifications/timestamp-label.c:119
 #, c-format
 msgid "~%dh"
 msgid_plural "~%dh"
@@ -407,14 +407,14 @@ msgstr[1] "~%Idس"
 
 #. Translators: abbreviated time difference "About 1 day ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:122
+#: src/notifications/timestamp-label.c:124
 #, c-format
 msgid "~1d"
 msgstr "~۱ر"
 
 #. Translators: abbreviated, exact time difference "3 days ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:127
+#: src/notifications/timestamp-label.c:129
 #, c-format
 msgid "%dd"
 msgid_plural "%dd"
@@ -423,14 +423,14 @@ msgstr[1] "%Idر"
 
 #. Translators: abbreviated time difference "About 1 month ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:132
+#: src/notifications/timestamp-label.c:134
 #, c-format
 msgid "~1mo"
 msgstr "~۱م"
 
 #. Translators: abbreviated, exact time difference "3 months ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:137
+#: src/notifications/timestamp-label.c:139
 #, c-format
 msgid "%dmo"
 msgid_plural "%dmos"
@@ -439,7 +439,7 @@ msgstr[1] "%Idم"
 
 #. Translators: abbreviated time difference "About 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:147
+#: src/notifications/timestamp-label.c:149
 #, c-format
 msgid "~%dy"
 msgid_plural "~%dy"
@@ -448,7 +448,7 @@ msgstr[1] "~%Idسا"
 
 #. Translators: abbreviated time difference "Over 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:151
+#: src/notifications/timestamp-label.c:153
 #, c-format
 msgid "Over %dy"
 msgid_plural "Over %dy"
@@ -457,7 +457,7 @@ msgstr[1] "بیش از %Idسا"
 
 #. Translators: abbreviated time difference "almost 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
-#: src/notifications/timestamp-label.c:156
+#: src/notifications/timestamp-label.c:158
 #, c-format
 msgid "Almost %dy"
 msgid_plural "Almost %dy"
@@ -468,9 +468,9 @@ msgstr[1] "تقریباً %Idسا"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "گفت‌وگوی تأیید هویت از سمت کاربر رد شد"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
-#: src/ui/system-prompt.ui:32
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
+#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "گذرواژه:"
 
@@ -521,32 +521,32 @@ msgstr "گذرواژه نمی‌تواند خالی باشد"
 msgid "Torch"
 msgstr "چراغ"
 
-#: src/ui/app-auth-prompt.ui:49
+#: src/ui/app-auth-prompt.ui:43
 msgid "Remember decision"
 msgstr "به‌خاطر سپردن تصمیم"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
+#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:25
 msgid "Cancel"
 msgstr "لغو"
 
-#: src/ui/app-grid-button.ui:23
+#: src/ui/app-grid-button.ui:31
 msgid "Remove from _Favorites"
 msgstr "برداشتن از _محبوب‌ها"
 
-#: src/ui/app-grid-button.ui:28
+#: src/ui/app-grid-button.ui:36
 msgid "Add to _Favorites"
 msgstr "افزودن به _محبوب‌ها"
 
-#: src/ui/app-grid-button.ui:33
+#: src/ui/app-grid-button.ui:41
 msgid "View _Details"
 msgstr "دیدن _جزییات"
 
-#: src/ui/app-grid-button.ui:38
+#: src/ui/app-grid-button.ui:46
 msgid "Uninstall"
 msgstr "حذف نصب"
 
-#: src/ui/app-grid-button.ui:46
+#: src/ui/app-grid-button.ui:53
 msgid "_Remove from Folder"
 msgstr "_برداشتن از شاخه"
 
@@ -554,145 +554,157 @@ msgstr "_برداشتن از شاخه"
 msgid "Search apps…"
 msgstr "جست‌وجوی کاره‌ها…"
 
-#: src/ui/audio-settings.ui:85
+#: src/ui/audio-settings.ui:84
 msgid "Output Devices"
 msgstr "افزاره‌های خروجی"
 
-#: src/ui/audio-settings.ui:109
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "افزاره‌های ورودی"
 
-#: src/ui/audio-settings.ui:137
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "تنظیمات صدا"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:39
 msgid "Enable Bluetooth"
 msgstr "به کار انداختن بلوتوث"
 
-#: src/ui/bt-status-page.ui:56
+#: src/ui/bt-status-page.ui:54
 msgid "Bluetooth Settings"
 msgstr "تنظیمات بلوتوث"
 
-#: src/ui/emergency-menu.ui:26
+#: src/ui/emergency-menu.ui:24
 msgid "Close the emergency call dialog"
 msgstr "بستن گفت‌وگوی تماس اضطراری"
 
-#: src/ui/emergency-menu.ui:52
+#: src/ui/emergency-menu.ui:50
 msgid "Emergency _Contacts"
 msgstr "_تماس‌های اضطراری"
 
-#: src/ui/emergency-menu.ui:59
+#: src/ui/emergency-menu.ui:57
 msgid "Go to the emergency contacts page"
 msgstr "رفتن به صفحهٔ تماس‌های اضطراری"
 
-#: src/ui/emergency-menu.ui:83
+#: src/ui/emergency-menu.ui:80
 msgid "Go back to the emergency dialpad page"
 msgstr "بازگشت به صفحهٔ شماره‌گیر اضطراری"
 
-#: src/ui/emergency-menu.ui:106
+#: src/ui/emergency-menu.ui:103
 msgid "Owner unknown"
 msgstr "مالک ناشناخته"
 
-#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:190
+#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "تماس‌های اضطراری"
 
-#: src/ui/emergency-menu.ui:142
+#: src/ui/emergency-menu.ui:139
 msgid "No emergency contacts available."
 msgstr "هیچ تماس اضطراری‌ای موجود نیست."
 
-#: src/ui/end-session-dialog.ui:31
+#: src/ui/end-session-dialog.ui:27
 msgid "Some applications are busy or have unsaved work"
 msgstr "برخی برنامه‌ها مشغول بوده یا کار ذخیره نشده دارند"
 
-#: src/ui/gtk-mount-prompt.ui:88
+#: src/ui/feedback-status-page.ui:6
+msgid "Feedback"
+msgstr "بازخورد"
+
+#: src/ui/feedback-status-page.ui:19
+msgid "Do not disturb"
+msgstr "مزاحم نشوید"
+
+#: src/ui/feedback-status-page.ui:52
+msgid "Feedback Settings"
+msgstr "تنظیمات بازخورد"
+
+#: src/ui/gtk-mount-prompt.ui:77
 msgid "User:"
 msgstr "کاربر:"
 
-#: src/ui/gtk-mount-prompt.ui:111
+#: src/ui/gtk-mount-prompt.ui:99
 msgid "Domain:"
 msgstr "دامنه:"
 
-#: src/ui/gtk-mount-prompt.ui:144
+#: src/ui/gtk-mount-prompt.ui:131
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
+#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:244
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/ui/lockscreen.ui:98
+#: src/ui/lockscreen.ui:94
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:331
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:5
 msgid "Authentication required"
 msgstr "نیاز به تأیید هویت است"
 
-#: src/ui/network-auth-prompt.ui:41
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:235
+#: src/ui/network-auth-prompt.ui:37
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:212
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:54
 msgid "C_onnect"
 msgstr "_وصل شدن"
 
-#: src/ui/polkit-auth-prompt.ui:117
+#: src/ui/polkit-auth-prompt.ui:100
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
-#: src/ui/power-menu.ui:109
+#: src/ui/power-menu.ui:106
 msgid "Suspend"
 msgstr "تعلیق"
 
-#: src/ui/power-menu.ui:153
+#: src/ui/power-menu.ui:149
 msgid "Lock"
 msgstr "قفل"
 
-#: src/ui/power-menu.ui:231
+#: src/ui/power-menu.ui:225
 msgid "Emergency"
 msgstr "اضطراری"
 
-#: src/ui/run-command-dialog.ui:6
+#: src/ui/run-command-dialog.ui:5
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:142
+#: src/ui/settings.ui:138
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:173
+#: src/ui/settings.ui:167
 msgid "Notifications"
 msgstr "آگاهی‌ها"
 
-#: src/ui/settings.ui:182
+#: src/ui/settings.ui:176
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
-#: src/ui/system-prompt.ui:57
+#: src/ui/system-prompt.ui:52
 msgid "Confirm:"
 msgstr "تأیید:"
 
-#: src/ui/top-panel.ui:32
+#: src/ui/top-panel.ui:31
 msgid "_Power Off…"
 msgstr "_خاموش…"
 
-#: src/ui/top-panel.ui:60
+#: src/ui/top-panel.ui:58
 msgid "_Restart…"
 msgstr "_راه‌اندازی دوباره…"
 
-#: src/ui/top-panel.ui:88
+#: src/ui/top-panel.ui:85
 msgid "_Suspend…"
 msgstr "_تعلیق…"
 
-#: src/ui/top-panel.ui:116
+#: src/ui/top-panel.ui:112
 msgid "_Log Out…"
 msgstr "_خروج…"
 
@@ -700,7 +712,7 @@ msgstr "_خروج…"
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
-#: src/ui/wifi-status-page.ui:73
+#: src/ui/wifi-status-page.ui:86
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -723,27 +735,27 @@ msgstr "افزایه پیدا نشد"
 msgid "The plugin '%s' could not be loaded."
 msgstr "افزایهٔ «%s» نتوانست بار شود."
 
-#: src/wifi-status-page.c:52
+#: src/wifi-status-page.c:53
 msgid "No Wi-Fi Device Found"
 msgstr "هیچ افزارهٔ وای‌فایی پیدا نشد"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Wi-Fi Disabled"
 msgstr "وای‌فای از کار افتاده"
 
-#: src/wifi-status-page.c:57
+#: src/wifi-status-page.c:58
 msgid "Enable Wi-Fi"
 msgstr "به کار انداختن وای‌فای"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Wi-Fi Hotspot Active"
 msgstr "نقطهٔ داغ وای‌فای فعّال"
 
-#: src/wifi-status-page.c:61
+#: src/wifi-status-page.c:62
 msgid "Turn Off"
 msgstr "خاموش کردن"
 
-#: src/wifi-status-page.c:64
+#: src/wifi-status-page.c:65
 msgid "No Wi-Fi Hotspots"
 msgstr "بدون نقطهٔ داغ وای‌فای"
 
@@ -779,121 +791,121 @@ msgstr "حالت تیره"
 msgid "Light mode"
 msgstr "حالت روشن"
 
-#: plugins/emergency-info/emergency-info.ui:39
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:68
+#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "اطّلاعات شخصی"
 
-#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/emergency-info.ui:48
 msgid "Date of Birth"
 msgstr "تاریخ تولّد"
 
-#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/emergency-info.ui:68
 msgid "Preferred Language"
 msgstr "زبان ترجیحی"
 
-#: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:92
+#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "نشانی خانه"
 
-#: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "اطّلاعات پزشکی"
 
-#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/emergency-info.ui:104
 msgid "Age"
 msgstr "سن"
 
-#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/emergency-info.ui:124
 msgid "Blood Type"
 msgstr "گروه خونی"
 
-#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/emergency-info.ui:144
 msgid "Height"
 msgstr "قد"
 
-#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/emergency-info.ui:164
 msgid "Weight"
 msgstr "وزن"
 
-#: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:140
+#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "حسّاسیت‌ها"
 
-#: plugins/emergency-info/emergency-info.ui:179
+#: plugins/emergency-info/emergency-info.ui:192
 msgid "Medications & Conditions"
 msgstr "داروها و شرایط"
 
-#: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
+#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "دیگر اطّلاعات"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:17
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:16
 msgid "Emergency Info Preferences"
 msgstr "ترجیحات اطّلاعات اضطراری"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:38
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:36
 msgid "Done"
 msgstr "انجام شد"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:67
 msgid "_Owner Name"
 msgstr "_نام مالک"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:73
 msgid "_Date of Birth"
 msgstr "_تاریخ تولّد"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:79
 msgid "_Preferred Language"
 msgstr "_زبان ترجیحی"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:115
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:105
 msgid "_Age"
 msgstr "_سن"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:121
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:111
 msgid "_Blood Type"
 msgstr "_گروه خونی"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:127
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:117
 msgid "_Height"
 msgstr "_قد"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:133
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:123
 msgid "_Weight"
 msgstr "_وزن"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:156
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:142
 msgid "Medications and Conditions"
 msgstr "داروها و شرایط"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:199
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:179
 msgid "Add Contact"
 msgstr "افزودن آشنا"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:226
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:203
 msgid "Add New Contact"
 msgstr "افزودن آشنای جدید"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:220
 msgid "_Add"
 msgstr "_افزودن"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:263
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:240
 msgid "_Contact Name"
 msgstr "_نام آشنا"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:269
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:246
 msgid "Relationship"
 msgstr "رابطه"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:275
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:252
 msgid "_Contact Number"
 msgstr "_شمارهٔ آشنا"
 
@@ -901,7 +913,7 @@ msgstr "_شمارهٔ آشنا"
 msgid "No launchers configured"
 msgstr "هیچ اجراگری پیکربندی نشده"
 
-#: plugins/launcher-box/launcher-box.ui:32
+#: plugins/launcher-box/launcher-box.ui:30
 msgid "Launchers"
 msgstr "اجراگرها"
 
@@ -979,7 +991,7 @@ msgstr "مدّت استراحت بین نشست‌ها"
 msgid "No documents to display"
 msgstr "هیچ سندی برای نمایش نیست"
 
-#: plugins/ticket-box/ticket-box.ui:83
+#: plugins/ticket-box/ticket-box.ui:78
 msgid "Tickets"
 msgstr "بلیت‌ها"
 
@@ -999,15 +1011,15 @@ msgstr "ترجیحات جعبهٔ بلیت"
 msgid "Paths"
 msgstr "مسیرها"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:14
 msgid "Folder Settings"
 msgstr "تنظیمات شاخه"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:16
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
 msgid "Where Phosh looks for your tickets"
 msgstr "جایی که فوش به دنبال بلیت‌هایتان می‌گردد"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
 msgid "Ticket Folder"
 msgstr "شاخهٔ بلیت"
 
@@ -1072,7 +1084,7 @@ msgstr "بازهٔ زمانی"
 msgid "Number of days to show events for"
 msgstr "تعداد روز برای نمایش رویدادها"
 
-#: plugins/scaling-quick-setting/qs.ui:15
+#: plugins/scaling-quick-setting/qs.ui:14
 msgid "Monitor scales"
 msgstr "مقیاس‌های نمایشگر"
 
