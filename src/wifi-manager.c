@@ -645,7 +645,7 @@ on_nm_access_point_added (PhoshWifiManager *self, NMAccessPoint *ap)
   g_assert (NM_IS_ACCESS_POINT (ap));
 
   if (!is_valid_access_point (ap)) {
-    g_debug ("An AP discarded due to no SSID");
+    g_debug ("Discarding access point due to no SSID");
     return;
   }
 
@@ -654,12 +654,12 @@ on_nm_access_point_added (PhoshWifiManager *self, NMAccessPoint *ap)
     network = g_list_model_get_item (G_LIST_MODEL (self->networks), i);
 
     if (phosh_wifi_network_matches_access_point (network, ap)) {
-      g_debug ("Add AP to existing network: %s", ssid);
+      g_debug ("Adding access point to existing network: %s", ssid);
       phosh_wifi_network_add_access_point (network, ap, self->ap == ap);
       return;
     }
   }
-  g_debug ("Create network: %s", ssid);
+  g_debug ("Creating network: %s", ssid);
   n = phosh_wifi_network_new_from_access_point (ap, self->ap == ap);
   g_list_store_append (self->networks, n);
 }
@@ -674,7 +674,7 @@ on_nm_access_point_removed (PhoshWifiManager *self, NMAccessPoint *ap)
   if (!is_valid_access_point (ap))
     return;
 
-  g_debug ("Remove AP: %s", ssid);
+  g_debug ("Removing AP: %s", ssid);
 
   for (guint i = 0; i < length; i++) {
     g_autoptr (PhoshWifiNetwork) network = NULL;
@@ -682,7 +682,7 @@ on_nm_access_point_removed (PhoshWifiManager *self, NMAccessPoint *ap)
 
     if (phosh_wifi_network_matches_access_point (network, ap)) {
       if (phosh_wifi_network_remove_access_point (network, ap)) {
-        g_debug ("Remove network: %s", ssid);
+        g_debug ("Removing network: %s", ssid);
         g_list_store_remove (self->networks, i);
       }
       return;
@@ -762,9 +762,9 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self,
   reset_active_wifi_network (self);
 
   if (self->ap)
-    g_debug ("Wifi access point changed to '%s'", nm_access_point_get_bssid (self->ap));
+    g_debug ("Wi-Fi access point changed to '%s'", nm_access_point_get_bssid (self->ap));
   else
-    g_debug ("Wifi access point changed");
+    g_debug ("Wi-Fi access point changed");
 
   if (self->ap)
     g_object_ref (self->ap);
@@ -783,7 +783,7 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self,
 
     ssid = nm_access_point_get_ssid (self->ap);
     self->ssid = nm_utils_ssid_to_utf8 (g_bytes_get_data (ssid, NULL), g_bytes_get_size (ssid));
-    g_debug ("Wifi network name was set to '%s'", self->ssid);
+    g_debug ("Wi-Fi network name was set to '%s'", self->ssid);
   }
 
   if (g_strcmp0 (self->ssid, old_ssid) != 0)
@@ -808,7 +808,7 @@ check_connected_device (PhoshWifiManager *self)
 
   dev = g_ptr_array_index (devs, 0);
   if (NM_IS_DEVICE_WIFI (dev)) {
-    g_debug ("conn %p uses a Wi-Fi device", self->active);
+    g_debug ("Connection %p uses a Wi-Fi device", self->active);
 
     /* Is this still the same device? */
     if (dev != NM_DEVICE (self->conn_dev)) {
@@ -1002,7 +1002,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
   for (int i = 0; i < devs->len; i++) {
     dev = g_ptr_array_index (devs, i);
     if (NM_IS_DEVICE_WIFI (dev)) {
-      g_debug ("Wifi device connected at %d", i);
+      g_debug ("Wi-Fi device connected at %d", i);
       have_wifi_dev = TRUE;
       wifi_dev = NM_DEVICE_WIFI (dev);
       break;
