@@ -19,14 +19,12 @@
  * PAM authentication handling
  */
 
-typedef struct
-{
+typedef struct {
   pam_handle_t *pamh;
 } PhoshAuthPrivate;
 
 
-typedef struct _PhoshAuth
-{
+typedef struct _PhoshAuth {
   GObject parent;
 } PhoshAuth;
 
@@ -35,13 +33,14 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshAuth, phosh_auth, G_TYPE_OBJECT)
 
 
 static int
-pam_conversation_cb(int num_msg, const struct pam_message **msg,
-                    struct pam_response **resp, void *data)
+pam_conversation_cb (int                        num_msg,
+                     const struct pam_message **msg,
+                     struct pam_response      **resp,
+                     void                      *data)
 {
   const char *pin = data;
   int ret = PAM_CONV_ERR;
-  struct pam_response *pam_resp = calloc(num_msg,
-                                         sizeof(struct pam_response));
+  struct pam_response *pam_resp = calloc (num_msg, sizeof(struct pam_response));
 
   if (pam_resp == NULL)
     return PAM_BUF_ERR;
@@ -50,7 +49,7 @@ pam_conversation_cb(int num_msg, const struct pam_message **msg,
     switch (msg[i]->msg_style) {
     case PAM_PROMPT_ECHO_OFF:
     case PAM_PROMPT_ECHO_ON:
-      pam_resp[i].resp = g_strdup(pin);
+      pam_resp[i].resp = g_strdup (pin);
       ret = PAM_SUCCESS;
       break;
     case PAM_ERROR_MSG: /* TBD */
@@ -83,25 +82,25 @@ authenticate (PhoshAuth *self, const char *number)
 
   if (priv->pamh == NULL) {
     username = g_get_user_name ();
-    ret = pam_start("phosh", username, &conv, &priv->pamh);
+    ret = pam_start ("phosh", username, &conv, &priv->pamh);
     if (ret != PAM_SUCCESS) {
       g_warning ("PAM start error %s", pam_strerror (priv->pamh, ret));
       goto out;
     }
   }
 
-  ret = pam_authenticate(priv->pamh, 0);
+  ret = pam_authenticate (priv->pamh, 0);
   if (ret == PAM_SUCCESS) {
     authenticated = TRUE;
   } else {
     if (ret != PAM_AUTH_ERR)
-      g_warning("pam_authenticate error %s", pam_strerror (priv->pamh, ret));
+      g_warning ("pam_authenticate error %s", pam_strerror (priv->pamh, ret));
     goto out;
   }
 
-  ret = pam_end(priv->pamh, ret);
+  ret = pam_end (priv->pamh, ret);
   if (ret != PAM_SUCCESS)
-    g_warning("pam_end error %d", ret);
+    g_warning ("pam_end error %d", ret);
   priv->pamh = NULL;
 
  out:
@@ -110,10 +109,10 @@ authenticate (PhoshAuth *self, const char *number)
 
 
 static void
-authenticate_thread (GTask *task,
-                    gpointer source_object,
-                    gpointer task_data,
-                    GCancellable *cancellable)
+authenticate_thread (GTask        *task,
+                     gpointer      source_object,
+                     gpointer      task_data,
+                     GCancellable *cancellable)
 {
   PhoshAuth *self = PHOSH_AUTH (source_object);
   const char *number = task_data;
@@ -132,14 +131,14 @@ authenticate_thread (GTask *task,
 static void
 phosh_auth_finalize (GObject *object)
 {
-  PhoshAuthPrivate *priv = phosh_auth_get_instance_private (PHOSH_AUTH(object));
+  PhoshAuthPrivate *priv = phosh_auth_get_instance_private (PHOSH_AUTH (object));
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_auth_parent_class);
   int ret;
 
   if (priv->pamh) {
-    ret = pam_end(priv->pamh, PAM_AUTH_ERR);
+    ret = pam_end (priv->pamh, PAM_AUTH_ERR);
     if (ret != PAM_SUCCESS)
-      g_warning("pam_end error %s", pam_strerror (priv->pamh, ret));
+      g_warning ("pam_end error %s", pam_strerror (priv->pamh, ret));
     priv->pamh = NULL;
   }
 
