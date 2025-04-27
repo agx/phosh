@@ -33,9 +33,9 @@ static int
 pam_conversation_cb (int                        num_msg,
                      const struct pam_message **msg,
                      struct pam_response      **resp,
-                     void                      *data)
+                     void                      *appdata_ptr)
 {
-  const char *pin = data;
+  const char *authtok = appdata_ptr;
   int ret = PAM_CONV_ERR;
   g_autofree struct pam_response *pam_resp = g_new0 (struct pam_response, num_msg);
 
@@ -46,7 +46,7 @@ pam_conversation_cb (int                        num_msg,
     switch (msg[i]->msg_style) {
     case PAM_PROMPT_ECHO_OFF:
     case PAM_PROMPT_ECHO_ON:
-      pam_resp[i].resp = g_strdup (pin);
+      pam_resp[i].resp = g_strdup (authtok);
       ret = PAM_SUCCESS;
       break;
     case PAM_ERROR_MSG: /* TBD */
@@ -63,16 +63,16 @@ pam_conversation_cb (int                        num_msg,
 }
 
 
-/* return TRUE if pin is correct, FALSE otherwise */
+/* return TRUE if auth token is correct, FALSE otherwise */
 static gboolean
-authenticate (PhoshAuth *self, const char *number)
+authenticate (PhoshAuth *self, const char *authtok)
 {
   int ret;
   gboolean authenticated = FALSE;
   const char *username;
   const struct pam_conv conv = {
     .conv = pam_conversation_cb,
-    .appdata_ptr = (void*)number,
+    .appdata_ptr = (void*)authtok,
   };
 
   if (self->pamh == NULL) {
@@ -110,7 +110,7 @@ authenticate_thread (GTask        *task,
                      GCancellable *cancellable)
 {
   PhoshAuth *self = PHOSH_AUTH (source_object);
-  const char *number = task_data;
+  char *authtok = task_data;
   gboolean ret;
 
   if (task_data == NULL) {
@@ -118,7 +118,7 @@ authenticate_thread (GTask        *task,
     return;
   }
 
-  ret = authenticate (self, number);
+  ret = authenticate (self, authtok);
   g_task_return_boolean (task, ret);
 }
 
@@ -165,7 +165,7 @@ phosh_auth_new (void)
 
 void
 phosh_auth_authenticate_async (PhoshAuth           *self,
-                               const char          *number,
+                               const char          *authtok,
                                GCancellable        *cancellable,
                                GAsyncReadyCallback  callback,
                                gpointer             callback_data)
@@ -173,7 +173,8 @@ phosh_auth_authenticate_async (PhoshAuth           *self,
   g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, callback_data);
-  g_task_set_task_data (task, (gpointer) number, NULL);
+  g_task_set_task_data (task, (gpointer) authtok, NULL);
+
   g_task_run_in_thread (task, authenticate_thread);
 }
 
