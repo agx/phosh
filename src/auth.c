@@ -37,7 +37,7 @@ pam_conversation_cb (int                        num_msg,
 {
   const char *pin = data;
   int ret = PAM_CONV_ERR;
-  struct pam_response *pam_resp = calloc (num_msg, sizeof(struct pam_response));
+  g_autofree struct pam_response *pam_resp = g_new0 (struct pam_response, num_msg);
 
   if (pam_resp == NULL)
     return PAM_BUF_ERR;
@@ -57,9 +57,8 @@ pam_conversation_cb (int                        num_msg,
   }
 
   if (ret == PAM_SUCCESS)
-    *resp = pam_resp;
-  else
-    free (pam_resp);
+    *resp = g_steal_pointer (&pam_resp);
+
   return ret;
 }
 
@@ -171,12 +170,11 @@ phosh_auth_authenticate_async (PhoshAuth           *self,
                                GAsyncReadyCallback  callback,
                                gpointer             callback_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, callback_data);
   g_task_set_task_data (task, (gpointer) number, NULL);
   g_task_run_in_thread (task, authenticate_thread);
-  g_object_unref (task);
 }
 
 
