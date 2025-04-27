@@ -289,10 +289,12 @@ focus_pin_entry (PhoshLockscreen *self, gboolean enable_osk)
   gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->entry_pin));
 }
 
-/* callback of async auth task */
+
 static void
-auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
+on_auth_authenticate_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+  PhoshAuth *auth = PHOSH_AUTH (source_object);
+  PhoshLockscreen *self = PHOSH_LOCKSCREEN (user_data);
   PhoshLockscreenPrivate *priv;
   GError *error = NULL;
   gboolean authenticated;
@@ -979,7 +981,7 @@ on_unlock_submit (PhoshLockscreen *self)
   phosh_auth_authenticate_async (priv->auth,
                                  input,
                                  NULL,
-                                 (GAsyncReadyCallback)auth_async_cb,
+                                 on_auth_authenticate_ready,
                                  g_object_ref (self));
 }
 
