@@ -19,17 +19,14 @@
  * PAM authentication handling
  */
 
-typedef struct {
-  pam_handle_t *pamh;
-} PhoshAuthPrivate;
-
-
 typedef struct _PhoshAuth {
-  GObject parent;
+  GObject       parent;
+
+  pam_handle_t *pamh;
 } PhoshAuth;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshAuth, phosh_auth, G_TYPE_OBJECT)
+G_DEFINE_TYPE (PhoshAuth, phosh_auth, G_TYPE_OBJECT)
 
 
 static int
@@ -71,7 +68,6 @@ pam_conversation_cb (int                        num_msg,
 static gboolean
 authenticate (PhoshAuth *self, const char *number)
 {
-  PhoshAuthPrivate *priv = phosh_auth_get_instance_private (self);
   int ret;
   gboolean authenticated = FALSE;
   const char *username;
@@ -80,28 +76,28 @@ authenticate (PhoshAuth *self, const char *number)
     .appdata_ptr = (void*)number,
   };
 
-  if (priv->pamh == NULL) {
+  if (self->pamh == NULL) {
     username = g_get_user_name ();
-    ret = pam_start ("phosh", username, &conv, &priv->pamh);
+    ret = pam_start ("phosh", username, &conv, &self->pamh);
     if (ret != PAM_SUCCESS) {
-      g_warning ("PAM start error %s", pam_strerror (priv->pamh, ret));
+      g_warning ("PAM start error %s", pam_strerror (self->pamh, ret));
       goto out;
     }
   }
 
-  ret = pam_authenticate (priv->pamh, 0);
+  ret = pam_authenticate (self->pamh, 0);
   if (ret == PAM_SUCCESS) {
     authenticated = TRUE;
   } else {
     if (ret != PAM_AUTH_ERR)
-      g_warning ("pam_authenticate error %s", pam_strerror (priv->pamh, ret));
+      g_warning ("pam_authenticate error %s", pam_strerror (self->pamh, ret));
     goto out;
   }
 
-  ret = pam_end (priv->pamh, ret);
+  ret = pam_end (self->pamh, ret);
   if (ret != PAM_SUCCESS)
     g_warning ("pam_end error %d", ret);
-  priv->pamh = NULL;
+  self->pamh = NULL;
 
  out:
   return authenticated;
@@ -131,15 +127,15 @@ authenticate_thread (GTask        *task,
 static void
 phosh_auth_finalize (GObject *object)
 {
-  PhoshAuthPrivate *priv = phosh_auth_get_instance_private (PHOSH_AUTH (object));
+  PhoshAuth *self = PHOSH_AUTH (object);
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_auth_parent_class);
   int ret;
 
-  if (priv->pamh) {
-    ret = pam_end (priv->pamh, PAM_AUTH_ERR);
+  if (self->pamh) {
+    ret = pam_end (self->pamh, PAM_AUTH_ERR);
     if (ret != PAM_SUCCESS)
-      g_warning ("pam_end error %s", pam_strerror (priv->pamh, ret));
-    priv->pamh = NULL;
+      g_warning ("pam_end error %s", pam_strerror (self->pamh, ret));
+    self->pamh = NULL;
   }
 
   parent_class->finalize (object);
