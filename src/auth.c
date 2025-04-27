@@ -85,13 +85,19 @@ authenticate (PhoshAuth *self, const char *authtok)
   }
 
   ret = pam_authenticate (self->pamh, 0);
-  if (ret == PAM_SUCCESS) {
-    authenticated = TRUE;
-  } else {
+  if (ret != PAM_SUCCESS) {
     if (ret != PAM_AUTH_ERR)
       g_warning ("pam_authenticate error %s", pam_strerror (self->pamh, ret));
     goto out;
   }
+
+  ret = pam_acct_mgmt (self->pamh, 0);
+  if (ret != PAM_SUCCESS) {
+    g_warning ("pam_acct check failed: %s\n", pam_strerror (self->pamh, ret));
+    goto out;
+  }
+
+  authenticated = TRUE;
 
   ret = pam_end (self->pamh, ret);
   if (ret != PAM_SUCCESS)
