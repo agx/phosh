@@ -294,7 +294,7 @@ static void
 on_auth_authenticate_ready (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
   PhoshAuth *auth = PHOSH_AUTH (source_object);
-  PhoshLockscreen *self = PHOSH_LOCKSCREEN (user_data);
+  g_autoptr (PhoshLockscreen) self = PHOSH_LOCKSCREEN (user_data);
   PhoshLockscreenPrivate *priv;
   GError *error = NULL;
   gboolean authenticated;
@@ -316,7 +316,6 @@ on_auth_authenticate_ready (GObject *source_object, GAsyncResult *result, gpoint
   }
   g_clear_object (&priv->auth);
   priv->last_input = g_get_monotonic_time ();
-  g_object_unref (self);
 }
 
 
