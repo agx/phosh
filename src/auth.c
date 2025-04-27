@@ -173,7 +173,7 @@ phosh_auth_authenticate_async (PhoshAuth           *self,
   g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, callback_data);
-  g_task_set_task_data (task, (gpointer) authtok, NULL);
+  g_task_set_task_data (task, g_strdup (authtok), g_free);
 
   g_task_run_in_thread (task, authenticate_thread);
 }
