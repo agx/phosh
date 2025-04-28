@@ -33,12 +33,14 @@ static void
 toggle_sensitive_cb (PhoshMobileDataQuickSetting *self)
 {
   PhoshWWan *wwan = phosh_shell_get_wwan (phosh_shell_get_default ());
-  gboolean has_data, enabled;
+  gboolean has_data, unlocked, enabled, sensitive;
 
   has_data = phosh_wwan_has_data (wwan);
+  unlocked = phosh_wwan_is_unlocked (wwan);
   enabled = phosh_wwan_is_enabled (wwan);
 
-  gtk_widget_set_sensitive (GTK_WIDGET (self), has_data && enabled);
+  sensitive = has_data && unlocked && enabled;
+  gtk_widget_set_sensitive (GTK_WIDGET (self), sensitive);
 }
 
 
@@ -122,15 +124,15 @@ phosh_mobile_data_quick_setting_init (PhoshMobileDataQuickSetting *self)
                                transform_to_label,
                                NULL, NULL, NULL);
 
-  g_signal_connect_object (wwan,
-                           "notify::enabled",
-                           G_CALLBACK (toggle_sensitive_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
-
-  g_signal_connect_object (wwan,
-                           "notify::has-data",
-                           G_CALLBACK (toggle_sensitive_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
+  g_object_connect (wwan,
+                    "swapped-object-signal::notify::enabled",
+                    toggle_sensitive_cb,
+                    self,
+                    "swapped-object-signal::notify::has-data",
+                    toggle_sensitive_cb,
+                    self,
+                    "swapped-object-signal::notify::unlocked",
+                    toggle_sensitive_cb,
+                    self,
+                    NULL);
 }
