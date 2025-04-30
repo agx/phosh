@@ -544,7 +544,7 @@ phosh_shell_dispose (GObject *object)
   panels_dispose (self);
   g_clear_pointer (&priv->faders, g_ptr_array_unref);
 
-  g_clear_object (&priv->notification_banner);
+  g_clear_pointer (&priv->notification_banner, phosh_cp_widget_destroy);
 
   /* dispose managers in opposite order of declaration */
   g_clear_object (&priv->mpris_manager);
@@ -655,15 +655,15 @@ on_new_notification (PhoshShell         *self,
   priv = phosh_shell_get_instance_private (self);
 
   /* Clear existing banner */
-  if (priv->notification_banner && GTK_IS_WIDGET (priv->notification_banner)) {
-    gtk_widget_destroy (priv->notification_banner);
-  }
-
+  g_clear_pointer (&priv->notification_banner, phosh_cp_widget_destroy);
   if (phosh_notify_manager_get_show_notification_banner (manager, notification) &&
       phosh_top_panel_get_state (PHOSH_TOP_PANEL (priv->top_panel)) == PHOSH_TOP_PANEL_STATE_FOLDED &&
       !priv->locked) {
-    g_set_weak_pointer (&priv->notification_banner,
-                        phosh_notification_banner_new (notification));
+    priv->notification_banner = phosh_notification_banner_new (notification);
+    g_signal_connect (priv->notification_banner,
+                      "destroy",
+                      G_CALLBACK (gtk_widget_destroyed),
+                      &priv->notification_banner);
 
     gtk_widget_set_visible (GTK_WIDGET (priv->notification_banner), TRUE);
   }

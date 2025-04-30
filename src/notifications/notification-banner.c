@@ -185,7 +185,7 @@ phosh_notification_banner_get_property (GObject    *object,
 
 
 static void
-phosh_notification_banner_finalize (GObject *object)
+phosh_notification_banner_dispose (GObject *object)
 {
   PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (object);
 
@@ -194,7 +194,7 @@ phosh_notification_banner_finalize (GObject *object)
   g_clear_pointer (&self->animation, phosh_animation_unref);
   g_clear_object (&self->notification);
 
-  G_OBJECT_CLASS (phosh_notification_banner_parent_class)->finalize (object);
+  G_OBJECT_CLASS (phosh_notification_banner_parent_class)->dispose (object);
 }
 
 
@@ -219,7 +219,7 @@ phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  object_class->finalize = phosh_notification_banner_finalize;
+  object_class->dispose = phosh_notification_banner_dispose;
   object_class->set_property = phosh_notification_banner_set_property;
   object_class->get_property = phosh_notification_banner_get_property;
 
