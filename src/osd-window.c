@@ -12,6 +12,7 @@
 #include "util.h"
 
 #include "osd-window.h"
+#include "layersurface-priv.h"
 
 #include <gmobile.h>
 
@@ -173,6 +174,19 @@ on_button_released (PhoshOsdWindow *self)
 
 
 static void
+phosh_osd_window_map (GtkWidget *widget)
+{
+  PhoshOsdWindow *self = PHOSH_OSD_WINDOW (widget);
+  int width;
+
+  GTK_WIDGET_CLASS (phosh_osd_window_parent_class)->map (widget);
+
+  width = gtk_widget_get_allocated_width (widget);
+  phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), width, -1);
+}
+
+
+static void
 phosh_osd_window_finalize (GObject *obj)
 {
   PhoshOsdWindow *self = PHOSH_OSD_WINDOW (obj);
@@ -194,6 +208,8 @@ phosh_osd_window_class_init (PhoshOsdWindowClass *klass)
   object_class->get_property = phosh_osd_window_get_property;
   object_class->set_property = phosh_osd_window_set_property;
   object_class->finalize = phosh_osd_window_finalize;
+
+  widget_class->map = phosh_osd_window_map;
 
   /* TODO: currently unused */
   props[PROP_CONNECTOR] =
@@ -267,9 +283,12 @@ phosh_osd_window_new (char  *connector,
                       double max_level)
 {
   return g_object_new (PHOSH_TYPE_OSD_WINDOW,
+                       "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
+                       "width", 16,
                        "connector", connector,
                        "label",label,
                        "icon-name", icon_name,
+                       "valign", GTK_ALIGN_CENTER,
                        "level", level,
                        "max-level", max_level,
                        "kbd-interactivity", FALSE,
