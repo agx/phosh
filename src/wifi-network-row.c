@@ -13,7 +13,7 @@
 /**
  * PhoshWifiNetworkRow:
  *
- * A widget to display a PhoshWifiNetwork.
+ * A widget to display a `PhoshWifiNetwork`.
  */
 
 enum {
@@ -45,8 +45,10 @@ update_icon (GBinding     *binding,
   guint strength = phosh_wifi_network_get_strength (self->network);
   gboolean is_connecting = phosh_wifi_network_get_is_connecting (self->network);
   const char *icon_name = phosh_util_get_icon_by_wifi_strength (strength, is_connecting);
+
   g_value_set_string (to_value, icon_name);
 }
+
 
 static void
 set_network (PhoshWifiNetworkRow *self, PhoshWifiNetwork *network)
@@ -93,6 +95,7 @@ set_network (PhoshWifiNetworkRow *self, PhoshWifiNetwork *network)
                                NULL);
 }
 
+
 static void
 phosh_wifi_network_row_set_property (GObject      *object,
                                      guint         property_id,
@@ -110,14 +113,17 @@ phosh_wifi_network_row_set_property (GObject      *object,
   }
 }
 
+
 static void
 phosh_wifi_network_row_dispose (GObject *object)
 {
   PhoshWifiNetworkRow *self = PHOSH_WIFI_NETWORK_ROW (object);
+
   g_clear_object (&self->network);
 
   G_OBJECT_CLASS (phosh_wifi_network_row_parent_class)->dispose (object);
 }
+
 
 static void
 phosh_wifi_network_row_class_init (PhoshWifiNetworkRowClass *klass)
@@ -149,11 +155,13 @@ phosh_wifi_network_row_class_init (PhoshWifiNetworkRowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiNetworkRow, active_indicator);
 }
 
+
 static void
 phosh_wifi_network_row_init (PhoshWifiNetworkRow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 }
+
 
 GtkWidget *
 phosh_wifi_network_row_new (PhoshWifiNetwork *network)

@@ -45,6 +45,7 @@ struct _PhoshWifiNetwork {
 
 G_DEFINE_TYPE (PhoshWifiNetwork, phosh_wifi_network, G_TYPE_OBJECT);
 
+
 static void
 phosh_wifi_network_set_property (GObject      *object,
                                  guint         property_id,
@@ -71,6 +72,7 @@ phosh_wifi_network_set_property (GObject      *object,
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
   }
 }
+
 
 static void
 phosh_wifi_network_get_property (GObject    *object,
@@ -109,6 +111,7 @@ phosh_wifi_network_get_property (GObject    *object,
 
 }
 
+
 static void
 update_active (PhoshWifiNetwork *self, gboolean active)
 {
@@ -134,6 +137,7 @@ get_access_point_ssid (NMAccessPoint *ap)
 
 }
 
+
 static void
 find_set_best_access_point (PhoshWifiNetwork *self)
 {
@@ -158,6 +162,7 @@ find_set_best_access_point (PhoshWifiNetwork *self)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STRENGTH]);
 }
 
+
 static void
 update_best_access_point (PhoshWifiNetwork *self, GParamSpec *pspec, NMAccessPoint *ap)
 {
@@ -171,6 +176,7 @@ update_best_access_point (PhoshWifiNetwork *self, GParamSpec *pspec, NMAccessPoi
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STRENGTH]);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BEST_ACCESS_POINT]);
 }
+
 
 static void
 phosh_wifi_network_dispose (GObject *object)
@@ -186,6 +192,7 @@ phosh_wifi_network_dispose (GObject *object)
   G_OBJECT_CLASS (phosh_wifi_network_parent_class)->dispose (object);
 }
 
+
 static void
 phosh_wifi_network_finalize (GObject *object)
 {
@@ -196,6 +203,7 @@ phosh_wifi_network_finalize (GObject *object)
 
   G_OBJECT_CLASS (phosh_wifi_network_parent_class)->finalize (object);
 }
+
 
 static void
 phosh_wifi_network_class_init (PhoshWifiNetworkClass *klass)
@@ -295,11 +303,13 @@ phosh_wifi_network_class_init (PhoshWifiNetworkClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
+
 static void
 phosh_wifi_network_init (PhoshWifiNetwork *self)
 {
   self->access_points = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
 }
+
 
 PhoshWifiNetwork *
 phosh_wifi_network_new_from_access_point (NMAccessPoint *ap, gboolean active)
@@ -342,14 +352,17 @@ phosh_wifi_network_matches_access_point (PhoshWifiNetwork *self, NMAccessPoint *
   return FALSE;
 }
 
+
 void
 phosh_wifi_network_add_access_point (PhoshWifiNetwork *self, NMAccessPoint *ap, gboolean active)
 {
   g_ptr_array_add (self->access_points, g_object_ref (ap));
-  update_active (self, active);
+  if (active)
+    update_active (self, TRUE);
   g_signal_connect_swapped (ap, "notify::strength", G_CALLBACK (update_best_access_point), self);
   update_best_access_point (self, NULL, ap);
 }
+
 
 gboolean
 phosh_wifi_network_remove_access_point (PhoshWifiNetwork *self, NMAccessPoint *ap)
@@ -360,12 +373,14 @@ phosh_wifi_network_remove_access_point (PhoshWifiNetwork *self, NMAccessPoint *a
   return self->access_points->len == 0;
 }
 
+
 const char *
 phosh_wifi_network_get_ssid (PhoshWifiNetwork *self)
 {
   g_return_val_if_fail (PHOSH_IS_WIFI_NETWORK (self), NULL);
   return self->ssid;
 }
+
 
 guint
 phosh_wifi_network_get_strength (PhoshWifiNetwork *self)
@@ -374,12 +389,14 @@ phosh_wifi_network_get_strength (PhoshWifiNetwork *self)
   return self->strength;
 }
 
+
 NM80211Mode
 phosh_wifi_network_get_mode (PhoshWifiNetwork *self)
 {
   g_return_val_if_fail (PHOSH_IS_WIFI_NETWORK (self), 0);
   return self->mode;
 }
+
 
 gboolean
 phosh_wifi_network_get_secured (PhoshWifiNetwork *self)
@@ -388,12 +405,14 @@ phosh_wifi_network_get_secured (PhoshWifiNetwork *self)
   return self->secured;
 }
 
+
 gboolean
 phosh_wifi_network_get_active (PhoshWifiNetwork *self)
 {
   g_return_val_if_fail (PHOSH_IS_WIFI_NETWORK (self), FALSE);
   return self->active;
 }
+
 
 void
 phosh_wifi_network_update_active (PhoshWifiNetwork *self, NMAccessPoint *active_ap)
@@ -414,6 +433,7 @@ phosh_wifi_network_update_active (PhoshWifiNetwork *self, NMAccessPoint *active_
   update_active (self, active);
 }
 
+
 void
 phosh_wifi_network_set_is_connecting (PhoshWifiNetwork *self, gboolean is_connecting)
 {
@@ -425,6 +445,7 @@ phosh_wifi_network_set_is_connecting (PhoshWifiNetwork *self, gboolean is_connec
   self->is_connecting = is_connecting;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_CONNECTING]);
 }
+
 
 gboolean
 phosh_wifi_network_get_is_connecting (PhoshWifiNetwork *self)
