@@ -75,7 +75,10 @@ main (int argc, char **argv)
   gtk_container_add (GTK_CONTAINER (window), scrolled);
 
   box = g_object_new (GTK_TYPE_BOX,
-                      "margin", 6,
+                      "margin-start", 6,
+                      "margin-top", 6,
+                      "margin-end", 6,
+                      "margin-bottom", 6,
                       "orientation", GTK_ORIENTATION_VERTICAL,
                       "visible", TRUE,
                       NULL);

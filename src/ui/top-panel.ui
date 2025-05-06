@@ -7,7 +7,10 @@
         <property name="visible">1</property>
         <property name="width-request">120</property>
         <property name="name">system-menu</property>
-        <property name="margin">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-top">6</property>
+        <property name="margin-end">6</property>
+        <property name="margin-bottom">6</property>
         <property name="spacing">6</property>
         <property name="orientation">vertical</property>
         <child>
