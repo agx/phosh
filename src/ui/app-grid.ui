@@ -110,7 +110,8 @@
                         <child>
                           <object class="GtkToggleButton" id="btn_adaptive">
                             <property name="visible">1</property>
-                            <property name="expand">1</property>
+                            <property name="hexpand">1</property>
+                            <property name="vexpand">1</property>
                             <property name="valign">start</property>
                             <property name="halign">center</property>
                             <property name="action-name">app-grid.filter-adaptive</property>
@@ -241,7 +242,8 @@
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="visible">1</property>
-                    <property name="expand">1</property>
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
                     <child>
                       <object class="GtkFlowBox" id="folder_apps">
                         <property name="visible">1</property>
