@@ -12,7 +12,8 @@
           <object class="GtkBox" id="emergency_dialpad_box">
             <property name="visible">1</property>
             <property name="orientation">vertical</property>
-            <property name="expand">1</property>
+            <property name="hexpand">1</property>
+            <property name="vexpand">1</property>
             <child>
               <object class="GtkBox">
                 <property name="visible">1</property>
@@ -127,7 +128,8 @@
                     <child>
                       <object class="GtkListBox" id="emergency_contacts_list_box">
                         <property name="visible">1</property>
-                        <property name="expand">1</property>
+                        <property name="hexpand">1</property>
+                        <property name="vexpand">1</property>
                         <signal name="row-activated" handler="on_emergency_contacts_list_box_activated" swapped="yes"/>
                         <style>
                           <class name="content"/>
