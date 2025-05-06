@@ -212,7 +212,8 @@
                 <child>
                   <object class="GtkBox" id="box_top_bar">
                     <property name="visible">1</property>
-                    <property name="expand">1</property>
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
                     <property name="valign">end</property>
                     <property name="name">top-bar</property>
                     <!-- PHOSH_TOP_PANEL_HEIGHT -->
