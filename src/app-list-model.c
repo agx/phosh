@@ -208,6 +208,9 @@ items_changed (gpointer data)
     g_sequence_append (priv->items, g_object_ref (app_info));
     added++;
 
+    if (!G_IS_DESKTOP_APP_INFO (app_info))
+      continue;
+
     startup_wm_class = g_desktop_app_info_get_startup_wm_class (G_DESKTOP_APP_INFO (app_info));
     if (startup_wm_class) {
       g_hash_table_insert (priv->startup_wm_class,
