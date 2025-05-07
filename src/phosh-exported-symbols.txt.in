@@ -41,6 +41,7 @@
    phosh_shell_get_wwan;
    phosh_wwan_has_data;
    phosh_wwan_is_enabled;
+   phosh_wwan_is_unlocked;
    phosh_wwan_set_data_enabled;
 
    # For custom quick setting plugins:
