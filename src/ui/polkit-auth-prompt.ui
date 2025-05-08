@@ -77,7 +77,8 @@
         <signal name="clicked" handler="on_dialog_canceled" swapped="true"/>
       </object>
       <packing>
-        <property name="expand">1</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
         <property name="fill">1</property>
         <property name="position">0</property>
       </packing>

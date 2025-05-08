@@ -200,7 +200,8 @@ set_actions (PhoshNotificationContent *self,  PhoshNotification *notification)
     btn = g_object_new (GTK_TYPE_BUTTON,
                         "action-name", "noti.activate",
                         "action-target", g_variant_new_string (actions[i]),
-                        "expand", TRUE,
+                        "hexpand", TRUE,
+                        "vexpand", TRUE,
                         "visible", TRUE,
                         NULL);
     gtk_container_add (GTK_CONTAINER (btn), lbl);

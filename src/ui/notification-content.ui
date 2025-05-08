@@ -70,7 +70,8 @@
         <child>
           <object class="GtkBox" id="box_actions">
             <property name="visible">1</property>
-            <property name="expand">1</property>
+            <property name="hexpand">1</property>
+            <property name="vexpand">1</property>
             <style>
               <class name="linked"/>
               <class name="actions-area"/>
