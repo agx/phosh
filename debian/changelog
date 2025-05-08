@@ -1,3 +1,313 @@
+phosh (0.47~rc1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * abi: Remove symbols duplicated between plugins and shared library.
+    Users of the shared lib and plugins should be able to access the quick
+    setting and its status pages. Since the shared lib exports the plugins
+    symbols there's no point in having different subsets listed in both.
+  * docs: Mention the symbols files. Give a hint where to add new symbols.
+  * splash: Use larger icon again
+    https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/commit/a1c8a0f61e27e1bcda03412dec772b7a1ed5a795
+    removed the spinner icon, hence GTK3 added a one in
+    https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/8354
+    but picks the 16x16 one which is a bit too small.
+    The 16x16 icon is fine for the other places we use a spinner, like
+    status pages.
+    This can go away with the switch to AdwSpinner.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1222
+  * build: Depend on libfeedback with sound file support
+  * notify-feedback: Handle cellbroadcast events
+  * app-grid: Fix missing icon
+    emblem-ok-symbolic got remove in the 48 adwaita icon theme:
+    See https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/commit/a00466f12bd5419d6f22c1097a16fd670431c9d4
+  * data: Update list of adaptive apps.
+    TextEditor announces this via the desktop file now while calendar
+    doesn't
+  * notify-feedback: Fix inverted logic for cell broadcasts.
+    Also guard against `NULL` category
+    Fixes af35ea749 ("notify-feedback: Handle cellbroadcast events")
+  * notify-feedback: Check basic events.
+    The logic is going more complex and we had subtle errors so lets
+    add some checks.
+  * notify-feedback: Use "notification-missed-generic"
+    This is available since feedbackd 0.6.0 and we require 0.7.0 nowadays.
+  * notify-feedback: Check for NULL upfront.
+    Allows us to use `g_str_equal`.
+  * tests: Add options to get core dump on asserts under ASAN.
+    Without these ASAN just aborts without a coredump. As it is not useful
+    in CI just leave as a comment for now.
+  * app-list-model: Fix type of debounce it
+    g_timeout_add_* return `guint` not `gulong`.
+  * app-list-model: Disconnect debounce on finalize.
+    Otherwise we might have running timers when the application quits
+  * app-list-model: Expand test.
+    Assert that we finalize properly and also check the state
+    when app infos got loaded.
+  * app-list-model: Track StartupWMClass as well.
+    Needed to betterb match toplevels to app-ids
+  * util: Simplify return value
+  * util: Match on StartupWMClass as well.
+    This will allow more cases to work without guessing and we can drop
+    some heuristics
+  * util: Drop applications that have a proper StartupWMClass.
+    No need to track them manually anymore, they all use `StartupWMClass`.
+    This makes the expected case the first one so things get a little
+    faster too.
+  * util: Drop match by last component.
+    These apps should have a proper StartupWMClass.
+  * lockscreen: Check for info widgets upfront.
+    This ensures we have a small clock e.g. when locking the screen with an
+    ongoing call. This will also be needed with the following commits as the
+    media widget will be visible initially and hence there won't be a
+    changed signal.
+    We hence move from counting invocations to checking the individual
+    widgets.
+  * media-player: Don't focus on click.
+    We want to avoid the cursor frame when touching the widget as it has no
+    use.
+  * lockscreen: Set initial focus widget.
+    Otherwise we end up with the focus on the first focusable widget which
+    is the media player's detail button and that doesn't look nice.
+    By setting it to `submit` we ensure that a signal tab gets it to the
+    first info widget.
+  * mpris-manager: Manager object that tracks MPRIS players.
+    This will be used by the media-player widget so we don't have multiple
+    places tracking the DBus name owner changes.
+  * media-player: Use MPRIS manager.
+    This avoids the media widget appearing on the lock screen slightly after
+    lock as we don't have to wait for the DBus calls anymore.
+  * monitor: Don't track make and model
+    wlroots will stop sending these in
+      https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/5045
+    and we don't use them anyway.
+  * treewide: Add missing G_PARAM_STATIC_STRINGS.
+    Avoids a bunch of allocations on startup.
+  * status-pages: Drop signal_emit_by_name argument.
+    The `done` signal does not have any parameters. For consistency with
+    other `g_signal_emit_by_name` in our codebase we pass `NULL` as the
+    return value location (although it could be omitted).
+  * notify-manager: Move show-banners to header.
+    We want to use it in a status page
+  * data: Add chat icons from GNOME's icon library
+  * util: Add helper to open mobile settings panels.
+    We add a separate function as the parameters are slightly different.
+  * settings: Add action to open mobile settings.
+    We add a separate action as that makes it more obvious what we're
+    opening.
+  * feedback-status-page: Add new status page for feedback settings.
+    This will allow to enable/disable do-not-disturb mode
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1183
+  * quick-settings: Add feedback status page
+  * feedback-status-page: Keep feedback in sync with dnd.
+    We want to switch to silent when dnd is enabled and back to the old
+    profile when disabled.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1095
+  * polkit-auth-prompt: Don't set icon pass by polkit.
+    Applications usually pass in the app name which we don't have an icon
+    for so we usually show the missing icon which is not great.
+    Ideally we'd show the user avatar there along with more user details.
+  * notifcation-banner: Unref animation on dispose.
+    This ensures we run it on gtk_widget_destroy already.
+  * shell: Clean up banner correctly.
+    The banner is a toplevel so we want to use gtk_widget_destroy on it. We
+    connect to the `destroy` signal so in case the layer surface invokes
+    `gtk_widget_destroy` we don't do it twice.
+    This avoids a sporadic segfault in the tests when the banner was still
+    being animated and also avoids a weak pointer where it is not needed.
+    Fixes 5d4f590b9 ("notification-banner: Add slide-up animation to banner")
+    (which wasn't the cause but exposed the bug).
+    Fixes c5556891f ("notifications: maintain a message list")
+  * osd-window: Don't let it take all the vertical space.
+    Similar in spirit to
+      bd8c8c13c ("notifiction-banner: Use valign center")
+    so we don't cover the space below the OSD with a transparent window
+    swallowing all input.
+  * osd-window: Ensure we propagate the width.
+    As we don't want to allocate the full width anchor to top and set the
+    width on map.
+  * wifi-manager: Slightly improve debug messages.
+    Use Wi-Fi spelling consistently, make messages a bit more expressive
+  * wifi-network-row: Don't set active indicator visible.
+    We sync it with a property in `init` so save that extra setup step.
+  * wifi-network: Don't unconditionally overwrite active access point.
+    We mustn't overwrite the active access point with an inactive one.
+    This fixes the missing tick mark in the UI when a network has more than
+    one access point.
+    The network is still marked as inactive via `reset_active_wifi_network`
+    -> `phosh_wifi_network_update_active`.
+    Fixes 7b83747fc ("wifi-network: Create PhoshWifiNetwork class")
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1180
+  * mobile-data-quick-setting: Make sure the modem is unlocked.
+    If the modem's SIM is still locked there's no point in allowing to
+    toggle mobile data.
+    Fixes 20ac30db5 ("plugins: Add mobile data toggle")
+  * app-list-model: Use app_info
+    `l->data` is harder to parse and we assigned to `app_info` just above
+    Fixup indent while at that.
+  * app-list-model: Ignore folders for startup wm class tracking.
+    Folder don't have a wm class and otherwise raise a critical
+    Fixes 5b9a575c4 ("app-list-model: Track StartupWMClass as well")
+
+  [ fossdd ]
+  * calendar-server: Use a non-declared variable name for timezone
+  * call-notification: Cast PhoshCallState explicitly to CuiCallState
+  * testlib: Declare on_phoc_startup_timeout as noreturn
+  * system-prompt: Avoid declaration of unused variable
+  * ci: Add debian-trixie-clang CI.
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1218
+
+  [ Baxrom Raxmatov ]
+  * Add Uzbek (Latin) translation
+
+  [ Arun Mani J ]
+  * status-icon: Add pixel-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it.
+    Deprecates `icon-size`.
+  * tree: Use pixel-size in status-icon
+    `icon-size` is deprecated in status-icon.
+  * quick-setting: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it. For the functions that need an icon-size just for namesake,
+    let's use `-1` so we can ensure that we have replaced its functionality
+    with pixel-size.
+  * quick-settings-box-standalone: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it.
+  * app-grid-button: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it. For the functions that need an icon-size just for namesake,
+    let's use `-1` so we can ensure that we have replaced its functionality
+    with pixel-size.
+  * app-grid-folder-button: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it. For the functions that need an icon-size just for namesake,
+    let's use `-1` so we can ensure that we have replaced its functionality
+    with pixel-size.
+  * app-grid: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it. For the functions that need an icon-size just for namesake,
+    let's use `-1` so we can ensure that we have replaced its functionality
+    with pixel-size.
+  * activity: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it.
+  * lockscreen: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it.
+  * app-auth-prompt: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it.
+  * gtk-mount-prompt: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it. For the functions that need an icon-size just for namesake,
+    let's use `-1` so we can ensure that we have replaced its functionality
+    with pixel-size.
+  * polkit-auth-prompt: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it. For the functions that need an icon-size just for namesake,
+    let's use `-1` so we can ensure that we have replaced its functionality
+    with pixel-size.
+  * ticket-box: Use pixel-size instead of icon-size
+    `GtkIconSize` values are semantic in GTK 4 and no longer contain the
+    various values we have in GTK 3. If we need to enforce a specific
+    pixel-size, we need to use the `pixel-size` property of image. So let's
+    move to it.
+  * app-grid: Set pixel-size for images.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1224
+    Fixes: 2ed70a190 ("app-grid: Use pixel-size instead of icon-size")
+  * subprojects: Update libfeedback revision.
+    Fixes: 5bed6427dde4f3c8ca0cf3a4b8f5e2a7ff34b861
+  * quick-setting: Use checked instead of active state
+    `:checked` is the proper state to describe the "activeness". `:active`
+    denotes whether the button is being activated by user, that is, if it is
+    being pressed down.
+  * audio-device-row: Use `margin-*` instead of `margin`
+  * media-player: Use `margin-*` instead of `margin`
+  * osd-window: Use `margin-*` instead of `margin`
+  * power-menu: Use `margin-*` instead of `margin`
+  * top-panel: Use `margin-*` instead of `margin`
+  * wifi-status-page: Use `margin-*` instead of `margin`
+  * calendar: Use `margin-*` instead of `margin`
+    Also add the XML header for easier file identification.
+  * emergency-info: Use `margin-*` instead of `margin`
+  * launcher-box: Use `margin-*` instead of `margin`
+  * ticket-box: Use `margin-*` instead of `margin`
+  * upcoming-events: Use `margin-*` instead of `margin`
+  * notify-blocks: Use `margin-*` instead of `margin`
+  * check-deprecated-ui-props: Add `margin` to list
+  * check-deprecated-ui-props: Extend to all UI files
+  * app-grid: Use `{h,v}expand` instead of `expand`
+  * emergency-menu: Use `{h,v}expand` instead of `expand`
+  * lockscreen: Use `{h,v}expand` instead of `expand`
+  * notification-content: Use `{h,v}expand` instead of `expand`
+  * polkit-auth-prompt: Use `{h,v}expand` instead of `expand`
+  * top-panel: Use `{h,v}expand` instead of `expand`
+  * check-deprecated-ui-props: Add `expand` to list
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Álvaro Burns ]
+  * Update Brazilian Portuguese translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ twlvnn kraftwerk ]
+  * Update Bulgarian translation
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+  [ Andi Chandler ]
+  * Update British English translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 08 May 2025 09:09:31 +0200
+
 phosh (0.46.0) experimental; urgency=medium
 
   [ Sam Day ]

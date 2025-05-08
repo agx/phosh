@@ -1,3 +1,44 @@
+phosh 0.47~rc1
+--------------
+Released May 2025
+* notifications: Handle cellbroacast events from the desktop portal v2
+  spec
+* app-list-model: Track StartupWMClass for better app-id matching
+* Avoid flicker when unblanking lock screen with media widget present
+* Add status page to feedback quick settings that allows to enable
+  "Do not disturb" and to go to the feedback settings easily
+* Fix showing of active network on Wi-Fi status page when the network
+  has multiple access points
+* Don't let OSD block input on the whole screen when shown
+* Disable mobile data quick settings when SIM is locked
+* More GTK4 preps
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1222
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1183
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1095
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1180
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1218
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1224
+* Contributors:
+    * Arun Mani J
+    * fossdd
+    * Guido Günther
+* UI translations:
+    * Álvaro Burns (pt_BR)
+    * Anders Jonsson (sv)
+    * Andi Chandler (en_GB)
+    * Antonio Marin (ro)
+    * Artur S0 (ru)
+    * Baxrom Raxmatov (uz)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
+    * Martin (sl)
+    * twlvnn kraftwerk (bg)
+    * Yaron Shahrabani (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.46.0
 ------------
 Released March 2025
