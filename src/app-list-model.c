@@ -170,7 +170,7 @@ items_changed (gpointer data)
   PhoshAppListModel *self = PHOSH_APP_LIST_MODEL (data);
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
   g_auto (GStrv) folder_paths = NULL;
-  g_autolist(GAppInfo) new_apps = NULL;
+  g_autolist (GAppInfo) new_apps = NULL;
   int removed;
   int added = 0;
 
@@ -202,11 +202,14 @@ items_changed (gpointer data)
 
     /* We add folders irrespective of their emptiness because otherwise we won't be able to listen
      * for apps-changed signal. */
-    if (!PHOSH_IS_FOLDER_INFO (l->data) && !g_app_info_should_show (app_info)) {
+    if (!PHOSH_IS_FOLDER_INFO (app_info) && !g_app_info_should_show (app_info))
       continue;
-    }
+
     g_sequence_append (priv->items, g_object_ref (app_info));
     added++;
+
+    if (!G_IS_DESKTOP_APP_INFO (app_info))
+      continue;
 
     startup_wm_class = g_desktop_app_info_get_startup_wm_class (G_DESKTOP_APP_INFO (app_info));
     if (startup_wm_class) {
