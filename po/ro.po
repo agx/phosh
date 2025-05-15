@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-04-22 08:34+0000\n"
-"PO-Revision-Date: 2025-04-22 11:26+0200\n"
+"POT-Creation-Date: 2025-05-08 06:47+0000\n"
+"PO-Revision-Date: 2025-05-15 19:36+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -56,7 +56,7 @@ msgstr "Un calendar în miniatură"
 
 #: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
 msgid "Dark Mode / Color Scheme Quick Setting"
-msgstr "Opțiuni Aspect întunecos / Schema de culori"
+msgstr "Opțiuni Aspect întunecos / Combinație de culori"
 
 #: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
 msgid "Toggle dark mode"
@@ -71,7 +71,7 @@ msgid "Show emergency information and contacts"
 msgstr "Arată informațiile de urgență și contactele"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:4
-#: plugins/launcher-box/launcher-box.ui:14
+#: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "Cutie lansator"
 
@@ -106,7 +106,7 @@ msgid "Simple Pomodoro Timer"
 msgstr "Cronometru Pomodoro"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
-#: plugins/ticket-box/ticket-box.ui:14
+#: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "Casa de bilete"
 
@@ -216,7 +216,7 @@ msgstr[0] "%s se va deconecta automat în %d secundă."
 msgstr[1] "%s se va deconecta automat în %d secunde."
 msgstr[2] "%s se va deconecta automat în %d de secunde."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Oprește"
 
@@ -278,7 +278,7 @@ msgid "No"
 msgstr "Nu"
 
 #. give visual feedback on error
-#: src/lockscreen.c:311 src/ui/lockscreen.ui:281
+#: src/lockscreen.c:311 src/ui/lockscreen.ui:282
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
@@ -296,7 +296,7 @@ msgstr "Instantaneu de ecran salvat ca „%s”"
 msgid "Failed to save screenshot"
 msgstr "Nu s-a putut salva instantaneul"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:199
 msgid "Screenshot"
 msgstr "Instantaneu"
 
@@ -314,12 +314,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Instantaneu de ecran %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:486 src/ui/media-player.ui:217
+#: src/media-player.c:486 src/ui/media-player.ui:220
 msgid "Unknown Title"
 msgstr "Titlu necunoscut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:494 src/ui/media-player.ui:205
+#: src/media-player.c:494 src/ui/media-player.ui:208
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -483,13 +483,13 @@ msgstr[2] "Aproape %d ani"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Fereastra de autentificare a fost închisă de utilizator"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
+#: src/polkit-auth-prompt.c:275 src/ui/gtk-mount-prompt.ui:17
 #: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
 #: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "Parola:"
 
-#: src/polkit-auth-prompt.c:325
+#: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Nu a funcționat. Încearcă din nou."
 
@@ -579,7 +579,7 @@ msgstr "Dispozitive de intrare"
 
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
-msgstr "Opțiuni pentru sunet"
+msgstr "Opțiuni sunet"
 
 #: src/ui/bt-status-page.ui:39
 msgid "Enable Bluetooth"
@@ -589,32 +589,32 @@ msgstr "Activează Bluetooth"
 msgid "Bluetooth Settings"
 msgstr "Opțiuni Bluetooth"
 
-#: src/ui/emergency-menu.ui:24
+#: src/ui/emergency-menu.ui:25
 msgid "Close the emergency call dialog"
 msgstr "Închide dialogul despre apelul de urgență"
 
-#: src/ui/emergency-menu.ui:50
+#: src/ui/emergency-menu.ui:51
 msgid "Emergency _Contacts"
 msgstr "_Contacte de urgență"
 
-#: src/ui/emergency-menu.ui:57
+#: src/ui/emergency-menu.ui:58
 msgid "Go to the emergency contacts page"
 msgstr "Du-te la pagina contactelor de urgență"
 
-#: src/ui/emergency-menu.ui:80
+#: src/ui/emergency-menu.ui:81
 msgid "Go back to the emergency dialpad page"
 msgstr "Înapoi la pagina de apelare de urgență"
 
-#: src/ui/emergency-menu.ui:103
+#: src/ui/emergency-menu.ui:104
 msgid "Owner unknown"
 msgstr "Proprietar necunoscut"
 
-#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: src/ui/emergency-menu.ui:122 plugins/emergency-info/emergency-info.ui:211
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "Contacte de urgență"
 
-#: src/ui/emergency-menu.ui:139
+#: src/ui/emergency-menu.ui:141
 msgid "No emergency contacts available."
 msgstr "Nu există contacte de urgență."
 
@@ -646,15 +646,15 @@ msgstr "Domeniu:"
 msgid "Co_nnect"
 msgstr "Co_nectează"
 
-#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:244
+#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:245
 msgid "Back"
 msgstr "Înapoi"
 
-#: src/ui/lockscreen.ui:94
+#: src/ui/lockscreen.ui:95
 msgid "Slide up to unlock"
 msgstr "Trage în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:332
 msgid "Unlock"
 msgstr "Deblochează"
 
@@ -671,19 +671,19 @@ msgstr "_Anulează"
 msgid "C_onnect"
 msgstr "C_onectează"
 
-#: src/ui/polkit-auth-prompt.ui:100
+#: src/ui/polkit-auth-prompt.ui:101
 msgid "Authenticate"
 msgstr "Autentificare"
 
-#: src/ui/power-menu.ui:106
+#: src/ui/power-menu.ui:112
 msgid "Suspend"
 msgstr "Suspendă"
 
-#: src/ui/power-menu.ui:149
+#: src/ui/power-menu.ui:158
 msgid "Lock"
 msgstr "Blochează"
 
-#: src/ui/power-menu.ui:225
+#: src/ui/power-menu.ui:240
 msgid "Emergency"
 msgstr "Urgență"
 
@@ -707,19 +707,19 @@ msgstr "Șterge tot"
 msgid "Confirm:"
 msgstr "Confirmă:"
 
-#: src/ui/top-panel.ui:31
+#: src/ui/top-panel.ui:34
 msgid "_Power Off…"
 msgstr "O_prește…"
 
-#: src/ui/top-panel.ui:58
+#: src/ui/top-panel.ui:61
 msgid "_Restart…"
 msgstr "_Repornește…"
 
-#: src/ui/top-panel.ui:85
+#: src/ui/top-panel.ui:88
 msgid "_Suspend…"
 msgstr "_Suspendă…"
 
-#: src/ui/top-panel.ui:112
+#: src/ui/top-panel.ui:115
 msgid "_Log Out…"
 msgstr "_Deconectare…"
 
@@ -727,7 +727,7 @@ msgstr "_Deconectare…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:86
+#: src/ui/wifi-status-page.ui:89
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
 
@@ -806,55 +806,55 @@ msgstr "Aspect întunecos"
 msgid "Light mode"
 msgstr "Aspect luminos"
 
-#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/emergency-info.ui:43
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "Informații personale"
 
-#: plugins/emergency-info/emergency-info.ui:48
+#: plugins/emergency-info/emergency-info.ui:51
 msgid "Date of Birth"
 msgstr "Data nașterii"
 
-#: plugins/emergency-info/emergency-info.ui:68
+#: plugins/emergency-info/emergency-info.ui:71
 msgid "Preferred Language"
 msgstr "Limba preferată"
 
-#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/emergency-info.ui:91
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "Adresa"
 
-#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/emergency-info.ui:99
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "Informații medicale"
 
-#: plugins/emergency-info/emergency-info.ui:104
+#: plugins/emergency-info/emergency-info.ui:107
 msgid "Age"
 msgstr "Vârsta"
 
-#: plugins/emergency-info/emergency-info.ui:124
+#: plugins/emergency-info/emergency-info.ui:127
 msgid "Blood Type"
 msgstr "Grupa sanguină"
 
-#: plugins/emergency-info/emergency-info.ui:144
+#: plugins/emergency-info/emergency-info.ui:147
 msgid "Height"
 msgstr "Înălțimea"
 
-#: plugins/emergency-info/emergency-info.ui:164
+#: plugins/emergency-info/emergency-info.ui:167
 msgid "Weight"
 msgstr "Greutatea"
 
-#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "Alergii"
 
-#: plugins/emergency-info/emergency-info.ui:192
+#: plugins/emergency-info/emergency-info.ui:195
 msgid "Medications & Conditions"
 msgstr "Medicamente și Boli"
 
-#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/emergency-info.ui:203
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "Alte informații"
@@ -924,19 +924,19 @@ msgstr "Relație"
 msgid "_Contact Number"
 msgstr "Numărul _contactului"
 
-#: plugins/launcher-box/launcher-box.ui:15
+#: plugins/launcher-box/launcher-box.ui:18
 msgid "No launchers configured"
 msgstr "Nu există lansatoare configurate"
 
-#: plugins/launcher-box/launcher-box.ui:30
+#: plugins/launcher-box/launcher-box.ui:33
 msgid "Launchers"
 msgstr "Lansatoare"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data On"
 msgstr "Date mobile Activate"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data Off"
 msgstr "Date mobile Dezactivate"
 
@@ -1002,11 +1002,11 @@ msgstr "Durata _pauzei"
 msgid "Duration of the break between sessions"
 msgstr "Durata pauzei dintre activități"
 
-#: plugins/ticket-box/ticket-box.ui:15
+#: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
 msgstr "Niciun document de arătat"
 
-#: plugins/ticket-box/ticket-box.ui:78
+#: plugins/ticket-box/ticket-box.ui:81
 msgid "Tickets"
 msgstr "Bilete"
 
