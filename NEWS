@@ -1,5 +1,5 @@
-phosh 0.47~rc1
---------------
+phosh 0.47.0
+------------
 Released May 2025
 * notifications: Handle cellbroacast events from the desktop portal v2
   spec
