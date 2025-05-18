@@ -1,3 +1,10 @@
+phosh (0.47.0) experimental; urgency=medium
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 18 May 2025 09:35:38 +0200
+
 phosh (0.47~rc1) experimental; urgency=medium
 
   [ Guido Günther ]
