@@ -42,6 +42,7 @@
               <object class="GtkScrolledWindow" id="scrolled_window">
                 <property name="visible">1</property>
                 <property name="hexpand">1</property>
+                <property name="vexpand">1</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">1</property>
@@ -50,6 +51,7 @@
                     <child>
                       <object class="GtkRevealer" id="favs_revealer">
                         <property name="visible">1</property>
+                        <property name="valign">start</property>
                         <property name="reveal-child">1</property>
                         <child>
                           <object class="GtkBox">
@@ -80,9 +82,6 @@
                           </object>
                         </child>
                       </object>
-                      <packing>
-                        <property name="fill">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkFlowBox" id="apps">
@@ -99,9 +98,6 @@
                         <property name="column-spacing">6</property>
                         <property name="row-spacing">6</property>
                       </object>
-                      <packing>
-                        <property name="fill">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkBox">
@@ -136,18 +132,12 @@
                               </object>
                             </child>
                           </object>
-                          <packing>
-                            <property name="fill">0</property>
-                          </packing>
                         </child>
                       </object>
                     </child>
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="expand">1</property>
-              </packing>
             </child>
           </object>
           <packing>
