@@ -44,6 +44,7 @@
                         <child>
                           <object class="GtkLabel" id="lbl_app_name">
                             <property name="visible">1</property>
+                            <property name="hexpand">1</property>
                             <property name="label">App Name</property>
                             <property name="ellipsize">end</property>
                             <property name="single-line-mode">1</property>
@@ -52,22 +53,17 @@
                               <class name="heading"/>
                             </style>
                           </object>
-                          <packing>
-                            <property name="expand">1</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshTimestampLabel" id="updated">
                             <property name="visible">1</property>
                             <property name="halign">end</property>
+                            <property name="hexpand">1</property>
                             <style>
                               <class name="dim-label"/>
                               <class name="caption"/>
                             </style>
                           </object>
-                          <packing>
-                            <property name="expand">1</property>
-                          </packing>
                         </child>
                         <style>
                           <class name="dim-label"/>
