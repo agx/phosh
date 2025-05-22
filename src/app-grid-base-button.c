@@ -220,8 +220,10 @@ phosh_app_grid_base_button_set_child (PhoshAppGridBaseButton *self, GtkWidget *c
 
   priv->child = child;
 
-  if (priv->child)
+  if (priv->child) {
     gtk_box_pack_start (priv->box, priv->child, FALSE, FALSE, 0);
+    gtk_box_reorder_child (priv->box, priv->child, 0);
+  }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CHILD]);
 }
