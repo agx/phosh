@@ -20,10 +20,6 @@
                 <property name="hexpand">1</property>
                 <property name="ellipsize">middle</property>
               </object>
-              <packing>
-                <property name="position">2</property>
-                <property name="pack-type">end</property>
-              </packing>
             </child>
           </object>
         </child>

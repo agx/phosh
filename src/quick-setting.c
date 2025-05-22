@@ -560,6 +560,7 @@ phosh_quick_setting_set_status_icon (PhoshQuickSetting *self, PhoshStatusIcon *s
                              G_CONNECT_SWAPPED);
 
     gtk_box_pack_start (priv->box, GTK_WIDGET (priv->status_icon), 0, 0, 0);
+    gtk_box_reorder_child (priv->box, GTK_WIDGET (priv->status_icon), 0);
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATUS_PAGE]);
