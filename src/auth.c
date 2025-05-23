@@ -19,29 +19,25 @@
  * PAM authentication handling
  */
 
-typedef struct
-{
+typedef struct _PhoshAuth {
+  GObject       parent;
+
   pam_handle_t *pamh;
-} PhoshAuthPrivate;
-
-
-typedef struct _PhoshAuth
-{
-  GObject parent;
 } PhoshAuth;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshAuth, phosh_auth, G_TYPE_OBJECT)
+G_DEFINE_TYPE (PhoshAuth, phosh_auth, G_TYPE_OBJECT)
 
 
 static int
-pam_conversation_cb(int num_msg, const struct pam_message **msg,
-                    struct pam_response **resp, void *data)
+pam_conversation_cb (int                        num_msg,
+                     const struct pam_message **msg,
+                     struct pam_response      **resp,
+                     void                      *appdata_ptr)
 {
-  const char *pin = data;
+  const char *authtok = appdata_ptr;
   int ret = PAM_CONV_ERR;
-  struct pam_response *pam_resp = calloc(num_msg,
-                                         sizeof(struct pam_response));
+  g_autofree struct pam_response *pam_resp = g_new0 (struct pam_response, num_msg);
 
   if (pam_resp == NULL)
     return PAM_BUF_ERR;
@@ -50,7 +46,7 @@ pam_conversation_cb(int num_msg, const struct pam_message **msg,
     switch (msg[i]->msg_style) {
     case PAM_PROMPT_ECHO_OFF:
     case PAM_PROMPT_ECHO_ON:
-      pam_resp[i].resp = g_strdup(pin);
+      pam_resp[i].resp = g_strdup (authtok);
       ret = PAM_SUCCESS;
       break;
     case PAM_ERROR_MSG: /* TBD */
@@ -61,48 +57,52 @@ pam_conversation_cb(int num_msg, const struct pam_message **msg,
   }
 
   if (ret == PAM_SUCCESS)
-    *resp = pam_resp;
-  else
-    free (pam_resp);
+    *resp = g_steal_pointer (&pam_resp);
+
   return ret;
 }
 
 
-/* return TRUE if pin is correct, FALSE otherwise */
+/* return TRUE if auth token is correct, FALSE otherwise */
 static gboolean
-authenticate (PhoshAuth *self, const char *number)
+authenticate (PhoshAuth *self, const char *authtok)
 {
-  PhoshAuthPrivate *priv = phosh_auth_get_instance_private (self);
   int ret;
   gboolean authenticated = FALSE;
   const char *username;
   const struct pam_conv conv = {
     .conv = pam_conversation_cb,
-    .appdata_ptr = (void*)number,
+    .appdata_ptr = (void*)authtok,
   };
 
-  if (priv->pamh == NULL) {
+  if (self->pamh == NULL) {
     username = g_get_user_name ();
-    ret = pam_start("phosh", username, &conv, &priv->pamh);
+    ret = pam_start ("phosh", username, &conv, &self->pamh);
     if (ret != PAM_SUCCESS) {
-      g_warning ("PAM start error %s", pam_strerror (priv->pamh, ret));
+      g_warning ("PAM start error %s", pam_strerror (self->pamh, ret));
       goto out;
     }
   }
 
-  ret = pam_authenticate(priv->pamh, 0);
-  if (ret == PAM_SUCCESS) {
-    authenticated = TRUE;
-  } else {
+  ret = pam_authenticate (self->pamh, 0);
+  if (ret != PAM_SUCCESS) {
     if (ret != PAM_AUTH_ERR)
-      g_warning("pam_authenticate error %s", pam_strerror (priv->pamh, ret));
+      g_warning ("pam_authenticate error %s", pam_strerror (self->pamh, ret));
     goto out;
   }
 
-  ret = pam_end(priv->pamh, ret);
+  ret = pam_acct_mgmt (self->pamh, 0);
+  if (ret != PAM_SUCCESS) {
+    g_warning ("pam_acct check failed: %s\n", pam_strerror (self->pamh, ret));
+    goto out;
+  }
+
+  authenticated = TRUE;
+
+  ret = pam_end (self->pamh, ret);
   if (ret != PAM_SUCCESS)
-    g_warning("pam_end error %d", ret);
-  priv->pamh = NULL;
+    g_warning ("pam_end error %d", ret);
+  self->pamh = NULL;
 
  out:
   return authenticated;
@@ -110,13 +110,13 @@ authenticate (PhoshAuth *self, const char *number)
 
 
 static void
-authenticate_thread (GTask *task,
-                    gpointer source_object,
-                    gpointer task_data,
-                    GCancellable *cancellable)
+authenticate_thread (GTask        *task,
+                     gpointer      source_object,
+                     gpointer      task_data,
+                     GCancellable *cancellable)
 {
   PhoshAuth *self = PHOSH_AUTH (source_object);
-  const char *number = task_data;
+  char *authtok = task_data;
   gboolean ret;
 
   if (task_data == NULL) {
@@ -124,7 +124,7 @@ authenticate_thread (GTask *task,
     return;
   }
 
-  ret = authenticate (self, number);
+  ret = authenticate (self, authtok);
   g_task_return_boolean (task, ret);
 }
 
@@ -132,15 +132,15 @@ authenticate_thread (GTask *task,
 static void
 phosh_auth_finalize (GObject *object)
 {
-  PhoshAuthPrivate *priv = phosh_auth_get_instance_private (PHOSH_AUTH(object));
+  PhoshAuth *self = PHOSH_AUTH (object);
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_auth_parent_class);
   int ret;
 
-  if (priv->pamh) {
-    ret = pam_end(priv->pamh, PAM_AUTH_ERR);
+  if (self->pamh) {
+    ret = pam_end (self->pamh, PAM_AUTH_ERR);
     if (ret != PAM_SUCCESS)
-      g_warning("pam_end error %s", pam_strerror (priv->pamh, ret));
-    priv->pamh = NULL;
+      g_warning ("pam_end error %s", pam_strerror (self->pamh, ret));
+    self->pamh = NULL;
   }
 
   parent_class->finalize (object);
@@ -171,17 +171,17 @@ phosh_auth_new (void)
 
 void
 phosh_auth_authenticate_async (PhoshAuth           *self,
-                               const char          *number,
+                               const char          *authtok,
                                GCancellable        *cancellable,
                                GAsyncReadyCallback  callback,
                                gpointer             callback_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, callback_data);
-  g_task_set_task_data (task, (gpointer) number, NULL);
+  g_task_set_task_data (task, g_strdup (authtok), g_free);
+
   g_task_run_in_thread (task, authenticate_thread);
-  g_object_unref (task);
 }
 
 
