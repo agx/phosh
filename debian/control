@@ -56,6 +56,7 @@ Build-Depends:
  python3-pytest <!nocheck>,
  wlr-randr <!nocheck>,
  xauth <!nocheck>,
+ xmlstarlet <!nocheck>,
  xvfb <!nocheck>,
 Standards-Version: 4.7.0
 Homepage: https://phosh.mobi/

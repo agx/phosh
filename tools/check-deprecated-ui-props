@@ -14,4 +14,15 @@ for tag in expand margin margin-left margin-right; do
   fi
 done
 
+printf "\nChecking for deprecated <packing> attributes\n"
+DEPRECATED_PACKING_ATTRIBUTES="expand fill halign hexpand valign vexpand position"
+XPATH="count(//packing/property[contains('$DEPRECATED_PACKING_ATTRIBUTES', @name)])"
+for file in "$ROOT"/src/ui/*.ui "$ROOT"/plugins/**/*.ui; do
+  count=$(xmlstarlet sel -t -v "$XPATH" "$file")
+  if [[ $count != "0" ]]; then
+    echo "${file} uses deprecated <packing> attributes"
+    ret=1
+  fi
+done
+
 exit $ret
