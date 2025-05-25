@@ -31,4 +31,4 @@ unlock-sim=true
 [sm.puri.phosh:Phosh]
 # gnome-calendar: https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1697
 # Loupe and Showtime will be fixed with GNOME 49
-force-adaptive=['firefox-esr.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Loupe', 'org.gnome.Showtime']
+force-adaptive=['firefox-esr.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Loupe.desktop', 'org.gnome.Showtime.desktop']
