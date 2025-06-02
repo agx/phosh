@@ -796,6 +796,7 @@ phosh_media_player_init (PhoshMediaPlayer *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  self->cancel = g_cancellable_new ();
   self->track_length = -1;
   self->track_position = -1;
   self->pos_poller_id = 0;
