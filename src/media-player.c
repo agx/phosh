@@ -446,6 +446,9 @@ fetch_icon_async (PhoshMediaPlayer *self, const char *url)
 
   g_debug ("Fetching icon for %s", url);
 
+  if (!self->fetch_icon_cancel)
+    self->fetch_icon_cancel = g_cancellable_new ();
+
   icon = g_file_icon_new (file);
   g_loadable_icon_load_async (G_LOADABLE_ICON (icon),
                               ART_PIXEL_SIZE,
