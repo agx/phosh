@@ -13,6 +13,7 @@
         <child>
           <object class="GtkButton" id="btn_prev">
             <property name="visible">1</property>
+            <property name="halign">center</property>
             <signal name="clicked" handler="btn_prev_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <property name="focus-on-click">0</property>
             <child>
@@ -26,13 +27,11 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="fill">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_seek_backward">
             <property name="visible">1</property>
+            <property name="halign">center</property>
             <signal name="clicked" handler="btn_seek_backward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <property name="focus-on-click">0</property>
             <child>
@@ -46,13 +45,11 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="fill">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_play">
             <property name="visible">1</property>
+            <property name="halign">center</property>
             <signal name="clicked" handler="btn_play_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <property name="focus-on-click">0</property>
             <child>
@@ -67,13 +64,11 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="fill">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_seek_forward">
             <property name="visible">1</property>
+            <property name="halign">center</property>
             <signal name="clicked" handler="btn_seek_forward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <property name="focus-on-click">0</property>
             <child>
@@ -87,13 +82,11 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="fill">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_next">
             <property name="visible">1</property>
+            <property name="halign">center</property>
             <signal name="clicked" handler="btn_next_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <property name="focus-on-click">0</property>
             <child>
@@ -107,9 +100,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="fill">0</property>
-          </packing>
         </child>
       </object>
       <packing>
@@ -159,9 +149,6 @@
               <attribute name="font-features" value="tnum=1"/>
             </attributes>
           </object>
-          <packing>
-            <property name="pack-type">end</property>
-          </packing>
         </child>
       </object>
       <packing>
@@ -200,6 +187,7 @@
                 <property name="orientation">vertical</property>
                 <property name="margin-start">6</property>
                 <property name="valign">center</property>
+                <property name="hexpand">1</property>
                 <child>
                   <object class="GtkLabel" id="lbl_artist">
                     <property name="visible">1</property>
@@ -226,10 +214,6 @@
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="expand">1</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
         </child>

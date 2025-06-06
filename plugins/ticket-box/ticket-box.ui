@@ -57,7 +57,8 @@
                     <child>
                       <object class="EvView" id="view">
                         <property name="visible">1</property>
-                        <property name="expand">1</property>
+                        <property name="hexpand">1</property>
+                        <property name="vexpand">1</property>
                       </object>
                     </child>
                   </object>

@@ -2,13 +2,25 @@
 
 set -e
 
+ROOT="${1:-$PWD}"
 ret=0
 
 for tag in expand margin margin-left margin-right; do
   echo "Checking '$tag'"
-  if git grep "=\"${tag}\"" -- "*.ui" >& /dev/null; then
+  if git grep "=\"${tag}\"" -- "$ROOT/*.ui" >& /dev/null; then
     echo "Found deprecated UI property ${tag}" 1>&2
-    git --no-pager grep "=\"${tag}\"" -- "*.ui" 1>&2
+    git --no-pager grep "=\"${tag}\"" -- "$ROOT/*.ui" 1>&2
+    ret=1
+  fi
+done
+
+printf "\nChecking for deprecated <packing> attributes\n"
+DEPRECATED_PACKING_ATTRIBUTES="expand fill halign hexpand valign vexpand position"
+XPATH="count(//packing/property[contains('$DEPRECATED_PACKING_ATTRIBUTES', @name)])"
+for file in "$ROOT"/src/ui/*.ui "$ROOT"/plugins/**/*.ui; do
+  count=$(xmlstarlet sel -t -v "$XPATH" "$file")
+  if [[ $count != "0" ]]; then
+    echo "${file} uses deprecated <packing> attributes"
     ret=1
   fi
 done

@@ -33,10 +33,6 @@
                     <property name="halign">center</property>
                     <property name="valign">end</property>
                   </object>
-                  <packing>
-                    <property name="position">1</property>
-                    <property name="pack-type">end</property>
-                  </packing>
                 </child>
               </object>
             </child>

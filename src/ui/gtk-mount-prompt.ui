@@ -60,9 +60,6 @@
                 <property name="wrap">1</property>
                 <property name="wrap-mode">word-char</property>
               </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
           <packing>

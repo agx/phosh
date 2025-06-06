@@ -37,10 +37,6 @@
         <property name="label" translatable="yes">_Cancel</property>
         <signal name="clicked" handler="on_dialog_canceled" swapped="yes"/>
       </object>
-      <packing>
-        <property name="fill">1</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <!-- Connect button -->
     <child type="phosh-dialog-button">
@@ -57,10 +53,6 @@
           <class name="suggested-action"/>
         </style>
       </object>
-      <packing>
-        <property name="fill">1</property>
-        <property name="position">1</property>
-      </packing>
     </child>
     <style>
       <class name="phosh-network-auth-prompt"/>

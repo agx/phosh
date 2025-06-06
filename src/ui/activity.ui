@@ -44,15 +44,13 @@
                       <object class="GtkImage" id="icon">
                         <property name="visible">1</property>
                         <property name="halign">center</property>
+                        <property name="hexpand">1</property>
                         <property name="pixel-size">48</property>
                         <property name="icon-name">app-icon-unknown</property>
                         <style>
                           <class name="phosh-dropicon-shadow"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="expand">1</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>

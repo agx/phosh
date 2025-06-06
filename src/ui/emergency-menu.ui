@@ -7,6 +7,7 @@
     <child type="phosh-dialog-content">
       <object class="HdyCarousel" id="emergency_carousel">
         <property name="visible">1</property>
+        <property name="vexpand">1</property>
         <property name="animation-duration">400</property>
         <child>
           <object class="GtkBox" id="emergency_dialpad_box">
@@ -153,9 +154,6 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">1</property>
-      </packing>
     </child>
   </template>
 </interface>
