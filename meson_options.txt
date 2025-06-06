@@ -43,6 +43,10 @@ option('introspection',
        type: 'boolean', value: false,
        description: 'Build gobject-introspection support')
 
+option('vapi',
+       type: 'boolean', value: false,
+       description: 'Build vala VAPI files')
+
 # Install files needed to generate some bindings (e.g. Rust).
 option('bindings-lib',
        type: 'boolean', value: false,

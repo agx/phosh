@@ -631,6 +631,18 @@ if bindings_lib
     ],
     subdir : lib_inc_subdir,
   )
+
+  apiversion = '0.0'
+  if get_option('vapi')
+    libphosh_vapi = gnome.generate_vapi(
+      'libphosh-' + libphosh_api_version,
+      sources: phosh_gir[0],
+      packages: ['gio-2.0', 'gtk+-3.0', 'gnome-desktop-3.0', 'libnm'],
+      install: true,
+      install_dir: vapidir,
+      metadata_dirs: [meson.current_source_dir()],
+    )
+  endif
 endif
 
 phosh_export_sym_link_arg = '-Wl,--dynamic-list=@0@'.format(dynamic_list.full_path())
