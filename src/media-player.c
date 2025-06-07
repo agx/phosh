@@ -784,49 +784,7 @@ on_player_changed (PhoshMediaPlayer *self, GParamSpec *pspec, PhoshMprisManager 
   g_assert (PHOSH_IS_MEDIA_PLAYER (self));
   g_assert (PHOSH_IS_MPRIS_MANAGER (priv->manager));
 
-  if (priv->player)
-    g_signal_handlers_disconnect_by_data (priv->player, self);
-
-  g_set_object (&priv->player, phosh_mpris_manager_get_player (priv->manager));
-
-  if (!priv->player) {
-    set_attached (self, FALSE);
-    return;
-  }
-
-  g_debug ("Connected player %p", priv->player);
-  g_object_connect (priv->player,
-                    "swapped_object_signal::notify::metadata",
-                    G_CALLBACK (on_metadata_changed),
-                    self,
-                    "swapped_object_signal::notify::playback-status",
-                    G_CALLBACK (on_playback_status_changed),
-                    self,
-                    "swapped_object_signal::notify::can-go-next",
-                    G_CALLBACK (on_can_go_next_changed),
-                    self,
-                    "swapped_object_signal::notify::can-go-previous",
-                    G_CALLBACK (on_can_go_previous_changed),
-                    self,
-                    "swapped_object_signal::notify::can-play",
-                    G_CALLBACK (on_can_play),
-                    self,
-                    "swapped_object_signal::notify::can-seek",
-                    G_CALLBACK (on_can_seek),
-                    self,
-                    NULL);
-
-  /* Set 'attached' before running notifiers, since we check it on e.g. start_pos_poller() */
-  set_attached (self, TRUE);
-  /* Hide progress bar box by default, it's shown if track length is given in metadata */
-  gtk_widget_set_visible (priv->box_pos_len, FALSE);
-
-  g_object_notify (G_OBJECT (priv->player), "metadata");
-  g_object_notify (G_OBJECT (priv->player), "playback-status");
-  g_object_notify (G_OBJECT (priv->player), "can-go-next");
-  g_object_notify (G_OBJECT (priv->player), "can-go-previous");
-  g_object_notify (G_OBJECT (priv->player), "can-play");
-  g_object_notify (G_OBJECT (priv->player), "can-seek");
+  phosh_media_player_set_player (self, phosh_mpris_manager_get_player (priv->manager));
 }
 
 
@@ -901,4 +859,58 @@ phosh_media_player_toggle_play_pause (PhoshMediaPlayer *self)
                                                          priv->cancel,
                                                          (GAsyncReadyCallback)on_play_pause_done,
                                                          self);
+}
+
+
+void
+phosh_media_player_set_player (PhoshMediaPlayer *self, PhoshMprisDBusMediaPlayer2Player *player)
+{
+  PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  g_return_if_fail (PHOSH_IS_MPRIS_MANAGER (priv->manager));
+
+  if (priv->player)
+    g_signal_handlers_disconnect_by_data (priv->player, self);
+
+  g_set_object (&priv->player, player);
+
+  if (!priv->player) {
+    set_attached (self, FALSE);
+    return;
+  }
+
+  g_debug ("Connected player %p", priv->player);
+  g_object_connect (priv->player,
+                    "swapped_object_signal::notify::metadata",
+                    G_CALLBACK (on_metadata_changed),
+                    self,
+                    "swapped_object_signal::notify::playback-status",
+                    G_CALLBACK (on_playback_status_changed),
+                    self,
+                    "swapped_object_signal::notify::can-go-next",
+                    G_CALLBACK (on_can_go_next_changed),
+                    self,
+                    "swapped_object_signal::notify::can-go-previous",
+                    G_CALLBACK (on_can_go_previous_changed),
+                    self,
+                    "swapped_object_signal::notify::can-play",
+                    G_CALLBACK (on_can_play),
+                    self,
+                    "swapped_object_signal::notify::can-seek",
+                    G_CALLBACK (on_can_seek),
+                    self,
+                    NULL);
+
+  /* Set 'attached' before running notifiers, since we check it on e.g. start_pos_poller() */
+  set_attached (self, TRUE);
+  /* Hide progress bar box by default, it's shown if track length is given in metadata */
+  gtk_widget_set_visible (priv->box_pos_len, FALSE);
+
+  g_object_notify (G_OBJECT (priv->player), "metadata");
+  g_object_notify (G_OBJECT (priv->player), "playback-status");
+  g_object_notify (G_OBJECT (priv->player), "can-go-next");
+  g_object_notify (G_OBJECT (priv->player), "can-go-previous");
+  g_object_notify (G_OBJECT (priv->player), "can-play");
+  g_object_notify (G_OBJECT (priv->player), "can-seek");
 }
