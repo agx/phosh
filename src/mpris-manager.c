@@ -48,6 +48,8 @@ struct _PhoshMprisManager {
   guint                             dbus_id;
 
   gboolean                          can_raise;
+
+  GListStore                       *known_players;
 };
 G_DEFINE_TYPE (PhoshMprisManager, phosh_mpris_manager, G_TYPE_OBJECT)
 
@@ -101,6 +103,7 @@ phosh_mpris_manager_dispose (GObject *object)
 
   g_clear_object (&self->session_bus);
   g_clear_object (&self->mpris);
+  g_clear_object (&self->known_players);
   g_clear_object (&self->player);
 
   G_OBJECT_CLASS (phosh_mpris_manager_parent_class)->dispose (object);
@@ -138,6 +141,52 @@ phosh_mpris_manager_class_init (PhoshMprisManagerClass *klass)
 }
 
 
+static gboolean
+cmp_by_name (gconstpointer a, gconstpointer b)
+{
+  GDBusProxy *proxy1 = G_DBUS_PROXY (a);
+  GDBusProxy *proxy2 = G_DBUS_PROXY (b);
+  const char *name1, *name2;
+
+  name1 = g_dbus_proxy_get_name (proxy1);
+  name2 = g_dbus_proxy_get_name (proxy2);
+
+  return g_strcmp0 (name1, name2) == 0;
+}
+
+
+static void
+add_to_known_players (PhoshMprisManager *self, PhoshMprisDBusMediaPlayer2Player *player)
+{
+  if (g_list_store_find_with_equal_func (self->known_players,
+                                          player,
+                                          cmp_by_name,
+                                          NULL))
+    return;
+
+  g_debug ("Player %s not yet known, adding to known players",
+           g_dbus_proxy_get_name (G_DBUS_PROXY (player)));
+  g_list_store_append (self->known_players, player);
+}
+
+
+static void
+remove_from_known_players (PhoshMprisManager *self, const char *name)
+{
+  for (int i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->known_players)); i++) {
+    g_autoptr (GDBusProxy) proxy = NULL;
+
+    proxy = G_DBUS_PROXY (g_list_model_get_item (G_LIST_MODEL (self->known_players), i));
+
+    if (g_strcmp0 (g_dbus_proxy_get_name (proxy), name) == 0) {
+      g_debug ("Removing '%s' from known players", name);
+      g_list_store_remove (self->known_players, i);
+      return;
+    }
+  }
+}
+
+
 static void
 on_attach_player_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -157,6 +206,7 @@ on_attach_player_ready (GObject *source_object, GAsyncResult *res, gpointer user
 
   g_return_if_fail (PHOSH_IS_MPRIS_MANAGER (self));
 
+  add_to_known_players (self, player);
   phosh_mpris_manager_set_player (self, player);
 }
 
@@ -315,6 +365,7 @@ on_dbus_name_owner_changed (GDBusConnection *connection,
   /* Current player vanished, look for another one, already running */
   if (gm_str_is_null_or_empty (to)) {
     phosh_mpris_manager_set_player (self, NULL);
+    remove_from_known_players (self, name);
     find_player (self);
     return;
   }
@@ -359,6 +410,7 @@ static void
 phosh_mpris_manager_init (PhoshMprisManager *self)
 {
   self->cancel = g_cancellable_new ();
+  self->known_players = g_list_store_new (PHOSH_MPRIS_DBUS_TYPE_MEDIA_PLAYER2_PLAYER);
 
   g_bus_get (G_BUS_TYPE_SESSION,
              self->cancel,
