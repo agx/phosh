@@ -1178,6 +1178,10 @@ phosh-media-player button:hover {
 }
 /* End FIXME */
 
+row:selected {
+  background-color: @theme_selected_bg_color;
+}
+
 /* Scrollbars */
 scrollbar {
   background-color: transparent;
