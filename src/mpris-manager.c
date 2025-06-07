@@ -319,7 +319,7 @@ on_dbus_name_owner_changed (GDBusConnection *connection,
     return;
   }
 
-  /* New player showed up, pick up */
+  /* New player showed up, pick it up */
   attach_player (self, name);
 }
 
