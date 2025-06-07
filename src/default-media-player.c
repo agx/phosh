@@ -12,6 +12,7 @@
 
 #include "default-media-player.h"
 #include "mpris-manager.h"
+#include "shell-priv.h"
 
 /**
  * PhoshDefaultMediaPlayer:
@@ -52,8 +53,31 @@ phosh_default_media_player_class_init (PhoshDefaultMediaPlayerClass *klass)
 
 
 static void
+on_player_changed (PhoshDefaultMediaPlayer *self, GParamSpec *pspec, PhoshMprisManager *manager)
+{
+  g_assert (PHOSH_IS_MEDIA_PLAYER (self));
+  g_assert (PHOSH_IS_MPRIS_MANAGER (self->manager));
+
+  phosh_media_player_set_player (PHOSH_MEDIA_PLAYER (self),
+                                 phosh_mpris_manager_get_player (self->manager));
+}
+
+
+static void
 phosh_default_media_player_init (PhoshDefaultMediaPlayer *self)
 {
+  PhoshMprisManager *manager = phosh_shell_get_mpris_manager (phosh_shell_get_default ());
+
+  if (manager) {
+    self->manager = g_object_ref (manager);
+
+    g_signal_connect_object (self->manager,
+                             "notify::player",
+                             G_CALLBACK (on_player_changed),
+                             self,
+                             G_CONNECT_SWAPPED);
+    on_player_changed (self, NULL, self->manager);
+  }
 }
 
 

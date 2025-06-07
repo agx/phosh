@@ -39,7 +39,7 @@
  * interface with media players allowing to skip through music and
  * raising the player.
  *
- * Whenever a player is found on the bus the #PhoshMediaPlayer:attached
+ * Whenever valid mpris player is set, the #PhoshMediaPlayer:attached
  * property is set to %TRUE. This can e.g. be used with
  * #g_object_bind_property() to toggle the widget's visibility.
  *
@@ -777,18 +777,6 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
 
 
 static void
-on_player_changed (PhoshMediaPlayer *self, GParamSpec *pspec, PhoshMprisManager *manager)
-{
-  PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
-
-  g_assert (PHOSH_IS_MEDIA_PLAYER (self));
-  g_assert (PHOSH_IS_MPRIS_MANAGER (priv->manager));
-
-  phosh_media_player_set_player (self, phosh_mpris_manager_get_player (priv->manager));
-}
-
-
-static void
 phosh_media_player_init (PhoshMediaPlayer *self)
 {
   PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
@@ -809,12 +797,6 @@ phosh_media_player_init (PhoshMediaPlayer *self)
                             priv->btn_details,
                             "sensitive",
                             G_BINDING_DEFAULT);
-    g_signal_connect_object (priv->manager,
-                             "notify::player",
-                             G_CALLBACK (on_player_changed),
-                             self,
-                             G_CONNECT_SWAPPED);
-    on_player_changed (self, NULL, priv->manager);
   }
 }
 
