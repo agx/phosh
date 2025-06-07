@@ -140,7 +140,7 @@ build:lib-debian-trixie:
   stage: build
   image: ${DEBIAN_IMAGE}
   variables:
-    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true
+    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true -Dvapi=true
   <<: *build_before_script
   script:
     - meson setup ${BUILD_OPTS} _build
