@@ -492,3 +492,12 @@ phosh_mpris_manager_raise_async (PhoshMprisManager  *self,
                                              on_raise_done,
                                              g_steal_pointer (&task));
 }
+
+
+GListModel *
+phosh_mpris_manager_get_known_players (PhoshMprisManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MPRIS_MANAGER (self), NULL);
+
+  return G_LIST_MODEL (self->known_players);
+}

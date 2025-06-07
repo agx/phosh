@@ -28,4 +28,6 @@ gboolean                 phosh_mpris_manager_raise_finish        (PhoshMprisMana
                                                                   GAsyncResult       *res,
                                                                   GError            **err);
 
+GListModel *             phosh_mpris_manager_get_known_players   (PhoshMprisManager *self);
+
 G_END_DECLS
