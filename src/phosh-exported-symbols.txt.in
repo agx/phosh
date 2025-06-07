@@ -30,6 +30,14 @@
    phosh_monitor_manager_get_type;
    phosh_monitor_manager_get_night_light_supported;
 
+   # Media player plugin
+   phosh_shell_get_mpris_manager;
+   phosh_media_player_get_type;
+   phosh_media_player_new;
+   phosh_media_player_set_player;
+   phosh_mpris_manager_get_type;
+   phosh_mpris_manager_get_known_players;
+
    # Wi-Fi Hotspot plugin wants Wi-Fi Manager
    phosh_shell_get_wifi_manager;
    phosh_wifi_manager_get_enabled;
