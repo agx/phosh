@@ -307,10 +307,10 @@ on_dbus_name_owner_changed (GDBusConnection *connection,
   g_return_if_fail (PHOSH_IS_MPRIS_MANAGER (self));
 
   g_variant_get (parameters, "(sss)", &name, &from, &to);
-  g_debug ("mpris player name owner change: '%s' '%s' '%s'", name, from, to);
-
   if (!is_valid_player (name))
     return;
+
+  g_debug ("mpris player name owner change: '%s' '%s' '%s'", name, from, to);
 
   /* Current player vanished, look for another one, already running */
   if (gm_str_is_null_or_empty (to)) {
