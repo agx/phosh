@@ -179,7 +179,7 @@
                                     <property name="vexpand">1</property>
                                     <property name="valign">center</property>
                                     <child>
-                                      <object class="PhoshMediaPlayer" id="media_player">
+                                      <object class="PhoshDefaultMediaPlayer" id="media_player">
                                         <property name="visible">1</property>
                                         <property name="valign">center</property>
                                         <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
