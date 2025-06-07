@@ -648,9 +648,7 @@ on_deck_transition_running_changed (PhoshLockscreen *self)
   if (hdy_deck_get_transition_running (priv->deck))
     return;
 
-  if (hdy_deck_get_visible_child (priv->deck) != priv->carousel)
-    return;
-
+  /* Otherwise we might see stale information */
   /* See https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922 */
   gtk_widget_queue_draw (priv->lbl_clock);
 }
