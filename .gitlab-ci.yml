@@ -57,7 +57,6 @@ variables:
                     vala
   RUST_BINDINGS_BRANCH: main
   LIBPHOSH: libphosh-0.45
-  SID_PKGS: universal-ctags clang clang-tools lld
 
 .trixie_vars: &trixie_vars
   variables:
