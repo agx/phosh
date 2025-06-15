@@ -85,9 +85,8 @@ phosh_wall_clock_dispose (GObject *object)
 static const char *
 get_clock_impl (PhoshWallClock *self, gboolean time_only)
 {
-  PhoshWallClockPrivate *priv;
+  PhoshWallClockPrivate *priv = phosh_wall_clock_get_instance_private (self);
 
-  priv = phosh_wall_clock_get_instance_private (self);
   return gnome_wall_clock_get_clock (time_only ? priv->time : priv->date_time);
 }
 
@@ -291,7 +290,7 @@ phosh_wall_clock_string_for_datetime (PhoshWallClock      *self,
                                       GDesktopClockFormat  clock_format,
                                       gboolean             show_full_date)
 {
-  PhoshWallClockPrivate *priv = phosh_wall_clock_get_instance_private (self);
+  PhoshWallClockPrivate *priv;
 
   g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), NULL);
   priv = phosh_wall_clock_get_instance_private (self);
