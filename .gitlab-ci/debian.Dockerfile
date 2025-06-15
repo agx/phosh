@@ -12,3 +12,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
    && eatmydata apt-get --no-install-recommends -y build-dep . \
    && eatmydata apt-get clean
 
+# Configure locales for tests
+RUN export DEBIAN_FRONTEND=noninteractive && \
+   echo 'ar_AE.UTF-8 UTF-8\nde_DE.UTF-8 UTF-8\nen_US.UTF-8 UTF-8\nja_JP.UTF-8 UTF-8\nuk_UA.UTF-8 UTF-8' > /etc/locale.gen && \
+   dpkg-reconfigure locales
