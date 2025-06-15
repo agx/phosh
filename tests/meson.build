@@ -110,6 +110,7 @@ tests_unit = [
   'status-icon',
   'timestamp-label',
   'util',
+  'wall-clock',
 ]
 
 tests_phoc = [

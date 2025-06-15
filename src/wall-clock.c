@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "wall-clock.h"
+#include "wall-clock-priv.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
@@ -300,4 +300,42 @@ phosh_wall_clock_string_for_datetime (PhoshWallClock      *self,
 
   return gnome_wall_clock_string_for_datetime (priv->time, datetime, clock_format,
                                                FALSE, show_full_date, FALSE);
+}
+
+/**
+ * phosh_wall_clock_strip_am_pm:
+ * @time: the time string
+ *
+ * Strip " {A,P}M" from 12h time format to look less cramped. Note
+ * that this also strips any surrounding white space so " 1:00 AM"
+ * becomes "1:00".
+ */
+char *
+phosh_wall_clock_strip_am_pm (const char *time)
+{
+  g_auto (GStrv) parts = NULL;
+  char *new ;
+
+  if (g_str_has_suffix (time, "AM") || g_str_has_suffix (time, "PM")) {
+    parts = g_strsplit (time, " ", -1);
+
+    if (g_strv_length (parts) == 2) {
+      /* Glib >= 2.74: padding with figure-space */
+      if (g_str_has_prefix (parts[0], "\u2007")) {
+        new = g_strdup (parts[0] + strlen("\u2007"));
+      } else {
+        new = g_steal_pointer (&parts[0]);
+      }
+    /* Glib < 2.74: padding with ascii space */
+    } else if (g_strv_length (parts) == 3) {
+      new = g_steal_pointer (&parts[1]);
+    } else {
+      g_warning ("Can't parse time format: %s", time);
+      new = g_strdup (time);
+    }
+  } else {
+    new = g_strdup (time);
+  }
+
+  return new;
 }
