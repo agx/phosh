@@ -22,7 +22,7 @@
 #include "shell-priv.h"
 #include "util.h"
 #include "widget-box.h"
-#include "wall-clock.h"
+#include "wall-clock-priv.h"
 
 #include "gmobile.h"
 
@@ -470,29 +470,12 @@ wall_clock_notify_cb (PhoshLockscreen *self,
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *time;
   g_autofree char *date = NULL;
-  g_auto (GStrv) parts = NULL;
+  g_autofree char *stripped = NULL;
 
   time = phosh_wall_clock_get_clock (wall_clock, TRUE);
 
-  /* Strip " {A,P}M" from 12h time format to look less cramped */
-  if (g_str_has_suffix (time, "AM") || g_str_has_suffix (time, "PM")) {
-    parts = g_strsplit (time, " ", -1);
-
-    if (g_strv_length (parts) == 2) {
-      /* Glib >= 2.74: padding with figure-space */
-      if (g_str_has_prefix (parts[0], "\u2007")) {
-        time = parts[0] + strlen("\u2007");
-      } else {
-        time = parts[0];
-      }
-    /* Glib < 2.74: padding with ascii space */
-    } else if (g_strv_length (parts) == 3) {
-      time = parts[1];
-    } else {
-      g_warning ("Can't parse time format: %s", time);
-    }
-  }
-  gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);
+  stripped = phosh_wall_clock_strip_am_pm (time);
+  gtk_label_set_text (GTK_LABEL (priv->lbl_clock), stripped);
 
   date = phosh_wall_clock_local_date (wall_clock);
   gtk_label_set_label (GTK_LABEL (priv->lbl_date), date);
