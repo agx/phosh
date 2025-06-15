@@ -54,6 +54,7 @@ variables:
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
                     libadwaita-dev json-glib-dev gnome-bluetooth-dev modemmanager-dev gmobile-dev gsettings-desktop-schemas
+                    vala
   RUST_BINDINGS_BRANCH: main
   LIBPHOSH: libphosh-0.45
   SID_PKGS: universal-ctags clang clang-tools lld
@@ -139,7 +140,7 @@ build:lib-debian-trixie:
   stage: build
   image: ${DEBIAN_IMAGE}
   variables:
-    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true
+    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true -Dvapi=true
   <<: *build_before_script
   script:
     - meson setup ${BUILD_OPTS} _build

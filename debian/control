@@ -36,6 +36,7 @@ Build-Depends:
  libxml2-utils,
  meson,
  python3-docutils <!nodoc>,
+ valac,
 # for the plugins
  libecal2.0-dev,
  evolution-data-server-dev,

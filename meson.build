@@ -29,6 +29,7 @@ plugin_prefs_dir = join_paths(prefix, libdir, 'phosh', 'plugins', 'prefs')
 servicedir = join_paths(datadir, 'dbus-1', 'services')
 schemasdir = datadir / 'glib-2.0/schemas'
 lib_inc_dir = prefix / get_option('includedir') / lib_inc_subdir
+vapidir = prefix / datadir / 'vala' / 'vapi'
 
 enable_introspection = get_option('introspection') or get_option('gtk_doc')
 bindings_lib = get_option('bindings-lib')
