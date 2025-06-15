@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <locale.h>
-#include <glib/gi18n.h>
-
 #include "wall-clock.h"
+
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnome-desktop/gnome-wall-clock.h>
+
+#include <glib/gi18n.h>
+#include <locale.h>
 
 enum {
   PROP_0,
