@@ -10,6 +10,6 @@
 
 G_BEGIN_DECLS
 
-char *phosh_wall_clock_strip_am_pm (const char *time);
+char *phosh_wall_clock_strip_am_pm (PhoshWallClock *self, const char *time);
 
 G_END_DECLS

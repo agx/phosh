@@ -29,6 +29,8 @@ static GParamSpec *props[LAST_PROP];
 typedef struct _PhoshWallClockPrivate {
   GnomeWallClock *time;
   GnomeWallClock *date_time;
+
+  GRegex         *clock_re;
 } PhoshWallClockPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshWallClock, phosh_wall_clock, G_TYPE_OBJECT)
@@ -80,6 +82,7 @@ phosh_wall_clock_dispose (GObject *object)
 
   g_clear_object (&priv->date_time);
   g_clear_object (&priv->time);
+  g_clear_pointer (&priv->clock_re, g_regex_unref);
 
   G_OBJECT_CLASS (phosh_wall_clock_parent_class)->dispose (object);
 }
@@ -142,7 +145,11 @@ phosh_wall_clock_init (PhoshWallClock *self)
 
   priv->date_time = gnome_wall_clock_new ();
   priv->time = g_object_new (GNOME_TYPE_WALL_CLOCK, "time-only", TRUE, NULL);
-
+  priv->clock_re = g_regex_new ("[0-9]{1,2}.+[0-9]{1,2}(.+[0-9]{1,2})?",
+                                G_REGEX_DEFAULT | G_REGEX_OPTIMIZE,
+                                G_REGEX_MATCH_DEFAULT,
+                                NULL);
+  g_assert (priv->clock_re);
   /* Somewhat icky, we need a distinct handler for each clock because one can
    * update before the other, and we don't know which one the caller wants to
    * read from.
@@ -311,31 +318,30 @@ phosh_wall_clock_string_for_datetime (PhoshWallClock      *self,
  * becomes "1:00".
  */
 char *
-phosh_wall_clock_strip_am_pm (const char *time)
+phosh_wall_clock_strip_am_pm (PhoshWallClock *self, const char *time)
 {
+  PhoshWallClockPrivate *priv;
   g_auto (GStrv) parts = NULL;
-  char *new ;
 
-  if (g_str_has_suffix (time, "AM") || g_str_has_suffix (time, "PM")) {
-    parts = g_strsplit (time, " ", -1);
+  g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), NULL);
+  priv = phosh_wall_clock_get_instance_private (self);
 
-    if (g_strv_length (parts) == 2) {
-      /* Glib >= 2.74: padding with figure-space */
-      if (g_str_has_prefix (parts[0], "\u2007")) {
-        new = g_strdup (parts[0] + strlen("\u2007"));
-      } else {
-        new = g_steal_pointer (&parts[0]);
-      }
-    /* Glib < 2.74: padding with ascii space */
-    } else if (g_strv_length (parts) == 3) {
-      new = g_steal_pointer (&parts[1]);
-    } else {
-      g_warning ("Can't parse time format: %s", time);
-      new = g_strdup (time);
-    }
-  } else {
-    new = g_strdup (time);
+  parts = g_strsplit (time, " ", -1);
+  if (g_strv_length (parts) == 1)
+    return g_strdup (parts[0]);
+
+  if (g_strv_length (parts) != 2) {
+    g_warning ("Can't parse time format: %s", time);
+    return g_strdup (time);
   }
 
-  return new;
+  for (int i = 0; parts[i]; i++) {
+    g_autoptr (GMatchInfo) info = NULL;
+
+    if (g_regex_match (priv->clock_re, parts[i], G_REGEX_MATCH_DEFAULT, &info))
+      return g_match_info_fetch (info, 0);
+  }
+
+  g_warning ("Can't match time format: %s", time);
+  return g_strdup (time);
 }

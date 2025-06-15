@@ -474,7 +474,7 @@ wall_clock_notify_cb (PhoshLockscreen *self,
 
   time = phosh_wall_clock_get_clock (wall_clock, TRUE);
 
-  stripped = phosh_wall_clock_strip_am_pm (time);
+  stripped = phosh_wall_clock_strip_am_pm (wall_clock, time);
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), stripped);
 
   date = phosh_wall_clock_local_date (wall_clock);
