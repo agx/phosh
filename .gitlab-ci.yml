@@ -3,8 +3,8 @@ include:
   - project: 'guidog/meta-phosh'
     ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
     file: '/ci/phosh-common-jobs.yml'
-  - project: 'Infrastructure/Mirrors/lorry-mirrors/gitlab_freedesktop_org/freedesktop/ci-templates'
-    ref: 'b791bd48996e3ced9ca13f1c5ee82be8540b8adb'
+  - project: 'Infrastructure/freedesktop-ci-templates'
+    ref: 'd03cddbcff35f26861429fc816c00323f48e99af'
     file: '/templates/ci-fairy.yml'
 
 stages:
@@ -110,7 +110,7 @@ commit-log-check:
     GIT_DEPTH: "100"
   needs: []
   script: |
-    ci-fairy check-commits --junit-xml=commit-message-junit-report.xml
+    ci-fairy check-commits --signed-off-by --junit-xml=commit-message-junit-report.xml
   artifacts:
     reports:
       junit: commit-message-junit-report.xml
