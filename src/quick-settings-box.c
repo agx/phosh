@@ -397,8 +397,9 @@ allocate_children (PhoshQuickSettingsBox *self,
   int i = 0;
   gboolean show_at_this_row = FALSE;
   GtkAllocation rect;
+  gboolean ltr = gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_LTR;
 
-  rect.x = x;
+  rect.x = ltr ? x : x + (cols - 1) * (width + self->spacing);
   rect.y = y;
 
   if (self->shown_child == NULL) {
@@ -422,15 +423,20 @@ allocate_children (PhoshQuickSettingsBox *self,
           break;
         }
       }
-      rect.x += width + self->spacing;
+      if (ltr)
+        rect.x += width + self->spacing;
+      else
+        rect.x -= width + self->spacing;
     }
-    rect.x = x;
+    rect.x = ltr ? x : x + (cols - 1) * (width + self->spacing);
     rect.y += height + self->spacing;
 
     if (show_at_this_row) {
+      rect.x = x;
       rect.height = revealer_height;
       rect.width = revealer_width;
       gtk_widget_size_allocate (GTK_WIDGET (self->revealer), &rect);
+      rect.x = ltr ? x : x + (cols - 1) * (width + self->spacing);
       rect.height = height;
       rect.width = width;
       rect.y += revealer_height;
