@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-04-22 08:34+0000\n"
-"PO-Revision-Date: 2025-04-27 09:49+0200\n"
+"POT-Creation-Date: 2025-06-19 13:24+0000\n"
+"PO-Revision-Date: 2025-06-20 00:03+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -70,7 +70,7 @@ msgid "Show emergency information and contacts"
 msgstr "Pokaži informacije za nujne primere in stike"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:4
-#: plugins/launcher-box/launcher-box.ui:14
+#: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "Škatla zaganjalnikov"
 
@@ -78,6 +78,16 @@ msgstr "Škatla zaganjalnikov"
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Na zaklenjeni zaslon dodajte zaganjalnike. <b>Ta vstavek je poskusen.</b>"
+
+#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.ui:19
+#: plugins/media-players/media-players.ui:35
+msgid "Media Players"
+msgstr "Predvajalniki predstavnosti"
+
+#: plugins/media-players/media-players.desktop.in.in:6
+msgid "Track currently running media players"
+msgstr "Sledi predvajalnikom predstavnosti, ki so trenutno zagnani"
 
 #: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
 msgid "Mobile Data Quick Setting"
@@ -105,7 +115,7 @@ msgid "Simple Pomodoro Timer"
 msgstr "Enostavni časovnik Pomodoro"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
-#: plugins/ticket-box/ticket-box.ui:14
+#: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "Škatla z vstopnicami"
 
@@ -215,7 +225,7 @@ msgstr[1] "%s se bo samodejno odjavil čez %d sekundi."
 msgstr[2] "%s se bo samodejno odjavil čez %d sekunde."
 msgstr[3] "%s se bo samodejno odjavil čez %d sekund."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Ugasni"
 
@@ -279,11 +289,11 @@ msgid "No"
 msgstr "Ne"
 
 #. give visual feedback on error
-#: src/lockscreen.c:311 src/ui/lockscreen.ui:281
+#: src/lockscreen.c:313 src/ui/lockscreen.ui:282
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:974
+#: src/lockscreen.c:956
 msgid "Checking…"
 msgstr "Preverjanje …"
 
@@ -297,7 +307,7 @@ msgstr "Zaslonska slika shranjena v »%s«"
 msgid "Failed to save screenshot"
 msgstr "Posnetka zaslona ni bilo mogoče shraniti"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:199
 msgid "Screenshot"
 msgstr "Posnetek zaslona"
 
@@ -315,12 +325,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Zaslonska slika iz %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:486 src/ui/media-player.ui:217
+#: src/media-player.c:519 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Neznan naslov"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:494 src/ui/media-player.ui:205
+#: src/media-player.c:527 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
@@ -491,13 +501,13 @@ msgstr[3] "Skoraj %d let"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Uporabnik je opustil pogovorno okno za preverjanje pristnosti"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
-#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/polkit-auth-prompt.c:275 src/ui/gtk-mount-prompt.ui:17
+#: src/ui/network-auth-prompt.ui:69 src/ui/polkit-auth-prompt.ui:45
 #: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "Geslo:"
 
-#: src/polkit-auth-prompt.c:325
+#: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Žal to ne deluje. Poskusite znova."
 
@@ -597,32 +607,32 @@ msgstr "Omogoči Bluetooth"
 msgid "Bluetooth Settings"
 msgstr "Nastavitve za Bluetooth"
 
-#: src/ui/emergency-menu.ui:24
+#: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
 msgstr "Zapri pogovorno okno klica v sili"
 
-#: src/ui/emergency-menu.ui:50
+#: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
 msgstr "_Stiki v sili"
 
-#: src/ui/emergency-menu.ui:57
+#: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
 msgstr "Pojdi na stran stikov v sili"
 
-#: src/ui/emergency-menu.ui:80
+#: src/ui/emergency-menu.ui:82
 msgid "Go back to the emergency dialpad page"
 msgstr "Pojdi nazaj na stran številčnice v sili"
 
-#: src/ui/emergency-menu.ui:103
+#: src/ui/emergency-menu.ui:105
 msgid "Owner unknown"
 msgstr "Lastnik neznan"
 
-#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: src/ui/emergency-menu.ui:123 plugins/emergency-info/emergency-info.ui:211
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "Stiki v sili"
 
-#: src/ui/emergency-menu.ui:139
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Stiki v sili niso na voljo."
 
@@ -642,27 +652,27 @@ msgstr "Ne moti"
 msgid "Feedback Settings"
 msgstr "Nastavitve povratnih informacij"
 
-#: src/ui/gtk-mount-prompt.ui:77
+#: src/ui/gtk-mount-prompt.ui:74
 msgid "User:"
 msgstr "Uporabnik:"
 
-#: src/ui/gtk-mount-prompt.ui:99
+#: src/ui/gtk-mount-prompt.ui:96
 msgid "Domain:"
 msgstr "Domena:"
 
-#: src/ui/gtk-mount-prompt.ui:131
+#: src/ui/gtk-mount-prompt.ui:128
 msgid "Co_nnect"
 msgstr "_Poveži"
 
-#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:244
+#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:245
 msgid "Back"
 msgstr "Nazaj"
 
-#: src/ui/lockscreen.ui:94
+#: src/ui/lockscreen.ui:95
 msgid "Slide up to unlock"
 msgstr "Oddrsnite navzgor, da odklenete"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:332
 msgid "Unlock"
 msgstr "Odkleni"
 
@@ -675,23 +685,23 @@ msgstr "Zahtevana je overitev"
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
-#: src/ui/network-auth-prompt.ui:54
+#: src/ui/network-auth-prompt.ui:50
 msgid "C_onnect"
 msgstr "_Poveži"
 
-#: src/ui/polkit-auth-prompt.ui:100
+#: src/ui/polkit-auth-prompt.ui:97
 msgid "Authenticate"
 msgstr "Overi"
 
-#: src/ui/power-menu.ui:106
+#: src/ui/power-menu.ui:112
 msgid "Suspend"
 msgstr "V pripravljenost"
 
-#: src/ui/power-menu.ui:149
+#: src/ui/power-menu.ui:158
 msgid "Lock"
 msgstr "Zakleni"
 
-#: src/ui/power-menu.ui:225
+#: src/ui/power-menu.ui:240
 msgid "Emergency"
 msgstr "Klic v sili"
 
@@ -715,19 +725,19 @@ msgstr "Počisti vse"
 msgid "Confirm:"
 msgstr "Potrditev:"
 
-#: src/ui/top-panel.ui:31
+#: src/ui/top-panel.ui:34
 msgid "_Power Off…"
 msgstr "Iz_klopi …"
 
-#: src/ui/top-panel.ui:58
+#: src/ui/top-panel.ui:61
 msgid "_Restart…"
 msgstr "Ponovno _zaženi …"
 
-#: src/ui/top-panel.ui:85
+#: src/ui/top-panel.ui:88
 msgid "_Suspend…"
 msgstr "_V stanje pripravljenosti …"
 
-#: src/ui/top-panel.ui:112
+#: src/ui/top-panel.ui:115
 msgid "_Log Out…"
 msgstr "_Odjavi …"
 
@@ -735,7 +745,7 @@ msgstr "_Odjavi …"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:86
+#: src/ui/wifi-status-page.ui:89
 msgid "Wi-Fi Settings"
 msgstr "Nastavitve za Wi-Fi"
 
@@ -745,7 +755,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:239
+#: src/wall-clock.c:248
 msgid "%A, %B %-e"
 msgstr "%A, %e. %B"
 
@@ -814,55 +824,55 @@ msgstr "Temni način"
 msgid "Light mode"
 msgstr "Svetli način"
 
-#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/emergency-info.ui:43
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "Osebni podatki"
 
-#: plugins/emergency-info/emergency-info.ui:48
+#: plugins/emergency-info/emergency-info.ui:51
 msgid "Date of Birth"
 msgstr "Datum rojstva"
 
-#: plugins/emergency-info/emergency-info.ui:68
+#: plugins/emergency-info/emergency-info.ui:71
 msgid "Preferred Language"
 msgstr "Prednostni jezik"
 
-#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/emergency-info.ui:91
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "Domači naslov"
 
-#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/emergency-info.ui:99
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "Zdravstveni podatki"
 
-#: plugins/emergency-info/emergency-info.ui:104
+#: plugins/emergency-info/emergency-info.ui:107
 msgid "Age"
 msgstr "Starost"
 
-#: plugins/emergency-info/emergency-info.ui:124
+#: plugins/emergency-info/emergency-info.ui:127
 msgid "Blood Type"
 msgstr "Krvna skupina"
 
-#: plugins/emergency-info/emergency-info.ui:144
+#: plugins/emergency-info/emergency-info.ui:147
 msgid "Height"
 msgstr "Višina"
 
-#: plugins/emergency-info/emergency-info.ui:164
+#: plugins/emergency-info/emergency-info.ui:167
 msgid "Weight"
 msgstr "Teža"
 
-#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "Alergije"
 
-#: plugins/emergency-info/emergency-info.ui:192
+#: plugins/emergency-info/emergency-info.ui:195
 msgid "Medications & Conditions"
 msgstr "Zdravila in bolezni"
 
-#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/emergency-info.ui:203
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "Druge informacije"
@@ -932,19 +942,23 @@ msgstr "Relacija"
 msgid "_Contact Number"
 msgstr "_Številka stika"
 
-#: plugins/launcher-box/launcher-box.ui:15
+#: plugins/launcher-box/launcher-box.ui:18
 msgid "No launchers configured"
 msgstr "Noben zaganjalnik ni nastavljen"
 
-#: plugins/launcher-box/launcher-box.ui:30
+#: plugins/launcher-box/launcher-box.ui:33
 msgid "Launchers"
 msgstr "Zaganjalniki"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/media-players/media-players.ui:20
+msgid "No running media players"
+msgstr "Brez zagnanih predvajalnikov predstavnosti"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data On"
 msgstr "Prenos podatkov v mobilnem omrežju je vklopljen"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data Off"
 msgstr "Prenos podatkov v mobilnem omrežju je izklopljen"
 
@@ -1010,11 +1024,11 @@ msgstr "_Trajanje odmora"
 msgid "Duration of the break between sessions"
 msgstr "Trajanje odmora med sejami"
 
-#: plugins/ticket-box/ticket-box.ui:15
+#: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
 msgstr "Ni dokumentov za prikaz"
 
-#: plugins/ticket-box/ticket-box.ui:78
+#: plugins/ticket-box/ticket-box.ui:82
 msgid "Tickets"
 msgstr "Vstopnice"
 
