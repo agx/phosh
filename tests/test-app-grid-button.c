@@ -8,6 +8,7 @@
 
 #include "app-grid-button.h"
 #include "favorite-list-model.h"
+#include "metainfo-cache.h"
 
 
 static void
@@ -341,6 +342,8 @@ int
 main (int   argc,
       char *argv[])
 {
+  g_autoptr (PhoshMetainfoCache) cache = phosh_metainfo_cache_get_default();
+
   gtk_test_init (&argc, &argv, NULL);
 
   g_test_add_func("/phosh/app-grid-button/new", test_phosh_app_grid_button_new);
