@@ -102,7 +102,7 @@
                         <property name="visible" bind-source="PhoshSettings" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
                         <property name="orientation">vertical</property>
                         <child>
-                          <object class="PhoshMediaPlayer" id="media_player">
+                          <object class="PhoshDefaultMediaPlayer" id="media_player">
                             <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
                             <property name="valign">center</property>
                             <property name="can-focus">False</property>

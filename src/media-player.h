@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "mpris-dbus.h"
+
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
@@ -26,9 +28,15 @@ typedef enum {
 
 #define PHOSH_TYPE_MEDIA_PLAYER (phosh_media_player_get_type ())
 
-G_DECLARE_FINAL_TYPE (PhoshMediaPlayer, phosh_media_player, PHOSH, MEDIA_PLAYER, GtkGrid)
+struct _PhoshMediaPlayerClass {
+  GtkGridClass parent_class;
+};
+
+G_DECLARE_DERIVABLE_TYPE (PhoshMediaPlayer, phosh_media_player, PHOSH, MEDIA_PLAYER, GtkGrid)
 
 GtkWidget              *phosh_media_player_new                   (void);
+void                    phosh_media_player_set_player            (PhoshMediaPlayer *self,
+                                                                  PhoshMprisDBusMediaPlayer2Player *player);
 gboolean                phosh_media_player_get_is_playable       (PhoshMediaPlayer *self);
 PhoshMediaPlayerStatus  phosh_media_player_get_status            (PhoshMediaPlayer *self);
 void                    phosh_media_player_toggle_play_pause     (PhoshMediaPlayer *self);

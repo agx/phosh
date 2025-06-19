@@ -55,7 +55,7 @@
 #include "layout-manager.h"
 #include "location-manager.h"
 #include "lockscreen-manager-priv.h"
-#include "media-player.h"
+#include "default-media-player.h"
 #include "mode-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
@@ -847,7 +847,7 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
   g_type_ensure (PHOSH_TYPE_HKS_INFO);
   g_type_ensure (PHOSH_TYPE_LOCATION_INFO);
-  g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
+  g_type_ensure (PHOSH_TYPE_DEFAULT_MEDIA_PLAYER);
   g_type_ensure (PHOSH_TYPE_PASSWORD_ENTRY);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_REVEALER);

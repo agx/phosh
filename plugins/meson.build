@@ -44,6 +44,7 @@ lockscreen_plugins = [
   'calendar',
   'emergency-info',
   'launcher-box',
+  'media-players',
   'ticket-box',
   'upcoming-events',
 ]

@@ -19,7 +19,6 @@
 #include "layout-manager.h"
 #include "location-manager.h"
 #include "plugin-shell.h"
-#include "mpris-manager.h"
 #include "monitor/monitor.h"
 #include "osk-manager.h"
 #include "rotation-manager.h"
@@ -100,7 +99,6 @@ PhoshRotationManager   *phosh_shell_get_rotation_manager   (PhoshShell *self);
 PhoshTorchManager      *phosh_shell_get_torch_manager      (PhoshShell *self);
 PhoshVpnManager        *phosh_shell_get_vpn_manager        (PhoshShell *self);
 PhoshEmergencyCallsManager *phosh_shell_get_emergency_calls_manager (PhoshShell *self);
-PhoshMprisManager      *phosh_shell_get_mpris_manager      (PhoshShell *self);
 
 void                 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable);
 gboolean             phosh_shell_started_by_display_manager(PhoshShell *self);

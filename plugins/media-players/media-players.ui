@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshMediaPlayers" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="margin-start">12</property>
+    <property name="margin-top">12</property>
+    <property name="margin-end">12</property>
+    <property name="margin-bottom">12</property>
+    <child>
+      <object class="GtkStack" id="media_players_stack">
+        <property name="visible">1</property>
+        <property name="valign">center</property>
+        <property name="vexpand">1</property>
+        <child>
+          <object class="HdyStatusPage">
+            <property name="visible">1</property>
+            <property name="icon-name">audio-x-generic-symbolic</property>
+            <property name="title" translatable="yes">Media Players</property>
+            <property name="description" translatable="yes">No running media players</property>
+          </object>
+          <packing>
+            <property name="name">no-media-players</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">1</property>
+            <property name="hscrollbar-policy">never</property>
+            <property name="propagate-natural-height">1</property>
+            <property name="max-content-height">480</property>
+            <child>
+              <object class="HdyPreferencesGroup">
+                <property name="visible">1</property>
+                <property name="title" translatable="yes">Media Players</property>
+                <child>
+                  <object class="GtkListBox" id="media_players_list_box">
+                    <property name="visible">1</property>
+                    <property name="selection-mode">none</property>
+                    <style>
+                      <class name="content"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">media-players</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
