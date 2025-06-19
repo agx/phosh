@@ -12,6 +12,8 @@
 
 #include "fake-clock.h"
 
+#include <gio/gio.h>
+
 /**
  * PhoshWallClockMock:
  *

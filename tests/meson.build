@@ -82,7 +82,7 @@ testlib_dep = declare_dependency(
   dependencies: phosh_tool_dep,
   link_with: testlib)
 
-tests = [
+tests_unit = [
   'activity',
   'app-grid-button',
   'app-grid-folder-button',
@@ -110,6 +110,7 @@ tests = [
   'status-icon',
   'timestamp-label',
   'util',
+  'wall-clock',
 ]
 
 tests_phoc = [
@@ -137,7 +138,7 @@ tests_manager = [
 ]
 
 # Unit tests
-foreach test : tests
+foreach test : tests_unit
   t = executable('test-@0@'.format(test),
                  ['test-@0@.c'.format(test)],
                  c_args: test_cflags,

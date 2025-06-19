@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <locale.h>
-#include <glib/gi18n.h>
+#include "wall-clock-priv.h"
 
-#include "wall-clock.h"
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnome-desktop/gnome-wall-clock.h>
+
+#include <glib/gi18n.h>
+#include <locale.h>
 
 enum {
   PROP_0,
@@ -26,6 +29,8 @@ static GParamSpec *props[LAST_PROP];
 typedef struct _PhoshWallClockPrivate {
   GnomeWallClock *time;
   GnomeWallClock *date_time;
+
+  GRegex         *clock_re;
 } PhoshWallClockPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshWallClock, phosh_wall_clock, G_TYPE_OBJECT)
@@ -77,6 +82,7 @@ phosh_wall_clock_dispose (GObject *object)
 
   g_clear_object (&priv->date_time);
   g_clear_object (&priv->time);
+  g_clear_pointer (&priv->clock_re, g_regex_unref);
 
   G_OBJECT_CLASS (phosh_wall_clock_parent_class)->dispose (object);
 }
@@ -85,9 +91,8 @@ phosh_wall_clock_dispose (GObject *object)
 static const char *
 get_clock_impl (PhoshWallClock *self, gboolean time_only)
 {
-  PhoshWallClockPrivate *priv;
+  PhoshWallClockPrivate *priv = phosh_wall_clock_get_instance_private (self);
 
-  priv = phosh_wall_clock_get_instance_private (self);
   return gnome_wall_clock_get_clock (time_only ? priv->time : priv->date_time);
 }
 
@@ -140,7 +145,11 @@ phosh_wall_clock_init (PhoshWallClock *self)
 
   priv->date_time = gnome_wall_clock_new ();
   priv->time = g_object_new (GNOME_TYPE_WALL_CLOCK, "time-only", TRUE, NULL);
-
+  priv->clock_re = g_regex_new ("[0-9]{1,2}.+[0-9]{1,2}(.+[0-9]{1,2})?",
+                                G_REGEX_DEFAULT | G_REGEX_OPTIMIZE,
+                                G_REGEX_MATCH_DEFAULT,
+                                NULL);
+  g_assert (priv->clock_re);
   /* Somewhat icky, we need a distinct handler for each clock because one can
    * update before the other, and we don't know which one the caller wants to
    * read from.
@@ -291,11 +300,48 @@ phosh_wall_clock_string_for_datetime (PhoshWallClock      *self,
                                       GDesktopClockFormat  clock_format,
                                       gboolean             show_full_date)
 {
-  PhoshWallClockPrivate *priv = phosh_wall_clock_get_instance_private (self);
+  PhoshWallClockPrivate *priv;
 
   g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), NULL);
   priv = phosh_wall_clock_get_instance_private (self);
 
   return gnome_wall_clock_string_for_datetime (priv->time, datetime, clock_format,
                                                FALSE, show_full_date, FALSE);
+}
+
+/**
+ * phosh_wall_clock_strip_am_pm:
+ * @time: the time string
+ *
+ * Strip " {A,P}M" from 12h time format to look less cramped. Note
+ * that this also strips any surrounding white space so " 1:00 AM"
+ * becomes "1:00".
+ */
+char *
+phosh_wall_clock_strip_am_pm (PhoshWallClock *self, const char *time)
+{
+  PhoshWallClockPrivate *priv;
+  g_auto (GStrv) parts = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), NULL);
+  priv = phosh_wall_clock_get_instance_private (self);
+
+  parts = g_strsplit (time, " ", -1);
+  if (g_strv_length (parts) == 1)
+    return g_strdup (parts[0]);
+
+  if (g_strv_length (parts) != 2) {
+    g_warning ("Can't parse time format: %s", time);
+    return g_strdup (time);
+  }
+
+  for (int i = 0; parts[i]; i++) {
+    g_autoptr (GMatchInfo) info = NULL;
+
+    if (g_regex_match (priv->clock_re, parts[i], G_REGEX_MATCH_DEFAULT, &info))
+      return g_match_info_fetch (info, 0);
+  }
+
+  g_warning ("Can't match time format: %s", time);
+  return g_strdup (time);
 }
