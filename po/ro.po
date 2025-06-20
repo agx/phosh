@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-05-08 06:47+0000\n"
-"PO-Revision-Date: 2025-05-15 19:36+0200\n"
+"POT-Creation-Date: 2025-06-19 13:24+0000\n"
+"PO-Revision-Date: 2025-06-20 10:24+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -79,6 +79,16 @@ msgstr "Cutie lansator"
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Adaugă lansatoare pe ecranul blocat. <b>Acest modul este experimental.</b>"
+
+#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.ui:19
+#: plugins/media-players/media-players.ui:35
+msgid "Media Players"
+msgstr "Redare media"
+
+#: plugins/media-players/media-players.desktop.in.in:6
+msgid "Track currently running media players"
+msgstr "Monitorizează aplicațiile active de redare audio și video"
 
 #: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
 msgid "Mobile Data Quick Setting"
@@ -278,11 +288,11 @@ msgid "No"
 msgstr "Nu"
 
 #. give visual feedback on error
-#: src/lockscreen.c:311 src/ui/lockscreen.ui:282
+#: src/lockscreen.c:313 src/ui/lockscreen.ui:282
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:974
+#: src/lockscreen.c:956
 msgid "Checking…"
 msgstr "Se verifică…"
 
@@ -314,12 +324,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Instantaneu de ecran %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:486 src/ui/media-player.ui:220
+#: src/media-player.c:519 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Titlu necunoscut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:494 src/ui/media-player.ui:208
+#: src/media-player.c:527 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -484,7 +494,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Fereastra de autentificare a fost închisă de utilizator"
 
 #: src/polkit-auth-prompt.c:275 src/ui/gtk-mount-prompt.ui:17
-#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/ui/network-auth-prompt.ui:69 src/ui/polkit-auth-prompt.ui:45
 #: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "Parola:"
@@ -589,32 +599,32 @@ msgstr "Activează Bluetooth"
 msgid "Bluetooth Settings"
 msgstr "Opțiuni Bluetooth"
 
-#: src/ui/emergency-menu.ui:25
+#: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
 msgstr "Închide dialogul despre apelul de urgență"
 
-#: src/ui/emergency-menu.ui:51
+#: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
 msgstr "_Contacte de urgență"
 
-#: src/ui/emergency-menu.ui:58
+#: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
 msgstr "Du-te la pagina contactelor de urgență"
 
-#: src/ui/emergency-menu.ui:81
+#: src/ui/emergency-menu.ui:82
 msgid "Go back to the emergency dialpad page"
 msgstr "Înapoi la pagina de apelare de urgență"
 
-#: src/ui/emergency-menu.ui:104
+#: src/ui/emergency-menu.ui:105
 msgid "Owner unknown"
 msgstr "Proprietar necunoscut"
 
-#: src/ui/emergency-menu.ui:122 plugins/emergency-info/emergency-info.ui:211
+#: src/ui/emergency-menu.ui:123 plugins/emergency-info/emergency-info.ui:211
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "Contacte de urgență"
 
-#: src/ui/emergency-menu.ui:141
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Nu există contacte de urgență."
 
@@ -634,15 +644,15 @@ msgstr "Nu deranja"
 msgid "Feedback Settings"
 msgstr "Opțiuni pentru reacții"
 
-#: src/ui/gtk-mount-prompt.ui:77
+#: src/ui/gtk-mount-prompt.ui:74
 msgid "User:"
 msgstr "Utilizator:"
 
-#: src/ui/gtk-mount-prompt.ui:99
+#: src/ui/gtk-mount-prompt.ui:96
 msgid "Domain:"
 msgstr "Domeniu:"
 
-#: src/ui/gtk-mount-prompt.ui:131
+#: src/ui/gtk-mount-prompt.ui:128
 msgid "Co_nnect"
 msgstr "Co_nectează"
 
@@ -667,11 +677,11 @@ msgstr "Autentificare necesară"
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: src/ui/network-auth-prompt.ui:54
+#: src/ui/network-auth-prompt.ui:50
 msgid "C_onnect"
 msgstr "C_onectează"
 
-#: src/ui/polkit-auth-prompt.ui:101
+#: src/ui/polkit-auth-prompt.ui:97
 msgid "Authenticate"
 msgstr "Autentificare"
 
@@ -737,7 +747,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:239
+#: src/wall-clock.c:248
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -932,6 +942,10 @@ msgstr "Nu există lansatoare configurate"
 msgid "Launchers"
 msgstr "Lansatoare"
 
+#: plugins/media-players/media-players.ui:20
+msgid "No running media players"
+msgstr "Nicio aplicație activă de redare media"
+
 #: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data On"
 msgstr "Date mobile Activate"
@@ -1006,7 +1020,7 @@ msgstr "Durata pauzei dintre activități"
 msgid "No documents to display"
 msgstr "Niciun document de arătat"
 
-#: plugins/ticket-box/ticket-box.ui:81
+#: plugins/ticket-box/ticket-box.ui:82
 msgid "Tickets"
 msgstr "Bilete"
 
