@@ -1,3 +1,139 @@
+phosh (0.48~rc1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * auth: Drop priv.
+    It's unclear why we added that in the first place.
+  * auth: Use automatic cleanup
+  * auth: Name authentication token properly.
+    We had a mixture of `number` and `pin` although we allow for for non-PIN
+    passwords since a long time.
+    Also name the appdata_ptr properly so it is easier to follow how this is
+    passed through to the callback.
+  * auth: Copy auth token.
+    Otherwise we're dependent on the life cycle of the GtkEntry that
+    provides the data.
+  * auth: Perform account validity checks.
+    We should perform the account validity checks via pam_acct_mgmt too.
+  * lockscreen: Don't leak lockscreen on error.
+    This is unlikely to happen (it's not the same as auth failing) but let's
+    better fix it.
+  * media-player: Don't forget to init cancellable.
+    Otherwise cancelling will have no effect and we might end up accessing
+    free'd memory.
+    Fixes 2ca148785 ("media-player: Use MPRIS manager")
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1234
+  * media-player: Init fetch icon cancellable.
+    Fixes f287f5deb ("media-player: Fetch cover art via http")
+  * packaging: Add valac.
+    Needed to build the vapi file
+  * build: Allow to build vapi files
+  * ci: Build vapi when building bindings lib
+  * stylesheet: Use accent color for list box rows too.
+    Fixes 317ef8e89 ("style-manager: Support accent colours")
+  * lockscreen: Always queue a draw when transition ends.
+    Otherwise we might not only see an outdated clock (which the
+    current workaround adressed) but also outdated plugin state.
+  * mpris-manager: Check for valid player sooner.
+    This avoids printing debug messages for bus owners that don't
+    implement the mpris interface.
+  * mpris-manager: Track all players.
+    TODO: drop players when gone
+  * mpris-manager: Allow to fetch known players list model
+  * media-player: Make it a derivable type.
+    No functional change
+  * default-media-player: New widget that will track the default mpris player.
+    This widget will behave the same as media-player did: track the newest
+    mpris proxy on the bus.
+    In this commit we just add the empty class so we can move existing code
+    over to this widget without changing functionality.
+  * media-player: Move media player setting to public method.
+    This will allow us to track arbitrary mpris DBus proxies
+  * default-media-player: Move default player tracking here.
+    Free the media player base class from tracking the default player.
+    This allows us to use any player with that class.
+  * shell: Make mpris manager accessible to plugins
+  * media-players: New lockscreen plugin to track all mpris players.
+    One often has multiple mpris capable players running (e.g. podcasts
+    and music player). The lock screen plugins allows to switch between
+    them without effort.
+  * tests: Name unit test variable accordingly
+  * wall-clock: No need to get `priv` twice
+  * wall-clock: Avoid libgnome-desktop in public header.
+    Since the API is not stable lets use gdesktop-enums instead
+    as we only need the GDesktopClockFormat enum.
+  * wall-clock: Add function to strip am/pm from clock strings
+  * lockscreen: Use phosh_wall_clock_strip_am_pm
+  * wall-clock: Use a regex match to get the stripped clock
+    `AM` and `PM` can be localized strings so look for the number part
+    when we have any whitespace in the clock format. Otherwise we assume
+    24h clock.
+    Hours and minutes can be separated by unicode characters so we can't
+    just use `:` as separator.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1237
+  * portals: Disable currently unimplemented ones.
+    Otherwise we'll spawn other, possibly non-working implementations.
+  * ci: Drop gcovr workaround.
+    This has long been fixed in Debian.
+    This reverts commit 1edb73a65e854f8f89d5d6802bcd3cf45c04aed5.
+  * ci: Configure locales in images rather than during the ci run.
+    This cuts down on ci run times
+  * ci: Use updated images
+  * ci: Require `Signed-off-by:`
+    We do this in the other projects since some time
+  * tests: Instantiate metainfo cache once.
+    Otherwise it's not getting destroyed and might do funky things
+    on shutdown. (Helps: #1240)
+  * cell-broadcast: Enable by default.
+    MM bits are in released versions and there's support in mobile-settings
+    to configure channels so we can flip it on.
+
+  [ fossdd ]
+  * data: Update list of adaptive apps.
+    Loupe and Showtime already merged the patches to list their form
+    factors, while the MR in gnome-calendar is still open.
+  * data: Fix typo in override gschema
+
+  [ Arun Mani J ]
+  * activity: Avoid using `<packing>`
+  * app-grid-base-button: Avoid using `<packing>`
+  * quick-setting: Avoid using `<packing>`
+  * app-grid: Avoid using `<packing>`
+  * emergency-menu: Avoid using `<packing>`
+  * home: Avoid using `<packing>`
+  * media-player: Avoid using `<packing>`
+  * gtk-mount-prompt: Avoid using `<packing>`
+  * network-auth-prompt: Avoid using `<packing>`
+  * notification-frame: Avoid using `<packing>`
+  * polkit-auth-prompt: Avoid using `<packing>`
+  * system-modal-dialog: Avoid using `<packing>`
+  * check-deprecated-ui-props: Search from source root.
+    When run by `meson test`, the current working directory is build root,
+    so some UI files (like of plugins) are not searched.
+  * check-deprecated-ui-props: Add check for deprecated packing attributes
+  * ticket-box: Use `{h,v}expand` instead of `expand`
+  * quick-settings-box: Support RTL direction.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1154
+  * ci: Allow translation files of GTK 3 in screenshot container
+  * ci: Move `SID_PKGS` to `debian.Dockerfile`
+  * ci: Update to v0.0.2025-06-06 image
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 21 Jun 2025 17:46:50 +0200
+
 phosh (0.47.0) experimental; urgency=medium
 
   [ Antonio Marin ]
