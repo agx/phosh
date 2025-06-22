@@ -1,3 +1,29 @@
+phosh 0.48~rc1
+--------------
+Released June 2025
+* New lockscreen plugin that allows to interact with all currently
+  running media players that use the MPRIS protocol.
+* Build VAPI files so one can also write plugins in vala (See
+  https://gitlab.gnome.org/guidog/phosh-vala-plugins) for an example
+* Enable Cell Broadcast dialogs by default. Mobile Settings has the
+  needed UI bits now.
+* Update list of adaptive apps
+* Various bug fixes and GTK4 preps
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1234
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1237
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1154
+* Contributors:
+    * Arun Mani J
+    * fossdd
+    * Guido Günther
+* UI translations:
+    * Antonio Marin (ro)
+    * Daniel Rusek (cs)
+    * Ekaterine Papava (ka)
+    * Martin (sl)
+    * Yuri Chornoivan (uk)
+
 phosh 0.47.0
 ------------
 Released May 2025
