@@ -246,6 +246,7 @@ check-ui:
     PHOSH_ADDITIONAL_PKGS: >
       libgtk-3-bin
       libgtk-4-bin
+      xvfb
   needs: []
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
