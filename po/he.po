@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-04-30 09:07+0000\n"
-"PO-Revision-Date: 2025-05-04 15:03+0300\n"
+"POT-Creation-Date: 2025-06-19 13:24+0000\n"
+"PO-Revision-Date: 2025-06-27 22:37+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -68,13 +68,23 @@ msgid "Show emergency information and contacts"
 msgstr "להציג פרטי חירום וקשר"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:4
-#: plugins/launcher-box/launcher-box.ui:14
+#: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "קופסת משגר"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr "הוספת משגרים למסך הנעילה. <b>זה תוסף נסיוני.</b>"
+
+#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.ui:19
+#: plugins/media-players/media-players.ui:35
+msgid "Media Players"
+msgstr "נגני מדיה"
+
+#: plugins/media-players/media-players.desktop.in.in:6
+msgid "Track currently running media players"
+msgstr "מעקב אחר נגני המדיה שפעילים כרגע"
 
 #: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
 msgid "Mobile Data Quick Setting"
@@ -102,7 +112,7 @@ msgid "Simple Pomodoro Timer"
 msgstr "מתזמן פומודורו פשוט"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
-#: plugins/ticket-box/ticket-box.ui:14
+#: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "תיבת כרטיסים"
 
@@ -212,7 +222,7 @@ msgstr[1] "המשתמש %s יצא אוטומטית בעוד שתי שניות."
 msgstr[2] "המשתמש %s יצא אוטומטית בעוד %d שניות."
 msgstr[3] "‫המשתמש %s יצא אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "כיבוי"
 
@@ -276,11 +286,11 @@ msgid "No"
 msgstr "לא"
 
 #. give visual feedback on error
-#: src/lockscreen.c:311 src/ui/lockscreen.ui:281
+#: src/lockscreen.c:313 src/ui/lockscreen.ui:282
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:974
+#: src/lockscreen.c:956
 msgid "Checking…"
 msgstr "בודק…"
 
@@ -294,7 +304,7 @@ msgstr "צילום המסך נשמר אל ‚%s’"
 msgid "Failed to save screenshot"
 msgstr "שמירת צילום המסך נכשלה"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:199
 msgid "Screenshot"
 msgstr "צילום מסך"
 
@@ -312,12 +322,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "צילום מסך מ־%s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:486 src/ui/media-player.ui:217
+#: src/media-player.c:519 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "כותרת לא ידועה"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:494 src/ui/media-player.ui:205
+#: src/media-player.c:527 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -489,7 +499,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "המשתמש בחר להתעלם מתיבת דו־שיח האימות"
 
 #: src/polkit-auth-prompt.c:275 src/ui/gtk-mount-prompt.ui:17
-#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/ui/network-auth-prompt.ui:69 src/ui/polkit-auth-prompt.ui:45
 #: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "ססמה:"
@@ -594,32 +604,32 @@ msgstr "הפעלת בלוטות׳"
 msgid "Bluetooth Settings"
 msgstr "הגדרות בלוטות׳"
 
-#: src/ui/emergency-menu.ui:24
+#: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
 msgstr "סגירת דו־שיח לחיוג במקרה חירום"
 
-#: src/ui/emergency-menu.ui:50
+#: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
 msgstr "_אנשי קשר למקרה חירום"
 
-#: src/ui/emergency-menu.ui:57
+#: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
 msgstr "מעבר לעמוד אנשי קשר למקרה חירום"
 
-#: src/ui/emergency-menu.ui:80
+#: src/ui/emergency-menu.ui:82
 msgid "Go back to the emergency dialpad page"
 msgstr "חזרה לדף החיוג במקרה חירום"
 
-#: src/ui/emergency-menu.ui:103
+#: src/ui/emergency-menu.ui:105
 msgid "Owner unknown"
 msgstr "בעלים לא ידוע"
 
-#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: src/ui/emergency-menu.ui:123 plugins/emergency-info/emergency-info.ui:211
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "אנשי קשר למקרה חירום"
 
-#: src/ui/emergency-menu.ui:139
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "אין בנמצא אנשי קשר למקרה חירום."
 
@@ -639,27 +649,27 @@ msgstr "לא להפריע"
 msgid "Feedback Settings"
 msgstr "הגדרות משוב"
 
-#: src/ui/gtk-mount-prompt.ui:77
+#: src/ui/gtk-mount-prompt.ui:74
 msgid "User:"
 msgstr "משתמש:"
 
-#: src/ui/gtk-mount-prompt.ui:99
+#: src/ui/gtk-mount-prompt.ui:96
 msgid "Domain:"
 msgstr "מתחם:"
 
-#: src/ui/gtk-mount-prompt.ui:131
+#: src/ui/gtk-mount-prompt.ui:128
 msgid "Co_nnect"
 msgstr "הת_חברות"
 
-#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:244
+#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:245
 msgid "Back"
 msgstr "חזרה"
 
-#: src/ui/lockscreen.ui:94
+#: src/ui/lockscreen.ui:95
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:332
 msgid "Unlock"
 msgstr "שחרור"
 
@@ -672,23 +682,23 @@ msgstr "נדרש אימות"
 msgid "_Cancel"
 msgstr "_ביטול"
 
-#: src/ui/network-auth-prompt.ui:54
+#: src/ui/network-auth-prompt.ui:50
 msgid "C_onnect"
 msgstr "הת_חברות"
 
-#: src/ui/polkit-auth-prompt.ui:100
+#: src/ui/polkit-auth-prompt.ui:97
 msgid "Authenticate"
 msgstr "אימות"
 
-#: src/ui/power-menu.ui:106
+#: src/ui/power-menu.ui:112
 msgid "Suspend"
 msgstr "השהיה"
 
-#: src/ui/power-menu.ui:149
+#: src/ui/power-menu.ui:158
 msgid "Lock"
 msgstr "נעילה"
 
-#: src/ui/power-menu.ui:225
+#: src/ui/power-menu.ui:240
 msgid "Emergency"
 msgstr "מצב חירום"
 
@@ -712,19 +722,19 @@ msgstr "ניקוי הכול"
 msgid "Confirm:"
 msgstr "אישור:"
 
-#: src/ui/top-panel.ui:31
+#: src/ui/top-panel.ui:34
 msgid "_Power Off…"
 msgstr "_כיבוי…"
 
-#: src/ui/top-panel.ui:58
+#: src/ui/top-panel.ui:61
 msgid "_Restart…"
 msgstr "ה_פעלה מחדש…"
 
-#: src/ui/top-panel.ui:85
+#: src/ui/top-panel.ui:88
 msgid "_Suspend…"
 msgstr "_השהיה…"
 
-#: src/ui/top-panel.ui:112
+#: src/ui/top-panel.ui:115
 msgid "_Log Out…"
 msgstr "י_ציאה…"
 
@@ -732,7 +742,7 @@ msgstr "י_ציאה…"
 msgid "Wi-Fi"
 msgstr "רשת אלחוטית"
 
-#: src/ui/wifi-status-page.ui:86
+#: src/ui/wifi-status-page.ui:89
 msgid "Wi-Fi Settings"
 msgstr "הגדרות רשת אלחוטית"
 
@@ -742,7 +752,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:239
+#: src/wall-clock.c:248
 msgid "%A, %B %-e"
 msgstr "%A, %B %e"
 
@@ -811,55 +821,55 @@ msgstr "מצב כהה"
 msgid "Light mode"
 msgstr "מצב בהיר"
 
-#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/emergency-info.ui:43
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "מידע אישי"
 
-#: plugins/emergency-info/emergency-info.ui:48
+#: plugins/emergency-info/emergency-info.ui:51
 msgid "Date of Birth"
 msgstr "תאריך לידה"
 
-#: plugins/emergency-info/emergency-info.ui:68
+#: plugins/emergency-info/emergency-info.ui:71
 msgid "Preferred Language"
 msgstr "שפה מועדפת"
 
-#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/emergency-info.ui:91
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "כתובת בית"
 
-#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/emergency-info.ui:99
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "מידע רפואי"
 
-#: plugins/emergency-info/emergency-info.ui:104
+#: plugins/emergency-info/emergency-info.ui:107
 msgid "Age"
 msgstr "גיל"
 
-#: plugins/emergency-info/emergency-info.ui:124
+#: plugins/emergency-info/emergency-info.ui:127
 msgid "Blood Type"
 msgstr "סוג דם"
 
-#: plugins/emergency-info/emergency-info.ui:144
+#: plugins/emergency-info/emergency-info.ui:147
 msgid "Height"
 msgstr "גובה"
 
-#: plugins/emergency-info/emergency-info.ui:164
+#: plugins/emergency-info/emergency-info.ui:167
 msgid "Weight"
 msgstr "משקל"
 
-#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "אלרגיות"
 
-#: plugins/emergency-info/emergency-info.ui:192
+#: plugins/emergency-info/emergency-info.ui:195
 msgid "Medications & Conditions"
 msgstr "תרופות והגבלות"
 
-#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/emergency-info.ui:203
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "מידע נוסף"
@@ -929,19 +939,23 @@ msgstr "קרבה"
 msgid "_Contact Number"
 msgstr "מ_ספר איש קשר"
 
-#: plugins/launcher-box/launcher-box.ui:15
+#: plugins/launcher-box/launcher-box.ui:18
 msgid "No launchers configured"
 msgstr "לא הוגדרו משגרים"
 
-#: plugins/launcher-box/launcher-box.ui:30
+#: plugins/launcher-box/launcher-box.ui:33
 msgid "Launchers"
 msgstr "משגרים"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/media-players/media-players.ui:20
+msgid "No running media players"
+msgstr "אין נגני מדיה פעילים"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data On"
 msgstr "נתונים ניידים פועלים"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data Off"
 msgstr "נתונים ניידים כבויים"
 
@@ -1007,11 +1021,11 @@ msgstr "משך הפ_סקה"
 msgid "Duration of the break between sessions"
 msgstr "משך ההפסקה בין הפעילויות"
 
-#: plugins/ticket-box/ticket-box.ui:15
+#: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
 msgstr "אין מסמכים להצגה"
 
-#: plugins/ticket-box/ticket-box.ui:78
+#: plugins/ticket-box/ticket-box.ui:82
 msgid "Tickets"
 msgstr "תעודות"
 
