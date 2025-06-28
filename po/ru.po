@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-04-22 08:34+0000\n"
-"PO-Revision-Date: 2025-04-22 13:57+0300\n"
+"POT-Creation-Date: 2025-06-19 13:24+0000\n"
+"PO-Revision-Date: 2025-06-21 15:29+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -67,7 +67,7 @@ msgid "Show emergency information and contacts"
 msgstr "Показать экстренные сведения и контакты"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:4
-#: plugins/launcher-box/launcher-box.ui:14
+#: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "Бокс с ярлыками"
 
@@ -76,6 +76,16 @@ msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Добавить ярлыки на экран блокировки. <b>Этот модуль является "
 "экспериментальным.</b>"
+
+#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.ui:19
+#: plugins/media-players/media-players.ui:35
+msgid "Media Players"
+msgstr "Медиапроигрыватели"
+
+#: plugins/media-players/media-players.desktop.in.in:6
+msgid "Track currently running media players"
+msgstr "Отслеживание запущенных в данный момент медиапроигрывателей"
 
 #: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
 msgid "Mobile Data Quick Setting"
@@ -103,7 +113,7 @@ msgid "Simple Pomodoro Timer"
 msgstr "Простой таймер Pomodoro"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
-#: plugins/ticket-box/ticket-box.ui:14
+#: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "Билетный бокс"
 
@@ -214,7 +224,7 @@ msgstr[0] "%s автоматически выйдет из системы чер
 msgstr[1] "%s автоматически выйдет из системы через %d секунды."
 msgstr[2] "%s автоматически выйдет из системы через %d секунд."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Выключить"
 
@@ -276,11 +286,11 @@ msgid "No"
 msgstr "Нет"
 
 #. give visual feedback on error
-#: src/lockscreen.c:311 src/ui/lockscreen.ui:281
+#: src/lockscreen.c:313 src/ui/lockscreen.ui:282
 msgid "Enter Passcode"
 msgstr "Введите код доступа"
 
-#: src/lockscreen.c:974
+#: src/lockscreen.c:956
 msgid "Checking…"
 msgstr "Проверка…"
 
@@ -294,7 +304,7 @@ msgstr "Снимок экрана сохранен в '%s'"
 msgid "Failed to save screenshot"
 msgstr "Не удалось сохранить снимок экрана"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:199
 msgid "Screenshot"
 msgstr "Снимок экрана"
 
@@ -312,12 +322,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Снимок экрана от %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:486 src/ui/media-player.ui:217
+#: src/media-player.c:519 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Неизвестное название"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:494 src/ui/media-player.ui:205
+#: src/media-player.c:527 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Неизвестный исполнитель"
 
@@ -481,13 +491,13 @@ msgstr[2] "Почти %d л"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Диалог аутентификации был отклонен пользователем"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
-#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/polkit-auth-prompt.c:275 src/ui/gtk-mount-prompt.ui:17
+#: src/ui/network-auth-prompt.ui:69 src/ui/polkit-auth-prompt.ui:45
 #: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "Пароль:"
 
-#: src/polkit-auth-prompt.c:325
+#: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Извините, это не сработало. Попробуйте снова."
 
@@ -587,32 +597,32 @@ msgstr "Включить Bluetooth"
 msgid "Bluetooth Settings"
 msgstr "Настройки Bluetooth"
 
-#: src/ui/emergency-menu.ui:24
+#: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
 msgstr "Закрыть диалоговое окно экстренного вызова"
 
-#: src/ui/emergency-menu.ui:50
+#: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
 msgstr "Контакты для _экстренной помощи"
 
-#: src/ui/emergency-menu.ui:57
+#: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
 msgstr "Перейти на страницу контактов для экстренной помощи"
 
-#: src/ui/emergency-menu.ui:80
+#: src/ui/emergency-menu.ui:82
 msgid "Go back to the emergency dialpad page"
 msgstr "Вернуться на страницу экстренного набора номера"
 
-#: src/ui/emergency-menu.ui:103
+#: src/ui/emergency-menu.ui:105
 msgid "Owner unknown"
 msgstr "Владелец неизвестен"
 
-#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: src/ui/emergency-menu.ui:123 plugins/emergency-info/emergency-info.ui:211
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "Контакты для экстренной помощи"
 
-#: src/ui/emergency-menu.ui:139
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Контакты для экстренной помощи отсутствуют."
 
@@ -632,27 +642,27 @@ msgstr "Не беспокоить"
 msgid "Feedback Settings"
 msgstr "Настройки обратной связи"
 
-#: src/ui/gtk-mount-prompt.ui:77
+#: src/ui/gtk-mount-prompt.ui:74
 msgid "User:"
 msgstr "Пользователь:"
 
-#: src/ui/gtk-mount-prompt.ui:99
+#: src/ui/gtk-mount-prompt.ui:96
 msgid "Domain:"
 msgstr "Домен:"
 
-#: src/ui/gtk-mount-prompt.ui:131
+#: src/ui/gtk-mount-prompt.ui:128
 msgid "Co_nnect"
 msgstr "По_дключиться"
 
-#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:244
+#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:245
 msgid "Back"
 msgstr "Назад"
 
-#: src/ui/lockscreen.ui:94
+#: src/ui/lockscreen.ui:95
 msgid "Slide up to unlock"
 msgstr "Проведите вверх для разблокировки"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:332
 msgid "Unlock"
 msgstr "Разблокировать"
 
@@ -665,23 +675,23 @@ msgstr "Требуется аутентификация"
 msgid "_Cancel"
 msgstr "_Отменить"
 
-#: src/ui/network-auth-prompt.ui:54
+#: src/ui/network-auth-prompt.ui:50
 msgid "C_onnect"
 msgstr "П_одключить"
 
-#: src/ui/polkit-auth-prompt.ui:100
+#: src/ui/polkit-auth-prompt.ui:97
 msgid "Authenticate"
 msgstr "Подтвердить"
 
-#: src/ui/power-menu.ui:106
+#: src/ui/power-menu.ui:112
 msgid "Suspend"
 msgstr "Ожидание"
 
-#: src/ui/power-menu.ui:149
+#: src/ui/power-menu.ui:158
 msgid "Lock"
 msgstr "Заблокировать"
 
-#: src/ui/power-menu.ui:225
+#: src/ui/power-menu.ui:240
 msgid "Emergency"
 msgstr "Помощь"
 
@@ -705,19 +715,19 @@ msgstr "Очистить все"
 msgid "Confirm:"
 msgstr "Подтвердить:"
 
-#: src/ui/top-panel.ui:31
+#: src/ui/top-panel.ui:34
 msgid "_Power Off…"
 msgstr "_Выключить…"
 
-#: src/ui/top-panel.ui:58
+#: src/ui/top-panel.ui:61
 msgid "_Restart…"
 msgstr "_Перезапустить…"
 
-#: src/ui/top-panel.ui:85
+#: src/ui/top-panel.ui:88
 msgid "_Suspend…"
 msgstr "_Ожидание…"
 
-#: src/ui/top-panel.ui:112
+#: src/ui/top-panel.ui:115
 msgid "_Log Out…"
 msgstr "_Выйти…"
 
@@ -725,7 +735,7 @@ msgstr "_Выйти…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:86
+#: src/ui/wifi-status-page.ui:89
 msgid "Wi-Fi Settings"
 msgstr "Настройки Wi-Fi"
 
@@ -735,7 +745,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:239
+#: src/wall-clock.c:248
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
@@ -804,55 +814,55 @@ msgstr "Темный стиль"
 msgid "Light mode"
 msgstr "Светлый стиль"
 
-#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/emergency-info.ui:43
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "Личная информация"
 
-#: plugins/emergency-info/emergency-info.ui:48
+#: plugins/emergency-info/emergency-info.ui:51
 msgid "Date of Birth"
 msgstr "Дата рождения"
 
-#: plugins/emergency-info/emergency-info.ui:68
+#: plugins/emergency-info/emergency-info.ui:71
 msgid "Preferred Language"
 msgstr "Предпочтительный язык"
 
-#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/emergency-info.ui:91
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "Домашний адрес"
 
-#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/emergency-info.ui:99
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "Медицинская информация"
 
-#: plugins/emergency-info/emergency-info.ui:104
+#: plugins/emergency-info/emergency-info.ui:107
 msgid "Age"
 msgstr "Возраст"
 
-#: plugins/emergency-info/emergency-info.ui:124
+#: plugins/emergency-info/emergency-info.ui:127
 msgid "Blood Type"
 msgstr "Группа крови"
 
-#: plugins/emergency-info/emergency-info.ui:144
+#: plugins/emergency-info/emergency-info.ui:147
 msgid "Height"
 msgstr "Рост"
 
-#: plugins/emergency-info/emergency-info.ui:164
+#: plugins/emergency-info/emergency-info.ui:167
 msgid "Weight"
 msgstr "Вес"
 
-#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "Аллергии"
 
-#: plugins/emergency-info/emergency-info.ui:192
+#: plugins/emergency-info/emergency-info.ui:195
 msgid "Medications & Conditions"
 msgstr "Лекарства и условия"
 
-#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/emergency-info.ui:203
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "Прочая информация"
@@ -922,19 +932,23 @@ msgstr "Родство"
 msgid "_Contact Number"
 msgstr "Контактный _номер"
 
-#: plugins/launcher-box/launcher-box.ui:15
+#: plugins/launcher-box/launcher-box.ui:18
 msgid "No launchers configured"
 msgstr "Ярлыки не настроены"
 
-#: plugins/launcher-box/launcher-box.ui:30
+#: plugins/launcher-box/launcher-box.ui:33
 msgid "Launchers"
 msgstr "Ярлыки"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/media-players/media-players.ui:20
+msgid "No running media players"
+msgstr "Нет запущенных медиапроигрывателей"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data On"
 msgstr "Моб. данные включены"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data Off"
 msgstr "Моб. данные выключены"
 
@@ -1000,11 +1014,11 @@ msgstr "Длительность _перерыва"
 msgid "Duration of the break between sessions"
 msgstr "Длительность перерыва между сеансами"
 
-#: plugins/ticket-box/ticket-box.ui:15
+#: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
 msgstr "Нет документов для отображения"
 
-#: plugins/ticket-box/ticket-box.ui:78
+#: plugins/ticket-box/ticket-box.ui:82
 msgid "Tickets"
 msgstr "Билеты"
 
