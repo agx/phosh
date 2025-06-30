@@ -1,3 +1,22 @@
+phosh (0.48.0) experimental; urgency=medium
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Álvaro Burns ]
+  * Update Brazilian Portuguese translation
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 30 Jun 2025 08:45:35 +0200
+
 phosh (0.48~rc1) experimental; urgency=medium
 
   [ Guido Günther ]
