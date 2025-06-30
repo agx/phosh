@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-04-22 08:34+0000\n"
-"PO-Revision-Date: 2025-04-22 14:20+0330\n"
+"POT-Creation-Date: 2025-06-19 13:24+0000\n"
+"PO-Revision-Date: 2025-06-30 10:58+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -68,13 +68,23 @@ msgid "Show emergency information and contacts"
 msgstr "نمایش آشنایان و اطّلاعات اضطراری"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:4
-#: plugins/launcher-box/launcher-box.ui:14
+#: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "جعبهٔ اجراگر"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr "افزودن اجراگرها به صفحهٔ قفل. <b>این افزایه آزمایشی است.</b>"
+
+#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.ui:19
+#: plugins/media-players/media-players.ui:35
+msgid "Media Players"
+msgstr "پخش‌کننده‌های آهنگ"
+
+#: plugins/media-players/media-players.desktop.in.in:6
+msgid "Track currently running media players"
+msgstr "ردیابی پخش کننده‌های رسانهٔ در حال اجرا"
 
 #: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
 msgid "Mobile Data Quick Setting"
@@ -102,7 +112,7 @@ msgid "Simple Pomodoro Timer"
 msgstr "زمان‌سنج پومودوروی ساده"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
-#: plugins/ticket-box/ticket-box.ui:14
+#: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "جعبهٔ بلیت"
 
@@ -210,7 +220,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "خاموش کردن"
 
@@ -270,11 +280,11 @@ msgid "No"
 msgstr "نه"
 
 #. give visual feedback on error
-#: src/lockscreen.c:311 src/ui/lockscreen.ui:281
+#: src/lockscreen.c:313 src/ui/lockscreen.ui:282
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:974
+#: src/lockscreen.c:956
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -288,7 +298,7 @@ msgstr "نماگرفت در %s ذخیره شد"
 msgid "Failed to save screenshot"
 msgstr "شکست در ذخیرهٔ نماگرفت"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:199
 msgid "Screenshot"
 msgstr "نماگرفت"
 
@@ -306,12 +316,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "نماگرفت از ‪%s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:486 src/ui/media-player.ui:217
+#: src/media-player.c:519 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "عنوان ناشناخته"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:494 src/ui/media-player.ui:205
+#: src/media-player.c:527 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناخته"
 
@@ -468,13 +478,13 @@ msgstr[1] "تقریباً %Idسا"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "گفت‌وگوی تأیید هویت از سمت کاربر رد شد"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
-#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/polkit-auth-prompt.c:275 src/ui/gtk-mount-prompt.ui:17
+#: src/ui/network-auth-prompt.ui:69 src/ui/polkit-auth-prompt.ui:45
 #: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "گذرواژه:"
 
-#: src/polkit-auth-prompt.c:325
+#: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "متاسفانه اثری نداشت! لطفاً دوباره تلاش کنید."
 
@@ -574,32 +584,32 @@ msgstr "به کار انداختن بلوتوث"
 msgid "Bluetooth Settings"
 msgstr "تنظیمات بلوتوث"
 
-#: src/ui/emergency-menu.ui:24
+#: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
 msgstr "بستن گفت‌وگوی تماس اضطراری"
 
-#: src/ui/emergency-menu.ui:50
+#: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
 msgstr "_تماس‌های اضطراری"
 
-#: src/ui/emergency-menu.ui:57
+#: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
 msgstr "رفتن به صفحهٔ تماس‌های اضطراری"
 
-#: src/ui/emergency-menu.ui:80
+#: src/ui/emergency-menu.ui:82
 msgid "Go back to the emergency dialpad page"
 msgstr "بازگشت به صفحهٔ شماره‌گیر اضطراری"
 
-#: src/ui/emergency-menu.ui:103
+#: src/ui/emergency-menu.ui:105
 msgid "Owner unknown"
 msgstr "مالک ناشناخته"
 
-#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: src/ui/emergency-menu.ui:123 plugins/emergency-info/emergency-info.ui:211
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "تماس‌های اضطراری"
 
-#: src/ui/emergency-menu.ui:139
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "هیچ تماس اضطراری‌ای موجود نیست."
 
@@ -619,27 +629,27 @@ msgstr "مزاحم نشوید"
 msgid "Feedback Settings"
 msgstr "تنظیمات بازخورد"
 
-#: src/ui/gtk-mount-prompt.ui:77
+#: src/ui/gtk-mount-prompt.ui:74
 msgid "User:"
 msgstr "کاربر:"
 
-#: src/ui/gtk-mount-prompt.ui:99
+#: src/ui/gtk-mount-prompt.ui:96
 msgid "Domain:"
 msgstr "دامنه:"
 
-#: src/ui/gtk-mount-prompt.ui:131
+#: src/ui/gtk-mount-prompt.ui:128
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:244
+#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:245
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/ui/lockscreen.ui:94
+#: src/ui/lockscreen.ui:95
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:332
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
@@ -652,23 +662,23 @@ msgstr "نیاز به تأیید هویت است"
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: src/ui/network-auth-prompt.ui:54
+#: src/ui/network-auth-prompt.ui:50
 msgid "C_onnect"
 msgstr "_وصل شدن"
 
-#: src/ui/polkit-auth-prompt.ui:100
+#: src/ui/polkit-auth-prompt.ui:97
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
-#: src/ui/power-menu.ui:106
+#: src/ui/power-menu.ui:112
 msgid "Suspend"
 msgstr "تعلیق"
 
-#: src/ui/power-menu.ui:149
+#: src/ui/power-menu.ui:158
 msgid "Lock"
 msgstr "قفل"
 
-#: src/ui/power-menu.ui:225
+#: src/ui/power-menu.ui:240
 msgid "Emergency"
 msgstr "اضطراری"
 
@@ -692,19 +702,19 @@ msgstr "پاک‌سازی همه"
 msgid "Confirm:"
 msgstr "تأیید:"
 
-#: src/ui/top-panel.ui:31
+#: src/ui/top-panel.ui:34
 msgid "_Power Off…"
 msgstr "_خاموش…"
 
-#: src/ui/top-panel.ui:58
+#: src/ui/top-panel.ui:61
 msgid "_Restart…"
 msgstr "_راه‌اندازی دوباره…"
 
-#: src/ui/top-panel.ui:85
+#: src/ui/top-panel.ui:88
 msgid "_Suspend…"
 msgstr "_تعلیق…"
 
-#: src/ui/top-panel.ui:112
+#: src/ui/top-panel.ui:115
 msgid "_Log Out…"
 msgstr "_خروج…"
 
@@ -712,7 +722,7 @@ msgstr "_خروج…"
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
-#: src/ui/wifi-status-page.ui:86
+#: src/ui/wifi-status-page.ui:89
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -722,7 +732,7 @@ msgstr "وی‌پی‌ان"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:239
+#: src/wall-clock.c:248
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
@@ -791,55 +801,55 @@ msgstr "حالت تیره"
 msgid "Light mode"
 msgstr "حالت روشن"
 
-#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/emergency-info.ui:43
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "اطّلاعات شخصی"
 
-#: plugins/emergency-info/emergency-info.ui:48
+#: plugins/emergency-info/emergency-info.ui:51
 msgid "Date of Birth"
 msgstr "تاریخ تولّد"
 
-#: plugins/emergency-info/emergency-info.ui:68
+#: plugins/emergency-info/emergency-info.ui:71
 msgid "Preferred Language"
 msgstr "زبان ترجیحی"
 
-#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/emergency-info.ui:91
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "نشانی خانه"
 
-#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/emergency-info.ui:99
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "اطّلاعات پزشکی"
 
-#: plugins/emergency-info/emergency-info.ui:104
+#: plugins/emergency-info/emergency-info.ui:107
 msgid "Age"
 msgstr "سن"
 
-#: plugins/emergency-info/emergency-info.ui:124
+#: plugins/emergency-info/emergency-info.ui:127
 msgid "Blood Type"
 msgstr "گروه خونی"
 
-#: plugins/emergency-info/emergency-info.ui:144
+#: plugins/emergency-info/emergency-info.ui:147
 msgid "Height"
 msgstr "قد"
 
-#: plugins/emergency-info/emergency-info.ui:164
+#: plugins/emergency-info/emergency-info.ui:167
 msgid "Weight"
 msgstr "وزن"
 
-#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "حسّاسیت‌ها"
 
-#: plugins/emergency-info/emergency-info.ui:192
+#: plugins/emergency-info/emergency-info.ui:195
 msgid "Medications & Conditions"
 msgstr "داروها و شرایط"
 
-#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/emergency-info.ui:203
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "دیگر اطّلاعات"
@@ -909,19 +919,23 @@ msgstr "رابطه"
 msgid "_Contact Number"
 msgstr "_شمارهٔ آشنا"
 
-#: plugins/launcher-box/launcher-box.ui:15
+#: plugins/launcher-box/launcher-box.ui:18
 msgid "No launchers configured"
 msgstr "هیچ اجراگری پیکربندی نشده"
 
-#: plugins/launcher-box/launcher-box.ui:30
+#: plugins/launcher-box/launcher-box.ui:33
 msgid "Launchers"
 msgstr "اجراگرها"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/media-players/media-players.ui:20
+msgid "No running media players"
+msgstr "هیچ پخش‌کنندهٔ آهنگی در حال اجرا نیست"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data On"
 msgstr "دادهٔ همراه روشن"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data Off"
 msgstr "دادهٔ همراه خاموش"
 
@@ -987,11 +1001,11 @@ msgstr "مدّت _استراحت"
 msgid "Duration of the break between sessions"
 msgstr "مدّت استراحت بین نشست‌ها"
 
-#: plugins/ticket-box/ticket-box.ui:15
+#: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
 msgstr "هیچ سندی برای نمایش نیست"
 
-#: plugins/ticket-box/ticket-box.ui:78
+#: plugins/ticket-box/ticket-box.ui:82
 msgid "Tickets"
 msgstr "بلیت‌ها"
 
