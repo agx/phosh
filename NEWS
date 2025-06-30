@@ -1,5 +1,5 @@
-phosh 0.48~rc1
---------------
+phosh 0.48.0
+------------
 Released June 2025
 * New lockscreen plugin that allows to interact with all currently
   running media players that use the MPRIS protocol.
@@ -18,11 +18,16 @@ Released June 2025
     * fossdd
     * Guido Günther
 * UI translations:
+    * Anders Jonsson (sv)
     * Antonio Marin (ro)
+    * Artur S0 (ru)
     * Daniel Rusek (cs)
     * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
     * Martin (sl)
+    * Yaron Shahrabani (he)
     * Yuri Chornoivan (uk)
+    * Álvaro Burns (pt_BR)
 
 phosh 0.47.0
 ------------
