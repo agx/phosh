@@ -83,6 +83,7 @@ if get_option('lockscreen-plugins') or get_option('quick-setting-plugins')
     sources: phosh_plugin_h,
     include_directories: plugin_inc,
     dependencies: [
+      gio_unix_dep,
       gobject_dep,
       gtk_dep,
       libhandy_dep,
