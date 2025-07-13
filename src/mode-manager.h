@@ -21,6 +21,7 @@ G_BEGIN_DECLS
  * @PHOSH_MODE_DEVICE_TYPE_DESKTOP: a desktop computer
  * @PHOSH_MODE_DEVICE_TYPE_TABLET: a tablet computer
  * @PHOSH_MODE_DEVICE_TYPE_CONVERTIBLE: a convertible
+ * @PHOSH_MODE_DEVICE_TYPE_EMBEDDED: an embedded device
  *
  * A type of device
  */
@@ -31,6 +32,7 @@ typedef enum {
   PHOSH_MODE_DEVICE_TYPE_DESKTOP,
   PHOSH_MODE_DEVICE_TYPE_TABLET,
   PHOSH_MODE_DEVICE_TYPE_CONVERTIBLE,
+  PHOSH_MODE_DEVICE_TYPE_EMBEDDED,
 } PhoshModeDeviceType;
 
 /**
@@ -49,10 +51,10 @@ typedef enum {
   PHOSH_MODE_HW_POINTER     = (1 << 3),
 } PhoshModeHwFlags;
 
-/* TODO: keyboard is hard to detect due to gpio keys, etc */
-#define PHOSH_MODE_DOCKED_PHONE_MASK (PHOSH_MODE_HW_EXT_DISPLAY \
-                                      | PHOSH_MODE_HW_POINTER)
+/* TODO: Use phoc-device-state for keyboard detection */
+#define PHOSH_MODE_DOCKED_PHONE_MASK (PHOSH_MODE_HW_EXT_DISPLAY | PHOSH_MODE_HW_POINTER)
 #define PHOSH_MODE_DOCKED_TABLET_MASK (PHOSH_MODE_HW_POINTER)
+#define PHOSH_MODE_DOCKED_EMBEDDED_MASK (PHOSH_MODE_HW_EXT_DISPLAY | PHOSH_MODE_HW_POINTER)
 
 #define PHOSH_TYPE_MODE_MANAGER (phosh_mode_manager_get_type ())
 

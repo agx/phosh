@@ -132,6 +132,8 @@ update_props (PhoshModeManager *self)
     device_type = PHOSH_MODE_DEVICE_TYPE_CONVERTIBLE;
   } else if (g_strcmp0 (self->chassis, "tablet") == 0) {
     device_type = PHOSH_MODE_DEVICE_TYPE_TABLET;
+  } else if (g_strcmp0 (self->chassis, "embedded") == 0) {
+    device_type = PHOSH_MODE_DEVICE_TYPE_EMBEDDED;
   } else {
     device_type = PHOSH_MODE_DEVICE_TYPE_UNKNOWN;
   }
@@ -150,6 +152,9 @@ update_props (PhoshModeManager *self)
     mimicry = PHOSH_MODE_DEVICE_TYPE_DESKTOP;
   } else if (device_type == PHOSH_MODE_DEVICE_TYPE_TABLET &&
       (hw & PHOSH_MODE_DOCKED_TABLET_MASK) == PHOSH_MODE_DOCKED_TABLET_MASK) {
+    mimicry = PHOSH_MODE_DEVICE_TYPE_DESKTOP;
+  } else if (device_type == PHOSH_MODE_DEVICE_TYPE_EMBEDDED &&
+      (hw & PHOSH_MODE_DOCKED_EMBEDDED_MASK) == PHOSH_MODE_DOCKED_EMBEDDED_MASK) {
     mimicry = PHOSH_MODE_DEVICE_TYPE_DESKTOP;
   } else if (device_type == PHOSH_MODE_DEVICE_TYPE_CONVERTIBLE) {
     if (self->is_tablet_mode < 0 || self->is_tablet_mode == FALSE)
