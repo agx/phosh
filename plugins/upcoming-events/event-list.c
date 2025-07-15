@@ -374,3 +374,12 @@ phosh_event_list_set_today (PhoshEventList *self, GDateTime *today)
   /* Refresh label and events */
   phosh_event_list_set_day_offset (self, self->day_offset);
 }
+
+
+uint
+phosh_event_list_get_n_events (PhoshEventList *self)
+{
+  g_return_val_if_fail (PHOSH_IS_EVENT_LIST (self), 0);
+
+  return g_list_model_get_n_items (G_LIST_MODEL (self->filtered_model));
+}
