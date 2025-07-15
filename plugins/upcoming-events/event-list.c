@@ -147,8 +147,8 @@ get_label (PhoshEventList *self)
     return g_date_time_format (self->for_day, "%A");
   }
   default:
-    return g_strdup_printf (ngettext ("In %u day", "In %u days", self->day_offset),
-                            self->day_offset);
+    /* Translators: The current date and weekday for display in a calendar entry */
+    return g_date_time_format (self->for_day, _("%x %a"));
   }
 }
 
