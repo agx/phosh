@@ -9,14 +9,27 @@
     <property name="margin-bottom">12</property>
     <property name="vexpand">1</property>
     <child>
-      <object class="GtkScrolledWindow">
+      <object class="GtkOverlay">
         <property name="visible">1</property>
-        <property name="hscrollbar-policy">never</property>
-        <property name="propagate-natural-height">1</property>
-        <child>
-          <object class="GtkBox" id="events_box">
+        <child type="overlay">
+          <object class="GtkToggleButton" id="skip_empty_btn">
+            <property name="halign">end</property>
+            <property name="valign">start</property>
             <property name="visible">1</property>
-            <property name="orientation">vertical</property>
+            <signal name="toggled" handler="on_skip_empty_btn_toggled" swapped="no"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">1</property>
+            <property name="hscrollbar-policy">never</property>
+            <property name="propagate-natural-height">1</property>
+            <child>
+              <object class="GtkBox" id="events_box">
+                <property name="visible">1</property>
+                <property name="orientation">vertical</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>

@@ -16,8 +16,12 @@
 
 #include <gmobile.h>
 
-#define UPCOMING_EVENTS_SCHEMA_ID "sm.puri.phosh.plugins.upcoming-events"
-#define UPCOMING_EVENT_DAYS_KEY "days"
+#define UPCOMING_EVENTS_SCHEMA_ID    "sm.puri.phosh.plugins.upcoming-events"
+#define UPCOMING_EVENT_DAYS_KEY      "days"
+#define UPCOMING_EVENT_SKIP_DAYS_KEY "skip-empty"
+
+#define EXPAND_LIST_ICON "list-low-priority-symbolic"
+#define SHRINK_LIST_ICON "list-high-priority-symbolic"
 
 /**
  * PhoshUpcomgingEvents:
@@ -36,6 +40,8 @@ struct _PhoshUpcomingEvents {
   GHashTable                    *event_ids;
   GDateTime                     *since;
   guint                          num_days;
+  gboolean                       skip_empty;
+  GtkToggleButton               *skip_empty_btn;
 
   GSettings                     *settings;
   GFileMonitor                  *tz_monitor;
@@ -65,6 +71,16 @@ phosh_upcoming_events_finalize (GObject *object)
 
 
 static void
+on_skip_empty_btn_toggled (GtkToggleButton     *btn,
+                           PhoshUpcomingEvents *self)
+{
+  self->skip_empty = !self->skip_empty;
+
+  g_settings_set_boolean (self->settings, "skip-empty", self->skip_empty);
+}
+
+
+static void
 phosh_upcoming_events_class_init (PhoshUpcomingEventsClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -77,6 +93,9 @@ phosh_upcoming_events_class_init (PhoshUpcomingEventsClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/mobi/phosh/plugins/upcoming-events/upcoming-events.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshUpcomingEvents, events_box);
+  gtk_widget_class_bind_template_child (widget_class, PhoshUpcomingEvents, skip_empty_btn);
+
+  gtk_widget_class_bind_template_callback (widget_class, on_skip_empty_btn_toggled);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-upcoming-events");
 }
@@ -134,6 +153,19 @@ calendar_event_begin_compare (gconstpointer a,
 }
 
 
+static void
+update_event_lists_visibility (PhoshUpcomingEvents *self)
+{
+  for (uint i = 0; i < self->event_lists->len; i++) {
+    PhoshEventList *event_list = PHOSH_EVENT_LIST (self->event_lists->pdata[i]);
+    uint events = phosh_event_list_get_n_events (event_list);
+    gboolean visibility = !self->skip_empty || events != 0;
+
+    gtk_widget_set_visible (GTK_WIDGET (event_list), visibility);
+  }
+}
+
+
 #define EVENT_FORMAT "(&s&sxx@a{sv})"
 
 static void
@@ -177,6 +209,8 @@ on_events_added_or_updated (PhoshUpcomingEvents *self, GVariant *events)
                                 calendar_event_begin_compare,
                                 NULL);
   }
+
+  update_event_lists_visibility (self);
 
   if (changed == FALSE)
     return;
@@ -301,6 +335,21 @@ setup_date_change_timeout (PhoshUpcomingEvents *self)
 
 
 static void
+on_skip_empty_changed (PhoshUpcomingEvents *self)
+{
+  const char *icon_name;
+
+  self->skip_empty = g_settings_get_boolean (self->settings, UPCOMING_EVENT_SKIP_DAYS_KEY);
+  icon_name = self->skip_empty ? EXPAND_LIST_ICON : SHRINK_LIST_ICON;
+
+  gtk_button_set_image (GTK_BUTTON (self->skip_empty_btn),
+                        gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON));
+
+  update_event_lists_visibility (self);
+}
+
+
+static void
 on_num_days_changed (PhoshUpcomingEvents *self)
 {
   self->num_days = g_settings_get_uint (self->settings, UPCOMING_EVENT_DAYS_KEY);
@@ -375,6 +424,12 @@ phosh_upcoming_events_init (PhoshUpcomingEvents *self)
                            self,
                            G_CONNECT_SWAPPED);
 
+  g_signal_connect_object (self->settings,
+                           "changed::skip-empty",
+                           G_CALLBACK (on_skip_empty_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   self->event_lists = g_ptr_array_new ();
   self->events = g_list_store_new (PHOSH_TYPE_CALENDAR_EVENT);
 
@@ -382,6 +437,8 @@ phosh_upcoming_events_init (PhoshUpcomingEvents *self)
                                            g_str_equal,
                                            g_free,
                                            g_object_unref);
+
+  on_skip_empty_changed (self);
 
   self->cancel = g_cancellable_new ();
   phosh_plugin_dbus_calendar_server_proxy_new_for_bus (
@@ -399,6 +456,8 @@ phosh_upcoming_events_init (PhoshUpcomingEvents *self)
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
                                              GTK_STYLE_PROVIDER (css_provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
+                                    "/mobi/phosh/plugins/upcoming-events/icons");
 
   tz = g_file_new_for_path ("/etc/localtime");
   self->tz_monitor = g_file_monitor_file (tz, 0, NULL, NULL);
