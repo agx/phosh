@@ -39,6 +39,7 @@ typedef struct _PhoshBatteryInfo {
   UpDevice        *device;
   gboolean         present;
   gboolean         show_detail;
+  GCancellable    *cancel;
 } PhoshBatteryInfo;
 
 
@@ -87,26 +88,6 @@ phosh_battery_info_get_property (GObject    *object,
 
 
 static void
-setup_display_device (PhoshBatteryInfo *self)
-{
-  g_autoptr (GError) err = NULL;
-
-  self->upower = up_client_new_full (NULL, &err);
-  if (self->upower == NULL) {
-    phosh_dbus_service_error_warn (err, "Failed to connect to upowerd");
-    return;
-  }
-
-  /* TODO: this is a oversimplified sync call */
-  self->device = up_client_get_display_device (self->upower);
-  if (self->device == NULL) {
-    g_warning ("Failed to get upowerd display device");
-    return;
-  }
-}
-
-
-static void
 on_property_changed (PhoshBatteryInfo     *self,
                      GParamSpec           *pspec,
                      UpDevice             *device)
@@ -141,32 +122,56 @@ on_property_changed (PhoshBatteryInfo     *self,
 
 
 static void
+on_up_client_new_ready (GObject *source, GAsyncResult *result, gpointer data)
+{
+  PhoshBatteryInfo *self = data;
+  g_autoptr (GError) err = NULL;
+  UpClient *upower = NULL;
+
+  upower = up_client_new_finish (result, &err);
+  if (err != NULL) {
+    g_message ("Failed to get UPower Client: %s", err->message);
+    return;
+  }
+
+  self->upower = upower;
+
+  /* TODO: this is a oversimplified sync call */
+  self->device = up_client_get_display_device (self->upower);
+  if (self->device == NULL) {
+    g_warning ("Failed to get upowerd display device");
+    return;
+  }
+
+  g_object_connect (self->device,
+                    "swapped_object_signal::notify::percentage",
+                    G_CALLBACK (on_property_changed),
+                    self,
+                    "swapped_object_signal::notify::state",
+                    G_CALLBACK (on_property_changed),
+                    self,
+                    NULL);
+
+  g_object_bind_property (self,
+                          "info",
+                          phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self)),
+                          "label",
+                          G_BINDING_SYNC_CREATE);
+  self->present = TRUE;
+  on_property_changed (self, NULL, self->device);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
+}
+
+
+static void
 phosh_battery_info_constructed (GObject *object)
 {
   PhoshBatteryInfo *self = PHOSH_BATTERY_INFO (object);
 
   G_OBJECT_CLASS (phosh_battery_info_parent_class)->constructed (object);
 
-  setup_display_device (self);
-  if (self->device) {
-    g_object_connect (self->device,
-                      "swapped_object_signal::notify::percentage",
-                      G_CALLBACK (on_property_changed),
-                      self,
-                      "swapped_object_signal::notify::state",
-                      G_CALLBACK (on_property_changed),
-                      self,
-                      NULL);
-
-    g_object_bind_property (self,
-                            "info",
-                            phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self)),
-                            "label",
-                            G_BINDING_SYNC_CREATE);
-    self->present = TRUE;
-    on_property_changed (self, NULL, self->device);
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
-  }
+  self->cancel = g_cancellable_new ();
+  up_client_new_async (self->cancel, on_up_client_new_ready, self);
 }
 
 
@@ -175,6 +180,8 @@ phosh_battery_info_dispose (GObject *object)
 {
   PhoshBatteryInfo *self = PHOSH_BATTERY_INFO (object);
 
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
   g_clear_object (&self->device);
   g_clear_object (&self->upower);
 

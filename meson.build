@@ -191,7 +191,7 @@ libsoup_dep = dependency('libsoup-3.0', version: '>= 3.6')
 libsystemd_dep = dependency('libsystemd', 'libelogind', version: '>= 241')
 mm_glib_dep = dependency('mm-glib')
 network_agent_dep = dependency('libsecret-1')
-upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
+upower_glib_dep = dependency('upower-glib', version: '>=1.90')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
 wayland_protos_dep = dependency('wayland-protocols', version: '>=1.12')
 
