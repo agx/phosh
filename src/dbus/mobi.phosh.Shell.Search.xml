@@ -1,0 +1,104 @@
+<!DOCTYPE node PUBLIC
+        "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+        "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd" >
+<node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+  <!--
+    Copyright © 2019 Zander Brown <zbrown@gnome.org>
+
+    SPDX-License-Identifier: GPL-3.0+
+
+    Author: Zander Brown <zbrown@gnome.org>
+  -->
+
+  <!--
+    mobi.phosh.Shell.Search:
+
+    This interface is exported by the Phosh shell search service to
+    handle search queries, manage search sources, and track search results.
+  -->
+  <interface name="mobi.phosh.Shell.Search">
+    <!--
+        Query:
+        @terms: A search query string provided by the user.
+        @searching: %TRUE if the search daemon is actively searching, %FALSE if result is already present.
+
+        Initiates a search query with the specified terms. The search daemon processes
+        the query and returns a boolean indicating whether it is actively searching.
+    -->
+    <method name="Query">
+      <arg type="s" name="terms" direction="in" />
+      <arg type="b" name="searching" direction="out" />
+    </method>
+    <!--
+        LaunchSource:
+        @sourceid: The unique identifier of the search source.
+        @timestamp: The timestamp of when the source was launched.
+
+        Launches the search source which is searched with the provided terms.
+    -->
+    <method name="LaunchSource">
+      <arg type="s" name="sourceid" direction="in" />
+      <arg type="i" name="timestamp" direction="in" />
+    </method>
+    <!--
+        ActivateResult:
+        @sourceid: The unique identifier of the search source.
+        @resultid: The unique identifier of a specific search result.
+        @timestamp: The timestamp of when the result was activated.
+
+        Activates a specific result within a given search source.
+    -->
+    <method name="ActivateResult">
+      <arg type="s" name="sourceid" direction="in" />
+      <arg type="s" name="resultid" direction="in" />
+      <arg type="i" name="timestamp" direction="in" />
+    </method>
+    <!--
+        GetSources:
+        @sources: A list of available search sources.
+
+        Retrieves a list of search sources, where each entry consists of:
+        - A string representing the source ID.
+        - A string representing the human-readable name of the source.
+        - An unsigned integer representing additional source metadata.
+    -->
+    <method name="GetSources">
+      <arg type="a(ssu)" name="sources" direction="out" />
+    </method>
+    <!--
+        GetLastResults:
+        @results: A dictionary mapping source IDs to arrays of result IDs.
+
+        Returns the last search results for each source that has results.
+    -->
+    <method name="GetLastResults">
+      <arg type="a{saa{sv}}" name="results" direction="out" />
+    </method>
+    <!--
+        SourcesChanged:
+
+        Emitted when the list of available search sources changes,
+        indicating that new sources have been added or removed.
+    -->
+    <signal name="SourcesChanged" />
+    <!--
+        SourceResultsChanged:
+        @sourceid: The unique identifier of the search source.
+        @results: A nested array containing search result data.
+
+        Emitted when the results of a specific search source change,
+        signaling updates in available search results.
+    -->
+    <signal name="SourceResultsChanged">
+      <arg name="sourceid" type="s"/>
+      <arg name="results" type="aa{sv}"/>
+    </signal>
+    <!--
+        QueryFinished:
+
+        Emitted when the search daemon has finished searching for the terms
+        provided by the user.
+    -->
+    <signal name="QueryFinished" />
+  </interface>
+</node>

@@ -47,7 +47,7 @@ if get_option('tools')
   )
 
   executable('app-grid-standalone', ['app-grid-standalone.c'],
-    dependencies: [ phosh_tool_dep, test_stubs_dep ],
+    dependencies: [ [phosh_tool_dep, phosh_search_dep], test_stubs_dep ],
   )
 
   executable('image-notify', ['image-notify.c'],
@@ -90,4 +90,9 @@ if get_option('tools')
       dependencies: [gmodule_dep, phosh_tool_dep, test_stubs_dep],
     )
   endif
+
+  executable('search', ['search.c'],
+    dependencies: [ [phosh_tool_dep, phosh_search_dep], test_stubs_dep ],
+  )
+
 endif

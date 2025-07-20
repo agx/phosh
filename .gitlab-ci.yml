@@ -60,7 +60,7 @@ variables:
 
 .trixie_vars: &trixie_vars
   variables:
-    BUILD_OPTS: -Dcallui-i18n=true -Dphoc_tests=enabled ${COMMON_BUILD_OPTS}
+    BUILD_OPTS: -Dcallui-i18n=true -Dphoc_tests=enabled -Dsearchd=true ${COMMON_BUILD_OPTS}
 
 .test_before_script: &test_before_script
   before_script:
@@ -131,7 +131,7 @@ build:lib-debian-trixie:
   stage: build
   image: ${DEBIAN_IMAGE}
   variables:
-    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true -Dvapi=true
+    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true -Dvapi=true -Dsearchd=true
   <<: *build_before_script
   script:
     - meson setup ${BUILD_OPTS} _build
@@ -164,7 +164,7 @@ asan-test:native-debian-trixie:
   <<: *trixie_vars
   <<: *test_before_script
   script:
-    - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
+    - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug -Dsearchd=true _build-asan
     - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit --timeout-multiplier 5
   allow_failure: true
 

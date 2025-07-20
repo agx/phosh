@@ -3,6 +3,7 @@
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 CONFIGURE_OPTS=--wrap-mode=default
+CONFIGURE_OPTS+=-Dsearchd=true
 
 ifeq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
   CONFIGURE_OPTS+=-Dgtk_doc=true -Dman=true
