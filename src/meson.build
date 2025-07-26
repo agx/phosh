@@ -8,14 +8,14 @@ subdir('gtk-list-models')
 
 phosh_enums_header_subdir = 'phosh'
 
-install_headers(schema_enum_headers, subdir : phosh_enums_header_subdir)
+install_headers(schema_enum_headers, subdir: phosh_enums_header_subdir)
 
 plugin_exported_symbols = 'phosh-exported-symbols.txt'
 libphosh_exported_symbols = 'libphosh.syms'
 
 dynamic_list = custom_target(
   'build-dynamic-list',
-  command: [ 'sh', '-c', 'echo "{"; cat @INPUT@; echo "};"' ],
+  command: ['sh', '-c', 'echo "{"; cat @INPUT@; echo "};"'],
   capture: true,
   input: '@0@.in'.format(plugin_exported_symbols),
   output: plugin_exported_symbols,
@@ -23,38 +23,37 @@ dynamic_list = custom_target(
 
 symbols_file = custom_target(
   'build-symbols-file',
-  command: [ '@0@/tools/build-symbols-file'.format(meson.project_source_root()),
-             '@0@'.format(libphosh_api_version.replace('.','_')),
-             '@INPUT0@',
-             '@INPUT1@',
-           ],
+  command: [
+    '@0@/tools/build-symbols-file'.format(meson.project_source_root()),
+    '@0@'.format(libphosh_api_version.replace('.', '_')),
+    '@INPUT0@',
+    '@INPUT1@',
+  ],
   capture: true,
-  input: [ '@0@.in'.format(plugin_exported_symbols),
-           '@0@.in'.format(libphosh_exported_symbols),
-         ],
+  input: [
+    '@0@.in'.format(plugin_exported_symbols),
+    '@0@.in'.format(libphosh_exported_symbols),
+  ],
   output: libphosh_exported_symbols,
 )
 
 pkgconfig.generate(
-  requires : gsettings_desktop_schemas_dep,
-  subdirs : phosh_enums_header_subdir,
-  version : meson.project_version(),
-  install_dir : libdir / 'pkgconfig',
-  filebase : 'phosh-settings',
-  name : 'phosh-settings-schemas',
-  description : 'Shared gsettings schema and enum headers for Phosh',
+  requires: gsettings_desktop_schemas_dep,
+  subdirs: phosh_enums_header_subdir,
+  version: meson.project_version(),
+  install_dir: libdir / 'pkgconfig',
+  filebase: 'phosh-settings',
+  name: 'phosh-settings-schemas',
+  description: 'Shared gsettings schema and enum headers for Phosh',
 )
 
 phosh_resources = gnome.compile_resources(
   'phosh-resources',
   'phosh.gresources.xml',
-
   c_name: 'phosh',
 )
 
-libphosh_enum_headers = files(
-  'lockscreen.h',
-)
+libphosh_enum_headers = files('lockscreen.h')
 
 phosh_enum_headers = files(
   'animation.h',
@@ -75,27 +74,23 @@ phosh_enum_headers = files(
   schema_enum_headers,
 ]
 
-phosh_enums = gnome.mkenums_simple(
-  'phosh-enums',
-  sources : phosh_enum_headers,
-)
+phosh_enums = gnome.mkenums_simple('phosh-enums', sources: phosh_enum_headers)
 
 libphosh_enums = gnome.mkenums_simple(
   'libphosh-enums',
-  sources : libphosh_enum_headers,
+  sources: libphosh_enum_headers,
   install_header: bindings_lib,
   install_dir: lib_inc_dir,
 )
 
-phosh_settings_sources = files(
-  'settings.c') + [
-  phosh_settings_widgets_sources,
-]
+phosh_settings_sources = files('settings.c') + [phosh_settings_widgets_sources]
 
-phosh_marshalers = gnome.genmarshal('phosh-marshalers',
-  sources : 'phosh-marshalers.list',
-  prefix : '_phosh_marshal',
-  valist_marshallers : true)
+phosh_marshalers = gnome.genmarshal(
+  'phosh-marshalers',
+  sources: 'phosh-marshalers.list',
+  prefix: '_phosh_marshal',
+  valist_marshallers: true,
+)
 
 
 # sources generated with glib tooling
@@ -114,55 +109,49 @@ phosh_glib_generated_headers = [
   generated_dbus_headers,
 ]
 
-phosh_generated_sources = [
-  phosh_glib_generated_sources,
-  wl_proto_sources,
-]
+phosh_generated_sources = [phosh_glib_generated_sources, wl_proto_sources]
 
-phosh_generated_headers = [
-  phosh_glib_generated_headers,
-  wl_proto_headers,
-]
+phosh_generated_headers = [phosh_glib_generated_headers, wl_proto_headers]
 
 phosh_tool_headers = files(
-  'app-auth-prompt.h',
   'activity.h',
   'ambient.h',
   'animation.h',
-  'app-grid.h',
+  'app-auth-prompt.h',
   'app-grid-base-button.h',
   'app-grid-button.h',
   'app-grid-folder-button.h',
+  'app-grid.h',
   'app-list-model.h',
   'auth-prompt-option.h',
   'background-cache.h',
   'background-image.h',
   'background.h',
   'bidi.h',
+  'call-notification.h',
   'call.h',
   'calls-manager.h',
-  'call-notification.h',
   'cell-broadcast-manager.h',
   'clamp.h',
   'connectivity-info.h',
   'connectivity-manager.h',
-  'drag-surface.h',
   'default-media-player.h',
-  'end-session-dialog.h',
+  'docked-info.h',
+  'docked-manager.h',
+  'drag-surface.h',
   'emergency-contact-row.h',
   'emergency-contact.h',
   'emergency-menu.h',
-  'folder-info.h',
-  'hks-info.h',
-  'hks-manager.h',
-  'docked-info.h',
-  'docked-manager.h',
+  'end-session-dialog.h',
   'fading-label.h',
   'favorite-list-model.h',
   'feedback-manager.h',
+  'folder-info.h',
   'gnome-shell-manager.h',
   'gtk-mount-manager.h',
   'gtk-mount-prompt.h',
+  'hks-info.h',
+  'hks-manager.h',
   'keypad.h',
   'launcher-entry-manager.h',
   'lockshield.h',
@@ -172,115 +161,115 @@ phosh_tool_headers = files(
   'mode-manager.h',
   'mount-manager.h',
   'mount-operation.h',
+  'osd-window.h',
   'overview.h',
   'password-entry.h',
-  'osd-window.h',
+  'phosh-wayland.h',
   'plugin-loader.h',
-  'power-menu.h',
   'power-menu-manager.h',
+  'power-menu.h',
+  'quick-settings-box.h',
   'quick-settings.h',
   'revealer.h',
-  'status-page-placeholder.h',
-  'splash.h',
   'splash-manager.h',
+  'splash.h',
+  'status-page-placeholder.h',
   'suspend-manager.h',
-  'system-modal.h',
+  'swipe-away-bin.h',
   'system-modal-dialog.h',
+  'system-modal.h',
+  'util.h',
   'vpn-info.h',
   'vpn-manager.h',
-  'quick-settings-box.h',
-  'phosh-wayland.h',
-  'swipe-away-bin.h',
-  'util.h',
   'widget-box.h',
   'wl-buffer.h',
 )
 
 # Available in tools and unit tests:
 phosh_tool_sources = files(
-  'app-auth-prompt.c',
   'activity.c',
   'ambient.c',
   'animation.c',
-  'app-grid.c',
+  'app-auth-prompt.c',
   'app-grid-base-button.c',
   'app-grid-button.c',
   'app-grid-folder-button.c',
+  'app-grid.c',
   'app-list-model.c',
   'auth-prompt-option.c',
   'background-cache.c',
   'background-image.c',
   'background.c',
   'bidi.c',
+  'call-notification.c',
   'call.c',
   'calls-manager.c',
-  'call-notification.c',
   'cell-broadcast-manager.c',
   'cell-broadcast-prompt.c',
   'clamp.c',
   'connectivity-info.c',
   'connectivity-manager.c',
-  'drag-surface.c',
   'default-media-player.c',
-  'end-session-dialog.c',
+  'docked-info.c',
+  'docked-manager.c',
+  'drag-surface.c',
   'emergency-contact-row.c',
   'emergency-contact.c',
   'emergency-menu.c',
-  'feedback-status-page.c',
-  'folder-info.c',
-  'hks-info.c',
-  'hks-manager.c',
-  'docked-info.c',
-  'docked-manager.c',
+  'end-session-dialog.c',
   'fading-label.c',
   'favorite-list-model.c',
   'feedback-manager.c',
+  'feedback-status-page.c',
+  'folder-info.c',
   'gnome-shell-manager.c',
   'gtk-mount-manager.c',
   'gtk-mount-prompt.c',
+  'hks-info.c',
+  'hks-manager.c',
   'keypad.c',
   'launcher-entry-manager.c',
   'layersurface.c',
   'lockshield.c',
   'log.c',
   'manager.c',
-  'mpris-manager.c',
   'media-player.c',
   'metainfo-cache.c',
   'mode-manager.c',
   'mount-manager.c',
   'mount-operation.c',
+  'mpris-manager.c',
+  'osd-window.c',
   'overview.c',
   'password-entry.c',
-  'osd-window.c',
+  'phosh-wayland.c',
   'plugin-loader.c',
-  'power-menu.c',
   'power-menu-manager.c',
+  'power-menu.c',
+  'quick-setting.c',
   'quick-settings-box.c',
   'quick-settings.c',
   'revealer.c',
-  'status-icon.c',
-  'status-page.c',
-  'status-page-placeholder.c',
-  'splash.c',
   'splash-manager.c',
+  'splash.c',
+  'status-icon.c',
+  'status-page-placeholder.c',
+  'status-page.c',
   'style-manager.c',
   'suspend-manager.c',
-  'system-modal.c',
+  'swipe-away-bin.c',
   'system-modal-dialog.c',
+  'system-modal.c',
+  'util.c',
   'vpn-info.c',
   'vpn-manager.c',
-  'quick-setting.c',
-  'phosh-wayland.c',
-  'swipe-away-bin.c',
-  'util.c',
   'wall-clock.c',
   'widget-box.c',
+  'wifi-info.c',
   'wifi-manager.c',
-  'wifi-status-page.c',
   'wifi-network-row.c',
   'wifi-network.c',
-  'wifi-info.c',
+  'wifi-status-page.c',
   'wl-buffer.c',
 ) + [
   phosh_monitor_sources,
@@ -294,17 +283,17 @@ libphosh_headers = files(
   'layersurface.h',
   'lockscreen-manager.h',
   'lockscreen.h',
-  'shell.h',
   'quick-setting.h',
   'screenshot-manager.h',
+  'shell.h',
   'status-icon.h',
   'status-page.h',
   'wall-clock.h',
 )
 
 phosh_headers = files(
-  'arrow.h',
   'app-tracker.h',
+  'arrow.h',
   'auth.h',
   'background-manager.h',
   'batteryinfo.h',
@@ -320,47 +309,47 @@ phosh_headers = files(
   'feedback-status-page.h',
   'feedbackinfo.h',
   'home.h',
-  'keyboard-events.h',
-  'lockscreen-bg.h',
   'idle-manager.h',
+  'keyboard-events.h',
   'layout-manager.h',
   'location-info.h',
   'location-manager.h',
+  'lockscreen-bg.h',
   'metainfo-cache.h',
   'monitor-manager.h',
   'network-auth-manager.h',
   'network-auth-prompt.h',
   'osk-manager.h',
-  'top-panel.h',
-  'top-panel-bg.h',
   'polkit-auth-agent.h',
   'polkit-auth-prompt.h',
   'portal-access-manager.h',
   'portal-request.h',
   'proximity.h',
+  'rotateinfo.h',
   'rotation-manager.h',
   'run-command-dialog.h',
   'run-command-manager.h',
-  'sensor-proxy-manager.h',
-  'rotateinfo.h',
   'screen-saver-manager.h',
-  'session-presence.h',
+  'sensor-proxy-manager.h',
   'session-manager.h',
+  'session-presence.h',
   'shell.h',
   'style-manager.h',
   'system-prompt.h',
   'system-prompter.h',
   'thumbnail.h',
+  'top-panel-bg.h',
+  'top-panel.h',
   'toplevel-manager.h',
   'toplevel-thumbnail.h',
+  'toplevel.h',
   'torch-info.h',
   'torch-manager.h',
-  'toplevel.h',
-  'wifi-status-page.h',
-  'wifi-network-row.h',
-  'wifi-network.h',
   'wifi-info.h',
   'wifi-manager.h',
+  'wifi-network-row.h',
+  'wifi-network.h',
+  'wifi-status-page.h',
   'wwan-info.h',
 ) + [
   libphosh_headers,
@@ -373,8 +362,8 @@ phosh_headers = files(
 # Symbols from these are not available in tools and unit tests
 # Prefer adding to phosh_tool_sources
 phosh_sources = files(
-  'arrow.c',
   'app-tracker.c',
+  'arrow.c',
   'auth.c',
   'background-manager.c',
   'batteryinfo.c',
@@ -388,8 +377,8 @@ phosh_sources = files(
   'fake-clock.c',
   'feedbackinfo.c',
   'home.c',
-  'keyboard-events.c',
   'idle-manager.c',
+  'keyboard-events.c',
   'layout-manager.c',
   'location-info.c',
   'location-manager.c',
@@ -400,31 +389,31 @@ phosh_sources = files(
   'network-auth-manager.c',
   'network-auth-prompt.c',
   'osk-manager.c',
-  'top-panel.c',
-  'top-panel-bg.c',
   'polkit-auth-agent.c',
   'polkit-auth-prompt.c',
   'portal-access-manager.c',
   'portal-request.c',
   'proximity.c',
+  'rotateinfo.c',
   'rotation-manager.c',
   'run-command-dialog.c',
   'run-command-manager.c',
-  'sensor-proxy-manager.c',
-  'rotateinfo.c',
   'screen-saver-manager.c',
   'screenshot-manager.c',
-  'session-presence.c',
+  'sensor-proxy-manager.c',
   'session-manager.c',
+  'session-presence.c',
   'shell.c',
   'system-prompt.c',
   'system-prompter.c',
   'thumbnail.c',
+  'top-panel-bg.c',
+  'top-panel.c',
   'toplevel-manager.c',
   'toplevel-thumbnail.c',
+  'toplevel.c',
   'torch-info.c',
   'torch-manager.c',
-  'toplevel.c',
   'wwan-info.c',
 ) + [
   phosh_settings_sources,
@@ -479,18 +468,20 @@ phosh_deps = [
 ]
 
 phosh_inc = include_directories('.')
-phosh_lib_inc = [root_inc,
-                 phosh_inc,
-                 phosh_monitor_inc,
-                 phosh_notifications_inc,
-                 phosh_wwan_inc,
-                 proto_inc,
-                 dbus_inc,
-                 phosh_gtk_list_models_inc,
-  ]
+phosh_lib_inc = [
+  root_inc,
+  phosh_inc,
+  phosh_monitor_inc,
+  phosh_notifications_inc,
+  phosh_wwan_inc,
+  proto_inc,
+  dbus_inc,
+  phosh_gtk_list_models_inc,
+]
 
 # A static library used by tests and tools
-phosh_tool_lib = static_library('phosh-tool',
+phosh_tool_lib = static_library(
+  'phosh-tool',
   [
     phosh_tool_sources,
     phosh_tool_headers,
@@ -509,10 +500,12 @@ phosh_tool_dep = declare_dependency(
   ],
   include_directories: phosh_lib_inc,
   link_with: phosh_tool_lib,
-  dependencies: phosh_deps)
+  dependencies: phosh_deps,
+)
 
 # A library containing everything
-phosh_lib = both_libraries('phosh-@0@'.format(libphosh_api_version),
+phosh_lib = both_libraries(
+  'phosh-@0@'.format(libphosh_api_version),
   phosh_headers,
   phosh_sources,
   include_directories: phosh_lib_inc,
@@ -543,7 +536,8 @@ if abi_check
     command: [
       abi_dumper,
       '@INPUT0@',
-      '-public-headers', '@INPUT1@',
+      '-public-headers',
+      '@INPUT1@',
       '-o',
       '@OUTPUT@',
       '-lver',
@@ -584,35 +578,42 @@ phosh_plugins_dep = declare_dependency(
 )
 
 if enable_introspection or bindings_lib
-  phosh_gir_sources = [ libphosh_headers,
-                        phosh_sources,
-                        phosh_tool_sources,
-                        libphosh_generated_dbus_headers,
-                        libphosh_generated_dbus_sources,
-                        libphosh_enums[1],
-                      ]
-
-  phosh_gir_extra_args = [
-    '--quiet',
+  phosh_gir_sources = [
+    libphosh_headers,
+    phosh_sources,
+    phosh_tool_sources,
+    libphosh_generated_dbus_headers,
+    libphosh_generated_dbus_sources,
+    libphosh_enums[1],
   ]
 
-  phosh_gir = gnome.generate_gir(phosh_lib,
-                 header : 'libphosh.h',
-                sources : phosh_gir_sources,
-              nsversion : '0',
-              namespace : 'Phosh',
-        export_packages : 'libphosh-@0@'.format(libphosh_api_version),
-          symbol_prefix : 'phosh',
-      identifier_prefix : 'Phosh',
-              link_with : phosh_lib,
-               includes : ['Gcr-3', 'Gio-2.0', 'Gtk-3.0', 'GnomeDesktop-3.0',
-                           'Handy-1', 'NM-1.0', 'GnomeBluetooth-3.0'],
-             extra_args : phosh_gir_extra_args,
-           dependencies : phosh_static_lib_dep,
-         fatal_warnings : true,
-                install : bindings_lib,
-        install_dir_gir : datadir / 'gir-1.0',
-   )
+  phosh_gir_extra_args = ['--quiet']
+
+  phosh_gir = gnome.generate_gir(
+    phosh_lib,
+    header: 'libphosh.h',
+    sources: phosh_gir_sources,
+    nsversion: '0',
+    namespace: 'Phosh',
+    export_packages: 'libphosh-@0@'.format(libphosh_api_version),
+    symbol_prefix: 'phosh',
+    identifier_prefix: 'Phosh',
+    link_with: phosh_lib,
+    includes: [
+      'Gcr-3',
+      'Gio-2.0',
+      'Gtk-3.0',
+      'GnomeDesktop-3.0',
+      'Handy-1',
+      'NM-1.0',
+      'GnomeBluetooth-3.0',
+    ],
+    extra_args: phosh_gir_extra_args,
+    dependencies: phosh_static_lib_dep,
+    fatal_warnings: true,
+    install: bindings_lib,
+    install_dir_gir: datadir / 'gir-1.0',
+  )
 endif
 
 if bindings_lib
@@ -621,19 +622,13 @@ if bindings_lib
     name: 'libphosh',
     subdirs: 'libphosh-@0@'.format(libphosh_api_version),
     filebase: 'libphosh-@0@'.format(libphosh_api_version),
-    version : meson.project_version(),
+    version: meson.project_version(),
     description: 'Library for building components embedding Phosh',
     requires: 'phosh-settings',
     url: 'https://world.pages.gitlab.gnome.org/Phosh/phosh/',
   )
 
-  install_headers(
-    [
-      'libphosh.h',
-      libphosh_headers,
-    ],
-    subdir : lib_inc_subdir,
-  )
+  install_headers(['libphosh.h', libphosh_headers], subdir: lib_inc_subdir)
 
   apiversion = '0.0'
   if get_option('vapi')
@@ -648,12 +643,15 @@ if bindings_lib
   endif
 endif
 
-phosh_export_sym_link_arg = '-Wl,--dynamic-list=@0@'.format(dynamic_list.full_path())
+phosh_export_sym_link_arg = '-Wl,--dynamic-list=@0@'.format(
+  dynamic_list.full_path(),
+)
 phosh = executable(
-  'phosh', 'main.c',
+  'phosh',
+  'main.c',
   dependencies: phosh_static_lib_dep,
   link_depends: dynamic_list,
   link_args: phosh_export_sym_link_arg,
   install: true,
-  install_dir: libexecdir
+  install_dir: libexecdir,
 )

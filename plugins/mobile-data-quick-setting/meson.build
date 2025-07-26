@@ -1,4 +1,4 @@
-name='mobile-data-quick-setting'
+name = 'mobile-data-quick-setting'
 
 mobile_data_quick_setting_resources = gnome.compile_resources(
   'phosh-plugin-mobile-data-quick-setting-resources',
@@ -7,17 +7,18 @@ mobile_data_quick_setting_resources = gnome.compile_resources(
 )
 
 mobile_data_quick_setting_plugin_sources = files(
-  'phosh-plugin-mobile-data-quick-setting.c',
   'mobile-data-quick-setting.c',
+  'phosh-plugin-mobile-data-quick-setting.c',
 )
 
 phosh_mobile_data_quick_setting_plugin = shared_module(
   'phosh-plugin-mobile-data-quick-setting',
   mobile_data_quick_setting_plugin_sources,
   mobile_data_quick_setting_resources,
-  c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
-            '-DPLUGIN_NAME="@0@"'.format(name),
-           ],
+  c_args: [
+    '-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
+    '-DPLUGIN_NAME="@0@"'.format(name),
+  ],
   dependencies: plugin_dep,
   install: true,
   install_dir: plugins_dir,
@@ -34,8 +35,8 @@ i18n.merge_file(
     configuration: pluginconf,
   ),
   output: name + '.plugin',
-  po_dir:  join_paths(meson.project_source_root(), 'po'),
+  po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: plugins_dir,
-  type: 'desktop'
+  type: 'desktop',
 )
