@@ -335,6 +335,11 @@ check-markdown:
           - "*.md"
           - "docs/*.md"
 
+check-meson:
+  stage: style-checks
+  extends:
+    - .phosh-check-meson
+
 check-style:
   stage: style-checks
   extends: .phosh-format-check
