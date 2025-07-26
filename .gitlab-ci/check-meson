@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Copyright (C) 2025 The Phosh developers
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Author: Guido Günther <agx@sigxcpu.org>
+
+ret=0
+
+TMPDIR=$(mktemp -d)
+
+# We check files individually so we can print the diff:
+while IFS= read -r -d '' file; do
+  if ! meson format -e --check-only "$file"; then
+     echo
+     echo "Meson file '${file}' needs reformat:"
+     meson format -e "$file" > "${TMPDIR}/meson.build"
+     diff -u "$file" "${TMPDIR}/meson.build"
+     rm -f "${TMPDIR}/meson.build"
+     ret=1
+  fi
+done <  <(find . -name '*.build' -not -path './subprojects/*' -print0)
+
+if [ -n "$TMPDIR" ]; then
+    rmdir "${TMPDIR}"
+fi
+
+if [ $ret -ne 0 ]; then
+    cat <<EOF
+
+To reformat all files run:
+
+    meson format -e --recursive --inplace
+
+EOF
+fi
+
+exit $ret
