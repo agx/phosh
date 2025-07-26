@@ -2,7 +2,9 @@ run_phoc_tests = false
 
 subdir('stubs')
 
-if get_option('tests')
+if not get_option('tests')
+  subdir_done()
+endif
 
 subdir('services')
 subdir('system')
@@ -330,5 +332,3 @@ foreach pyfile : pyfiles
 
 endforeach
 
-
-endif # tests
