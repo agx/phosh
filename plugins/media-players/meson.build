@@ -1,9 +1,6 @@
-name='media-players'
+name = 'media-players'
 
-media_players_plugin_deps = [
-  plugin_dep,
-  gio_unix_dep,
-]
+media_players_plugin_deps = [plugin_dep, gio_unix_dep]
 
 media_players_resources = gnome.compile_resources(
   'phosh-plugin-media-players-resources',
@@ -12,18 +9,19 @@ media_players_resources = gnome.compile_resources(
 )
 
 media_players_plugin_sources = files(
-  'phosh-plugin-media-players.c',
   'media-players.c',
   'media-players.h',
+  'phosh-plugin-media-players.c',
 )
 
 phosh_media_players_plugin = shared_module(
   'phosh-plugin-media-players',
   media_players_plugin_sources,
   media_players_resources,
-  c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
-            '-DPLUGIN_NAME="@0@"'.format(name),
-	   ],
+  c_args: [
+    '-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
+    '-DPLUGIN_NAME="@0@"'.format(name),
+  ],
   dependencies: media_players_plugin_deps,
   install: true,
   install_dir: plugins_dir,
@@ -41,8 +39,8 @@ i18n.merge_file(
     configuration: pluginconf,
   ),
   output: name + '.plugin',
-  po_dir:  join_paths(meson.project_source_root(), 'po'),
+  po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: plugins_dir,
-  type: 'desktop'
+  type: 'desktop',
 )

@@ -1,14 +1,12 @@
-name='emergency-info'
+name = 'emergency-info'
 
-emergency_info_plugin_deps = [
-  plugin_dep,
-]
+emergency_info_plugin_deps = [plugin_dep]
 
 emergency_info_plugin_sources = files(
-  'phosh-plugin-emergency-info.c',
-  'emergency-info.c',
-  'emergency-info-row.c',
   'emergency-info-common.h',
+  'emergency-info-row.c',
+  'emergency-info.c',
+  'phosh-plugin-emergency-info.c',
 )
 
 emergency_info_inc = include_directories('.')
@@ -23,9 +21,10 @@ phosh_emergency_info_plugin = shared_module(
   'phosh-plugin-emergency-info',
   emergency_info_plugin_sources,
   emergency_info_resources,
-  c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
-            '-DPLUGIN_NAME="@0@"'.format(name),
-           ],
+  c_args: [
+    '-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
+    '-DPLUGIN_NAME="@0@"'.format(name),
+  ],
   dependencies: emergency_info_plugin_deps,
   install: true,
   install_dir: plugins_dir,
@@ -43,10 +42,10 @@ i18n.merge_file(
     configuration: pluginconf,
   ),
   output: name + '.plugin',
-  po_dir:  join_paths(meson.project_source_root(), 'po'),
+  po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: plugins_dir,
-  type: 'desktop'
+  type: 'desktop',
 )
 
 subdir('prefs')

@@ -25,44 +25,40 @@ desktop_required_components = gsd_required_components + [
 desktopconf = configuration_data()
 desktopconf.set('bindir', bindir)
 desktopconf.set('libexecdir', libexecdir)
-desktopconf.set('required_components', ';'.join(desktop_required_components) + ';')
+desktopconf.set(
+  'required_components',
+  ';'.join(desktop_required_components) + ';',
+)
 
 desktop_utils = find_program('desktop-file-validate', required: false)
-desktop_files = {
-  'mobi.phosh.Shell.desktop': true,
-}
+desktop_files = {'mobi.phosh.Shell.desktop': true}
 foreach desktop_file, install : desktop_files
   merged = i18n.merge_file(
     input: configure_file(
       input: desktop_file + '.in.in',
       output: desktop_file + '.in',
-      configuration: desktopconf
+      configuration: desktopconf,
     ),
     output: desktop_file,
     po_dir: '../po',
     install: true,
     install_dir: desktopdir,
-    type: 'desktop'
+    type: 'desktop',
   )
 
   if desktop_utils.found()
-    test('Validate desktop file',
-         desktop_utils, args: [merged],
-         suite: 'tools',
-        )
+    test('Validate desktop file', desktop_utils, args: [merged], suite: 'tools')
   endif
 endforeach
 
-sessions = [
-  'phosh.session',
-]
-foreach session: sessions
+sessions = ['phosh.session']
+foreach session : sessions
   desktop = session + '.desktop'
   i18n.merge_file(
     input: configure_file(
       input: desktop + '.in.in',
       output: desktop + '.in',
-      configuration: desktopconf
+      configuration: desktopconf,
     ),
     output: session,
     po_dir: '../po',
@@ -85,14 +81,13 @@ configure_file(
   output: 'phosh-session',
   install_dir: bindir,
   configuration: runconf,
-  install: true
+  install: true,
 )
 
 # Generate XML enum definitions for GSettings schema
-schema_enum_headers = files(
-  '..' / 'src' / 'phosh-settings-enums.h',
-)
-generate_enums_schema = gnome.mkenums('mobi.phosh.shell.enums.xml',
+schema_enum_headers = files('..' / 'src' / 'phosh-settings-enums.h')
+generate_enums_schema = gnome.mkenums(
+  'mobi.phosh.shell.enums.xml',
   sources: schema_enum_headers,
   comments: '<!-- @comment@ -->',
   fhead: '<schemalist>',
@@ -101,42 +96,47 @@ generate_enums_schema = gnome.mkenums('mobi.phosh.shell.enums.xml',
   vtail: '  </@type@>',
   ftail: '</schemalist>',
   install_header: true,
-  install_dir: schemasdir
+  install_dir: schemasdir,
 )
 
 #workaround due to https://github.com/mesonbuild/meson/issues/1687
-copy_schema = custom_target('copy-gschema-to-builddir',
+copy_schema = custom_target(
+  'copy-gschema-to-builddir',
   input: 'mobi.phosh.shell.gschema.xml',
   output: 'mobi.phosh.shell.gschema.xml',
-  command: ['cp', '@INPUT@', '@OUTPUT@']
+  command: ['cp', '@INPUT@', '@OUTPUT@'],
 )
 schemas = ['mobi.phosh.shell.gschema.xml']
-compiled_schemas = custom_target('glib-compile-schemas',
+compiled_schemas = custom_target(
+  'glib-compile-schemas',
   build_by_default: true,
   output: 'gschemas.compiled',
   install: false,
-  command: [find_program('glib-compile-schemas'),
-    meson.current_build_dir()
-  ],
-  depends: [generate_enums_schema, copy_schema]
+  command: [find_program('glib-compile-schemas'), meson.current_build_dir()],
+  depends: [generate_enums_schema, copy_schema],
 )
 
 overrides = ['00_mobi.Phosh.gschema.override']
 
-install_data(
-  schemas + overrides,
-  install_dir: schemasdir
-)
+install_data(schemas + overrides, install_dir: schemasdir)
 
 subdir('systemd')
 subdir('icons')
 
-install_data('phoc.ini', install_dir : pkgdatadir)
-install_data('wayland-sessions/phosh.desktop',
-	     install_dir : 'share/wayland-sessions')
+install_data('phoc.ini', install_dir: pkgdatadir)
+install_data(
+  'wayland-sessions/phosh.desktop',
+  install_dir: 'share/wayland-sessions',
+)
 
-install_data('phosh-shell.portal', install_dir : join_paths(datadir, 'xdg-desktop-portal', 'portals'))
-install_data('phosh-portals.conf', install_dir : join_paths(datadir, 'xdg-desktop-portal'))
+install_data(
+  'phosh-shell.portal',
+  install_dir: join_paths(datadir, 'xdg-desktop-portal', 'portals'),
+)
+install_data(
+  'phosh-portals.conf',
+  install_dir: join_paths(datadir, 'xdg-desktop-portal'),
+)
 
 shell_search_libexecdir = join_paths(prefix, get_option('libexecdir'))
 
@@ -149,6 +149,6 @@ if get_option('searchd')
     output: 'mobi.phosh.Shell.Search.service',
     install_dir: servicedir,
     configuration: serviceconf,
-    install: true
+    install: true,
   )
 endif

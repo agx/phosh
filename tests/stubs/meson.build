@@ -1,21 +1,20 @@
 test_stubs = files(
-  'phosh.c',
-  'evil-icon.c',
   'app-tracker.c',
-  'lockscreen-manager.c',
   'background-manager.c',
-  'toplevel.c',
-  'toplevel-manager.c',
+  'evil-icon.c',
+  'lockscreen-manager.c',
+  'phosh.c',
   'thumbnail.c',
+  'toplevel-manager.c',
+  'toplevel.c',
 )
 
-test_stubs_lib = static_library('test-stubs',
+test_stubs_lib = static_library(
+  'test-stubs',
   test_stubs,
   include_directories: phosh_lib_inc,
   sources: [phosh_generated_headers],
   dependencies: phosh_deps,
 )
 
-test_stubs_dep = declare_dependency(
-  link_with: test_stubs_lib,
-)
+test_stubs_dep = declare_dependency(link_with: test_stubs_lib)

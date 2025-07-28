@@ -1,8 +1,9 @@
-name='pomodoro-quick-setting'
+name = 'pomodoro-quick-setting'
 
 pomodoro_enum_sources = gnome.mkenums_simple(
   'pomodoro-enums',
-  sources : 'pomodoro-quick-setting.h')
+  sources: 'pomodoro-quick-setting.h',
+)
 
 pomodoro_quick_setting_resources = gnome.compile_resources(
   'phosh-plugin-pomodoro-quick-setting-resources',
@@ -19,9 +20,10 @@ phosh_pomodoro_quick_setting_plugin = shared_module(
   'phosh-plugin-pomodoro-quick-setting',
   pomodoro_quick_setting_plugin_sources,
   pomodoro_quick_setting_resources,
-  c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
-            '-DPLUGIN_NAME="@0@"'.format(name),
-           ],
+  c_args: [
+    '-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
+    '-DPLUGIN_NAME="@0@"'.format(name),
+  ],
   sources: pomodoro_enum_sources,
   dependencies: [plugin_dep, libcall_ui_dep],
   include_directories: phosh_inc,
@@ -41,25 +43,25 @@ i18n.merge_file(
     configuration: pluginconf,
   ),
   output: name + '.plugin',
-  po_dir:  join_paths(meson.project_source_root(), 'po'),
+  po_dir: join_paths(meson.project_source_root(), 'po'),
   install: true,
   install_dir: plugins_dir,
-  type: 'desktop'
+  type: 'desktop',
 )
 
 pomodoro_quick_setting_schema = 'mobi.phosh.plugins.pomodoro.gschema.xml'
-compiled = gnome.compile_schemas(
-  depend_files: pomodoro_quick_setting_schema,
-)
+compiled = gnome.compile_schemas(depend_files: pomodoro_quick_setting_schema)
 compile_schemas = find_program('glib-compile-schemas', required: false)
 if compile_schemas.found()
-  test('Validate @0@ schema file'.format(pomodoro_quick_setting_schema),
-       compile_schemas,
-       args: ['--strict', '--dry-run', meson.current_source_dir()])
+  test(
+    'Validate @0@ schema file'.format(pomodoro_quick_setting_schema),
+    compile_schemas,
+    args: ['--strict', '--dry-run', meson.current_source_dir()],
+  )
 endif
 install_data(
   pomodoro_quick_setting_schema,
-  install_dir: 'share/glib-2.0/schemas'
+  install_dir: 'share/glib-2.0/schemas',
 )
 
 subdir('prefs')

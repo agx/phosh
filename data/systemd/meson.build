@@ -3,9 +3,7 @@ foreach component : gsd_required_components
   gsd_wants += 'Wants=' + component + '.target\n'
 endforeach
 
-session_dropins = [
-  'gnome-session@phosh.target.d',
-]
+session_dropins = ['gnome-session@phosh.target.d']
 
 sessionconf = configuration_data()
 sessionconf.set('gsd_wants', gsd_wants)
@@ -17,7 +15,7 @@ foreach session_dropin : session_dropins
     output: 'session.conf',
     install_dir: join_paths(systemduserdir, session_dropin),
     configuration: sessionconf,
-    install: true
+    install: true,
   )
 endforeach
 
@@ -28,7 +26,7 @@ configure_file(
   output: 'mobi.phosh.Shell.service',
   install_dir: systemduserdir,
   configuration: serviceconf,
-  install: true
+  install: true,
 )
 
 install_data('mobi.phosh.Shell.target', install_dir: systemduserdir)

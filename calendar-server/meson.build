@@ -2,12 +2,14 @@ calendar_sources = [
   'calendar-server.c',
   'calendar-debug.h',
   'calendar-sources.c',
-  'calendar-sources.h'
+  'calendar-sources.h',
 ]
 
 
 calendar_server_name = meson.project_name() + '-calendar-server'
-calendar_server = executable(calendar_server_name, calendar_sources,
+calendar_server = executable(
+  calendar_server_name,
+  calendar_sources,
   dependencies: [ecal_dep, eds_dep, gio_dep],
   include_directories: include_directories('..'),
   c_args: [
@@ -18,7 +20,7 @@ calendar_server = executable(calendar_server_name, calendar_sources,
     '-DCALENDAR_SERVER_NAME="@0@"'.format(calendar_server_name),
   ],
   install_dir: libexecdir,
-  install: true
+  install: true,
 )
 
 service_data = configuration_data()
@@ -31,5 +33,5 @@ configure_file(
   input: service_file + '.in',
   output: app_id + '.' + service_file,
   configuration: service_data,
-  install_dir: servicedir
+  install_dir: servicedir,
 )
