@@ -39,6 +39,13 @@
                 </property>
               </object>
             </child>
+            <child>
+              <object class="AdwSwitchRow" id="start_on_unlock_switch_row">
+                <property name="title" translatable="1">_Start on unlock</property>
+                <property name="subtitle" translatable="1">Whether to start the timer on screen unlock</property>
+                <property name="use-underline">1</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>

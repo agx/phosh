@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2024 The Phosh Developers
+ *               2025 Phosh.mobi e.V.
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -17,6 +18,7 @@
 #define POMODORO_QUICK_SETTING_SCHEMA_ID "mobi.phosh.plugins.pomodoro"
 #define ACTIVE_DURATION_KEY "active-duration"
 #define BREAK_DURATION_KEY "break-duration"
+#define START_ON_UNLOCK_KEY "start-on-unlock"
 
 /**
  * PhoshPomodoroQuickSettingPrefs:
@@ -28,6 +30,7 @@ struct _PhoshPomodoroQuickSettingPrefs {
 
   AdwSpinRow           *active_duration_spin_row;
   AdwSpinRow           *break_duration_spin_row;
+  AdwSwitchRow         *start_on_unlock_switch_row;
 
   GSettings            *setting;
 };
@@ -85,6 +88,8 @@ phosh_pomodoro_quick_setting_prefs_class_init (PhoshPomodoroQuickSettingPrefsCla
                                         active_duration_spin_row);
   gtk_widget_class_bind_template_child (widget_class, PhoshPomodoroQuickSettingPrefs,
                                         break_duration_spin_row);
+  gtk_widget_class_bind_template_child (widget_class, PhoshPomodoroQuickSettingPrefs,
+                                        start_on_unlock_switch_row);
 }
 
 
@@ -110,4 +115,8 @@ phosh_pomodoro_quick_setting_prefs_init (PhoshPomodoroQuickSettingPrefs *self)
                                 duration_set_mapping,
                                 NULL /* userdata */,
                                 NULL /* destroyfunc */);
+
+  g_settings_bind (self->setting, START_ON_UNLOCK_KEY,
+                   self->start_on_unlock_switch_row, "active",
+                   G_SETTINGS_BIND_DEFAULT);
 }
