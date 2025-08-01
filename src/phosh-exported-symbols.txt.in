@@ -1,6 +1,7 @@
    phosh_shell_get_default;
    phosh_shell_get_locked;
    phosh_shell_get_primary_monitor;
+   phosh_shell_get_type;
 
    # Utils are useful in plugins too
    phosh_util_*;
