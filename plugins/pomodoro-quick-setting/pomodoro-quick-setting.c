@@ -50,6 +50,7 @@ struct _PhoshPomodoroQuickSetting {
 
 G_DEFINE_TYPE (PhoshPomodoroQuickSetting, phosh_pomodoro_quick_setting, PHOSH_TYPE_QUICK_SETTING);
 
+static gboolean _started_on_login;
 
 static void
 phosh_pomodoro_quick_setting_clear_timers (PhoshPomodoroQuickSetting *self)
@@ -383,6 +384,10 @@ phosh_pomodoro_quick_setting_init (PhoshPomodoroQuickSetting *self)
                            G_CALLBACK (on_shell_locked),
                            self,
                            G_CONNECT_SWAPPED);
+  if (g_settings_get_boolean (self->settings, START_ON_UNLOCK_KEY) && !_started_on_login) {
+    phosh_pomodoro_quick_setting_set_state (self, PHOSH_POMODORO_STATE_ACTIVE);
+    _started_on_login = TRUE;
+  }
 
   update_label (self);
 }
