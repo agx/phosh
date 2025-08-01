@@ -400,10 +400,10 @@ phosh_background_manager_idle_init (PhoshManager *manager)
 
   self->settings = g_settings_new ("org.gnome.desktop.background");
   g_object_connect (self->settings,
-                    "swapped_signal::changed::" BG_KEY_PICTURE_URI, on_settings_changed, self,
-                    "swapped_signal::changed::" BG_KEY_PICTURE_URI_DARK, on_settings_changed, self,
-                    "swapped_signal::changed::" BG_KEY_PICTURE_OPTIONS, on_settings_changed, self,
-                    "swapped_signal::changed::" BG_KEY_PRIMARY_COLOR, on_settings_changed, self,
+                    "swapped-signal::changed::" BG_KEY_PICTURE_URI, on_settings_changed, self,
+                    "swapped-signal::changed::" BG_KEY_PICTURE_URI_DARK, on_settings_changed, self,
+                    "swapped-signal::changed::" BG_KEY_PICTURE_OPTIONS, on_settings_changed, self,
+                    "swapped-signal::changed::" BG_KEY_PRIMARY_COLOR, on_settings_changed, self,
                     NULL);
   self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
   g_signal_connect_swapped (self->interface_settings,
