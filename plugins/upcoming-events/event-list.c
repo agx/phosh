@@ -147,8 +147,8 @@ get_label (PhoshEventList *self)
     return g_date_time_format (self->for_day, "%A");
   }
   default:
-    return g_strdup_printf (ngettext ("In %u day", "In %u days", self->day_offset),
-                            self->day_offset);
+    /* Translators: The current date and weekday for display in a calendar entry */
+    return g_date_time_format (self->for_day, _("%x %a"));
   }
 }
 
@@ -373,4 +373,13 @@ phosh_event_list_set_today (PhoshEventList *self, GDateTime *today)
   self->today = g_date_time_ref (today);
   /* Refresh label and events */
   phosh_event_list_set_day_offset (self, self->day_offset);
+}
+
+
+uint
+phosh_event_list_get_n_events (PhoshEventList *self)
+{
+  g_return_val_if_fail (PHOSH_IS_EVENT_LIST (self), 0);
+
+  return g_list_model_get_n_items (G_LIST_MODEL (self->filtered_model));
 }

@@ -7,5 +7,10 @@
       <summary>Number of days to display</summary>
       <description>The number of days for which the events should be displayed.</description>
     </key>
+    <key name="skip-empty" type="b">
+      <default>false</default>
+      <summary>Whether to exclude days without any events</summary>
+      <description>Controls whether days with no events should be displayed.</description>
+    </key>
   </schema>
 </schemalist>

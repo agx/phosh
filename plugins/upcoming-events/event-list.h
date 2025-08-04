@@ -16,5 +16,6 @@ G_DECLARE_FINAL_TYPE (PhoshEventList, phosh_event_list, PHOSH, EVENT_LIST, GtkBo
 
 void phosh_event_list_bind_model (PhoshEventList *self, GListModel *model);
 void phosh_event_list_set_today (PhoshEventList *self, GDateTime *today);
+uint phosh_event_list_get_n_events (PhoshEventList *self);
 
 G_END_DECLS
