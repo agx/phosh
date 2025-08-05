@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-06-19 13:24+0000\n"
-"PO-Revision-Date: 2025-06-20 10:24+0200\n"
+"POT-Creation-Date: 2025-08-04 16:55+0000\n"
+"PO-Revision-Date: 2025-08-05 10:59+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -21,115 +21,115 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Flags-xgettext: --add-comments\n"
 
-#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+#: data/mobi.phosh.Shell.desktop.in.in:3 data/wayland-sessions/phosh.desktop:3
 msgid "Phone Shell"
 msgstr "Interfață pentru telefon"
 
-#: data/mobi.phosh.Shell.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:4
 msgid "Window management and application launching for mobile"
 msgstr "Gestionarea ferestrelor și pornirea aplicațiilor pentru mobil"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+#: data/phosh.session.desktop.in.in:3 data/wayland-sessions/phosh.desktop:2
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/wayland-sessions/phosh.desktop:5
+#: data/wayland-sessions/phosh.desktop:4
 msgid "This session logs you into Phosh"
 msgstr "Această sesiune permite accesul la Phosh"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:4
 msgid "Caffeine Quick Setting"
 msgstr "Opțiuni pentru Cafeină"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:6
 msgid "Prevent the session from going idle"
 msgstr "Împiedică sesiunea să devină inactivă"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:4
 msgid "Calendar"
 msgstr "Calendar"
 
-#: plugins/calendar/calendar.desktop.in.in:7
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Un calendar în miniatură"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:4
 msgid "Dark Mode / Color Scheme Quick Setting"
 msgstr "Opțiuni Aspect întunecos / Combinație de culori"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:6
 msgid "Toggle dark mode"
 msgstr "Aspect întunecos Activat/Dezactivat"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:5
+#: plugins/emergency-info/emergency-info.desktop.in.in:4
 msgid "Emergency Info"
 msgstr "Info. de urgență"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:7
+#: plugins/emergency-info/emergency-info.desktop.in.in:6
 msgid "Show emergency information and contacts"
 msgstr "Arată informațiile de urgență și contactele"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.desktop.in.in:3
 #: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "Cutie lansator"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:6
+#: plugins/launcher-box/launcher-box.desktop.in.in:5
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Adaugă lansatoare pe ecranul blocat. <b>Acest modul este experimental.</b>"
 
-#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.desktop.in.in:3
 #: plugins/media-players/media-players.ui:19
 #: plugins/media-players/media-players.ui:35
 msgid "Media Players"
 msgstr "Redare media"
 
-#: plugins/media-players/media-players.desktop.in.in:6
+#: plugins/media-players/media-players.desktop.in.in:5
 msgid "Track currently running media players"
 msgstr "Monitorizează aplicațiile active de redare audio și video"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:4
 msgid "Mobile Data Quick Setting"
 msgstr "Opțiuni pentru Date mobile"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:6
 msgid "Toggle mobile data on/off"
 msgstr "Date mobile Activate/Dezactivate"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:4
 msgid "Night Light Quick Setting"
 msgstr "Opțiuni pentru Lumina de noapte"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:6
 msgid "Toggle night light on/off"
 msgstr "Lumina de noapte Pornită/Oprită"
 
 #. Translators: "Pomodoro" is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:5
 msgid "Pomodoro Quick Setting"
 msgstr "Opțiuni pentru Pomodoro"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:7
 msgid "Simple Pomodoro Timer"
 msgstr "Cronometru Pomodoro"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.desktop.in.in:3
 #: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "Casa de bilete"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:6
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Arată fișiere PDF pe ecranul blocat. <b>Acest modul este experimental.</b>"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:3
 msgid "Upcoming Events"
 msgstr "Evenimente viitoare"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
 msgid "Show upcoming calendar events"
 msgstr "Arată evenimentele viitoare din calendar"
 
@@ -575,7 +575,7 @@ msgstr "Dezinstalează"
 msgid "_Remove from Folder"
 msgstr "_Elimină din dosar"
 
-#: src/ui/app-grid.ui:25
+#: src/ui/app-grid.ui:26
 msgid "Search apps…"
 msgstr "Caută aplicații…"
 
@@ -1060,13 +1060,11 @@ msgstr "Azi"
 msgid "Tomorrow"
 msgstr "Mâine"
 
-#: plugins/upcoming-events/event-list.c:150
+#. Translators: The current date and weekday for display in a calendar entry
+#: plugins/upcoming-events/event-list.c:151
 #, c-format
-msgid "In %u day"
-msgid_plural "In %u days"
-msgstr[0] "Peste %u zi"
-msgstr[1] "Peste %u zile"
-msgstr[2] "Peste %u de zile"
+msgid "%x %a"
+msgstr "%x %a"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
