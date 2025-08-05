@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-06-19 13:24+0000\n"
-"PO-Revision-Date: 2025-06-21 06:36+0200\n"
+"POT-Creation-Date: 2025-08-05 20:29+0000\n"
+"PO-Revision-Date: 2025-08-06 01:14+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -18,116 +18,116 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+#: data/mobi.phosh.Shell.desktop.in.in:3 data/wayland-sessions/phosh.desktop:3
 msgid "Phone Shell"
 msgstr "ტელეფონის შელი"
 
-#: data/mobi.phosh.Shell.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:4
 msgid "Window management and application launching for mobile"
 msgstr "მობილურზე ფანჯრების მართვა და აპლიკაციის გაშვება"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+#: data/phosh.session.desktop.in.in:3 data/wayland-sessions/phosh.desktop:2
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/wayland-sessions/phosh.desktop:5
+#: data/wayland-sessions/phosh.desktop:4
 msgid "This session logs you into Phosh"
 msgstr "ეს სესია Phosh-ში შეგიყვანთ"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:4
 msgid "Caffeine Quick Setting"
 msgstr "Caffeine-ის სწრაფი მორგება"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:6
 msgid "Prevent the session from going idle"
 msgstr "სესიისთვის უქმეობის ხელის შეშლა"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:4
 msgid "Calendar"
 msgstr "კალენდარი"
 
-#: plugins/calendar/calendar.desktop.in.in:7
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "მარტივი კალენდრის ვიჯეტი"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:4
 msgid "Dark Mode / Color Scheme Quick Setting"
 msgstr "ბნელი რეჟიმის / ფერების სქემის სწრაფი მორგება"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:6
 msgid "Toggle dark mode"
 msgstr "მუქი რეჟიმის გადართვა"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:5
+#: plugins/emergency-info/emergency-info.desktop.in.in:4
 msgid "Emergency Info"
 msgstr "გადაუდებელი ინფორმაცია"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:7
+#: plugins/emergency-info/emergency-info.desktop.in.in:6
 msgid "Show emergency information and contacts"
 msgstr "გადაუდებელი ინფორმაციისა და კონტაქტების ჩვენება"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.desktop.in.in:3
 #: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "გამშვების ფანჯარა"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:6
+#: plugins/launcher-box/launcher-box.desktop.in.in:5
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "გამშვებების დამატება დაბლოკილ ეკრანზე <b>ეს დამატება ექსპერიმენტულია.</b>"
 
-#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.desktop.in.in:3
 #: plugins/media-players/media-players.ui:19
 #: plugins/media-players/media-players.ui:35
 msgid "Media Players"
 msgstr "მედიადამკვრელები"
 
-#: plugins/media-players/media-players.desktop.in.in:6
+#: plugins/media-players/media-players.desktop.in.in:5
 msgid "Track currently running media players"
 msgstr "ამჟამად გაშვებული მედიის დამკვრელების თვალყურის დევნება"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:4
 msgid "Mobile Data Quick Setting"
 msgstr "მობილური ინტერნეტის სწრაფი ჩართ/გამორთ პარამეტრი"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:6
 msgid "Toggle mobile data on/off"
 msgstr "მობილური ინტერნეტის ჩართ/გამორთ"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:4
 msgid "Night Light Quick Setting"
 msgstr "ღამის ფერების სწრაფი მორგება"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:6
 msgid "Toggle night light on/off"
 msgstr "ღამის სინათლის გადართვა"
 
 #. Translators: "Pomodoro" is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:5
 msgid "Pomodoro Quick Setting"
 msgstr "პომოდოროს სწრაფი მორგება"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:7
 msgid "Simple Pomodoro Timer"
 msgstr "მარტივი ტაიმერი პომოდორო"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.desktop.in.in:3
 #: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "ბილეთის ყუთი"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:6
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "დაბლოკილ ეკრანზე PDF-ების ჩვენება. ეს დამატება ექსპერიმენტულია. <b>ეს "
 "დამატება ექსპერიმენტულია.</b>"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:3
 msgid "Upcoming Events"
 msgstr "უახლოესი მოვლენები"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
 msgid "Show upcoming calendar events"
 msgstr "კალენდრის მომავალი მოვლენების ჩვენება"
 
@@ -553,7 +553,7 @@ msgstr "წაშლა"
 msgid "_Remove from Folder"
 msgstr "_საქაღალდიდან წაშლა"
 
-#: src/ui/app-grid.ui:25
+#: src/ui/app-grid.ui:26
 msgid "Search apps…"
 msgstr "აპპების ძებნა…"
 
@@ -1038,11 +1038,11 @@ msgstr "დღეს"
 msgid "Tomorrow"
 msgstr "ხვალ"
 
-#: plugins/upcoming-events/event-list.c:150
+#. Translators: The current date and weekday for display in a calendar entry
+#: plugins/upcoming-events/event-list.c:151
 #, c-format
-msgid "In %u day"
-msgid_plural "In %u days"
-msgstr[0] "%u დღეში"
+msgid "%x %a"
+msgstr "%x %a"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -1108,6 +1108,11 @@ msgstr "ჰოტსპოტი ჩართ"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "ჰოტსპოტი გამორთ"
+
+#, c-format
+#~ msgid "In %u day"
+#~ msgid_plural "In %u days"
+#~ msgstr[0] "%u დღეში"
 
 #~ msgid "Add"
 #~ msgstr "დამატება"
