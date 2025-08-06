@@ -25,7 +25,6 @@
         <property name="visible">1</property>
         <property name="can-default">1</property>
         <property name="has-default">1</property>
-        <property name="valign">center</property>
         <property name="use-underline">1</property>
         <signal name="clicked" handler="on_ok_clicked" swapped="yes"/>
         <style>
