@@ -442,6 +442,15 @@ btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 
 
 static void
+phosh_media_player_set_image (PhoshMediaPlayer *self, GdkPixbuf *pixbuf)
+{
+  PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
+
+  g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+}
+
+
+static void
 on_fetch_icon_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhoshMediaPlayer *self;
@@ -461,7 +470,8 @@ on_fetch_icon_ready (GObject *source_object, GAsyncResult *res, gpointer user_da
   self = PHOSH_MEDIA_PLAYER (user_data);
   priv = phosh_media_player_get_instance_private (self);
   pixbuf = gdk_pixbuf_new_from_stream (stream, priv->fetch_icon_cancel, &err);
-  g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+
+  phosh_media_player_set_image (self, pixbuf);
 }
 
 
@@ -491,7 +501,6 @@ static void
 on_load_icon_from_file_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhoshMediaPlayer *self;
-  PhoshMediaPlayerPrivate *priv;
   g_autoptr (GdkPixbuf) pixbuf = NULL;
   g_autoptr (GError) err = NULL;
 
@@ -502,8 +511,7 @@ on_load_icon_from_file_ready (GObject *source_object, GAsyncResult *res, gpointe
   }
 
   self = PHOSH_MEDIA_PLAYER (user_data);
-  priv = phosh_media_player_get_instance_private (self);
-  g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+  phosh_media_player_set_image (self, pixbuf);
 }
 
 
@@ -602,7 +610,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
 
     pixbuf = phosh_util_data_uri_to_pixbuf (url, &error);
     if (pixbuf) {
-      g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+      phosh_media_player_set_image (self, pixbuf);
       has_art = TRUE;
     } else {
       g_warning_once ("Failed to load album art from base64 string: %s", error->message);
