@@ -204,7 +204,7 @@ libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.122')
 libsoup_dep = dependency('libsoup-3.0', version: '>= 3.6')
 libsystemd_dep = dependency('libsystemd', 'libelogind', version: '>= 241')
-mm_glib_dep = dependency('mm-glib')
+mm_glib_dep = dependency('mm-glib', version: '>= 1.24')
 network_agent_dep = dependency('libsecret-1')
 upower_glib_dep = dependency('upower-glib', version: '>=1.90')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
@@ -221,20 +221,6 @@ have_memfd_create = cc.has_function(
   prefix: '''#define _GNU_SOURCE
                                                                #include <sys/mman.h>''',
 )
-have_mm_cbm = true
-# Check CBM support thoroughly as API isn't in a released MM version yet
-foreach f : [
-  'mm_cbm_get_channel',
-  'mm_cbm_get_path',
-  'mm_cbm_get_text',
-  'mm_modem_cell_broadcast_list',
-  'mm_object_get_modem_cell_broadcast',
-  'mm_object_peek_modem_cell_broadcast',
-]
-  if not cc.has_function(f, dependencies: mm_glib_dep)
-    have_mm_cbm = false
-  endif
-endforeach
 
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
@@ -252,11 +238,6 @@ config_h.set(
   'PHOSH_USES_ASAN',
   get_option('b_sanitize') == 'address',
   description: 'Whether ASAN was enabled via meson',
-)
-config_h.set(
-  'PHOSH_HAVE_MM_CBM',
-  have_mm_cbm,
-  description: 'Whether ModemManager supports Cell Broadcast',
 )
 config_h.set_quoted(
   'PHOSH_DATA_DIR',
@@ -301,12 +282,6 @@ summary(
   },
   bool_yn: true,
   section: 'Build',
-)
-
-summary(
-  {'ModemManager with Cellbroadcast support': have_mm_cbm},
-  bool_yn: true,
-  section: 'Versions',
 )
 
 summary(

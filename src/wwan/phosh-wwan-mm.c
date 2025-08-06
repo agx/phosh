@@ -47,9 +47,7 @@ typedef struct _PhoshWWanMM {
   MMObject                       *object;
   MMModem                        *modem;
   MMModem3gpp                    *modem_3gpp;
-#ifdef PHOSH_HAVE_MM_CBM
   MMModemCellBroadcast           *cellbroadcast;
-#endif
 
   MMManager                      *manager;
   GCancellable                   *cancel;
@@ -296,11 +294,10 @@ phosh_wwan_mm_get_property (GObject    *object,
 static void
 phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
-#ifdef PHOSH_HAVE_MM_CBM
   if (self->cellbroadcast)
     g_signal_handlers_disconnect_by_data (self->cellbroadcast, self);
   g_clear_object (&self->cellbroadcast);
-#endif
+
   if (self->modem_3gpp)
     g_signal_handlers_disconnect_by_data (self->modem_3gpp, self);
   g_clear_object (&self->modem_3gpp);
@@ -369,7 +366,7 @@ modem_init_modem (PhoshWWanMM *self, MMObject *object)
   phosh_wwan_mm_update_enabled (self);
 }
 
-#ifdef PHOSH_HAVE_MM_CBM
+
 static void
 emit_new_cbm_received (PhoshWWanMM *self, MMCbm *cbm)
 {
@@ -503,7 +500,6 @@ modem_init_cellbroadcast (PhoshWWanMM *self, MMObject *object)
                                 on_cbms_listed,
                                 data);
 }
-#endif
 
 
 static void
@@ -517,11 +513,9 @@ on_mm_object_interface_added (PhoshWWanMM *self, GDBusInterface* interface, MMOb
   if (MM_IS_MODEM_3GPP (interface)) {
     modem_init_3gpp (self, object);
     return;
-#ifdef PHOSH_HAVE_MM_CBM
   } else if (MM_IS_MODEM_CELL_BROADCAST (interface)) {
     modem_init_cellbroadcast (self, object);
     return;
-#endif
   }
 }
 
@@ -546,10 +540,8 @@ on_mm_object_added (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
     /* Coldplug interfaces */
     if (mm_object_peek_modem_3gpp (MM_OBJECT (object)))
       modem_init_3gpp (self, MM_OBJECT (object));
-#ifdef PHOSH_HAVE_MM_CBM
     if (mm_object_peek_modem_cell_broadcast (MM_OBJECT (object)))
       modem_init_cellbroadcast (self, MM_OBJECT (object));
-#endif
   }
 }
 
