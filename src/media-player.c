@@ -488,6 +488,51 @@ fetch_icon_async (PhoshMediaPlayer *self, const char *url)
 
 
 static void
+on_load_icon_from_file_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhoshMediaPlayer *self;
+  PhoshMediaPlayerPrivate *priv;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GError) err = NULL;
+
+  pixbuf = gdk_pixbuf_new_from_stream_finish (res, &err);
+  if (!pixbuf) {
+    phosh_async_error_warn (err, "Failed to load image");
+    return;
+  }
+
+  self = PHOSH_MEDIA_PLAYER (user_data);
+  priv = phosh_media_player_get_instance_private (self);
+  g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+}
+
+
+static void
+phosh_media_player_load_icon_from_file_async (PhoshMediaPlayer *self, GFile *file)
+{
+  PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
+  g_autoptr (GFileInputStream) stream = NULL;
+  g_autoptr (GError) err = NULL;
+
+  stream = g_file_read (file, NULL, &err);
+  if (stream == NULL) {
+    g_autofree char *path = g_file_get_path (file);
+
+    g_warning ("Failed to open '%s': %s", path, err->message);
+    return;
+  }
+
+  if (!priv->fetch_icon_cancel)
+    priv->fetch_icon_cancel = g_cancellable_new ();
+
+  gdk_pixbuf_new_from_stream_async (G_INPUT_STREAM (stream),
+                                    priv->fetch_icon_cancel,
+                                    on_load_icon_from_file_ready,
+                                    self);
+}
+
+
+static void
 on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMediaPlayer2Player *player)
 {
   PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
@@ -545,11 +590,9 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   g_clear_object (&priv->fetch_icon_cancel);
 
   if (url && g_strcmp0 (g_uri_peek_scheme (url), "file") == 0) {
-    g_autoptr (GIcon) icon = NULL;
     g_autoptr (GFile) file = g_file_new_for_uri (url);
-    icon = g_file_icon_new (file);
-    g_object_set (priv->img_art, "gicon", icon, NULL);
-    has_art = TRUE;
+
+    phosh_media_player_load_icon_from_file_async (self, file);
   } else if (url && (g_strcmp0 (g_uri_peek_scheme (url), "http") == 0 ||
                      g_strcmp0 (g_uri_peek_scheme (url), "https") == 0)) {
     fetch_icon_async (self, url);
