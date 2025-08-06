@@ -31,8 +31,7 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 typedef struct {
-  PhoshMonitor               *monitor;
-
+  PhoshMonitor *monitor;
 } PhoshSystemModalPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSystemModal, phosh_system_modal, PHOSH_TYPE_LAYER_SURFACE);
@@ -169,13 +168,16 @@ phosh_system_modal_class_init (PhoshSystemModalClass *klass)
   object_class->constructed = phosh_system_modal_constructed;
   object_class->dispose = phosh_system_modal_dispose;
 
-  props[PROP_MONITOR] = g_param_spec_object ("monitor",
-                                             "Monitor",
-                                             "Monitor to put modal on",
-                                             PHOSH_TYPE_MONITOR,
-                                             G_PARAM_CONSTRUCT_ONLY |
-                                             G_PARAM_READWRITE |
-                                             G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshSystemModal:monitor:
+   *
+   * The monitor this system modal should appear on
+   */
+  props[PROP_MONITOR] =
+    g_param_spec_object ("monitor", "", "",
+                         PHOSH_TYPE_MONITOR,
+                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
