@@ -12,7 +12,8 @@
             <property name="margin-bottom">12</property>
             <property name="justify">center</property>
             <property name="wrap">1</property>
-            <property name="wrap-mode">word-char</property>
+            <property name="lines">20</property>
+            <property name="ellipsize">end</property>
           </object>
         </child>
       </object>
