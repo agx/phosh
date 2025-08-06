@@ -473,14 +473,54 @@ center_pixbuf (GdkPixbuf *pixbuf)
 }
 
 
+static GdkPixbuf *
+round_corners (GdkPixbuf *pixbuf)
+{
+  g_autoptr (GdkPixbuf) rounded = NULL;
+  g_autoptr (cairo_t) cr = NULL;
+  g_autoptr (cairo_surface_t) surface = NULL;
+  int width, height, size;
+  double radius;
+  const double degrees = M_PI / 180.0;
+
+  g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+
+  /* We only round square images */
+  g_return_val_if_fail (width == height, NULL);
+
+  size = width;
+  surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, size, size);
+  cr = cairo_create (surface);
+
+  radius = size / 8.0;
+  cairo_new_path (cr);
+  cairo_arc (cr, size - radius, radius, radius, -90 * degrees, 0 * degrees);
+  cairo_arc (cr, size - radius, size - radius, radius, 0 * degrees, 90 * degrees);
+  cairo_arc (cr, radius, size - radius, radius, 90 * degrees, 180 * degrees);
+  cairo_arc (cr, radius, radius, radius, 180 * degrees, 270 * degrees);
+  cairo_close_path (cr);
+  cairo_clip (cr);
+
+  gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
+  cairo_paint (cr);
+
+  return gdk_pixbuf_get_from_surface (surface, 0, 0, size, size);
+}
+
+
 static void
 phosh_media_player_set_image (PhoshMediaPlayer *self, GdkPixbuf *pixbuf)
 {
   PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
   g_autoptr (GdkPixbuf) centered = NULL;
+  g_autoptr (GdkPixbuf) rounded = NULL;
 
   centered = center_pixbuf (pixbuf);
-  g_object_set (priv->img_art, "gicon", centered, NULL);
+  rounded = round_corners (centered);
+  g_object_set (priv->img_art, "gicon", rounded, NULL);
 }
 
 
