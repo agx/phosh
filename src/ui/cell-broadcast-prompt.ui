@@ -4,19 +4,13 @@
   <template class="PhoshCellBroadcastPrompt" parent="PhoshSystemModalDialog">
     <signal name="dialog-canceled" handler="on_dialog_canceled"/>
     <child type="phosh-dialog-content">
-      <object class="GtkBox">
+      <object class="GtkLabel" id="lbl_msg">
         <property name="visible">1</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkLabel" id="lbl_msg">
-            <property name="visible">1</property>
-            <property name="margin-bottom">12</property>
-            <property name="justify">center</property>
-            <property name="wrap">1</property>
-            <property name="lines">20</property>
-            <property name="ellipsize">end</property>
-          </object>
-        </child>
+        <property name="margin-bottom">12</property>
+        <property name="justify">center</property>
+        <property name="wrap">1</property>
+        <property name="lines">20</property>
+        <property name="ellipsize">end</property>
       </object>
     </child>
     <child type="phosh-dialog-button">
