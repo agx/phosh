@@ -29,6 +29,8 @@
 #define SEEK_BACK (-10 * SEEK_SECOND)
 #define SEEK_FORWARD (30 * SEEK_SECOND)
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (cairo_t, cairo_destroy)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (cairo_surface_t, cairo_surface_destroy)
 
 /**
  * PhoshMediaPlayer:
@@ -441,12 +443,44 @@ btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 }
 
 
+static GdkPixbuf *
+center_pixbuf (GdkPixbuf *pixbuf)
+{
+  int width, height, size;
+  g_autoptr (GdkPixbuf) centered = NULL;
+  g_autoptr (cairo_t) cr = NULL;
+  g_autoptr (cairo_surface_t) surface = NULL;
+
+  g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+
+  if (width == height)
+    return g_object_ref (pixbuf);
+
+  size = MAX (width, height);
+  /* gdk_pixbuf_copy_area would work as well but that goes via gdk_pixbuf_scale, …*/
+  surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, size, size);
+  cr = cairo_create (surface);
+  if (width > height)
+    gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, (width - height) / 2.0);
+  else
+    gdk_cairo_set_source_pixbuf (cr, pixbuf, (height - width) / 2.0, 0);
+  cairo_paint (cr);
+
+  return gdk_pixbuf_get_from_surface (surface, 0, 0, size, size);
+}
+
+
 static void
 phosh_media_player_set_image (PhoshMediaPlayer *self, GdkPixbuf *pixbuf)
 {
   PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
+  g_autoptr (GdkPixbuf) centered = NULL;
 
-  g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+  centered = center_pixbuf (pixbuf);
+  g_object_set (priv->img_art, "gicon", centered, NULL);
 }
 
 
