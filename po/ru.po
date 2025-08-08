@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-06-19 13:24+0000\n"
-"PO-Revision-Date: 2025-06-21 15:29+0300\n"
+"POT-Creation-Date: 2025-08-04 16:55+0000\n"
+"PO-Revision-Date: 2025-08-04 21:48+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -17,117 +17,117 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+#: data/mobi.phosh.Shell.desktop.in.in:3 data/wayland-sessions/phosh.desktop:3
 msgid "Phone Shell"
 msgstr "Оболочка телефона"
 
-#: data/mobi.phosh.Shell.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:4
 msgid "Window management and application launching for mobile"
 msgstr "Управление окнами и запуск приложений для мобильных устройств"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+#: data/phosh.session.desktop.in.in:3 data/wayland-sessions/phosh.desktop:2
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/wayland-sessions/phosh.desktop:5
+#: data/wayland-sessions/phosh.desktop:4
 msgid "This session logs you into Phosh"
 msgstr "Этот сеанс регистрирует вас в Phosh"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:4
 msgid "Caffeine Quick Setting"
 msgstr "Быстрая настройка кофеина"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:6
 msgid "Prevent the session from going idle"
 msgstr "Предотвратить переход сеанса в режим ожидания"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:4
 msgid "Calendar"
 msgstr "Календарь"
 
-#: plugins/calendar/calendar.desktop.in.in:7
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Простой виджет календаря"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:4
 msgid "Dark Mode / Color Scheme Quick Setting"
 msgstr "Темный стиль / Быстрая настройка цветовой схемы"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:6
 msgid "Toggle dark mode"
 msgstr "Переключатель темного стиля"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:5
+#: plugins/emergency-info/emergency-info.desktop.in.in:4
 msgid "Emergency Info"
 msgstr "Экстренная помощь"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:7
+#: plugins/emergency-info/emergency-info.desktop.in.in:6
 msgid "Show emergency information and contacts"
 msgstr "Показать экстренные сведения и контакты"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.desktop.in.in:3
 #: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "Бокс с ярлыками"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:6
+#: plugins/launcher-box/launcher-box.desktop.in.in:5
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Добавить ярлыки на экран блокировки. <b>Этот модуль является "
 "экспериментальным.</b>"
 
-#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.desktop.in.in:3
 #: plugins/media-players/media-players.ui:19
 #: plugins/media-players/media-players.ui:35
 msgid "Media Players"
 msgstr "Медиапроигрыватели"
 
-#: plugins/media-players/media-players.desktop.in.in:6
+#: plugins/media-players/media-players.desktop.in.in:5
 msgid "Track currently running media players"
 msgstr "Отслеживание запущенных в данный момент медиапроигрывателей"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:4
 msgid "Mobile Data Quick Setting"
 msgstr "Быстрая настройка мобильных данных"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:6
 msgid "Toggle mobile data on/off"
 msgstr "Включение/выключение мобильных данных"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:4
 msgid "Night Light Quick Setting"
 msgstr "Быстрая настройка ночного света"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:6
 msgid "Toggle night light on/off"
 msgstr "Включение/выключение ночного света"
 
 #. Translators: "Pomodoro" is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:5
 msgid "Pomodoro Quick Setting"
 msgstr "Быстрая настройка Pomodoro"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:7
 msgid "Simple Pomodoro Timer"
 msgstr "Простой таймер Pomodoro"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.desktop.in.in:3
 #: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "Билетный бокс"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:6
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Показывать PDF-файлы на экране блокировки. <b>Этот модуль является "
 "экспериментальным.</b>"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:3
 msgid "Upcoming Events"
 msgstr "Предстоящие события"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
 msgid "Show upcoming calendar events"
 msgstr "Показать предстоящие события календаря"
 
@@ -573,7 +573,7 @@ msgstr "Удалить"
 msgid "_Remove from Folder"
 msgstr "_Удалить из папки"
 
-#: src/ui/app-grid.ui:25
+#: src/ui/app-grid.ui:26
 msgid "Search apps…"
 msgstr "Поиск приложений…"
 
@@ -1058,13 +1058,11 @@ msgstr "Сегодня"
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: plugins/upcoming-events/event-list.c:150
+#. Translators: The current date and weekday for display in a calendar entry
+#: plugins/upcoming-events/event-list.c:151
 #, c-format
-msgid "In %u day"
-msgid_plural "In %u days"
-msgstr[0] "Через %u день"
-msgstr[1] "Через %u дня"
-msgstr[2] "Через %u дней"
+msgid "%x %a"
+msgstr "%x, %a"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -1130,6 +1128,13 @@ msgstr "Точка доступа включена"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Точка доступа выключена"
+
+#, c-format
+#~ msgid "In %u day"
+#~ msgid_plural "In %u days"
+#~ msgstr[0] "Через %u день"
+#~ msgstr[1] "Через %u дня"
+#~ msgstr[2] "Через %u дней"
 
 #~ msgid "Add"
 #~ msgstr "Добавить"
