@@ -1,3 +1,32 @@
+phosh 0.49~rc1
+--------------
+Released August 2025
+* upcoming-events: Allow to exclude days without events
+* Use phrosh portal when available
+* overview: Don't let search entry take the whole width
+* Cellbroadcast related fixes
+* Add searchd
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/703
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/290
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1242
+* Contributors:
+    * Arun Mani J
+    * Evangelos Ribeiro Tzaras
+    * Guido Günther
+    * hustlerone
+    * Rudra Pratap Singh
+    * Zander Brown
+* UI translations:
+    * Anders Jonsson (sv)
+    * Antonio Marin (ro)
+    * Artur S0 (ru)
+    * Ekaterine Papava (ka)
+    * Juliano de Souza Camargo (pt_BR)
+    * Martin (sl)
+    * twlvnn kraftwerk (bg)
+    * Yuri Chornoivan (uk)
+
 phosh 0.48.0
 ------------
 Released June 2025
