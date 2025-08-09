@@ -13,13 +13,13 @@ phoshsearch_sources = [
 
 phosh_search_deps = [gio_dep, gio_unix_dep, dependency('gdk-pixbuf-2.0')]
 
-phosh_search_lib = library(
+phosh_search_lib = static_library(
   'phoshsearch',
   phoshsearch_sources,
   include_directories: [root_inc, dbus_inc],
   dependencies: phosh_search_deps,
   install_dir: pkglibdir,
-  install: true,
+  install: false,
 )
 phosh_search_inc = include_directories('.')
 

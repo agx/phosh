@@ -1,3 +1,7 @@
+if not get_option('searchd')
+  subdir_done()
+endif
+
 searchd_args = ['-DG_LOG_USE_STRUCTURED', '-DG_LOG_DOMAIN="mobi.phosh.Shell.Search"']
 
 executable(
