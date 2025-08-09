@@ -19,7 +19,7 @@ phosh_search_lib = static_library(
   include_directories: [root_inc, dbus_inc],
   dependencies: phosh_search_deps,
   install_dir: pkglibdir,
-  install: true,
+  install: false,
 )
 phosh_search_inc = include_directories('.')
 

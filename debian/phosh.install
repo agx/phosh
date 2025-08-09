@@ -3,7 +3,6 @@ usr/lib/systemd/user/gnome-session@phosh.target.d/session.conf
 usr/lib/systemd/user/mobi.phosh.Shell.service
 usr/lib/systemd/user/mobi.phosh.Shell.target
 usr/lib/systemd/user/
-usr/lib/*/phosh/libphoshsearch.so
 usr/libexec/phosh
 usr/libexec/phosh-searchd
 usr/libexec/phosh-calendar-server
