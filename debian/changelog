@@ -1,3 +1,98 @@
+phosh (0.49~rc1) experimental; urgency=medium
+
+  [ Arun Mani J ]
+  * app-grid: Set max-width to entries.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/703
+  * ci: Add `xvfb` package for `check-ui` job
+  * tree: Bump `upower-glib` version
+  * battery-info: Use asynchronous API of `upower`
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/290
+
+  [ hustlerone ]
+  * plugins: Fix compilation on NixOS.
+
+  [ twlvnn kraftwerk ]
+  * Update Bulgarian translation
+
+  [ Guido Günther ]
+  * mode-manager: Support embedded chassis type.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1242
+  * plugins/media-players: Disable prefs plugin.
+    There's no prefs atm so remove it from the desktop file as
+    otherwise mobile settings doesn't set the gear icon insensitive.
+  * ci: Update shared scripts to 7e4c544
+  * tests: Use subdir_done.
+    Avoids an indent level when using meson format
+  * build: Format meson files.
+    Format using `meson format -e -i -r` to make contributing
+    easier with fewer review rounds.
+  * ci: Check format of meson files`
+    They're only validated when they change
+  * data/portals: Use phrosh portal.
+    This way we still fall back to gtk in cases where distros can't ship the
+    new portal yet. We'll prefer phrosh over phosh once pfs and wallpaper moved
+    over too so we then only use the phosh portal for settings.
+  * wwan: Require cell broadcast support in ModemManager.
+    It's in a release so no need to conditionalize
+  * system-modal: Modernize property definition.
+    Match coding style and fix some indent while at that.
+  * cell-broadcast-prompt: Limit messages to reasonable size.
+    Otherwise the dialog might drop off screen. Since we have
+    a store the user can look up overly long messages there.
+  * cell-broadcast-prompt: Close dialog on swipe.
+    Fixes: b281cc5d3 ("cell-broadcast-prompt: New dialog for cell broadcast message")
+  * cell-broadcast-prompt: No need to valign the button
+  * cell-broadcast-prompt: Remove the superfluous box
+  * cell-broadcast-prompt: Strip whitespace.
+    Some messages (e.g. Vodafone test messages) have excessive
+    whitespace at the end of the message, strip that.
+
+  [ Zander Brown ]
+  * searchd: Add deamon to gather search results
+    org.gnome.ShellSearchProvider2.xml taken from gnome-shell as of
+    9e5dfa22211677cf71791925a68688a3b3284c7e
+    Co-authored-by: Gotam Gorabh <gautamy672@gmail.com>
+
+  [ Evangelos Ribeiro Tzaras ]
+  * mock-mm-nm: Execute with intended interpreter.
+    Run through `env` so we pick up the correct interpreter from `$PATH`
+    when e.g. using venv.
+
+  [ Rudra Pratap Singh ]
+  * upcoming-events: Extend API to get number of events for a list
+  * upcoming-events: Add icons for expanding/shrinking event list
+  * upcoming-events: Add new setting for skipping non-event days
+  * upcoming-events: Add button to skip non-event days.
+    This will allow users to include/exclude days
+    without events.
+  * upcoming-events: Show proper date if number of days exceeds 7
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Juliano de Souza Camargo ]
+  * Update Brazilian Portuguese translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 08 Aug 2025 19:48:42 +0200
+
 phosh (0.48.0) experimental; urgency=medium
 
   [ Anders Jonsson ]
