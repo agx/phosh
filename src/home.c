@@ -438,7 +438,7 @@ add_keybindings (PhoshHome *self)
 
 static void
 on_keybindings_changed (PhoshHome *self,
-                        gchar     *key,
+                        char      *key,
                         GSettings *settings)
 {
   /* For now just redo all keybindings */
