@@ -224,7 +224,7 @@ unload_custom_quick_setting (GtkWidget *quick_setting)
 
 
 static void
-load_custom_quick_settings (PhoshQuickSettings *self, GSettings *settings, gchar *key)
+load_custom_quick_settings (PhoshQuickSettings *self, GSettings *settings, char *key)
 {
   g_auto (GStrv) plugins = NULL;
   GtkWidget *widget;
