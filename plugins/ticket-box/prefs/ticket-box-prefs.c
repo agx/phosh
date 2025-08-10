@@ -58,7 +58,7 @@ on_select_folder_ready (GObject *source_object, GAsyncResult *res, gpointer user
   PhoshTicketBoxPrefs *self = NULL;
   g_autoptr (GError) err = NULL;
   g_autoptr (GFile) file = NULL;
-  g_autofree gchar *filename = NULL;
+  g_autofree char *filename = NULL;
 
   file = gtk_file_dialog_select_folder_finish (GTK_FILE_DIALOG (source_object),
                                                res,
