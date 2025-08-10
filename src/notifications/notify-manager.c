@@ -176,7 +176,7 @@ forget_unlock_notify (PhoshNotifyManager *self)
 
 
 static void
-invoke_action (PhoshNotifyManager *self, PhoshNotification *notification, const gchar *action)
+invoke_action (PhoshNotifyManager *self, PhoshNotification *notification, const char *action)
 {
   guint id;
 
@@ -379,11 +379,11 @@ phosh_notify_manager_add_application (PhoshNotifyManager *self, GAppInfo *info)
   g_autofree char *path = NULL;
   g_autoptr (GSettings) settings = NULL;
   g_autoptr(GPtrArray) new_apps = NULL;
-  const gchar *id;
+  const char *id;
 
   id = g_app_info_get_id(info);
   munged_id = phosh_munge_app_id (id);
-  if (g_strv_contains ((const gchar * const *)self->app_children, munged_id))
+  if (g_strv_contains ((const char * const *)self->app_children, munged_id))
     return;
 
   g_debug ("Adding new application: %s/%s", id, munged_id);
@@ -398,7 +398,7 @@ phosh_notify_manager_add_application (PhoshNotifyManager *self, GAppInfo *info)
   settings = g_settings_new_with_path (NOTIFICATIONS_APP_SCHEMA_ID, path);
   g_settings_set_string (settings, NOTIFICATIONS_APP_KEY_APP_ID, id);
   g_settings_set_strv (self->settings, NOTIFICATIONS_KEY_APP_CHILDREN,
-                       (const gchar * const *)new_apps->pdata);
+                       (const char * const *)new_apps->pdata);
 }
 
 
@@ -848,7 +848,7 @@ phosh_notify_manager_get_notification_id (PhoshNotifyManager *self)
  */
 void
 phosh_notify_manager_add_notification (PhoshNotifyManager *self,
-                                       const gchar        *source_id,
+                                       const char         *source_id,
                                        int                 expire_timeout,
                                        PhoshNotification  *notification)
 {
