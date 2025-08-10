@@ -29,6 +29,8 @@
 #define SEEK_BACK (-10 * SEEK_SECOND)
 #define SEEK_FORWARD (30 * SEEK_SECOND)
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (cairo_t, cairo_destroy)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (cairo_surface_t, cairo_surface_destroy)
 
 /**
  * PhoshMediaPlayer:
@@ -441,6 +443,87 @@ btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 }
 
 
+static GdkPixbuf *
+center_pixbuf (GdkPixbuf *pixbuf)
+{
+  int width, height, size;
+  g_autoptr (GdkPixbuf) centered = NULL;
+  g_autoptr (cairo_t) cr = NULL;
+  g_autoptr (cairo_surface_t) surface = NULL;
+
+  g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+
+  if (width == height)
+    return g_object_ref (pixbuf);
+
+  size = MAX (width, height);
+  /* gdk_pixbuf_copy_area would work as well but that goes via gdk_pixbuf_scale, …*/
+  surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, size, size);
+  cr = cairo_create (surface);
+  if (width > height)
+    gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, (width - height) / 2.0);
+  else
+    gdk_cairo_set_source_pixbuf (cr, pixbuf, (height - width) / 2.0, 0);
+  cairo_paint (cr);
+
+  return gdk_pixbuf_get_from_surface (surface, 0, 0, size, size);
+}
+
+
+static GdkPixbuf *
+round_corners (GdkPixbuf *pixbuf)
+{
+  g_autoptr (GdkPixbuf) rounded = NULL;
+  g_autoptr (cairo_t) cr = NULL;
+  g_autoptr (cairo_surface_t) surface = NULL;
+  int width, height, size;
+  double radius;
+  const double degrees = M_PI / 180.0;
+
+  g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+
+  /* We only round square images */
+  g_return_val_if_fail (width == height, NULL);
+
+  size = width;
+  surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, size, size);
+  cr = cairo_create (surface);
+
+  radius = size / 8.0;
+  cairo_new_path (cr);
+  cairo_arc (cr, size - radius, radius, radius, -90 * degrees, 0 * degrees);
+  cairo_arc (cr, size - radius, size - radius, radius, 0 * degrees, 90 * degrees);
+  cairo_arc (cr, radius, size - radius, radius, 90 * degrees, 180 * degrees);
+  cairo_arc (cr, radius, radius, radius, 180 * degrees, 270 * degrees);
+  cairo_close_path (cr);
+  cairo_clip (cr);
+
+  gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
+  cairo_paint (cr);
+
+  return gdk_pixbuf_get_from_surface (surface, 0, 0, size, size);
+}
+
+
+static void
+phosh_media_player_set_image (PhoshMediaPlayer *self, GdkPixbuf *pixbuf)
+{
+  PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
+  g_autoptr (GdkPixbuf) centered = NULL;
+  g_autoptr (GdkPixbuf) rounded = NULL;
+
+  centered = center_pixbuf (pixbuf);
+  rounded = round_corners (centered);
+  g_object_set (priv->img_art, "gicon", rounded, NULL);
+}
+
+
 static void
 on_fetch_icon_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -461,7 +544,8 @@ on_fetch_icon_ready (GObject *source_object, GAsyncResult *res, gpointer user_da
   self = PHOSH_MEDIA_PLAYER (user_data);
   priv = phosh_media_player_get_instance_private (self);
   pixbuf = gdk_pixbuf_new_from_stream (stream, priv->fetch_icon_cancel, &err);
-  g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+
+  phosh_media_player_set_image (self, pixbuf);
 }
 
 
@@ -484,6 +568,49 @@ fetch_icon_async (PhoshMediaPlayer *self, const char *url)
                               priv->fetch_icon_cancel,
                               on_fetch_icon_ready,
                               self);
+}
+
+
+static void
+on_load_icon_from_file_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhoshMediaPlayer *self;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GError) err = NULL;
+
+  pixbuf = gdk_pixbuf_new_from_stream_finish (res, &err);
+  if (!pixbuf) {
+    phosh_async_error_warn (err, "Failed to load image");
+    return;
+  }
+
+  self = PHOSH_MEDIA_PLAYER (user_data);
+  phosh_media_player_set_image (self, pixbuf);
+}
+
+
+static void
+phosh_media_player_load_icon_from_file_async (PhoshMediaPlayer *self, GFile *file)
+{
+  PhoshMediaPlayerPrivate *priv = phosh_media_player_get_instance_private (self);
+  g_autoptr (GFileInputStream) stream = NULL;
+  g_autoptr (GError) err = NULL;
+
+  stream = g_file_read (file, NULL, &err);
+  if (stream == NULL) {
+    g_autofree char *path = g_file_get_path (file);
+
+    g_warning ("Failed to open '%s': %s", path, err->message);
+    return;
+  }
+
+  if (!priv->fetch_icon_cancel)
+    priv->fetch_icon_cancel = g_cancellable_new ();
+
+  gdk_pixbuf_new_from_stream_async (G_INPUT_STREAM (stream),
+                                    priv->fetch_icon_cancel,
+                                    on_load_icon_from_file_ready,
+                                    self);
 }
 
 
@@ -545,11 +672,9 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   g_clear_object (&priv->fetch_icon_cancel);
 
   if (url && g_strcmp0 (g_uri_peek_scheme (url), "file") == 0) {
-    g_autoptr (GIcon) icon = NULL;
     g_autoptr (GFile) file = g_file_new_for_uri (url);
-    icon = g_file_icon_new (file);
-    g_object_set (priv->img_art, "gicon", icon, NULL);
-    has_art = TRUE;
+
+    phosh_media_player_load_icon_from_file_async (self, file);
   } else if (url && (g_strcmp0 (g_uri_peek_scheme (url), "http") == 0 ||
                      g_strcmp0 (g_uri_peek_scheme (url), "https") == 0)) {
     fetch_icon_async (self, url);
@@ -559,7 +684,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
 
     pixbuf = phosh_util_data_uri_to_pixbuf (url, &error);
     if (pixbuf) {
-      g_object_set (priv->img_art, "gicon", pixbuf, NULL);
+      phosh_media_player_set_image (self, pixbuf);
       has_art = TRUE;
     } else {
       g_warning_once ("Failed to load album art from base64 string: %s", error->message);
