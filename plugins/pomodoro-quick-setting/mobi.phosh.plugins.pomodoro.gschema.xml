@@ -15,5 +15,12 @@
         The duration of the break in seconds.
       </description>
     </key>
+    <key name="start-on-unlock" type="b">
+      <default>false</default>
+      <summary>Start on unlock</summary>
+      <description>
+        Whether to start the timer on screen unlock
+      </description>
+    </key>
   </schema>
 </schemalist>

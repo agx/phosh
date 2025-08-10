@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2024 The Phosh Developers
+ *               2025 Phosh.mobi e.V.
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -15,8 +16,9 @@
 #include <glib/gi18n-lib.h>
 
 #define POMODORO_QUICK_SETTING_SCHEMA_ID "mobi.phosh.plugins.pomodoro"
-#define POMODORO_QUICK_SETTING_ACTIVE_DURATION_KEY "active-duration"
-#define POMODORO_QUICK_SETTING_BREAK_DURATION_KEY "break-duration"
+#define ACTIVE_DURATION_KEY "active-duration"
+#define BREAK_DURATION_KEY "break-duration"
+#define START_ON_UNLOCK_KEY "start-on-unlock"
 
 /**
  * PhoshPomodoroQuickSettingPrefs:
@@ -28,6 +30,7 @@ struct _PhoshPomodoroQuickSettingPrefs {
 
   AdwSpinRow           *active_duration_spin_row;
   AdwSpinRow           *break_duration_spin_row;
+  AdwSwitchRow         *start_on_unlock_switch_row;
 
   GSettings            *setting;
 };
@@ -85,6 +88,8 @@ phosh_pomodoro_quick_setting_prefs_class_init (PhoshPomodoroQuickSettingPrefsCla
                                         active_duration_spin_row);
   gtk_widget_class_bind_template_child (widget_class, PhoshPomodoroQuickSettingPrefs,
                                         break_duration_spin_row);
+  gtk_widget_class_bind_template_child (widget_class, PhoshPomodoroQuickSettingPrefs,
+                                        start_on_unlock_switch_row);
 }
 
 
@@ -95,7 +100,7 @@ phosh_pomodoro_quick_setting_prefs_init (PhoshPomodoroQuickSettingPrefs *self)
 
   self->setting = g_settings_new (POMODORO_QUICK_SETTING_SCHEMA_ID);
 
-  g_settings_bind_with_mapping (self->setting, POMODORO_QUICK_SETTING_ACTIVE_DURATION_KEY,
+  g_settings_bind_with_mapping (self->setting, ACTIVE_DURATION_KEY,
                                 self->active_duration_spin_row, "value",
                                 G_SETTINGS_BIND_DEFAULT,
                                 duration_get_mapping,
@@ -103,11 +108,15 @@ phosh_pomodoro_quick_setting_prefs_init (PhoshPomodoroQuickSettingPrefs *self)
                                 NULL /* userdata */,
                                 NULL /* destroyfunc */);
 
-  g_settings_bind_with_mapping (self->setting, POMODORO_QUICK_SETTING_BREAK_DURATION_KEY,
+  g_settings_bind_with_mapping (self->setting, BREAK_DURATION_KEY,
                                 self->break_duration_spin_row, "value",
                                 G_SETTINGS_BIND_DEFAULT,
                                 duration_get_mapping,
                                 duration_set_mapping,
                                 NULL /* userdata */,
                                 NULL /* destroyfunc */);
+
+  g_settings_bind (self->setting, START_ON_UNLOCK_KEY,
+                   self->start_on_unlock_switch_row, "active",
+                   G_SETTINGS_BIND_DEFAULT);
 }

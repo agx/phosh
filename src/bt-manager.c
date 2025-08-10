@@ -200,10 +200,10 @@ on_proxy_new_for_bus_finish (GObject        *source_object,
   }
 
   g_object_connect (self->proxy,
-                    "swapped_object_signal::notify::bluetooth-airplane-mode",
+                    "swapped-object-signal::notify::bluetooth-airplane-mode",
                     G_CALLBACK (on_bt_airplane_mode_changed),
                     self,
-                    "swapped_object_signal::notify::bluetooth-has-airplane-mode",
+                    "swapped-object-signal::notify::bluetooth-has-airplane-mode",
                     G_CALLBACK (on_bt_has_airplane_mode_changed),
                     self,
                     NULL);

@@ -144,10 +144,10 @@ on_up_client_new_ready (GObject *source, GAsyncResult *result, gpointer data)
   }
 
   g_object_connect (self->device,
-                    "swapped_object_signal::notify::percentage",
+                    "swapped-object-signal::notify::percentage",
                     G_CALLBACK (on_property_changed),
                     self,
-                    "swapped_object_signal::notify::state",
+                    "swapped-object-signal::notify::state",
                     G_CALLBACK (on_property_changed),
                     self,
                     NULL);

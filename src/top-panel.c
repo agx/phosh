@@ -596,8 +596,8 @@ phosh_top_panel_constructed (GObject *object)
     self->xkbinfo = gnome_xkb_info_new ();
     self->seat = gdk_display_get_default_seat (display);
     g_object_connect (self->seat,
-                      "swapped_signal::device-added", G_CALLBACK (on_seat_device_changed), self,
-                      "swapped_signal::device-removed", G_CALLBACK (on_seat_device_changed), self,
+                      "swapped-signal::device-added", G_CALLBACK (on_seat_device_changed), self,
+                      "swapped-signal::device-removed", G_CALLBACK (on_seat_device_changed), self,
                       NULL);
     g_signal_connect_swapped (self->input_settings,
                               "changed::sources", G_CALLBACK (on_input_setting_changed),

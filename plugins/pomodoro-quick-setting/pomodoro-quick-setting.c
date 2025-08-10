@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2024 The Phosh Developers
+ *               2025 Phosh.mobi e.V.
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -21,6 +22,8 @@
 #define UPDATE_INTERVAL 1 /* seconds */
 #define ACTIVE_ICON    "pomodoro-active-symbolic"
 #define BREAK_ICON     "pomodoro-break-symbolic"
+
+#define START_ON_UNLOCK_KEY "start-on-unlock"
 
 /**
  * PhoshPomodoroQuickSetting:
@@ -47,6 +50,7 @@ struct _PhoshPomodoroQuickSetting {
 
 G_DEFINE_TYPE (PhoshPomodoroQuickSetting, phosh_pomodoro_quick_setting, PHOSH_TYPE_QUICK_SETTING);
 
+static gboolean _started_on_login;
 
 static void
 phosh_pomodoro_quick_setting_clear_timers (PhoshPomodoroQuickSetting *self)
@@ -183,6 +187,25 @@ phosh_pomodoro_quick_setting_set_state (PhoshPomodoroQuickSetting *self, PhoshPo
   show_notification (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATE]);
+}
+
+
+static void
+on_shell_locked (PhoshPomodoroQuickSetting *self, GParamSpec *pspec, PhoshShell *shell)
+{
+  g_assert (PHOSH_IS_SHELL (shell));
+  g_assert (PHOSH_IS_POMODORO_QUICK_SETTING (self));
+
+  if (phosh_shell_get_locked (shell))
+    return;
+
+  if (self->state != PHOSH_POMODORO_STATE_OFF)
+    return;
+
+  if (!g_settings_get_boolean (self->settings, START_ON_UNLOCK_KEY))
+    return;
+
+  phosh_pomodoro_quick_setting_set_state (self, PHOSH_POMODORO_STATE_ACTIVE);
 }
 
 
@@ -355,5 +378,16 @@ phosh_pomodoro_quick_setting_init (PhoshPomodoroQuickSetting *self)
                                G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
                                transform_to_icon_name,
                                NULL, NULL, NULL);
+
+  g_signal_connect_object (phosh_shell_get_default (),
+                           "notify::locked",
+                           G_CALLBACK (on_shell_locked),
+                           self,
+                           G_CONNECT_SWAPPED);
+  if (g_settings_get_boolean (self->settings, START_ON_UNLOCK_KEY) && !_started_on_login) {
+    phosh_pomodoro_quick_setting_set_state (self, PHOSH_POMODORO_STATE_ACTIVE);
+    _started_on_login = TRUE;
+  }
+
   update_label (self);
 }
