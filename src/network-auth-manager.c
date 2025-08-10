@@ -440,7 +440,7 @@ on_search_vpn_plugin_ready (GObject      *source_object,
   g_autoptr (GPtrArray) auth_helper_argv = NULL;
   g_autoptr (NMVpnPluginInfo) plugin = NULL;
   g_autoptr (GError) err = NULL;
-  const gchar *service_type;
+  const char *service_type;
 
   GString * auth_helper_request;
   g_autofree char * auth_helper_request_str = NULL;
@@ -565,7 +565,7 @@ vpn_secret_request (PhoshNetworkAuthManager     *self,
                     NMSecretAgentGetSecretsFlags flags)
 {
   NMSettingVpn *setting = nm_connection_get_setting_vpn (connection);
-  const gchar *service_type = nm_setting_vpn_get_service_type (setting);
+  const char *service_type = nm_setting_vpn_get_service_type (setting);
   VPNRequest *request = g_new0 (VPNRequest, 1);
 
   g_debug ("Handling VPN secrets for %s, flags: 0x%x", service_type, flags);
