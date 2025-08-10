@@ -59,7 +59,7 @@ phosh_log_writer_default (GLogLevelFlags   log_level,
 
   /* Disable debug message output unless specified in _log_domains. */
   if (!(log_level & DEFAULT_LEVELS) && !(log_level >> G_LOG_LEVEL_USER_SHIFT)) {
-    const gchar *log_domain = NULL;
+    const char *log_domain = NULL;
     gsize i;
 
     if ((log_level & INFO_LEVELS) == 0 || _log_domains == NULL) {
