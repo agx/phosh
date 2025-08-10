@@ -74,7 +74,7 @@ on_clicked (PhoshDarkModeQuickSetting *self)
 
 static void
 on_color_scheme_changed (PhoshDarkModeQuickSetting *self,
-                         gchar                     *_key,
+                         char                      *_key,
                          GSettings                 *_settings)
 {
   gint color_scheme = g_settings_get_enum (self->settings, "color-scheme");
