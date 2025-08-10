@@ -537,7 +537,7 @@ phosh_background_manager_get_data (PhoshBackgroundManager *self, PhoshBackground
   if (self->slideshow) {
     gint width, height;
     gboolean fixed;
-    const gchar *file1;
+    const char *file1;
 
     width = phosh_layer_surface_get_configured_width (PHOSH_LAYER_SURFACE (background));
     height = phosh_layer_surface_get_configured_height (PHOSH_LAYER_SURFACE (background));
