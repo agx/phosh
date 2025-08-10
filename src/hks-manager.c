@@ -63,8 +63,8 @@ enum {
 typedef struct {
   gboolean present;
   gboolean blocked;
-  gchar   *blocked_icon_name;
-  gchar   *unblocked_icon_name;
+  char    *blocked_icon_name;
+  char    *unblocked_icon_name;
   GHashTable *killswitches;
 } Hks;
 
@@ -88,7 +88,7 @@ phosh_hks_manager_get_property (GObject    *object,
                                 GParamSpec *pspec)
 {
   PhoshHksManager *self = PHOSH_HKS_MANAGER (object);
-  const gchar *icon_name;
+  const char *icon_name;
 
   switch (property_id) {
   case PROP_MIC_PRESENT:
