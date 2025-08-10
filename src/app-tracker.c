@@ -329,7 +329,7 @@ on_app_launched (PhoshAppTracker   *self,
                  GVariant          *platform_data,
                  GAppLaunchContext *context)
 {
-  g_autofree gchar *startup_id = NULL;
+  g_autofree char *startup_id = NULL;
   const char *app_id;
   PhoshAppState *state;
   gint32 pid;
