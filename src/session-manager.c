@@ -112,7 +112,7 @@ handle_end_session_open (PhoshDBusEndSessionDialog *object,
                          guint                      arg_type,
                          guint                      arg_timestamp,
                          guint                      arg_seconds_to_stay_open,
-                         const gchar *const        *arg_inhibitor_object_paths)
+                         const char *const         *arg_inhibitor_object_paths)
 {
   PhoshSessionManager *self = PHOSH_SESSION_MANAGER (object);
 
@@ -283,7 +283,7 @@ on_client_registered (PhoshDBusSessionManager *proxy,
                       GAsyncResult            *res,
                       PhoshSessionManager     *self)
 {
-  g_autofree gchar *client_id = NULL;
+  g_autofree char *client_id = NULL;
   g_autoptr (GError) err = NULL;
 
   if (!phosh_dbus_session_manager_call_register_client_finish (proxy, &client_id, res, &err)) {
@@ -441,8 +441,8 @@ phosh_session_manager_is_active (PhoshSessionManager *self)
 
 void
 phosh_session_manager_register (PhoshSessionManager *self,
-                                const gchar         *app_id,
-                                const gchar         *startup_id)
+                                const char          *app_id,
+                                const char          *startup_id)
 {
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
   g_return_if_fail (PHOSH_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
