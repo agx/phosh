@@ -19,6 +19,6 @@ G_DECLARE_FINAL_TYPE (PhoshRunCommandDialog, phosh_run_command_dialog, PHOSH, RU
 
 GtkWidget *phosh_run_command_dialog_new         (void);
 void       phosh_run_command_dialog_set_message (PhoshRunCommandDialog *self,
-                                                 const gchar           *message);
+                                                 const char            *message);
 
 G_END_DECLS
