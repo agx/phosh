@@ -526,7 +526,7 @@ carousel_page_changed_cb (PhoshLockscreen *self,
 
 
 static void
-update_active_call (PhoshLockscreen *self, const gchar *path)
+update_active_call (PhoshLockscreen *self, const char *path)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   PhoshCall *call;
@@ -545,7 +545,7 @@ update_active_call (PhoshLockscreen *self, const gchar *path)
 
 
 static void
-on_calls_call_added (PhoshLockscreen *self, const gchar *path)
+on_calls_call_added (PhoshLockscreen *self, const char *path)
 {
   PhoshLockscreenPrivate *priv;
 
@@ -560,7 +560,7 @@ on_calls_call_added (PhoshLockscreen *self, const gchar *path)
 
 
 static void
-on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
+on_calls_call_removed (PhoshLockscreen *self, const char *path)
 {
   PhoshLockscreenPrivate *priv;
 
