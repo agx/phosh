@@ -59,10 +59,9 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 static void
-symbol_clicked (PhoshKeypad *self,
-                gchar        symbol)
+symbol_clicked (PhoshKeypad *self, char symbol)
 {
-  g_autofree gchar *string = g_strdup_printf ("%c", symbol);
+  g_autofree char *string = g_strdup_printf ("%c", symbol);
 
   if (!self->entry)
     return;
