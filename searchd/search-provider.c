@@ -547,7 +547,7 @@ phosh_search_provider_get_result_meta (PhoshSearchProvider *self,
   g_task_set_source_tag (task, phosh_search_provider_get_result_meta);
 
   phosh_dbus_search_provider2_call_get_result_metas (PHOSH_DBUS_SEARCH_PROVIDER2 (priv->proxy),
-                                                     (const gchar * const*) results,
+                                                     (const char * const*) results,
                                                      priv->cancellable,
                                                      got_result_meta,
                                                      task);

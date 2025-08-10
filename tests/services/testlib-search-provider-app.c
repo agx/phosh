@@ -29,7 +29,7 @@ G_DEFINE_TYPE (PhoshSearchProviderMockApp, phosh_search_provider_mock_app, G_TYP
 static gboolean
 phosh_search_provider_mock_app_dbus_register (GApplication    *application,
                                               GDBusConnection *connection,
-                                              const gchar     *object_path,
+                                              const char      *object_path,
                                               GError         **error)
 {
   PhoshSearchProviderMockApp *self;
@@ -52,7 +52,7 @@ phosh_search_provider_mock_app_dbus_register (GApplication    *application,
 static void
 phosh_search_provider_mock_app_dbus_unregister (GApplication    *application,
                                                 GDBusConnection *connection,
-                                                const gchar     *object_path)
+                                                const char      *object_path)
 {
   PhoshSearchProviderMockApp *self = PHOSH_SEARCH_PROVIDER_MOCK_APP (application);
 

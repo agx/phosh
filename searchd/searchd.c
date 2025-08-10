@@ -96,7 +96,7 @@ phosh_search_application_finalize (GObject *object)
 static gboolean
 phosh_search_application_dbus_register (GApplication     *app,
                                         GDBusConnection  *connection,
-                                        const gchar      *object_path,
+                                        const char       *object_path,
                                         GError          **error)
 {
   PhoshSearchApplication *self = PHOSH_SEARCH_APPLICATION (app);
@@ -120,7 +120,7 @@ phosh_search_application_dbus_register (GApplication     *app,
 static void
 phosh_search_application_dbus_unregister (GApplication    *app,
                                           GDBusConnection *connection,
-                                          const gchar     *object_path)
+                                          const char      *object_path)
 {
   PhoshSearchApplication *self = PHOSH_SEARCH_APPLICATION (app);
   PhoshSearchApplicationPrivate *priv = phosh_search_application_get_instance_private (self);
@@ -153,7 +153,7 @@ phosh_search_application_class_init (PhoshSearchApplicationClass *klass)
 static gboolean
 launch_source (PhoshDBusSearch       *interface,
                GDBusMethodInvocation *invocation,
-               const gchar           *source_id,
+               const char            *source_id,
                guint                  timestamp,
                gpointer               user_data)
 {
@@ -200,8 +200,8 @@ launch_source (PhoshDBusSearch       *interface,
 static gboolean
 activate_result (PhoshDBusSearch       *interface,
                  GDBusMethodInvocation *invocation,
-                 const gchar           *source_id,
-                 const gchar           *result_id,
+                 const char            *source_id,
+                 const char            *result_id,
                  guint                  timestamp,
                  gpointer               user_data)
 {

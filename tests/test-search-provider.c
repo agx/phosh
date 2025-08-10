@@ -208,10 +208,10 @@ test_phosh_search_provider_limit_results (TestFixture *fixture, gconstpointer un
 
 
 gint
-main (gint argc, gchar *argv[])
+main (gint argc, char *argv[])
 {
   g_autoptr(GTestDBus) dbus = NULL;
-  g_autofree gchar *relative = NULL, *servicesdir = NULL;
+  g_autofree char *relative = NULL, *servicesdir = NULL;
   const char *display;
   int ret = -1;
 

@@ -169,7 +169,7 @@ phosh_search_provider_mock_init (PhoshSearchProviderMock *self)
 gboolean
 phosh_search_provider_mock_dbus_register (PhoshSearchProviderMock  *self,
                                           GDBusConnection          *connection,
-                                          const gchar              *object_path,
+                                          const char               *object_path,
                                           GError                  **error)
 {
   GDBusInterfaceSkeleton *skeleton = G_DBUS_INTERFACE_SKELETON (self->skeleton);
@@ -181,7 +181,7 @@ phosh_search_provider_mock_dbus_register (PhoshSearchProviderMock  *self,
 void
 phosh_search_provider_mock_dbus_unregister (PhoshSearchProviderMock *self,
                                             GDBusConnection         *connection,
-                                            const gchar             *object_path)
+                                            const char              *object_path)
 {
   GDBusInterfaceSkeleton *skeleton = G_DBUS_INTERFACE_SKELETON (self->skeleton);
 
