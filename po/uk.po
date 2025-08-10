@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-08-04 13:55+0000\n"
-"PO-Revision-Date: 2025-08-04 19:54+0300\n"
+"POT-Creation-Date: 2025-08-10 13:57+0000\n"
+"PO-Revision-Date: 2025-08-10 17:31+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -200,7 +200,7 @@ msgid "Undocked"
 msgstr "Від'єднано"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
-#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
+#: src/ui/cell-broadcast-prompt.ui:18 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Гаразд"
 
@@ -322,12 +322,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Знімок вікна %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:519 src/ui/media-player.ui:208
+#: src/media-player.c:646 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Невідома назва"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:527 src/ui/media-player.ui:196
+#: src/media-player.c:654 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -960,32 +960,32 @@ msgstr "Нічні кольори увімкнено"
 msgid "Night Light Off"
 msgstr "Нічні кольори вимкнено"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:75
 msgid "Pomodoro start"
 msgstr "Запуск помідора"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:76
 #, c-format
 msgid "Focus on your task for %d minutes"
 msgstr "Зосередитися на завданні на %d хвилин"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:81
 msgid "Take a break"
 msgstr "Зробіть перерву"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:83
 #, c-format
 msgid "You have %d minutes until next Pomodoro"
 msgstr "У вас %d хвилин до наступного Помідора"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:98
 msgid "Pomodoro Timer"
 msgstr "Таймер-помідор"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:121
 #, c-format
 msgid "Pomodoro Off"
 msgstr "Вимикання помідора"
@@ -1013,6 +1013,14 @@ msgstr "Тривалість _перерви"
 #: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Тривалість перерви між сеансами"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:44
+msgid "_Start on unlock"
+msgstr "З_апускати при розблокуванні"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:45
+msgid "Whether to start the timer on screen unlock"
+msgstr "Визначає, чи слід запускати відлік при розблокуванні екрана"
 
 #: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
