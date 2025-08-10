@@ -355,7 +355,7 @@ phosh-home {
   border-radius: 9999px;
   padding: 3px 18px 3px 14px;
   border: 1px solid transparent;
-  background-color: @phosh_button_bg_color;
+  background-color: alpha(@phosh_bg_color,.6);
   color: inherit;
 }
 

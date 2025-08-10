@@ -64,3 +64,6 @@ phosh-keypad image {
   -gtk-icon-shadow: none;
 }
 
+.phosh-search-bar {
+  background-color: @phosh_button_bg_color;
+}
