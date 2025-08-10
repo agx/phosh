@@ -76,7 +76,7 @@ void
 phosh_test_wait_for_shell_state_wait (PhoshTestWaitForShellState *self, PhoshShellStateFlags state,
                                       gboolean enabled, guint64 timeout_ms)
 {
-  g_autofree gchar *str_state = NULL;
+  g_autofree char *str_state = NULL;
 
   self->state = state;
   self->state_enabled = enabled;
