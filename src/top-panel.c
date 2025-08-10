@@ -413,7 +413,7 @@ add_keybindings (PhoshTopPanel *self)
 
 static void
 on_keybindings_changed (PhoshTopPanel *self,
-                        gchar         *key,
+                        char          *key,
                         GSettings     *settings)
 {
   /* For now just redo all keybindings */
