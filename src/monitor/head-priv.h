@@ -36,9 +36,9 @@ typedef struct _PhoshHeadMode {
 struct _PhoshHead {
   GObject                     parent;
 
-  gchar                      *name;
-  gchar                      *description;
-  gchar                      *vendor, *product, *serial;
+  char                       *name;
+  char                       *description;
+  char                       *vendor, *product, *serial;
   gboolean                    enabled;
 
   struct PhoshPhysicalSize {
