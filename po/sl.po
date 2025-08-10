@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-08-04 09:10+0000\n"
-"PO-Revision-Date: 2025-08-04 15:54+0200\n"
+"POT-Creation-Date: 2025-08-10 17:53+0000\n"
+"PO-Revision-Date: 2025-08-10 21:30+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -200,7 +200,7 @@ msgid "Undocked"
 msgstr "Odsidrano"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
-#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
+#: src/ui/cell-broadcast-prompt.ui:18 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "V redu"
 
@@ -325,12 +325,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Zaslonska slika iz %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:519 src/ui/media-player.ui:208
+#: src/media-player.c:646 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Neznan naslov"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:527 src/ui/media-player.ui:196
+#: src/media-player.c:654 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
@@ -970,32 +970,32 @@ msgstr "Nočna osvetlitev vklopljena"
 msgid "Night Light Off"
 msgstr "Nočna osvetlitev izklopljena"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:75
 msgid "Pomodoro start"
 msgstr "Zagon Pomodoro"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:76
 #, c-format
 msgid "Focus on your task for %d minutes"
 msgstr "Osredotočite se na opravilo %d minut"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:81
 msgid "Take a break"
 msgstr "Vzemite si odmor"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:83
 #, c-format
 msgid "You have %d minutes until next Pomodoro"
 msgstr "Do naslednjega Pomodora imate %d minut"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:98
 msgid "Pomodoro Timer"
 msgstr "Časovnik Pomodoro"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:121
 #, c-format
 msgid "Pomodoro Off"
 msgstr "Pomodoro izklopljen"
@@ -1023,6 +1023,14 @@ msgstr "_Trajanje odmora"
 #: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Trajanje odmora med sejami"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:44
+msgid "_Start on unlock"
+msgstr "_Zaženi ob odklepu"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:45
+msgid "Whether to start the timer on screen unlock"
+msgstr "Ali želite zagnati časovnik ob odklepanju zaslona"
 
 #: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
