@@ -97,7 +97,7 @@ apply_transform (PhoshRotationManager *self, PhoshMonitorTransform transform)
 static gboolean
 match_orientation (PhoshRotationManager *self)
 {
-  const gchar *orient;
+  const char *orient;
   PhoshMonitorTransform transform;
 
   if (self->orientation_locked || !self->claimed ||
