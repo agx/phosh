@@ -355,7 +355,7 @@ phosh-home {
   border-radius: 9999px;
   padding: 3px 18px 3px 14px;
   border: 1px solid transparent;
-  background-color: @phosh_button_bg_color;
+  background-color: alpha(@phosh_bg_color,.6);
   color: inherit;
 }
 
@@ -540,6 +540,13 @@ phosh-keypad button:active label,
 phosh-keypad button:active image {
   text-shadow: none;
   -gtk-icon-shadow: none;
+}
+
+phosh-keypad button:active,
+phosh-keypad button:hover,
+phosh-keypad button:hover:active,
+phosh-keypad button:focus {
+  background: alpha(@phosh_fg_color, 0.3);
 }
 
 phosh-lockscreen .text-only-button {
