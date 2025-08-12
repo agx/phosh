@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-08-04 09:10+0000\n"
-"PO-Revision-Date: 2025-08-05 22:28+0200\n"
+"POT-Creation-Date: 2025-08-10 14:40+0000\n"
+"PO-Revision-Date: 2025-08-10 19:45+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -200,7 +200,7 @@ msgid "Undocked"
 msgstr "Ej dockad"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
-#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
+#: src/ui/cell-broadcast-prompt.ui:18 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "OK"
 
@@ -320,12 +320,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Skärmbild från %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:519 src/ui/media-player.ui:208
+#: src/media-player.c:646 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Okänd titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:527 src/ui/media-player.ui:196
+#: src/media-player.c:654 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Okänd artist"
 
@@ -951,32 +951,32 @@ msgstr "Nattbelysning på"
 msgid "Night Light Off"
 msgstr "Nattbelysning av"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:75
 msgid "Pomodoro start"
 msgstr "Pomodorostart"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:76
 #, c-format
 msgid "Focus on your task for %d minutes"
 msgstr "Fokusera på din uppgift i %d minuter"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:81
 msgid "Take a break"
 msgstr "Ta en rast"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:83
 #, c-format
 msgid "You have %d minutes until next Pomodoro"
 msgstr "Du har %d minuter till nästa Pomodoro"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:98
 msgid "Pomodoro Timer"
 msgstr "Pomodoroklocka"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:121
 #, c-format
 msgid "Pomodoro Off"
 msgstr "Pomodoro av"
@@ -1004,6 +1004,14 @@ msgstr "_Längd på rast"
 #: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Längd på rasten mellan sessioner"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:44
+msgid "_Start on unlock"
+msgstr "_Starta vid upplåsning"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:45
+msgid "Whether to start the timer on screen unlock"
+msgstr "Huruvida tidtagaren ska startas då skärmen låses upp"
 
 #: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
