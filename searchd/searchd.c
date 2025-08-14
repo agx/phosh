@@ -408,6 +408,32 @@ got_results (GObject *source, GAsyncResult *res, gpointer user_data)
 }
 
 
+/* Returns newly allocated GStrv (NULL-terminated) containing the "id" strings
+ * extracted from the variant.
+ */
+static GStrv
+extract_result_ids (GVariant *results_variant)
+{
+  g_autoptr (GStrvBuilder) builder = g_strv_builder_new ();
+  GVariant *element;
+  GVariantIter iter;
+
+  if (!results_variant)
+    return NULL;
+
+  g_variant_iter_init (&iter, results_variant);
+  while (g_variant_iter_next (&iter, "@a{sv}", &element)) {
+    const char *id;
+    if (g_variant_lookup (element, "id", "&s", &id))
+      g_strv_builder_add (builder, id);
+
+    g_variant_unref (element);
+  }
+
+  return g_strv_builder_end (builder);
+}
+
+
 static void
 search (PhoshSearchApplication *self)
 {
@@ -435,10 +461,13 @@ search (PhoshSearchApplication *self)
     priv->outstanding_searches++;
 
     if (priv->doing_subsearch && g_hash_table_contains (priv->last_results, bus_path)) {
+      GVariant *prev = g_hash_table_lookup (priv->last_results, bus_path);
+      g_auto (GStrv) prev_results = extract_result_ids (prev);
+
       data->initial = FALSE;
       phosh_search_provider_get_subsearch (provider,
-                                           g_hash_table_lookup (priv->last_results, bus_path),
-                                           (const char * const*) priv->query_parts,
+                                           (const char * const *) prev_results,
+                                           (const char * const *) priv->query_parts,
                                            got_results,
                                            data);
     } else {
