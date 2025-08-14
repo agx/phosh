@@ -20,8 +20,8 @@
 #define UPCOMING_EVENT_DAYS_KEY      "days"
 #define UPCOMING_EVENT_SKIP_DAYS_KEY "skip-empty"
 
-#define EXPAND_LIST_ICON "list-low-priority-symbolic"
-#define SHRINK_LIST_ICON "list-high-priority-symbolic"
+#define EXPAND_LIST_ICON "upcoming-events-all-symbolic"
+#define SHRINK_LIST_ICON "upcoming-events-skip-empty-symbolic"
 
 /**
  * PhoshUpcomgingEvents:
