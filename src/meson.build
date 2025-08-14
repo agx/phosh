@@ -508,6 +508,7 @@ phosh_lib = both_libraries(
   'phosh-@0@'.format(libphosh_api_version),
   phosh_headers,
   phosh_sources,
+  sources: phosh_generated_headers,
   include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps],
   soversion: 0,
