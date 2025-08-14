@@ -5,7 +5,7 @@
     <file preprocess="xml-stripblanks">upcoming-event.ui</file>
     <file preprocess="xml-stripblanks">upcoming-events.ui</file>
     <file compressed="true">stylesheet/common.css</file>
-    <file compressed="true">icons/list-high-priority-symbolic.svg</file>
-    <file compressed="true">icons/list-low-priority-symbolic.svg</file>
+    <file compressed="true">icons/upcoming-events-all-symbolic.svg</file>
+    <file compressed="true">icons/upcoming-events-skip-empty-symbolic.svg</file>
   </gresource>
 </gresources>
