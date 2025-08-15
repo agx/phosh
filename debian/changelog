@@ -1,3 +1,82 @@
+phosh (0.49.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * search: Link statically.
+    Otherwise searchd would require an additional shared
+    library.
+  * search: Don't install library.
+    We don't want to ship another shared library
+  * searchd: Honor meson option.
+    Just having an option isn't enough, we also need
+    to take it into account.
+    Fixes: 4c58fc4fb ("searchd: Add deamon to gather search results")
+  * media-player: Load file icon as pixbuf.
+    This will allow us to tweak it if needed. It also
+    makes the read async.
+  * media-player: Add setter for image
+  * media-player: Better handle non square icons.
+    The thumbnail provided by Firefox for e.g. youtube isn't
+    square. Gtk-3 top aligns the thumbnail making it look odd,
+    center the thumbnail to make it look better.
+  * media-player: Round corners of album art.
+    We round corners via cairo in
+    https://gitlab.gnome.org/World/Phosh/phoc/-/merge_requests/704
+    and can thus move the logic over here too. This can be dropped
+    when we switch to Gtk-4 as it can handle that for us.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/697
+  * treewide: Use `-` instead of `_` for swapped-object-signal
+  * abi: Allow to access phosh_shell_get_type()
+    Plugins should be able to perform type checks.
+  * pomodoro-quick-setting: Allow to start timer on screen unlock.
+    Otherwise it is easy to forget to turn it on.
+  * pomodoro-quick-setting: Start on login.
+    For the user this isn't easily distinguishable from a regular unlock.
+    Since the top-panel can be recreated we use a global variable.
+  * phosh-pomodoro-quick-setting-prefs: Shorten key names.
+    They're only used in this compilation unit
+  * phosh-pomodoro-quick-setting-prefs: Allow to set 'start-on-unlock'
+  * upcoming-events: Use custom icons.
+    We indicate empty vs non-empty rows rather than suggesting
+    a sorting order.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1245
+  * libphosh: Add explicit dependency on generated headers.
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Achill Gilgenast ]
+  * phosh-keypad: Use alpha when focused.
+    Follow-Up from https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1250
+  * phosh-search-bar: Use alpha background color.
+    Doesn't look so out of place in the overview
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Juliano de Souza Camargo ]
+  * Update Brazilian Portuguese translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Gotam Gorabh ]
+  * searchd: Fix crash by passing GStrv instead of GVariant to subsearch.
+    Fixes: 4c58fc4f ("searchd: Add deamon to gather search results")
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 15 Aug 2025 10:12:52 +0200
+
 phosh (0.49~rc1) experimental; urgency=medium
 
   [ Arun Mani J ]
