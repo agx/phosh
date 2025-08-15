@@ -1,18 +1,23 @@
-phosh 0.49~rc1
---------------
+phosh 0.49.0
+------------
 Released August 2025
 * upcoming-events: Allow to exclude days without events
 * Use phrosh portal when available
 * overview: Don't let search entry take the whole width
+* Improve media widget's cover art thumbnails
+* Improve keypad and search bar style
 * Cellbroadcast related fixes
 * Add searchd
 * Issues fixed:
-    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/703
-    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/290
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1242
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1245    
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/290
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/703
 * Contributors:
+    * Achill Gilgenast
     * Arun Mani J
     * Evangelos Ribeiro Tzaras
+    * Gotam Gorabh
     * Guido Günther
     * hustlerone
     * Rudra Pratap Singh
@@ -21,11 +26,12 @@ Released August 2025
     * Anders Jonsson (sv)
     * Antonio Marin (ro)
     * Artur S0 (ru)
+    * Danial Behzadi (fa)
     * Ekaterine Papava (ka)
     * Juliano de Souza Camargo (pt_BR)
     * Martin (sl)
-    * twlvnn kraftwerk (bg)
     * Yuri Chornoivan (uk)
+    * twlvnn kraftwerk (bg)    
 
 phosh 0.48.0
 ------------
