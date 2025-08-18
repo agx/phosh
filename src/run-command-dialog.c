@@ -123,7 +123,7 @@ phosh_run_command_dialog_new (void)
 
 void
 phosh_run_command_dialog_set_message (PhoshRunCommandDialog *self,
-                                      const gchar           *message)
+                                      const char            *message)
 {
   if (message == NULL)
     message = _("Press ESC to close");

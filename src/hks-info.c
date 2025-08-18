@@ -96,7 +96,7 @@ phosh_hks_info_constructed (GObject *object)
 {
   PhoshHksInfo *self = PHOSH_HKS_INFO (object);
   PhoshShell *shell;
-  g_autofree gchar *propname = NULL;
+  g_autofree char *propname = NULL;
 
   G_OBJECT_CLASS (phosh_hks_info_parent_class)->constructed (object);
 

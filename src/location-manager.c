@@ -212,7 +212,7 @@ on_app_auth_prompt_closed (PhoshLocationManager *self, PhoshAppAuthPrompt *promp
 static gboolean
 handle_authorize_app (PhoshGeoClueDBusOrgFreedesktopGeoClue2Agent *object,
                       GDBusMethodInvocation                       *invocation,
-                      const gchar                                 *arg_desktop_id,
+                      const char                                  *arg_desktop_id,
                       guint                                        arg_req_accuracy_level)
 {
   PhoshLocationManager *self = PHOSH_LOCATION_MANAGER (object);
@@ -397,8 +397,8 @@ on_manager_proxy_ready (GObject              *source_object,
 
 static void
 on_manager_name_appeared (GDBusConnection      *connection,
-                          const gchar          *name,
-                          const gchar          *name_owner,
+                          const char           *name,
+                          const char           *name_owner,
                           PhoshLocationManager *self)
 {
   g_return_if_fail (PHOSH_IS_LOCATION_MANAGER (self));
@@ -416,7 +416,7 @@ on_manager_name_appeared (GDBusConnection      *connection,
 
 static void
 on_manager_name_vanished (GDBusConnection      *connection,
-                          const gchar          *name,
+                          const char           *name,
                           PhoshLocationManager *self)
 {
   g_return_if_fail (PHOSH_IS_LOCATION_MANAGER (self));

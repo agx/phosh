@@ -22,6 +22,6 @@ G_DECLARE_FINAL_TYPE (PhoshEmergencyCallsManager, phosh_emergency_calls_manager,
 
 PhoshEmergencyCallsManager *phosh_emergency_calls_manager_new (void);
 GListStore *phosh_emergency_calls_manager_get_list_store (PhoshEmergencyCallsManager *self);
-void        phosh_emergency_calls_manager_call (PhoshEmergencyCallsManager *self, const gchar *id);
+void        phosh_emergency_calls_manager_call (PhoshEmergencyCallsManager *self, const char *id);
 
 G_END_DECLS

@@ -20,7 +20,7 @@ GtkWidget        *phosh_gtk_mount_prompt_new (const char *message,
                                               GVariant   *pids,
                                               const char *const *choices,
                                               GAskPasswordFlags ask_flags);
-const gchar      *phosh_gtk_mount_prompt_get_password (PhoshGtkMountPrompt *self);
+const char       *phosh_gtk_mount_prompt_get_password (PhoshGtkMountPrompt *self);
 GAskPasswordFlags phosh_gtk_mount_prompt_get_ask_flags (PhoshGtkMountPrompt *self);
 gboolean          phosh_gtk_mount_prompt_get_cancelled (PhoshGtkMountPrompt *self);
 int               phosh_gtk_mount_prompt_get_choice (PhoshGtkMountPrompt *self);

@@ -174,9 +174,9 @@ on_dialog_canceled (PhoshAppAuthPrompt *self)
 
 static void
 add_switch_option ( PhoshAppAuthPrompt *self,
-                    gchar *choice_id,
-                    gchar *choice_label,
-                    char *default_option_id)
+                    char               *choice_id,
+                    char               *choice_label,
+                    char               *default_option_id)
 {
   GtkWidget *action_row_choice;
   GtkWidget *switch_choice;

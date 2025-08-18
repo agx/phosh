@@ -26,7 +26,7 @@ PhoshNotificationList *phosh_notify_manager_get_list         (PhoshNotifyManager
 gboolean               phosh_notify_manager_get_show_banners (PhoshNotifyManager *self);
 guint                  phosh_notify_manager_get_notification_id (PhoshNotifyManager *self);
 void                   phosh_notify_manager_add_notification (PhoshNotifyManager *self,
-                                                              const gchar *source_id,
+                                                              const char *source_id,
                                                               int expire_timeout,
                                                               PhoshNotification *notification);
 gboolean               phosh_notify_manager_close_notification_by_id (PhoshNotifyManager      *self,

@@ -358,7 +358,7 @@ favorite_add_activated (GSimpleAction *action,
 static void
 spawn_gnome_software (const char *action, const char *app_id)
 {
-  const gchar *argv[] = { "gnome-software", action, app_id, NULL };
+  const char *argv[] = { "gnome-software", action, app_id, NULL };
   g_autoptr (GError) err = NULL;
 
   if (!g_spawn_async (NULL, (char **)argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &err))

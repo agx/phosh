@@ -47,7 +47,7 @@ struct _PhoshModeManager {
 
   PhoshDBusHostname1          *proxy;
   GCancellable                *cancel;
-  gchar                       *chassis;
+  char                        *chassis;
   PhoshWaylandSeatCapabilities wl_caps;
 
   /* Tablet mode */
@@ -207,7 +207,7 @@ on_chassis_changed (PhoshModeManager   *self,
                     GParamSpec         *pspec,
                     PhoshDBusHostname1 *proxy)
 {
-  const gchar *chassis;
+  const char *chassis;
 
   g_return_if_fail (PHOSH_IS_MODE_MANAGER (self));
   g_return_if_fail (PHOSH_DBUS_IS_HOSTNAME1 (proxy));

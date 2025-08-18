@@ -19,14 +19,14 @@
 
 void             phosh_cp_widget_destroy (void *widget);
 GDesktopAppInfo *phosh_get_desktop_app_info_for_app_id (const char *app_id);
-gchar           *phosh_munge_app_id (const gchar *app_id);
+char            *phosh_munge_app_id (const char *app_id);
 char            *phosh_strip_suffix_from_app_id (const char *app_id);
 gboolean         phosh_find_systemd_session (char **session_id);
-gboolean         phosh_error_warnv (const char  *log_domain,
-                                    GError      *err,
-                                    GQuark       domain,
-                                    int          code,
-                                    const gchar *fmt,
+gboolean         phosh_error_warnv (const char *log_domain,
+                                    GError     *err,
+                                    GQuark      domain,
+                                    int         code,
+                                    const char *fmt,
                                     ...) G_GNUC_PRINTF(5, 6);
 int              phosh_create_shm_file (off_t size);
 char            *phosh_util_escape_markup (const char *markup, gboolean allow_markup);

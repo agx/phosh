@@ -72,15 +72,15 @@ static void accelerator_activated_action (GSimpleAction *action, GVariant *param
 
 typedef struct _AcceleratorInfo {
   guint                            action_id;
-  gchar                           *accelerator;
-  gchar                           *sender;
+  char                            *accelerator;
+  char                            *sender;
   guint                            mode_flags;
   guint                            grab_flags;
   guint                            repeat_id;
 } AcceleratorInfo;
 
 static void
-remove_action_entries (gchar *accelerator)
+remove_action_entries (char *accelerator)
 {
   GStrv action_names = (char*[]){ accelerator, NULL };
 
@@ -217,10 +217,10 @@ handle_show_osd (PhoshDBusGnomeShell   *skeleton,
 
 static guint
 grab_single_accelerator (PhoshGnomeShellManager *self,
-                         const gchar            *accelerator,
+                         const char             *accelerator,
                          guint                   mode_flags,
                          guint                   grab_flags,
-                         const gchar            *sender,
+                         const char             *sender,
                          GError                **error)
 {
   AcceleratorInfo *info;
@@ -273,13 +273,13 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
 static gboolean
 handle_grab_accelerator (PhoshDBusGnomeShell   *skeleton,
                          GDBusMethodInvocation *invocation,
-                         const gchar           *arg_accelerator,
+                         const char            *arg_accelerator,
                          guint                  arg_modeFlags,
                          guint                  arg_grabFlags)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   g_autoptr (GError) error = NULL;
-  const gchar * sender;
+  const char *sender;
   guint action_id;
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
@@ -318,11 +318,11 @@ handle_grab_accelerators (PhoshDBusGnomeShell   *skeleton,
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   g_autoptr (GVariantBuilder) builder = NULL;
   g_autoptr (GVariantIter) arg_iter = NULL;
-  gchar *accelerator_name;
+  char *accelerator_name;
   guint accelerator_mode_flags;
   guint accelerator_grab_flags;
   g_autoptr (GError) error = NULL;
-  const gchar *sender;
+  const char *sender;
   gboolean conflict = FALSE;
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
@@ -386,7 +386,7 @@ handle_ungrab_accelerator (PhoshDBusGnomeShell   *skeleton,
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   AcceleratorInfo *info;
   gboolean success = FALSE;
-  const gchar *sender;
+  const char *sender;
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
   g_debug ("DBus ungrab accelerator (id %u)", arg_action);
@@ -420,7 +420,7 @@ handle_ungrab_accelerators (PhoshDBusGnomeShell   *skeleton,
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   AcceleratorInfo *info;
   gboolean success = TRUE;
-  const gchar *sender;
+  const char *sender;
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
 
   sender = g_dbus_method_invocation_get_sender (invocation);
@@ -541,10 +541,10 @@ do_activate_accelerator (AcceleratorInfo *info)
   g_assert (info);
 
   if ((info->mode_flags & self->action_mode) == 0) {
-    g_autofree gchar *str_shell_mode = g_flags_to_string (PHOSH_TYPE_SHELL_ACTION_MODE,
-                                                          self->action_mode);
-    g_autofree gchar *str_grabbed_mode = g_flags_to_string (PHOSH_TYPE_SHELL_ACTION_MODE,
-                                                            info->mode_flags);
+    g_autofree char *str_shell_mode = g_flags_to_string (PHOSH_TYPE_SHELL_ACTION_MODE,
+                                                         self->action_mode);
+    g_autofree char *str_grabbed_mode = g_flags_to_string (PHOSH_TYPE_SHELL_ACTION_MODE,
+                                                           info->mode_flags);
     g_debug ("Accelerator registered for mode %s, but shell is currently in %s",
              str_grabbed_mode,
              str_shell_mode);

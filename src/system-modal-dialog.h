@@ -26,7 +26,7 @@ struct _PhoshSystemModalDialogClass {
 GtkWidget  *phosh_system_modal_dialog_new (void);
 void        phosh_system_modal_dialog_set_content (PhoshSystemModalDialog *self, GtkWidget *content);
 void        phosh_system_modal_dialog_add_button (PhoshSystemModalDialog *self, GtkWidget *button, gint position);
-void        phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *title);
+void        phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const char *title);
 const char *phosh_system_modal_dialog_get_title (PhoshSystemModalDialog *self);
 void        phosh_system_modal_dialog_remove_button (PhoshSystemModalDialog *self, GtkWidget *button);
 GList      *phosh_system_modal_dialog_get_buttons (PhoshSystemModalDialog *self);

@@ -84,7 +84,7 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
-  gchar          *title;
+  char           *title;
 
   GtkWidget      *lbl_title;
   GtkWidget      *box_dialog;
@@ -230,7 +230,7 @@ static void
 phosh_system_modal_dialog_buildable_add_child (GtkBuildable *buildable,
                                                GtkBuilder   *builder,
                                                GObject      *child,
-                                               const gchar  *type)
+                                               const char   *type)
 {
   PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (buildable);
 
@@ -415,7 +415,7 @@ phosh_system_modal_dialog_get_title (PhoshSystemModalDialog *self)
 }
 
 void
-phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *title)
+phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const char *title)
 {
   PhoshSystemModalDialogPrivate *priv;
 

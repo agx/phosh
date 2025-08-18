@@ -348,7 +348,7 @@ screenshot_end_session_dialog (GMainLoop                      *loop,
                                            0,
                                            0,
                                            30,
-                                           (const gchar * const*)inhibitors->pdata,
+                                           (const char * const*)inhibitors->pdata,
                                            NULL,
                                            on_end_session_dialog_open_finish,
                                            NULL);

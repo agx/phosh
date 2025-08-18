@@ -1088,7 +1088,7 @@ phosh_shell_constructed (GObject *object)
 
 /* {{{ Action Map/Group */
 
-static gchar **
+static char **
 phosh_shell_list_actions (GActionGroup *group)
 {
   PhoshShell *self = PHOSH_SHELL (group);
@@ -1103,7 +1103,7 @@ phosh_shell_list_actions (GActionGroup *group)
 
 static gboolean
 phosh_shell_query_action (GActionGroup        *group,
-                          const gchar         *action_name,
+                          const char          *action_name,
                           gboolean            *enabled,
                           const GVariantType **parameter_type,
                           const GVariantType **state_type,
@@ -1128,7 +1128,7 @@ phosh_shell_query_action (GActionGroup        *group,
 
 static void
 _phosh_shell_activate_action (GActionGroup *group,
-                              const gchar  *action_name,
+                              const char   *action_name,
                               GVariant     *parameter)
 {
   PhoshShell *self = PHOSH_SHELL (group);
@@ -1143,7 +1143,7 @@ _phosh_shell_activate_action (GActionGroup *group,
 
 static void
 phosh_shell_change_action_state (GActionGroup *group,
-                                 const gchar  *action_name,
+                                 const char   *action_name,
                                  GVariant     *state)
 {
   PhoshShell *self = PHOSH_SHELL (group);
@@ -1167,7 +1167,7 @@ phosh_shell_action_group_iface_init (GActionGroupInterface *iface)
 
 
 static GAction *
-phosh_shell_lookup_action (GActionMap *action_map, const gchar *action_name)
+phosh_shell_lookup_action (GActionMap *action_map, const char *action_name)
 {
   PhoshShell *self = PHOSH_SHELL (action_map);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
@@ -1191,7 +1191,7 @@ phosh_shell_add_action (GActionMap *action_map, GAction *action)
 }
 
 static void
-phosh_shell_remove_action (GActionMap *action_map, const gchar *action_name)
+phosh_shell_remove_action (GActionMap *action_map, const char *action_name)
 {
   PhoshShell *self = PHOSH_SHELL (action_map);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
@@ -2396,8 +2396,8 @@ phosh_shell_set_state (PhoshShell          *self,
 {
   PhoshShellPrivate *priv;
   PhoshShellStateFlags old_state;
-  g_autofree gchar *str_state = NULL;
-  g_autofree gchar *str_new_flags = NULL;
+  g_autofree char *str_state = NULL;
+  g_autofree char *str_new_flags = NULL;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);

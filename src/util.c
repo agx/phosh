@@ -218,7 +218,7 @@ phosh_error_warnv (const char *log_domain,
                    GError     *err,
                    GQuark      domain,
                    gint        code,
-                   const gchar *fmt, ...)
+                   const char *fmt, ...)
 {
   g_autofree char *msg = NULL;
   gboolean matched = FALSE;
@@ -456,7 +456,7 @@ phosh_util_gesture_is_touch (GtkGestureSingle *gesture)
 gboolean
 phosh_util_have_gnome_software (gboolean scan)
 {
-  g_autofree gchar *path = NULL;
+  g_autofree char *path = NULL;
 
   if (have_gnome_software >= 0 && !scan)
     return have_gnome_software;

@@ -110,15 +110,15 @@ phosh_mount_notification_init (PhoshMountNotification *self)
 PhoshMountNotification *
 phosh_mount_notification_new_from_mount (guint id, GMount *mount)
 {
-  g_autofree gchar *name = NULL;
-  g_autofree gchar *uri = NULL;
+  g_autofree char *name = NULL;
+  g_autofree char *uri = NULL;
   g_autoptr (GIcon) icon = NULL;
   g_autoptr (GIcon) app_icon = NULL;
   g_autoptr (GFile) root = NULL;
   g_autoptr (GAppInfo) info = NULL;
   g_autoptr (GAppInfo) handler_info = NULL;
   GDesktopAppInfo *desktop_info;
-  gchar *actions[] = { NULL, _("Open"), NULL };
+  char *actions[] = { NULL, _("Open"), NULL };
 
   name = g_mount_get_name (mount);
   g_debug ("Mount '%s' added", name);

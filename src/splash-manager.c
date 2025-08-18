@@ -84,7 +84,7 @@ phosh_splash_manager_get_property (GObject    *object,
 static void
 on_splash_closed (PhoshSplashManager *self, GtkWidget *splash)
 {
-  const gchar *key;
+  const char *key;
 
   g_return_if_fail (PHOSH_IS_SPLASH_MANAGER (self));
   g_return_if_fail (PHOSH_IS_SPLASH (splash));

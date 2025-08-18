@@ -136,7 +136,7 @@ static void
 on_device_added (PhoshAudioDevices *self, guint id)
 {
   GvcMixerUIDevice *device = NULL;
-  g_autofree gchar *description = NULL;
+  g_autofree char *description = NULL;
   const char *icon_name;
   const char *origin;
   g_autoptr (PhoshAudioDevice) audio_device = NULL;

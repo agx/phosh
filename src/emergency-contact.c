@@ -39,8 +39,8 @@ static GParamSpec *props[LAST_PROP];
 struct _PhoshEmergencyContact {
   GObject   parent;
 
-  gchar    *id;
-  gchar    *name;
+  char     *id;
+  char     *name;
   gint32    source;
   GVariant *additional_properties;
 };

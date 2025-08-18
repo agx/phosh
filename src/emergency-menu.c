@@ -183,7 +183,7 @@ emergency_menu_dispose (GObject *object)
 }
 
 static void
-on_dialpad_dialed (PhoshEmergencyMenu *self, const gchar *number)
+on_dialpad_dialed (PhoshEmergencyMenu *self, const char *number)
 {
   phosh_emergency_calls_manager_call (self->manager, number);
 }

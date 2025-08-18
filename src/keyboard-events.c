@@ -45,7 +45,7 @@ handle_accelerator_activated_event (void *data,
                                     uint32_t timestamp)
 {
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
-  const gchar *action;
+  const char *action;
   GVariant *pressed = NULL;
 
   action = g_hash_table_lookup (self->accelerators, GUINT_TO_POINTER (action_id));
@@ -70,7 +70,7 @@ handle_accelerator_released_event (void *data,
                                    uint32_t timestamp)
 {
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
-  const gchar *action;
+  const char *action;
 
   action = g_hash_table_lookup (self->accelerators, GUINT_TO_POINTER (action_id));
   g_return_if_fail (action);
@@ -156,7 +156,7 @@ static const struct phosh_private_keyboard_event_listener keyboard_event_listene
 
 static void
 on_action_added (PhoshKeyboardEvents *self,
-                 gchar               *action_name,
+                 char                *action_name,
                  GActionGroup        *action_group)
 {
   g_debug ("Grabbing accelerator %s", action_name);
@@ -166,7 +166,7 @@ on_action_added (PhoshKeyboardEvents *self,
 
 static void
 on_action_removed (PhoshKeyboardEvents *self,
-                   gchar               *action_name,
+                   char                *action_name,
                    GActionGroup        *action_group)
 {
   GHashTableIter iter;
