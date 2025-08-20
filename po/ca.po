@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-02-21 13:49+0000\n"
-"PO-Revision-Date: 2025-02-21 22:41+0100\n"
+"POT-Creation-Date: 2025-08-16 19:16+0000\n"
+"PO-Revision-Date: 2025-08-17 16:20+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -15,129 +15,139 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.6\n"
 
-#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+#: data/mobi.phosh.Shell.desktop.in.in:3 data/wayland-sessions/phosh.desktop:3
 msgid "Phone Shell"
 msgstr "Shell del telèfon"
 
-#: data/mobi.phosh.Shell.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:4
 msgid "Window management and application launching for mobile"
 msgstr "Gestió de finestres i inici d'aplicacions per a mòbils"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+#: data/phosh.session.desktop.in.in:3 data/wayland-sessions/phosh.desktop:2
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/wayland-sessions/phosh.desktop:5
+#: data/wayland-sessions/phosh.desktop:4
 msgid "This session logs you into Phosh"
 msgstr "Aquesta sessió us fa entrar al Phosh"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:4
 msgid "Caffeine Quick Setting"
 msgstr "Configuració ràpida de mode cafeïnat"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:6
 msgid "Prevent the session from going idle"
 msgstr "Impedeix que la sessió es quedi inactiva"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:4
 msgid "Calendar"
 msgstr "Calendari"
 
-#: plugins/calendar/calendar.desktop.in.in:7
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Un giny senzill de calendari"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:4
 msgid "Dark Mode / Color Scheme Quick Setting"
 msgstr "Configuració ràpida de l'esquema de colors/mode fosc"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:6
 msgid "Toggle dark mode"
 msgstr "Commuta el mode fosc"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:5
+#: plugins/emergency-info/emergency-info.desktop.in.in:4
 msgid "Emergency Info"
 msgstr "Informació d'emergència"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:7
+#: plugins/emergency-info/emergency-info.desktop.in.in:6
 msgid "Show emergency information and contacts"
 msgstr "Mostra la informació i contactes d'emergència"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:4
-#: plugins/launcher-box/launcher-box.ui:14
+#: plugins/launcher-box/launcher-box.desktop.in.in:3
+#: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "Capsa de llançadors"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:6
+#: plugins/launcher-box/launcher-box.desktop.in.in:5
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Afegeix llançadors a la pantalla bloquejada. <b>Aquest connector és "
 "experimental.</b>"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+#: plugins/media-players/media-players.desktop.in.in:3
+#: plugins/media-players/media-players.ui:19
+#: plugins/media-players/media-players.ui:35
+msgid "Media Players"
+msgstr "Reproductors multimèdia"
+
+#: plugins/media-players/media-players.desktop.in.in:5
+msgid "Track currently running media players"
+msgstr "Controleu els reproductors multimèdia en execució"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:4
 msgid "Mobile Data Quick Setting"
 msgstr "Configuració ràpida de dades mòbils"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:6
 msgid "Toggle mobile data on/off"
 msgstr "Commuta l'ús de dades mòbils"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:4
 msgid "Night Light Quick Setting"
 msgstr "Configuració ràpida de la llum nocturna"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:6
 msgid "Toggle night light on/off"
 msgstr "Commuta la llum nocturna"
 
 #. Translators: "Pomodoro" is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:5
 msgid "Pomodoro Quick Setting"
 msgstr "Configuració ràpida del Pomodoro"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:7
 msgid "Simple Pomodoro Timer"
 msgstr "Simple temporitzador Pomodoro"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:4
-#: plugins/ticket-box/ticket-box.ui:14
+#: plugins/ticket-box/ticket-box.desktop.in.in:3
+#: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "Caixa de tiquets"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:6
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Mostra fitxers PDF amb la pantalla bloquejada. <b>Aquest connector és "
 "experimental.</b>"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:3
 msgid "Upcoming Events"
 msgstr "Propers esdeveniments"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
 msgid "Show upcoming calendar events"
 msgstr "Mostra els propers esdeveniments del calendari"
 
-#: src/app-grid-button.c:154
+#: src/app-grid-button.c:144
 msgid "Add to Folder"
 msgstr "Afegeix a la carpeta"
 
-#: src/app-grid-button.c:178
+#: src/app-grid-button.c:168
 msgid "Create new folder"
 msgstr "Crea una carpeta nova"
 
-#: src/app-grid-button.c:731 src/app-grid-button.c:788
+#: src/app-grid-button.c:694 src/app-grid-button.c:748
 msgid "Application"
 msgstr "Aplicació"
 
-#: src/app-grid.c:263
+#: src/app-grid.c:261
 msgid "Show All Apps"
 msgstr "Mostra totes les aplicacions"
 
-#: src/app-grid.c:266
+#: src/app-grid.c:264
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
@@ -190,7 +200,7 @@ msgid "Undocked"
 msgstr "Desacoblat"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
-#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
+#: src/ui/cell-broadcast-prompt.ui:18 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "D'acord"
 
@@ -213,7 +223,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Es tancarà la sessió de %s automàticament d'aquí a %d segon."
 msgstr[1] "Es tancarà la sessió de %s automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:182 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Apaga"
 
@@ -273,11 +283,11 @@ msgid "No"
 msgstr "No"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:277
+#: src/lockscreen.c:313 src/ui/lockscreen.ui:282
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:949
+#: src/lockscreen.c:956
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
@@ -291,30 +301,30 @@ msgstr "S'ha desat la captura de pantalla a «%s»"
 msgid "Failed to save screenshot"
 msgstr "No s'ha pogut desar la captura de pantalla"
 
-#: src/screenshot-manager.c:244 src/ui/power-menu.ui:187
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:199
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
 #. Translators: name of the folder beneath ~/Pictures used to store screenshots
-#: src/screenshot-manager.c:527
+#: src/screenshot-manager.c:554
 msgid "Screenshots"
 msgstr "Captures de pantalla"
 
 #. Translators: Name of a screenshot file. The first '%s' is a timestamp
 #. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
 #. * the file already exists like '-3'
-#: src/screenshot-manager.c:547
+#: src/screenshot-manager.c:574
 #, c-format
 msgid "Screenshot from %s%s.png"
 msgstr "Captura de pantalla de %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:493 src/ui/media-player.ui:211
+#: src/media-player.c:646 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Títol desconegut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:501 src/ui/media-player.ui:199
+#: src/media-player.c:654 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
@@ -359,7 +369,7 @@ msgstr "Obre"
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
 #: src/notifications/notification.c:422 src/notifications/notification.c:695
-#: src/notifications/notify-manager.c:1013
+#: src/notifications/notify-manager.c:1012
 msgid "Notification"
 msgstr "Notificació"
 
@@ -471,13 +481,13 @@ msgstr[1] "Gairebé %d anys"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "L'usuari ha descartat el diàleg d'autenticació"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:17
-#: src/ui/network-auth-prompt.ui:77 src/ui/polkit-auth-prompt.ui:45
+#: src/polkit-auth-prompt.c:275 src/ui/gtk-mount-prompt.ui:17
+#: src/ui/network-auth-prompt.ui:69 src/ui/polkit-auth-prompt.ui:45
 #: src/ui/system-prompt.ui:28
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: src/polkit-auth-prompt.c:325
+#: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "S'ha produït un error. Torneu-ho a provar."
 
@@ -533,27 +543,27 @@ msgstr "Recorda la decisió"
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/ui/app-grid-button.ui:22
+#: src/ui/app-grid-button.ui:31
 msgid "Remove from _Favorites"
 msgstr "Suprimeix dels _preferits"
 
-#: src/ui/app-grid-button.ui:27
+#: src/ui/app-grid-button.ui:36
 msgid "Add to _Favorites"
 msgstr "Afegeix als _preferits"
 
-#: src/ui/app-grid-button.ui:32
+#: src/ui/app-grid-button.ui:41
 msgid "View _Details"
 msgstr "Veieu els _detalls"
 
-#: src/ui/app-grid-button.ui:37
+#: src/ui/app-grid-button.ui:46
 msgid "Uninstall"
 msgstr "Desinstal·la"
 
-#: src/ui/app-grid-button.ui:44
+#: src/ui/app-grid-button.ui:53
 msgid "_Remove from Folder"
 msgstr "Suprimeix de la carpeta"
 
-#: src/ui/app-grid.ui:25
+#: src/ui/app-grid.ui:26
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
 
@@ -569,40 +579,40 @@ msgstr "Dispositius d'entrada"
 msgid "Sound Settings"
 msgstr "Paràmetres de so"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:39
 msgid "Enable Bluetooth"
 msgstr "Activa el Bluetooth"
 
-#: src/ui/bt-status-page.ui:56
+#: src/ui/bt-status-page.ui:54
 msgid "Bluetooth Settings"
 msgstr "Paràmetres del Bluetooth"
 
-#: src/ui/emergency-menu.ui:24
+#: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
 msgstr "Tanca la pantalla de trucada d'emergència"
 
-#: src/ui/emergency-menu.ui:50
+#: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
 msgstr "_Contactes d'emergència"
 
-#: src/ui/emergency-menu.ui:57
+#: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
 msgstr "Torna a la pàgina de contactes d'emergència"
 
-#: src/ui/emergency-menu.ui:80
+#: src/ui/emergency-menu.ui:82
 msgid "Go back to the emergency dialpad page"
 msgstr "Torna a la pàgina del teclat d'emergència"
 
-#: src/ui/emergency-menu.ui:103
+#: src/ui/emergency-menu.ui:105
 msgid "Owner unknown"
 msgstr "Propietari desconegut"
 
-#: src/ui/emergency-menu.ui:121 plugins/emergency-info/emergency-info.ui:208
+#: src/ui/emergency-menu.ui:123 plugins/emergency-info/emergency-info.ui:211
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Emergency Contacts"
 msgstr "Contactes d'emergència"
 
-#: src/ui/emergency-menu.ui:139
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "No hi ha disponible cap contacte d'emergència."
 
@@ -610,27 +620,39 @@ msgstr "No hi ha disponible cap contacte d'emergència."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Algunes aplicacions estan ocupades o tenen feina sense desar"
 
-#: src/ui/gtk-mount-prompt.ui:77
+#: src/ui/feedback-status-page.ui:6
+msgid "Feedback"
+msgstr "Comentaris"
+
+#: src/ui/feedback-status-page.ui:19
+msgid "Do not disturb"
+msgstr "No molesteu"
+
+#: src/ui/feedback-status-page.ui:52
+msgid "Feedback Settings"
+msgstr "Paràmetres dels comentaris"
+
+#: src/ui/gtk-mount-prompt.ui:74
 msgid "User:"
 msgstr "Usuari:"
 
-#: src/ui/gtk-mount-prompt.ui:99
+#: src/ui/gtk-mount-prompt.ui:96
 msgid "Domain:"
 msgstr "Domini:"
 
-#: src/ui/gtk-mount-prompt.ui:131
+#: src/ui/gtk-mount-prompt.ui:128
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
-#: src/ui/lockscreen.ui:42 src/ui/lockscreen.ui:243
+#: src/ui/lockscreen.ui:43 src/ui/lockscreen.ui:245
 msgid "Back"
 msgstr "Torna"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:95
 msgid "Slide up to unlock"
 msgstr "Llisqueu cap amunt per desbloquejar"
 
-#: src/ui/lockscreen.ui:327
+#: src/ui/lockscreen.ui:332
 msgid "Unlock"
 msgstr "Desbloqueja"
 
@@ -643,23 +665,23 @@ msgstr "Cal autenticació"
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: src/ui/network-auth-prompt.ui:54
+#: src/ui/network-auth-prompt.ui:50
 msgid "C_onnect"
 msgstr "C_onnecta"
 
-#: src/ui/polkit-auth-prompt.ui:100
+#: src/ui/polkit-auth-prompt.ui:97
 msgid "Authenticate"
 msgstr "Autenticació"
 
-#: src/ui/power-menu.ui:106
+#: src/ui/power-menu.ui:112
 msgid "Suspend"
 msgstr "Suspèn"
 
-#: src/ui/power-menu.ui:149
+#: src/ui/power-menu.ui:158
 msgid "Lock"
 msgstr "Bloca"
 
-#: src/ui/power-menu.ui:225
+#: src/ui/power-menu.ui:240
 msgid "Emergency"
 msgstr "Emergència"
 
@@ -683,19 +705,19 @@ msgstr "Neteja-ho tot"
 msgid "Confirm:"
 msgstr "Confirmació:"
 
-#: src/ui/top-panel.ui:31
+#: src/ui/top-panel.ui:34
 msgid "_Power Off…"
 msgstr "A_paga…"
 
-#: src/ui/top-panel.ui:58
+#: src/ui/top-panel.ui:61
 msgid "_Restart…"
 msgstr "Reinicia…"
 
-#: src/ui/top-panel.ui:85
+#: src/ui/top-panel.ui:88
 msgid "_Suspend…"
 msgstr "_Suspèn…"
 
-#: src/ui/top-panel.ui:112
+#: src/ui/top-panel.ui:115
 msgid "_Log Out…"
 msgstr "Surt…"
 
@@ -703,7 +725,7 @@ msgstr "Surt…"
 msgid "Wi-Fi"
 msgstr "Sense fil"
 
-#: src/ui/wifi-status-page.ui:72
+#: src/ui/wifi-status-page.ui:89
 msgid "Wi-Fi Settings"
 msgstr "Paràmetres de la xarxa sense fil"
 
@@ -713,7 +735,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:239
+#: src/wall-clock.c:248
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
@@ -726,27 +748,27 @@ msgstr "No s'ha trobat el connector"
 msgid "The plugin '%s' could not be loaded."
 msgstr "No s'ha pogut carregar el connector «%s» ."
 
-#: src/wifi-status-page.c:52
+#: src/wifi-status-page.c:53
 msgid "No Wi-Fi Device Found"
 msgstr "No s'ha trobat cap dispositiu de xarxa sense fil"
 
-#: src/wifi-status-page.c:56
+#: src/wifi-status-page.c:57
 msgid "Wi-Fi Disabled"
 msgstr "La xarxa sense fil està desactivada"
 
-#: src/wifi-status-page.c:57
+#: src/wifi-status-page.c:58
 msgid "Enable Wi-Fi"
 msgstr "Habilita la xarxa sense fil"
 
-#: src/wifi-status-page.c:60
+#: src/wifi-status-page.c:61
 msgid "Wi-Fi Hotspot Active"
 msgstr "Punt d'accés de xarxa sense fil actiu"
 
-#: src/wifi-status-page.c:61
+#: src/wifi-status-page.c:62
 msgid "Turn Off"
 msgstr "Apaga"
 
-#: src/wifi-status-page.c:64
+#: src/wifi-status-page.c:65
 msgid "No Wi-Fi Hotspots"
 msgstr "No hi ha cap punt d'accés Wi-Fi"
 
@@ -782,55 +804,55 @@ msgstr "Mode fosc"
 msgid "Light mode"
 msgstr "Mode clar"
 
-#: plugins/emergency-info/emergency-info.ui:40
+#: plugins/emergency-info/emergency-info.ui:43
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:62
 msgid "Personal Information"
 msgstr "Informació personal"
 
-#: plugins/emergency-info/emergency-info.ui:48
+#: plugins/emergency-info/emergency-info.ui:51
 msgid "Date of Birth"
 msgstr "Data de naixement"
 
-#: plugins/emergency-info/emergency-info.ui:68
+#: plugins/emergency-info/emergency-info.ui:71
 msgid "Preferred Language"
 msgstr "Idioma preferit"
 
-#: plugins/emergency-info/emergency-info.ui:88
+#: plugins/emergency-info/emergency-info.ui:91
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:85
 msgid "Home Address"
 msgstr "Adreça particular"
 
-#: plugins/emergency-info/emergency-info.ui:96
+#: plugins/emergency-info/emergency-info.ui:99
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Medical Information"
 msgstr "Informació mèdica"
 
-#: plugins/emergency-info/emergency-info.ui:104
+#: plugins/emergency-info/emergency-info.ui:107
 msgid "Age"
 msgstr "Edat"
 
-#: plugins/emergency-info/emergency-info.ui:124
+#: plugins/emergency-info/emergency-info.ui:127
 msgid "Blood Type"
 msgstr "Grup sanguini"
 
-#: plugins/emergency-info/emergency-info.ui:144
+#: plugins/emergency-info/emergency-info.ui:147
 msgid "Height"
 msgstr "Alçada"
 
-#: plugins/emergency-info/emergency-info.ui:164
+#: plugins/emergency-info/emergency-info.ui:167
 msgid "Weight"
 msgstr "Pes"
 
-#: plugins/emergency-info/emergency-info.ui:184
+#: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Allergies"
 msgstr "Al·lèrgies"
 
-#: plugins/emergency-info/emergency-info.ui:192
+#: plugins/emergency-info/emergency-info.ui:195
 msgid "Medications & Conditions"
 msgstr "Medicacions i condicions"
 
-#: plugins/emergency-info/emergency-info.ui:200
+#: plugins/emergency-info/emergency-info.ui:203
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:155
 msgid "Other Information"
 msgstr "Altra informació"
@@ -900,19 +922,23 @@ msgstr "Relació"
 msgid "_Contact Number"
 msgstr "Número del _contacte"
 
-#: plugins/launcher-box/launcher-box.ui:15
+#: plugins/launcher-box/launcher-box.ui:18
 msgid "No launchers configured"
 msgstr "No hi ha cap llançador configurat"
 
-#: plugins/launcher-box/launcher-box.ui:30
+#: plugins/launcher-box/launcher-box.ui:33
 msgid "Launchers"
 msgstr "Llançadors"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/media-players/media-players.ui:20
+msgid "No running media players"
+msgstr "No hi ha cap reproductor multimèdia en execució"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data On"
 msgstr "Dades mòbils activades"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:82
 msgid "Mobile Data Off"
 msgstr "Dades mòbils desactivades"
 
@@ -924,32 +950,32 @@ msgstr "La llum nocturna està activada"
 msgid "Night Light Off"
 msgstr "La llum nocturna està desactivada"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:75
 msgid "Pomodoro start"
 msgstr "Inicia el Pomodoro"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:76
 #, c-format
 msgid "Focus on your task for %d minutes"
 msgstr "Focalitzat en la tasca durant %d minuts"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:81
 msgid "Take a break"
 msgstr "Fes un descans"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:83
 #, c-format
 msgid "You have %d minutes until next Pomodoro"
 msgstr "Tens %d minuts fins al següent Pomodoro"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:98
 msgid "Pomodoro Timer"
 msgstr "Temporitzador Pomodoro"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:121
 #, c-format
 msgid "Pomodoro Off"
 msgstr "Atura del Pomodoro"
@@ -978,11 +1004,19 @@ msgstr "Durada del _descans"
 msgid "Duration of the break between sessions"
 msgstr "Durada del descans entre sessions"
 
-#: plugins/ticket-box/ticket-box.ui:15
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:44
+msgid "_Start on unlock"
+msgstr "_Inicia en desbloquejar"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:45
+msgid "Whether to start the timer on screen unlock"
+msgstr "Si s'ha d'iniciar el temporitzador en desbloquejar la pantalla"
+
+#: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
 msgstr "No hi ha cap document per mostrar"
 
-#: plugins/ticket-box/ticket-box.ui:78
+#: plugins/ticket-box/ticket-box.ui:82
 msgid "Tickets"
 msgstr "Tiquets"
 
@@ -1022,12 +1056,11 @@ msgstr "Avui"
 msgid "Tomorrow"
 msgstr "Demà"
 
-#: plugins/upcoming-events/event-list.c:150
+#. Translators: The current date and weekday for display in a calendar entry
+#: plugins/upcoming-events/event-list.c:151
 #, c-format
-msgid "In %u day"
-msgid_plural "In %u days"
-msgstr[0] "En %u dia"
-msgstr[1] "En %u dies"
+msgid "%x %a"
+msgstr "%x %a"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -1075,7 +1108,7 @@ msgstr "Rang de dates"
 msgid "Number of days to show events for"
 msgstr "Nombre de dies per a mostrar-ne els esdeveniments"
 
-#: plugins/scaling-quick-setting/qs.ui:15
+#: plugins/scaling-quick-setting/qs.ui:14
 msgid "Monitor scales"
 msgstr "Escalat del monitor"
 
@@ -1093,6 +1126,12 @@ msgstr "Activa el punt d'accés Wi-Fi"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Desactiva el punt d'accés Wi-Fi"
+
+#, c-format
+#~ msgid "In %u day"
+#~ msgid_plural "In %u days"
+#~ msgstr[0] "En %u dia"
+#~ msgstr[1] "En %u dies"
 
 #~ msgid "Add"
 #~ msgstr "Afegeix"
