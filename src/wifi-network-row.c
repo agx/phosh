@@ -35,7 +35,7 @@ struct _PhoshWifiNetworkRow {
 
 G_DEFINE_TYPE (PhoshWifiNetworkRow, phosh_wifi_network_row, HDY_TYPE_ACTION_ROW);
 
-static void
+static gboolean
 update_icon (GBinding     *binding,
              const GValue *from_value,
              GValue       *to_value,
@@ -47,6 +47,7 @@ update_icon (GBinding     *binding,
   const char *icon_name = phosh_util_get_icon_by_wifi_strength (strength, is_connecting);
 
   g_value_set_string (to_value, icon_name);
+  return TRUE;
 }
 
 
@@ -79,7 +80,7 @@ set_network (PhoshWifiNetworkRow *self, PhoshWifiNetwork *network)
                                self->wifi_icon,
                                "icon_name",
                                G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
-                               (GBindingTransformFunc) update_icon,
+                               update_icon,
                                NULL,
                                self,
                                NULL);
@@ -89,7 +90,7 @@ set_network (PhoshWifiNetworkRow *self, PhoshWifiNetwork *network)
                                self->wifi_icon,
                                "icon_name",
                                G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
-                               (GBindingTransformFunc) update_icon,
+                               update_icon,
                                NULL,
                                self,
                                NULL);
