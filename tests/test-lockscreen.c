@@ -51,7 +51,7 @@ wait_a_bit (GMainLoop *loop, int msecs)
 {
   gint id;
 
-  id = g_timeout_add (msecs, (GSourceFunc) on_waited, loop);
+  id = g_timeout_add_once (msecs, on_waited, loop);
   g_source_set_name_by_id (id, "[TestLockscreen] wait");
   g_main_loop_run (loop);
 }
