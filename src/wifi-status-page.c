@@ -160,8 +160,9 @@ on_network_activated (PhoshWifiStatusPage *self, GtkWidget *row)
 
 
 static GtkWidget *
-create_network_row (PhoshWifiNetwork *network)
+create_network_row (gpointer item, gpointer user_data)
 {
+  PhoshWifiNetwork *network = PHOSH_WIFI_NETWORK (item);
   GtkWidget *row;
 
   row = phosh_wifi_network_row_new (network);
@@ -243,7 +244,7 @@ phosh_wifi_status_page_init (PhoshWifiStatusPage *self)
 
   gtk_list_box_bind_model (self->networks,
                            model,
-                           (GtkListBoxCreateWidgetFunc) create_network_row,
+                           create_network_row,
                            NULL,
                            NULL);
 }
