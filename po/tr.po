@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-06-19 13:24+0000\n"
-"PO-Revision-Date: 2025-04-23 08:00+0300\n"
+"POT-Creation-Date: 2025-08-20 02:47+0000\n"
+"PO-Revision-Date: 2025-08-22 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -20,113 +20,113 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.5\n"
 
-#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+#: data/mobi.phosh.Shell.desktop.in.in:3 data/wayland-sessions/phosh.desktop:3
 msgid "Phone Shell"
 msgstr "Telefon Kabuğu"
 
-#: data/mobi.phosh.Shell.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:4
 msgid "Window management and application launching for mobile"
 msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+#: data/phosh.session.desktop.in.in:3 data/wayland-sessions/phosh.desktop:2
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/wayland-sessions/phosh.desktop:5
+#: data/wayland-sessions/phosh.desktop:4
 msgid "This session logs you into Phosh"
 msgstr "Bu oturum sizi Phosh’a sokar"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:4
 msgid "Caffeine Quick Setting"
 msgstr "Kafein Hızlı Ayarı"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:6
 msgid "Prevent the session from going idle"
 msgstr "Oturumun boşta kalmasını önle"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:4
 msgid "Calendar"
 msgstr "Takvim"
 
-#: plugins/calendar/calendar.desktop.in.in:7
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Basit takvim parçacığı"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:4
 msgid "Dark Mode / Color Scheme Quick Setting"
 msgstr "Koyu Kip / Renk Düzeni Hızlı Ayarı"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:6
 msgid "Toggle dark mode"
 msgstr "Koyu kipi aç/kapat"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:5
+#: plugins/emergency-info/emergency-info.desktop.in.in:4
 msgid "Emergency Info"
 msgstr "Acil Durum Bilgisi"
 
-#: plugins/emergency-info/emergency-info.desktop.in.in:7
+#: plugins/emergency-info/emergency-info.desktop.in.in:6
 msgid "Show emergency information and contacts"
 msgstr "Acil durum bilgilerini ve kişilerini göster"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.desktop.in.in:3
 #: plugins/launcher-box/launcher-box.ui:17
 msgid "Launcher Box"
 msgstr "Başlatıcı Kutusu"
 
-#: plugins/launcher-box/launcher-box.desktop.in.in:6
+#: plugins/launcher-box/launcher-box.desktop.in.in:5
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Kilit ekranına başlatıcılar ekle. <b>Bu uzantı deneyseldir.</b>"
 
-#: plugins/media-players/media-players.desktop.in.in:4
+#: plugins/media-players/media-players.desktop.in.in:3
 #: plugins/media-players/media-players.ui:19
 #: plugins/media-players/media-players.ui:35
 msgid "Media Players"
 msgstr "Ortam Oynatıcılar"
 
-#: plugins/media-players/media-players.desktop.in.in:6
+#: plugins/media-players/media-players.desktop.in.in:5
 msgid "Track currently running media players"
 msgstr "Şu anda çalışan ortam oynatıcıları izle"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:4
 msgid "Mobile Data Quick Setting"
 msgstr "Mobil Veri Hızlı Ayarı"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:6
 msgid "Toggle mobile data on/off"
 msgstr "Mobil veriyi aç/kapat"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:4
 msgid "Night Light Quick Setting"
 msgstr "Gece Işığı Hızlı Ayarı"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:6
 msgid "Toggle night light on/off"
 msgstr "Gece ışığını aç/kapat"
 
 #. Translators: "Pomodoro" is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:5
 msgid "Pomodoro Quick Setting"
 msgstr "Pomodoro Hızlı Ayarı"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:7
 msgid "Simple Pomodoro Timer"
 msgstr "Basit Pomodoro Zamanlayıcı"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.desktop.in.in:3
 #: plugins/ticket-box/ticket-box.ui:17
 msgid "Ticket Box"
 msgstr "Bilet Kutusu"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:6
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Kilit ekranında PDF göster. <b>Bu uzantı deneyseldir.</b>"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:3
 msgid "Upcoming Events"
 msgstr "Yaklaşan Olaylar"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
 msgid "Show upcoming calendar events"
 msgstr "Yaklaşan olayları göster"
 
@@ -199,7 +199,7 @@ msgid "Undocked"
 msgstr "Yuvada Değil"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:64
-#: src/ui/cell-broadcast-prompt.ui:22 src/ui/end-session-dialog.ui:62
+#: src/ui/cell-broadcast-prompt.ui:18 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Tamam"
 
@@ -315,12 +315,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Ekran görüntüsü %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:519 src/ui/media-player.ui:208
+#: src/media-player.c:646 src/ui/media-player.ui:208
 msgid "Unknown Title"
 msgstr "Bilinmeyen Başlık"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:527 src/ui/media-player.ui:196
+#: src/media-player.c:654 src/ui/media-player.ui:196
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
@@ -552,7 +552,7 @@ msgstr "Kaldır"
 msgid "_Remove from Folder"
 msgstr "Klasörden _Kaldır"
 
-#: src/ui/app-grid.ui:25
+#: src/ui/app-grid.ui:26
 msgid "Search apps…"
 msgstr "Uygulama ara…"
 
@@ -939,32 +939,32 @@ msgstr "Gece Işığı Açık"
 msgid "Night Light Off"
 msgstr "Gece Işığı Kapalı"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:75
 msgid "Pomodoro start"
 msgstr "Pomodoro başlangıcı"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:76
 #, c-format
 msgid "Focus on your task for %d minutes"
 msgstr "%d dakika göreve odaklan"
 
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:81
 msgid "Take a break"
 msgstr "Mola ver"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:83
 #, c-format
 msgid "You have %d minutes until next Pomodoro"
 msgstr "Sonraki Pomodoroʼya %d dakika var"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:98
 msgid "Pomodoro Timer"
 msgstr "Pomodoro Zamanlayıcı"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:121
 #, c-format
 msgid "Pomodoro Off"
 msgstr "Pomodoro Kapalı"
@@ -992,6 +992,14 @@ msgstr "_Mola Süresi"
 #: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Oturumlar arasındaki mola süresi"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:44
+msgid "_Start on unlock"
+msgstr "Kilidi açınca _başlat"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:45
+msgid "Whether to start the timer on screen unlock"
+msgstr "Ekran kilidini açınca zamanlayıcının başlatılması"
 
 #: plugins/ticket-box/ticket-box.ui:18
 msgid "No documents to display"
@@ -1037,11 +1045,11 @@ msgstr "Bugün"
 msgid "Tomorrow"
 msgstr "Yarın"
 
-#: plugins/upcoming-events/event-list.c:150
+#. Translators: The current date and weekday for display in a calendar entry
+#: plugins/upcoming-events/event-list.c:151
 #, c-format
-msgid "In %u day"
-msgid_plural "In %u days"
-msgstr[0] "%u gün içinde"
+msgid "%x %a"
+msgstr "%x %a"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -1107,3 +1115,8 @@ msgstr "Erişim Noktası Açık"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Erişim Noktası Kapalı"
+
+#, c-format
+#~ msgid "In %u day"
+#~ msgid_plural "In %u days"
+#~ msgstr[0] "%u gün içinde"
