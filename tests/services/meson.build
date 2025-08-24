@@ -1,10 +1,7 @@
 service_data = configuration_data()
 service_data.set('ABS_BUILDDIR', meson.project_build_root())
 
-dbus_interface = join_paths(
-  meson.project_build_root(),
-  '../src/dbus/org.gnome.Shell.SearchProvider2.xml',
-)
+dbus_interface = meson.project_source_root() / 'src' / 'dbus' / 'org.gnome.Shell.SearchProvider2.xml'
 service = 'org.gnome.Phosh.MockSearchProvider.service'
 
 configure_file(
